@@ -1,12 +1,12 @@
 from flask import Flask, render_template, jsonify, request
 
 
-app = Flask('FSIM')
+app = Flask('FSIM', static_folder='frontend/build/static', template_folder='frontend/build')
 
 
 @app.route('/')
 def index():
-    return "INDEX"
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
