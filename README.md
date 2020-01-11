@@ -1,3 +1,7 @@
 # FSci Student Information Management System
 
-please activate fsimenv before run this application.
+To run this web application please install python library follow the "requirements.txt" file.<br/>
+pip install -r requirements.txt
+
+<strong>SYSTEM REQUIREMENTS</strong><br/>
+python version 3.7

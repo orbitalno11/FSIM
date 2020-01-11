@@ -50,13 +50,12 @@ def file_upload():
     file.save(destination)
 
     # read excel file when upload was finished
-    # data = DataManage()
-    # data.readExcel(destination)
+    data = DataManage()
+    data.readExcel(destination)
     # print(destination)
     # sessions['uploadFilePath'] = destination
     response = "Whatever you wish too return"
     return jsonify({'res': response})
-
 
 
 @app.route('/v1/getallschool', methods=['GET'])
