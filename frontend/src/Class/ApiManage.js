@@ -7,7 +7,7 @@ class ApiManage {
     }
 
     uploadApi(){
-        return this.host + "api/upload"
+        return this.host + "v1/upload"
     }
 }
 
