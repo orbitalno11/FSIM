@@ -1,12 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import fsci from "../img/60year-fsci.png";
+
+
 function Header() {
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-yellow navbar-fixed-top">
         <div className="container">
-            <a className="navbar-brand" href="#"><img src="../img/logo-60years.png" width="200px" height="50px"></img></a>
+            <a className="navbar-brand" href="#"><img src={fsci} width="200px" height="50px"></img></a>
             {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> */}
                 {/* <span className="navbar-toggler-icon"></span>
             </button> */}

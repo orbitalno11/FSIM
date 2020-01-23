@@ -46,3 +46,21 @@ class DatabaseConnection:
 
         self.__db_connection.close()
         return out
+
+    def create_staff(self, staff_id, level, name, lastname, password):
+        cursor = self.__db_connection.cursor()
+        sql = "INSERT INTO staff (staff_id, level_id, firstname, lastname, password) VALUES ('" + str(
+            staff_id) + "'," + str(level) +", '"+ str(name) + "','" + str(lastname) +"','" + str(password) +"')"
+        cursor.execute(sql)
+        self.__db_connection.commit()
+        self.__db_connection.close()
+        return "OK"
+
+    def get_user(self, username):
+        cursor = self.__db_connection.cursor()
+        sql = "select * from staff where staff_id like '" + str(username) + "'"
+        cursor.execute(sql)
+        result = cursor.fetchone()
+
+        self.__db_connection.close()
+        return result
