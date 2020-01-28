@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Reactbootstrap from "react-bootstrap";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // import bootstrap set
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle'
+// import MDbootstrap from "mdbootstrap";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap'
+import $ from 'jquery'
+import Popper from 'popper.js'
 
 // import route tool
 import { BrowserRouter } from 'react-router-dom'
