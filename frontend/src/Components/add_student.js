@@ -8,7 +8,6 @@ class add_student extends React.Component {
 
 	state = {
 		key: 'SearchNewStudent'
-		
 	}
 	handleSelect = (selectedtab) => {
 		this.setState({ key: selectedtab });
@@ -17,14 +16,14 @@ class add_student extends React.Component {
 		return (
 			<React.Fragment>
 
-			<Container  style={{ paddingLeft: '10%', paddingRight: '10%', marginTop: '5%' }}>
-				<h3  style={{marginBottom:'5%'}} >จัดการข้อมูลนักศึกษา</h3>
+			<Container style={{ paddingLeft: '10%', paddingRight: '10%', marginTop: '5%' }}>
+				<h3  style={{marginBottom:'5%'}}>จัดการข้อมูลนักศึกษา</h3>
 				<Tab.Container defaultActiveKey="SearchNewStudent">
 					<Nav fill variant="tabs" activeKey={this.state.activeKey}
 						onSelect={this.handleSelect} >
 						<Nav.Item >
 							<Nav.Link
-								eventKey="SearchNewStudent"  >ดูข้อมูลนักศึกษารับเข้า</Nav.Link>
+								eventKey="SearchNewStudent">ดูข้อมูลนักศึกษารับเข้า</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
 							<Nav.Link eventKey="AddNewStudent" >เพิ่มข้อมูลนักศึกษารับเข้า</Nav.Link>
