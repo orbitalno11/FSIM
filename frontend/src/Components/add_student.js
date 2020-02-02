@@ -2,6 +2,8 @@ import React from 'react'
 import Index from "./Index";
 import ReactDOM from 'react-dom';
 import SearchNewStudent from './SearchNewStudent'
+import AddNewStudent from './AddNewStudent'
+
 import { Container, Nav, Row, Col, Tab } from 'react-bootstrap';
 
 class add_student extends React.Component {
@@ -17,7 +19,7 @@ class add_student extends React.Component {
 			<React.Fragment>
 
 			<Container style={{ paddingLeft: '10%', paddingRight: '10%', marginTop: '5%' }}>
-				<h3  style={{marginBottom:'5%'}}>จัดการข้อมูลนักศึกษา</h3>
+				<h3  style={{marginBottom:'5%'}}>จัดการข้อมูลนักศึกษารับเข้า</h3>
 				<Tab.Container defaultActiveKey="SearchNewStudent">
 					<Nav fill variant="tabs" activeKey={this.state.activeKey}
 						onSelect={this.handleSelect} >
@@ -35,7 +37,7 @@ class add_student extends React.Component {
 							<SearchNewStudent />
 						</Tab.Pane>
 						<Tab.Pane eventKey="AddNewStudent">
-							<Index />
+							<AddNewStudent />
 						</Tab.Pane>
 					</Tab.Content>
 				</Tab.Container>

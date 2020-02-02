@@ -3,6 +3,8 @@ import Index from "./Index";
 import ReactDOM from 'react-dom';
 import { FaSistrix } from "react-icons/fa";
 import { InputGroup, FormControl, Container, Button,Table } from 'react-bootstrap';
+import Year from './option/year';
+import Faulty from './option/faulty'
 
 class SearchNewStudent extends React.Component {
 
@@ -12,11 +14,12 @@ class SearchNewStudent extends React.Component {
         year: 0,
     }
     handleChangeFaulty = (search) => {
-        this.setState({ faulty: search.target.value });
+        this.setState({ faulty: search });
     }
 
     handleChangeYear = (search) => {
-        this.setState({ year: search.target.value });
+        this.setState({ year: search});
+        console.log(search)
     }
 
     handleSearch = () => {
@@ -29,25 +32,9 @@ class SearchNewStudent extends React.Component {
         return (
 
 			<React.Fragment>
-                <div>
                     <InputGroup className="mb-3" style={{ padding: '5%' }}>
-                        <FormControl as="select"
-                            value={this.state.faulty}
-                            onChange={this.handleChangeFaulty} >
-                            <option value='0'>ภาควิชา</option>
-                            <option value='Math'>Math</option>
-                            <option value='CHM'>CHM</option>
-                           
-                        </FormControl>
-                        <FormControl as="select"
-                            value={this.state.year}
-                            onChange={this.handleChangeYear}
-                        >
-                            <option value='0'>ปีที่รับเข้า</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            
-                        </FormControl>
+                        <Faulty option={this.handleChangeFaulty}/>
+                        <Year option ={this.handleChangeYear}/>
                         <InputGroup.Append >
                             <Button
                                 variant="outline-secondary"
@@ -58,7 +45,6 @@ class SearchNewStudent extends React.Component {
                             </Button>
                         </InputGroup.Append>
                     </InputGroup>
-                </div>
                 <hr></hr>
 
                 <Table striped bordered hover style={{marginTop :'5%'}}>
@@ -80,8 +66,7 @@ class SearchNewStudent extends React.Component {
                             <td>25</td>
                             <td>
                             <Button
-                                className="button ShowData"
-                                variant="outline-secondary" 
+                                variant="info" 
                                 onClick={this.handleSearch}
                             ><FaSistrix style={{ color: '#FFFFFF' }} /></Button>
                             <Button

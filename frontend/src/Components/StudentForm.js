@@ -40,7 +40,7 @@ class StudentForm extends Component {
           <form onSubmit={this.handleUploadImage}>
             <h3>จัดการข้อมูลนักศึกษา</h3>
             <hr />
-            {/* <div>
+            <div>
                             <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
                         </div>
                         <div>
@@ -50,7 +50,7 @@ class StudentForm extends Component {
                         <div>
                             <button>Upload</button>
                         </div>
-                        <img src={this.state.imageURL} alt="img" /> */}
+                        <img src={this.state.imageURL} alt="img" />
             <Form.Group as={Row} controlId="formPlaintextEmail">
               <Form.Label column sm="2">
                 Email
