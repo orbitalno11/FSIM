@@ -10,7 +10,6 @@ class year extends React.Component {
         this.props.option(year)
     }
     render() {
-
         return (
             <React.Fragment>
 
