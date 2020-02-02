@@ -9,7 +9,7 @@ import { Container, Nav, Row, Col, Tab } from 'react-bootstrap';
 class add_student extends React.Component {
 
 	state = {
-		key: 'SearchNewStudent'
+		
 	}
 	handleSelect = (selectedtab) => {
 		this.setState({ key: selectedtab });
