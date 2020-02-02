@@ -12,7 +12,6 @@ class year extends React.Component {
     render() {
         return (
             <React.Fragment>
-
                 <FormControl as="select"
                  onChange={this.onSelected}>
                     <option value='0'>เลือกปีการศึกษา</option>
