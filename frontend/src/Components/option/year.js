@@ -6,8 +6,7 @@ import {  FormControl } from 'react-bootstrap';
 class year extends React.Component {
 
     onSelected=(search)=>{
-        let year=search.target.value
-        this.props.option(year)
+        this.props.option(search)
     }
     render() {
         return (

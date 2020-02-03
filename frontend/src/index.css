@@ -38,7 +38,62 @@ margin: 0 10px;
 }
 
 
-.btn-custom {
-  @include button-variant(pink, red, red, #444, #333, red);
-  color: #fff;
+.btn-info {
+  background-color: #3BB3A9 !important;
+  border-Color: #3BB3A9 !important;
+}
+
+.btn-EditData {
+  background-color: #F2C029 !important;
+  border-Color: #F2C029 !important;
+
+}
+
+.btn-DeleteData {
+  background-color: #DA4228 !important;
+  border-Color: #DA4228 !important;
+
+}
+
+.interval{
+  margin-left: 2% !important;
+  margin-right: 2% !important;
+}
+
+
+.interval-1{
+  margin-left: 2px !important;
+  margin-right: 2px!important;
+}
+
+
+
+.contrain_css{
+  padding: 5% !important;
+}
+
+.Tab2{
+  background-Color: #F2C029;
+}
+
+.Tab2-text{
+  color : #FFFFFF
+}
+
+.Tab2-text:hover{
+  color : #FFFFFF
+}
+
+.TabContent{
+  padding: 2%;
+}
+
+.style-addData{
+  text-Align: left;
+  align-Self: stretch ;
+ 
+}
+
+.interval-top{
+  margin-top: 2%;
 }

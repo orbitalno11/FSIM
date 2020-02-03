@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { FormControl } from 'react-bootstrap';
 
 
-class faulty extends React.Component {
+class project extends React.Component {
     onSelected = (search) => {
         this.props.option(search)
     }
@@ -13,13 +13,13 @@ class faulty extends React.Component {
             <React.Fragment>
                 <FormControl as="select"
                     onChange={this.onSelected} >
-                    <option value='0'>ภาควิชา</option>
-                    <option value='Math'>Math</option>
-                    <option value='CHM'>CHM</option>
+                    <option value='0'>ชื่อโครงการรับเข้า</option>
+                    <option value='Active'>Active</option>
+
                 </FormControl>
             </React.Fragment>
         )
     }
 }
 
-export default faulty
+export default project
