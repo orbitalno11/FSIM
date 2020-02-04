@@ -32,7 +32,7 @@ class Navbars extends Component {
     const { activeItem } = this.state;
 
     return (
-      <div>
+      <div className="Navbar">
         <Menu inverted borderless color={colors} size="tiny">
           <Container>
             <Menu.Item
