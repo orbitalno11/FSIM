@@ -6,30 +6,18 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      username: "",
+      staff_id: "",
       password: "",
       currentUser: null,
       message: ""
     };
   }
 
-  onChange = e => {
-    const { name, value } = e.target;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const { username, password } = this.state;
-  };
 
   render() {
+   
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} >
         <section className="section container my-5">
           <div className="card3 col-4">
             <br />
@@ -40,7 +28,7 @@ class Login extends Component {
                 type="text"
                 placeholder="Username"
                 className="input"
-                name="username"
+                name="staff_id"
                 onChange={this.onChange}
               />
             </Form.Group>
@@ -61,6 +49,7 @@ class Login extends Component {
                   label="Confirm"
                   name="Confirm"
                   id="Confirm"
+                  onChange={this.onChange}
                 />
               </div>
             ))}

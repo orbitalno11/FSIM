@@ -4,16 +4,9 @@ import { Carousel } from "react-bootstrap";
 import Logo from "../img/60year-fsci.png";
 import banner from "../img/banner2.png";
 import {
-  Input,
-  Advertisement,
   Image,
-  Button,
-  Icon,
-  Form,
   Menu,
-  Container,
-  Segment,
-  Header
+  Container
 } from "semantic-ui-react";
 
 const colors = ["yellow"];
@@ -32,8 +25,8 @@ class Navbars extends Component {
     const { activeItem } = this.state;
 
     return (
-      <div className="Navbar">
-        <Menu inverted borderless color={colors} size="tiny">
+      <div>
+        <Menu inverted borderless className="bg-yellow" style={{fontSize: '16px'}} size="tiny">
           <Container>
             <Menu.Item
               header
