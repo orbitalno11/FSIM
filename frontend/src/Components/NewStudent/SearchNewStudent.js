@@ -1,22 +1,27 @@
-import React from 'react'
-import { FaSistrix, FaDatabase, FaEdit, FaTrash } from "react-icons/fa";
+import React, { Component }  from 'react'
+import { FaSistrix,FaDatabase,FaEdit,FaTrash } from "react-icons/fa";
 import { InputGroup, Button, Table } from 'react-bootstrap';
-import Activity from '../option/activity';
+import Year from '../option/year';
+import Faulty from '../option/faulty'
 
-class SearchActivity extends React.Component {
+class SearchNewStudent extends Component {
 
 
     state = {
-        activity: 0,
-        
+        faulty: 0,
+        year: 0,
     }
-    handleChangeActivity = (search) => {
-        this.setState({ activity: search });
+    handleChangeFaulty = (search) => {
+        this.setState({ faulty: search });
     }
 
+    handleChangeYear = (search) => {
+        this.setState({ year: search });
+        console.log(search)
+    }
 
     handleSearch = () => {
-        console.log(this.state.activity )
+        console.log(this.state.faulty + " , " + this.state.year)
 
     }
 
@@ -26,24 +31,27 @@ class SearchActivity extends React.Component {
 
             <React.Fragment>
                 <InputGroup className="mb-3" style={{ padding: '5%' }}>
-                    <Activity  option={this.handleChangeActivity} />
+                    <Faulty option={this.handleChangeFaulty} />
+                    <Year option={this.handleChangeYear} />
+    
                     <InputGroup.Append >
                         <Button
                             className="btn-info"
                             onClick={this.handleSearch}
                         >
-                            <FaSistrix />
+                            <FaSistrix/>
                         </Button>
                     </InputGroup.Append>
                 </InputGroup>
                 <hr></hr>
 
-                <Table striped bordered hover style={{ marginTop: '5%'}}>
+                <Table striped bordered hover style={{ marginTop: '5%' }}>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>กิจกรรมรับเข้า</th>
-                            <th>ประเภทโครงการ</th>
+                            <th>ภาควิชา</th>
+                            <th>ปีการศึกษา</th>
+                            <th>จำนวนนักศึกษา</th>
                             <th>
                             </th>
                         </tr>
@@ -51,21 +59,25 @@ class SearchActivity extends React.Component {
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Sci Camp</td>
-                            <td>Active</td>
+                            <td>คณิตศาสตร์</td>
+                            <td>2560</td>
+                            <td>25</td>
                             <td>
-                                <Button
+                            <Button 
                                     className="btn-info interval"
                                     onClick={this.handleSearch}
-                                ><FaDatabase /></Button>
+                                ><FaDatabase /> ดู</Button>
+                               
                                 <Button
                                     className="btn-EditData interval"
                                     onClick={this.handleSearch}
-                                ><FaEdit /></Button>
+                                ><FaEdit  /> แก้ไข</Button>
+                               
                                 <Button
                                     className="btn-DeleteData interval"
                                     onClick={this.handleSearch}
-                                ><FaTrash /></Button>
+                                ><FaTrash/> ลบ</Button>
+                               
                             </td>
 
                         </tr>
@@ -80,4 +92,4 @@ class SearchActivity extends React.Component {
     }
 }
 
-export default SearchActivity
+export default SearchNewStudent
