@@ -18,7 +18,8 @@ import {
 } from "semantic-ui-react";
 
 class Index extends Component {
-  state = { activeItem: "name", open: false };
+  
+  state = { activeItem: "bio", open: false };
   show = dimmer => () => this.setState({ dimmer, open: true });
 
   close = () => this.setState({ open: false });
@@ -82,7 +83,7 @@ class Index extends Component {
                     open={open}
                     onClose={this.close}
                   >
-                    <Modal.Header>VVVVVV</Modal.Header>
+                    <Modal.Header>Information</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
                         
@@ -106,7 +107,7 @@ class Index extends Component {
                     open={open}
                     onClose={this.close}
                   >
-                    <Modal.Header>Select a Photo</Modal.Header>
+                    <Modal.Header>Information</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
                         
@@ -130,7 +131,7 @@ class Index extends Component {
                     open={open}
                     onClose={this.close}
                   >
-                    <Modal.Header>Select a Photo</Modal.Header>
+                    <Modal.Header>Information</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
                        
