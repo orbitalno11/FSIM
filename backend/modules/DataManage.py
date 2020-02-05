@@ -28,6 +28,17 @@ class DataManage:
 
 
     def pre_read(self):
-        df = pd.read_excel('uploads/admission_dump.xlsx', sheet_name='Sheet1')
+        df = pd.read_excel('uploads/2B.xlsx', sheet_name='Sheet1')
+        df = df.loc[1:, ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX', 'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
+        df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id', 'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
+                           'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch', 'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
 
+        df.loc[df['gender'] == 'นาย', :] = 'male'
+        df.loc[df['gender'].str.contains('นาง'), :] = 'female'
+        # df.rename(columns={'prefix': 'gender'}, inplace=True)
+        # column = ['application_no', 'national_id', 'firstname', 'lastname', 'gender', 'gpax', 'school_id', 'admission_type', 'admission_channel', 'branch', 'year', 'decision']
+        # ndf = pd.DataFrame(columns=column)
+        # ndf = pd.concat([ndf, df])
+        # ndf.loc[ndf['']]
         print(df.head(5))
+        # print(df.loc[:, ['gender']])
