@@ -72,7 +72,11 @@ def login():
 
 @api_bp.route('/preread', methods=['GET'])
 def pre_readfile():
+    headers = {"Content-type": "application/json"}
     dm = DataManage()
-    dm.pre_read()
+    insert = dm.pre_read()
 
-    return "OK"
+    if insert:
+        return make_response(jsonify({"result": "OK"}), 200, headers)
+    else:
+        return make_response(jsonify({"result": "Error"}), 500, headers)

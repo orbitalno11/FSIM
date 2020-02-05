@@ -39,6 +39,8 @@ class DataManage:
         df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'
         df['admission_type'] = 1
         df['admission_channel'] = 1
+        df['year'] = 2561
+        df['school_id'] = '0010039990'
 
         branch = {
             1: "คณิตศาสตร์",
@@ -50,14 +52,17 @@ class DataManage:
             7: "ฟิสิกส์ประยุกต์(หลักสูตรสองภาษา)"
         }
 
-        for i=0 len(branch):
-            print(i)
-            # df.loc[df['branch'].str.contains(y), ['branch']] = x
-        # df.loc[df['branch'].str.contains(branch[i]), ['branch']] = i
+        for i in branch:
+            b = branch[i]
+            if df.loc[df['branch'].str.contains(b), ['branch']].shape[0] > 0:
+                df.loc[df['branch'].str.contains(b), ['branch']] = str(i)
 
-        # df.rename(columns={'prefix': 'gender'}, inplace=True)
-        # column = ['application_no', 'national_id', 'firstname', 'lastname', 'gender', 'gpax', 'school_id', 'admission_type', 'admission_channel', 'branch', 'year', 'decision']
-        # ndf = pd.DataFrame(columns=column)
-        # ndf = pd.concat([ndf, df])
-        # ndf.loc[ndf['']]
-        print(df.loc[:, ['branch']])
+        df.loc[df['decision'].notnull(), ['decision']] = -1
+        df['decision'].fillna(1, inplace=True)
+
+        try:
+            df.to_sql('admission', con=self.engine, if_exists='append', chunksize=1000, index=False)
+            return True
+        except Exception as e:
+            print(e)
+            return False
