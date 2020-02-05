@@ -12,7 +12,8 @@ class project extends React.Component {
         return (
             <React.Fragment>
                 <FormControl as="select"
-                    onChange={this.onSelected} >
+                    onChange={this.onSelected} 
+                    value={this.props.value}>
                     <option value='0'>ชื่อโครงการรับเข้า</option>
                     <option value='Active'>Active</option>
 
