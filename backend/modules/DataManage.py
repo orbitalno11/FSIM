@@ -25,3 +25,9 @@ class DataManage:
         # column name in xlsx file must equal an attribute name in database
         # df.to_sql('Book2', con=self.engine, if_exists='append', chunksize=1000, index=False)
         print(df)
+
+
+    def pre_read(self):
+        df = pd.read_excel('uploads/admission_dump.xlsx', sheet_name='Sheet1')
+
+        print(df.head(5))

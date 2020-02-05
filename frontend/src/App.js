@@ -4,7 +4,7 @@ import "./App.css";
 // import Route Tool
 import { Route } from "react-router-dom";
 
-import Header from "./Components/header";
+import Header from "./Components/Navbar";
 import Footer from "./Components/footer";
 import Index from "./Components/Index";
 import Login from "./Components/Login";

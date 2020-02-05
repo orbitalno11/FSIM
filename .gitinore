@@ -211,4 +211,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+*./Frontend/node_modules/
+
 # End of https://www.gitignore.io/api/macos,pycharm,windows,phpstorm,visualstudiocode
