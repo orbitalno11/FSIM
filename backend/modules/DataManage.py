@@ -28,6 +28,6 @@ class DataManage:
 
 
     def pre_read(self):
-        df = pd.read_excel('uploads/admission_dump.xlsx', sheet_name='Sheet1')
-
+        df = pd.read_excel('uploads/round1_2.xlsx', sheet_name='Sheet1')
+        #df = pd.read_excel('uploads/admission_dump.xlsx', sheet_name='Sheet1')
         print(df.head(5))
