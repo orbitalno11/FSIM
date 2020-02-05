@@ -17,18 +17,38 @@ import {
   Menu
 } from "semantic-ui-react";
 
+import HomeModal from './HomeModal'
+
 class Index extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      open: false,
+      dimmer: ""
+    }
+
+    this.showModal = this.showModal.bind(this)
+  }
   
-  state = { activeItem: "bio", open: false };
-  show = dimmer => () => this.setState({ dimmer, open: true });
+  showModal(){
+    this.setState({
+      open: true
+    })
+    // console.log(this.state.open)
+  }
+  // state = { activeItem: "bio", open: false };
+  // show = dimmer => () => this.setState({ dimmer, open: true });
 
-  close = () => this.setState({ open: false });
+  // close = () => this.setState({ open: false });
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     const { activeItem } = this.state;
-    const { open, dimmer } = this.state;
+    const{ open, dimmer } = this.state;
+    // console.log(open)
 
     return (
       <React.Fragment>
@@ -46,26 +66,27 @@ class Index extends Component {
                   <button
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
-                    onClick={this.show(true)}
+                    onClick={this.showModal}
 
                   >
                     <img className="logo-branch" src={Logomth}></img>
                   </button>
-                  <Modal
+                  <HomeModal dept="20" show={open} dimer={dimmer} />
+                  {/* <Modal
                     className="modal-center"
                     dimmer={dimmer}
                     open={open}
                     onClose={this.close}
                   >
                     <Modal.Header>
-                      Information
+                      Information 55555
                     </Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
-                      
+                    <h1 style={{ color: "black" }}>5555555</h1>
                       </Modal.Description>
                     </Modal.Content>
-                  </Modal>
+                  </Modal> */}
 
                   <Header size="small">Mathematic</Header>
                 </Grid.Column>
@@ -73,11 +94,11 @@ class Index extends Component {
                   <button
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
-                    onClick={this.show(true)}
+                    // onClick={this.show(true)}
                   >
                     <img className="logo-branch" src={Logophy}></img>
                   </button>
-                  <Modal
+                  {/* <Modal
                     className="modal-center"
                     dimmer={dimmer}
                     open={open}
@@ -89,7 +110,7 @@ class Index extends Component {
                         
                       </Modal.Description>
                     </Modal.Content>
-                  </Modal>
+                  </Modal> */}
 
                   <Header size="small">Physic</Header>
                 </Grid.Column>
@@ -97,23 +118,23 @@ class Index extends Component {
                   <button
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
-                    onClick={this.show(true)}
+                    // onClick={this.show(true)}
                   >
                     <img className="logo-branch" src={Logomic}></img>
                   </button>
-                  <Modal
+                  {/* <Modal
                     className="modal-center"
                     dimmer={dimmer}
                     open={open}
                     onClose={this.close}
-                  >
-                    <Modal.Header>Information</Modal.Header>
+                  > */}
+                    {/* <Modal.Header>Information</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
                         
                       </Modal.Description>
                     </Modal.Content>
-                  </Modal>
+                  </Modal> */}
 
                   <Header size="small">Microbiology</Header>
                 </Grid.Column>
@@ -121,23 +142,23 @@ class Index extends Component {
                   <button
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
-                    onClick={this.show(true)}
+                    // onClick={this.show(true)}
                   >
                     <img className="logo-branch" src={Logochm}></img>
                   </button>
-                  <Modal
+                  {/* <Modal
                     className="modal-center"
                     dimmer={dimmer}
                     open={open}
                     onClose={this.close}
-                  >
-                    <Modal.Header>Information</Modal.Header>
+                  > */}
+                    {/* <Modal.Header>Information66666</Modal.Header>
                     <Modal.Content>
                       <Modal.Description>
                        
                        </Modal.Description>
                     </Modal.Content>
-                  </Modal> 
+                  </Modal>  */}
                   <Header size="small">Chemical</Header>
                 </Grid.Column>
               </Grid.Row>
@@ -194,6 +215,7 @@ class Index extends Component {
             </Container>
           </Form.Group>
         </div>
+        
       </React.Fragment>
     );
   }
