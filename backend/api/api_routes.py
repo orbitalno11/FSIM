@@ -82,13 +82,11 @@ def pre_readfile():
         return make_response(jsonify({"result": "Error"}), 500, headers)
 
 @api_bp.route('/2B', methods=['GET'])
-def allSchool2():
+def pre_read():
     headers = {"Content-type": "application/json"}
     dm = DataManage()
     insert = dm.pre_read()
-
-    data = "1"
-
+    data=1
     if data:
         return make_response(jsonify({"data": data}), 200, headers)
     else:
