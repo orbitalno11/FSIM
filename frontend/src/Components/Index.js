@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import Logomth from "../img/mth.png";
+import Logochm from "../img/chm.png";
+import Logomic from "../img/mic.png";
+import Logophy from "../img/phy.png";
+import { Bar } from "react-chartjs-2";
 import {
   Container,
   Header,
   Grid,
-  Segment,
-  Row,
+  Modal,
+  Breadcrumb,
   Image,
   Button,
   Icon,
@@ -12,48 +17,148 @@ import {
   Menu
 } from "semantic-ui-react";
 
-class Index extends Component {
-  state = { activeItem: "bio" };
+import HomeModal from './HomeModal'
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+class Index extends Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      open: false,
+      dimmer: ""
+    }
+
+    this.showModal = this.showModal.bind(this)
+  }
+  
+  showModal(){
+    this.setState({
+      open: true
+    })
+    // console.log(this.state.open)
+  }
+  // state = { activeItem: "bio", open: false };
+  // show = dimmer => () => this.setState({ dimmer, open: true });
+
+  // close = () => this.setState({ open: false });
+
+  // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     const { activeItem } = this.state;
+    const{ open, dimmer } = this.state;
+    // console.log(open)
 
     return (
       <React.Fragment>
         <div className="container">
           <Form.Group>
-            <Menu tabular style={{ marginTop: "3em" }}>
+            <Menu tabular style={{ marginTop: "3em" }} centered>
               <Menu.Item name="ข้อมูลนักศึกษา" active={activeItem === "bio"} />
               <Menu.Item position="right">
                 <Button>จัดการข้อมูล</Button>
               </Menu.Item>
             </Menu>
-            <Grid columns={4} divided style={{ marginTop: "3em" }}>
+            <Grid columns={4} style={{ marginTop: "3em" }}>
               <Grid.Row>
                 <Grid.Column>
-                  <button type="button" class="btn btn-light btn-circle btn-xl">
-                    <img className="logo-branch" src="../img/mth.png"></img>
+                  <button
+                    type="button"
+                    class="btn btn-light btn-circle btn-xl"
+                    onClick={this.showModal}
+
+                  >
+                    <img className="logo-branch" src={Logomth}></img>
                   </button>
+                  <HomeModal dept="20" show={open} dimer={dimmer} />
+                  {/* <Modal
+                    className="modal-center"
+                    dimmer={dimmer}
+                    open={open}
+                    onClose={this.close}
+                  >
+                    <Modal.Header>
+                      Information 55555
+                    </Modal.Header>
+                    <Modal.Content>
+                      <Modal.Description>
+                    <h1 style={{ color: "black" }}>5555555</h1>
+                      </Modal.Description>
+                    </Modal.Content>
+                  </Modal> */}
+
                   <Header size="small">Mathematic</Header>
                 </Grid.Column>
                 <Grid.Column>
-                  <button type="button" class="btn btn-light btn-circle btn-xl">
-                    <img className="logo-branch" src="../img/phy.png"></img>
+                  <button
+                    type="button"
+                    class="btn btn-light btn-circle btn-xl"
+                    // onClick={this.show(true)}
+                  >
+                    <img className="logo-branch" src={Logophy}></img>
                   </button>
+                  {/* <Modal
+                    className="modal-center"
+                    dimmer={dimmer}
+                    open={open}
+                    onClose={this.close}
+                  >
+                    <Modal.Header>Information</Modal.Header>
+                    <Modal.Content>
+                      <Modal.Description>
+                        
+                      </Modal.Description>
+                    </Modal.Content>
+                  </Modal> */}
+
                   <Header size="small">Physic</Header>
                 </Grid.Column>
                 <Grid.Column>
-                  <button type="button" class="btn btn-light btn-circle btn-xl">
-                    <img className="logo-branch" src="../img/mic.png"></img>
+                  <button
+                    type="button"
+                    class="btn btn-light btn-circle btn-xl"
+                    // onClick={this.show(true)}
+                  >
+                    <img className="logo-branch" src={Logomic}></img>
                   </button>
+                  {/* <Modal
+                    className="modal-center"
+                    dimmer={dimmer}
+                    open={open}
+                    onClose={this.close}
+                  > */}
+                    {/* <Modal.Header>Information</Modal.Header>
+                    <Modal.Content>
+                      <Modal.Description>
+                        
+                      </Modal.Description>
+                    </Modal.Content>
+                  </Modal> */}
+
                   <Header size="small">Microbiology</Header>
                 </Grid.Column>
                 <Grid.Column>
-                  <button type="button" class="btn btn-light btn-circle btn-xl">
-                    <img className="logo-branch" src="../img/chm.png"></img>
+                  <button
+                    type="button"
+                    class="btn btn-light btn-circle btn-xl"
+                    // onClick={this.show(true)}
+                  >
+                    <img className="logo-branch" src={Logochm}></img>
                   </button>
+                  {/* <Modal
+                    className="modal-center"
+                    dimmer={dimmer}
+                    open={open}
+                    onClose={this.close}
+                  > */}
+                    {/* <Modal.Header>Information66666</Modal.Header>
+                    <Modal.Content>
+                      <Modal.Description>
+                       
+                       </Modal.Description>
+                    </Modal.Content>
+                  </Modal>  */}
                   <Header size="small">Chemical</Header>
                 </Grid.Column>
               </Grid.Row>
@@ -79,7 +184,7 @@ class Index extends Component {
             >
               <Grid.Row>
                 <Grid.Column width={8}>
-                <Image className="banner-active" src="../img/img-1.jpg" />
+                  <Image className="banner-active" src="../img/img-1.jpg" />
                 </Grid.Column>
                 <Grid.Column textAlign="center" style={{ marginTop: "10%" }}>
                   <Form.Group>
@@ -110,6 +215,7 @@ class Index extends Component {
             </Container>
           </Form.Group>
         </div>
+        
       </React.Fragment>
     );
   }
