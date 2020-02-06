@@ -82,11 +82,11 @@ def pre_readfile():
         return make_response(jsonify({"result": "Error"}), 500, headers)
 
 @api_bp.route('/2B', methods=['GET'])
-def pre_read():
+def read2B():
     headers = {"Content-type": "application/json"}
     dm = DataManage()
-    insert = dm.pre_read()
-    data=1
+    data = dm.read()
+    
     if data:
         return make_response(jsonify({"data": data}), 200, headers)
     else:
