@@ -16,7 +16,6 @@ class setButton extends Component {
     render() {
         return (
             <React.Fragment >
-              
                 <Grid columns={2} relaxed='very' style={{ marginTop: '5%' }} divided>
                     <Grid.Column  width={6}  verticalAlign='middle' textAlign='right' >
                         <Button size='huge' className="Tab2-text btn-EditData"   style={{fontSize:'18px',width:'200px'}}>
