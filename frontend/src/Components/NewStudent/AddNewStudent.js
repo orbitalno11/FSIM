@@ -32,7 +32,7 @@ class AddNewStudent extends Component {
         let data = this.state
         // alert(data)
 
-        fetch("https://google.com", {
+        fetch("https://...", {
             method: "POST",
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify(data)
@@ -53,6 +53,7 @@ class AddNewStudent extends Component {
     handleChangeProject = (search) => {
         // console.log(search.target.value);
         this.setState({ project: search.target.value });
+        this.setState({ around: 0 });
     }
 
     handleChangeYear = (search) => {
@@ -142,7 +143,7 @@ class AddNewStudent extends Component {
                             <label>รอบรับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} />
+                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} value={this.state.around}/>
 
                         </Col>
                     </Row>
