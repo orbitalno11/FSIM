@@ -14,10 +14,10 @@ class AddNewStudent extends Component {
         this.onChange = this.onChange.bind(this);
         this.state = {
             project: 0,
-            around: 0,
+            channel: 0,
             year: 0,
             files: []
-            
+
 
         }
 
@@ -26,6 +26,43 @@ class AddNewStudent extends Component {
 
     }
 
+
+
+    handleChangeAround = (search) => {
+        // console.log(search.target.value);
+        this.setState({ channel: search.target.value });
+    }
+
+    handleChangeProject = (search) => {
+        // console.log(search.target.value);
+        this.setState({ project: search.target.value });
+        this.setState({ channel: 0 });
+    }
+
+    handleChangeYear = (search) => {
+        this.setState({ year: search.target.value });
+    }
+
+    onChange(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+
+        this.setState({ files: [...filesArr] });
+        alert(this.state.year + " " + this.state.channel + " " + this.state.project)
+    }
+
+    removeFile(f) {
+        this.setState({ files: this.state.files.filter(x => x !== f) });
+    }
+
+    handleReset=(event)=>{
+        this.setState({
+            project: 0,
+            channel: 0,
+            year: 0,
+            files: []
+        });
+    }
 
     handleSubmit(event) {
         alert("OK")
@@ -45,34 +82,7 @@ class AddNewStudent extends Component {
             });
     }
 
-    handleChangeAround = (search) => {
-        // console.log(search.target.value);
-        this.setState({ around: search.target.value });
-    }
 
-    handleChangeProject = (search) => {
-        // console.log(search.target.value);
-        this.setState({ project: search.target.value });
-        this.setState({ around: 0 });
-    }
-
-    handleChangeYear = (search) => {
-        this.setState({ year: search.target.value });
-    }
-
-    onChange(e) {
-        var files = e.target.files;
-        var filesArr = Array.prototype.slice.call(files);
-
-        this.setState({ files: [...filesArr] });
-        alert(this.state.year + " " + this.state.around + " " + this.state.project)
-    }
-
-    removeFile(f) {
-        this.setState({ files: this.state.files.filter(x => x !== f) });
-    }
-
-   
 
 
 
@@ -82,7 +92,7 @@ class AddNewStudent extends Component {
 
     render() {
 
-        const project_name= [
+        const project_name = [
             { id: 1, fK: 1, project_name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
             { id: 2, fK: 1, project_name: "รอบที่ 1/1 โครงการ Active Recruitment" },
             { id: 3, fK: 1, project_name: "รอบที่ 1/1 โครงการคัดเลือกตรง ประเภทเรียนดี" },
@@ -105,12 +115,12 @@ class AddNewStudent extends Component {
             { id: 20, fK: 5, project_name: "รอบที่ 5 โครงการคัดเลือกตรงเพื่อผลิตบุคลากรด้านวิทยาศาสตร์เทคโนโลยีเเละนวัตกรรม (ครั้งที่ 2) ;" }
         ]
 
-       let CheckProject=(num_project)=> 
+        let CheckProject = (num_project) =>
             project_name.filter(function (p) {
                 return p.fK == num_project;
             });
-        
-    
+
+
 
 
 
@@ -125,7 +135,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} />
+                            <Year option={this.handleChangeYear} value={this.state.year}/>
 
                         </Col>
                     </Row>
@@ -135,7 +145,7 @@ class AddNewStudent extends Component {
                         </Col>
                         <Col sm='6'>
 
-                            <Project option={this.handleChangeProject} />
+                            <Project option={this.handleChangeProject} value={this.state.project}/>
                         </Col>
                     </Row>
                     <Row className="style-addData interval-top"  >
@@ -143,7 +153,7 @@ class AddNewStudent extends Component {
                             <label>รอบรับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} value={this.state.around}/>
+                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} value={this.state.channel} />
 
                         </Col>
                     </Row>
@@ -165,7 +175,7 @@ class AddNewStudent extends Component {
                     <div className="style-addData " style={{ marginTop: '5%' }} >
                         <Button
                             className='btn-EditData interval-1'
-                            onClick={this.handleSearch}
+                            onClick={this.handleReset}
                         >RESET</Button>
 
                         <Button

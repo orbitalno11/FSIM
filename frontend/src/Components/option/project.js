@@ -14,6 +14,7 @@ class project extends React.Component {
                 <FormControl as="select"
                     onChange={this.onSelected} 
                     value={this.props.value}>
+                    <option value='0'>กรุณาเลือกโครงการที่รับเข้า</option>
                     <option value='1'>TCAS รอบ 1</option>
                     <option value='2'>TCAS รอบ 2</option>
                     <option value='3'>TCAS รอบ 3</option>
