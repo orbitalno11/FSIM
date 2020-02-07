@@ -82,3 +82,23 @@ class DatabaseConnection:
 
         self.__db_connection.close()
         return result
+
+    def get_branch(self):
+        cursor = self.__db_connection.cursor()
+        sql = "select branch.branch_id as id, branch.branch_name as name, branch.dept_id, dept.dept_name from branch left join department as dept on branch.dept_id = dept.dept_id"
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return False
+        finally:
+            self.__db_connection.close()
+
+        out = []
+        for branch in result:
+            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3]}
+            out.append(data)
+
+        return out
