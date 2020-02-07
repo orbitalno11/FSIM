@@ -14,8 +14,13 @@ class project extends React.Component {
                 <FormControl as="select"
                     onChange={this.onSelected} 
                     value={this.props.value}>
-                    <option value='0'>ชื่อโครงการรับเข้า</option>
-                    <option value='Active'>Active</option>
+                    <option value='1'>TCAS รอบ 1</option>
+                    <option value='2'>TCAS รอบ 2</option>
+                    <option value='3'>TCAS รอบ 3</option>
+                    <option value='4'>TCAS รอบ 4</option>
+                    <option value='5'>TCAS รอบ 5</option>
+
+
 
                 </FormControl>
             </React.Fragment>

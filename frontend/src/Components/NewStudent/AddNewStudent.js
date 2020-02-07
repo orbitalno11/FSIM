@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import Year from '../option/year';
-import Faulty from '../option/faulty'
+import Around from '../option/admission_channel'
+import Project from '../option/project'
 
 
 class AddNewStudent extends Component {
@@ -12,11 +13,15 @@ class AddNewStudent extends Component {
         super();
         this.onChange = this.onChange.bind(this);
         this.state = {
-            faulty: 0,
+            project: 0,
+            around: 0,
             year: 0,
             files: []
+            
 
         }
+
+
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
@@ -29,7 +34,7 @@ class AddNewStudent extends Component {
 
         fetch("https://google.com", {
             method: "POST",
-            headers: { "Content-Type": "application/json",},
+            headers: { "Content-Type": "application/json", },
             body: JSON.stringify(data)
         })
             .then(function (response) {
@@ -40,9 +45,14 @@ class AddNewStudent extends Component {
             });
     }
 
-    handleChangeFaulty = (search) => {
+    handleChangeAround = (search) => {
         // console.log(search.target.value);
-        this.setState({ faulty: search.target.value });
+        this.setState({ around: search.target.value });
+    }
+
+    handleChangeProject = (search) => {
+        // console.log(search.target.value);
+        this.setState({ project: search.target.value });
     }
 
     handleChangeYear = (search) => {
@@ -51,22 +61,64 @@ class AddNewStudent extends Component {
 
     onChange(e) {
         var files = e.target.files;
-        console.log(files);
         var filesArr = Array.prototype.slice.call(files);
-        console.log(filesArr);
+
         this.setState({ files: [...filesArr] });
+        alert(this.state.year + " " + this.state.around + " " + this.state.project)
     }
 
     removeFile(f) {
         this.setState({ files: this.state.files.filter(x => x !== f) });
     }
 
+   
+
+
+
+
+
+
 
     render() {
 
+        const project_name= [
+            { id: 1, fK: 1, project_name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
+            { id: 2, fK: 1, project_name: "รอบที่ 1/1 โครงการ Active Recruitment" },
+            { id: 3, fK: 1, project_name: "รอบที่ 1/1 โครงการคัดเลือกตรง ประเภทเรียนดี" },
+            { id: 4, fK: 1, project_name: "รอบที่ 1/1 โครงการคัดเลือกตรงความสามารถพิเศษ และทุนเพชรพระจอมเกล้า" },
+            { id: 5, fK: 1, project_name: "รอบที่ 1/2 โครงการ Active Recruitment" },
+            { id: 6, fK: 1, project_name: "รอบที่ 1/2 โครงการ Active Recruitment (จากโครงการ I am SCI)" },
+            { id: 7, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาจากโรงเรียนเทคโนโลยีฐานวิทยาศาสตร์ 	" },
+            { id: 8, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาพิการ" },
+            { id: 9, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักเรียน โครงการ วมว." },
+            { id: 10, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักเรียน จากมูลนิธิ สอวน." },
+            { id: 11, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาโดยใช้สิทธิ์บุตรบุคลากร ของ มจธ." },
+            { id: 12, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อผู้เรียนดี มีคุณธรรม (รับนักเรียนเขต* 1,3,4,5,9 เเละกรุงเทพฯ))" },
+            { id: 13, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อการกระจายโอกาสทางการศึกษา (รับนักเรียนทุกเขต* ยกเว้นเขต 1 เเละกรุงเทพฯ)" },
+            { id: 14, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรง มจธ. รักษาธรรม เพิ่มโอกาสทางการศึกษา" },
+            { id: 15, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงกลุ่ม ปวช." },
+            { id: 16, fK: 2, project_name: "รอบที่ 2 โครงการ Active Recruitment" },
+            { id: 17, fK: 3, project_name: "รอบที่ 3/1 โครงการรับตรงร่วมกัน" },
+            { id: 18, fK: 3, project_name: "รอบที่ 3/2 โครงการรับตรงร่วมกัน" },
+            { id: 19, fK: 4, project_name: "รอบที่ 4 โครงการรับนักศึกษาผ่านระบบ Admissions" },
+            { id: 20, fK: 5, project_name: "รอบที่ 5 โครงการคัดเลือกตรงเพื่อผลิตบุคลากรด้านวิทยาศาสตร์เทคโนโลยีเเละนวัตกรรม (ครั้งที่ 2) ;" }
+        ]
+
+       let CheckProject=(num_project)=> 
+            project_name.filter(function (p) {
+                return p.fK == num_project;
+            });
+        
+    
+
+
+
         return (
             <React.Fragment>
+
                 <Form style={{ padding: '5%' }} onSubmit={this.handleSubmit}>
+
+
                     <Row className="style-addData" >
                         <Col sm='3' >
                             <label>ปีที่รับเข้า</label>
@@ -78,14 +130,23 @@ class AddNewStudent extends Component {
                     </Row>
                     <Row className="style-addData interval-top"  >
                         <Col sm='3'>
-                            <label>ภาควิชา</label>
+                            <label>โครงการรับเข้า</label>
                         </Col>
                         <Col sm='6'>
 
-                            <Faulty option={this.handleChangeFaulty} />
+                            <Project option={this.handleChangeProject} />
                         </Col>
                     </Row>
-                    
+                    <Row className="style-addData interval-top"  >
+                        <Col sm='3'>
+                            <label>รอบรับเข้า</label>
+                        </Col>
+                        <Col sm='6'>
+                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} />
+
+                        </Col>
+                    </Row>
+
                     <Row className="style-addData interval-top" >
                         <Col sm='3'>
                             <label>ข้อมูลนักศึกษารับเข้า</label>

@@ -1,6 +1,14 @@
 import React, { Component }  from 'react'
-import { Container} from 'react-bootstrap';
 import SetButton from './setButton'
+import {
+    Button,
+    Icon,
+    Grid,
+    Divider,
+    Segment,
+    Container
+    
+} from "semantic-ui-react";
 
 class main_addmission extends Component {
 
@@ -29,9 +37,15 @@ class main_addmission extends Component {
     render(){
         return(
             <React.Fragment>
-                <Container className="contrain_css">
-                    <h4>จัดการข้อมูลการรับเข้า</h4>
-                    <SetButton />
+                <Container className="contrain_css bg-page" >
+                    
+                    <h2 style={{color:'#3BB3A9'}}>จัดการข้อมูลการรับเข้า</h2>
+                    {
+                        this.state.map((item)=>
+                        <SetButton item={item}/>
+                        )
+                    }
+                 
                 </Container>
             </React.Fragment>
         )
