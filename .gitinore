@@ -4,7 +4,7 @@
 
 ### macOS ###
 # General
-**/.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -214,5 +214,7 @@ $RECYCLE.BIN/
 
 frontend/node_modules/
 frontend/.DS_Store
+
+**/__pycache__/
 
 # End of https://www.gitignore.io/api/macos,pycharm,windows,phpstorm,visualstudiocode
