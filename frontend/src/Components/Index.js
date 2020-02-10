@@ -30,14 +30,24 @@ class Index extends Component {
     }
 
     this.showModal = this.showModal.bind(this)
+    this.myOpen = this.myOpen.bind(this)
   }
   
   showModal(){
     this.setState({
       open: true
     })
-    // console.log(this.state.open)
   }
+
+  myOpen(mystate){
+    this.setState({
+      open: mystate
+    })
+  }
+
+  
+
+  // 
   // state = { activeItem: "bio", open: false };
   // show = dimmer => () => this.setState({ dimmer, open: true });
 
@@ -71,7 +81,7 @@ class Index extends Component {
                   >
                     <img className="logo-branch" src={Logomth}></img>
                   </button>
-                  <HomeModal dept="20" show={open} dimer={dimmer} />
+                  <HomeModal dept="20" show={open} dimer={dimmer} state={this.myOpen} />
                   {/* <Modal
                     className="modal-center"
                     dimmer={dimmer}

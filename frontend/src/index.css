@@ -79,7 +79,7 @@ margin: 0 10px;
 }
 
 .Tab2-text{
-  color : #FFFFFF
+  color : #FFFFFF !important;
 }
 
 .Tab2-text:hover{
@@ -100,3 +100,6 @@ margin: 0 10px;
   margin-top: 2%;
 }
 
+.bg-page{
+  background-color: #F2F2F2;
+}

@@ -12,16 +12,24 @@ class HomeModal extends Component {
         }
     }
 
-    close = () => this.setState({ open: false });
+    onClose = () => {
+        if(this.props.show){
+            this.props.state(false)
+        }
+    }
+
+    // close = () => this.setState({ open: false });
 
     render() {
-        let {dept, open, dimmer} = this.state
+
+        console.log(this.props.show)
+        // let {dept, open, dimmer} = this.state
 
         return (
             <React.Fragment>
-                <Modal open ={open} onClose={this.close} dimmer={dimmer}>
+                <Modal open ={this.props.show} onClose={this.onClose} dimmer={this.props.dimmer}>
                     <Modal.Header className="modal-center">
-                        Department : {dept}
+                        Department : {this.props.dept}
                     </Modal.Header>
                     <Modal.Content>
                         <h1>Hello</h1>
