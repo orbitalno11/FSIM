@@ -13,7 +13,7 @@ from backend.modules.DataManage import DataManage
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
 
-@api_bp.route('/allschool', methods=['GET'])
+@api_bp.route('/school', methods=['GET'])
 def allSchool():
     headers = {"Content-type": "application/json"}
 
@@ -70,7 +70,7 @@ def login():
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Please Login'})
 
 
-@api_bp.route('/preread', methods=['GET'])
+@api_bp.route('/admission', methods=['GET'])
 def pre_readfile():
     headers = {"Content-type": "application/json"}
     dm = DataManage()
@@ -81,13 +81,20 @@ def pre_readfile():
     else:
         return make_response(jsonify({"result": "Error"}), 500, headers)
 
-@api_bp.route('/2B', methods=['GET'])
-def read2B():
+
+@api_bp.route('/branch', methods=['GET'])
+def branch():
     headers = {"Content-type": "application/json"}
-    dm = DataManage()
-    data = dm.read()
-    
+    con = DatabaseConnection()
+    data = con.get_branch()
+
     if data:
         return make_response(jsonify({"data": data}), 200, headers)
     else:
-        return make_response(jsonify({"data": data}), 500, headers)
+        return make_response(jsonify({"data": "Error"}), 500, headers)
+
+
+@api_bp.route('/channel', methods=['GET'])
+def admission_channel():
+    headers = {"Content-type": "application/json"}
+    con = DatabaseConnection()

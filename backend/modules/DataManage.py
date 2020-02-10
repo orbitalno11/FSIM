@@ -9,16 +9,16 @@ from backend.modules.FSIMConstant import FSIMConstant
 class DataManage:
 
     def __init__(self):
-        self.constant = FSIMConstant()
-        self.host = self.constant.get_host()
-        self.db = self.constant.get_db()
-        self.user = self.constant.get_user_db()
-        self.password = self.constant.get_password_db()
-        self.engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-                                    .format(user=self.user,
-                                            pw=self.password,
-                                            db=self.db,
-                                            host=self.host))
+        self.__constant = FSIMConstant()
+        self.__host = self.__constant.get_host()
+        self.__db = self.__constant.get_db()
+        self.__user = self.__constant.get_user_db()
+        self.__password = self.__constant.get_password_db()
+        self.__engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
+                                      .format(user=self.__user,
+                                            pw=self.__password,
+                                            db=self.__db,
+                                            host=self.__host))
 
     def readExcel(self, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
@@ -61,7 +61,7 @@ class DataManage:
         df['decision'].fillna(1, inplace=True)
 
         try:
-            df.to_sql('admission', con=self.engine, if_exists='append', chunksize=1000, index=False)
+            df.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
             return True
         except Exception as e:
             print(e)

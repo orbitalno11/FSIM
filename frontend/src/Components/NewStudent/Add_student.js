@@ -4,19 +4,32 @@ import SearchNewStudent from './SearchNewStudent'
 import AddNewStudent from './AddNewStudent'
 // import { Container, Menu } from 'semantic-ui-react'
 
+import axios from 'axios'
+
+import ApiManage from "../../Class/ApiManage";
+
 import { Container, Nav, Row, Col, Tab, Button } from 'react-bootstrap';
 
 class Add_student extends Component {
 
 	state = {
-		key: 'SearchNewStudent'
+		key: 'SearchNewStudent',
+		branch: []
 	}
+
 	handleSelect = (selectedtab) => {
 		this.setState({ key: selectedtab });
 	}
 
-
-	
+	componentDidMount() {
+		axios.get("http://127.0.0.1:5000/api/v1/branch")
+			.then(res => {
+				console.log(`statusCode: ${res.statusCode}`)
+				console.log(res)
+			}).catch(error => {
+				console.log(error)
+		})
+	}
 
 
 	render() {
