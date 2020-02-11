@@ -14,7 +14,6 @@ import add_activity from "./Components/admin/activity/add_activity";
 import add_project from "./Components/admin/project/AddProject";
 import main_addmission from "./Components/admin/mainAddmission/main_addmission";
 import add_announcement from "./Components/admin/announcement/add_announcement";
-// import Mthpopup from "./Components/Mthpopup";
 
 
 const Home = () => <h1>HOME</h1>;
@@ -45,7 +44,7 @@ function App() {
             <Route exact path="/add_announcement" component={add_announcement} />
 
             
-            {/* <Route exact path="/MTH" component={Mthpopup} /> */}
+           
           </switch>
           <Footer />
         </div>
