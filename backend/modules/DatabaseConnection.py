@@ -102,3 +102,7 @@ class DatabaseConnection:
             out.append(data)
 
         return out
+
+    def get_channel(self):
+        cursor = self.__db_connection.cursor()
+        sql = "select "

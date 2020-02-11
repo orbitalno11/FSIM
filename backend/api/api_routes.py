@@ -92,3 +92,9 @@ def branch():
         return make_response(jsonify({"data": data}), 200, headers)
     else:
         return make_response(jsonify({"data": "Error"}), 500, headers)
+
+
+@api_bp.route('/channel', methods=['GET'])
+def admission_channel():
+    headers = {"Content-type": "application/json"}
+    con = DatabaseConnection()

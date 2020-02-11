@@ -66,3 +66,14 @@ class DataManage:
         except Exception as e:
             print(e)
             return False
+
+    def read(self):
+        df = pd.read_excel('uploads/2B.xlsx', sheet_name='Sheet1')
+        df = df.loc[1:, ['ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'เลขที่ใบสมัคร']]
+        out = []
+        for i in range(df.shape[0]):
+            data = {'ชื่อ': df.loc[i,['ชื่อ(ไทย)']], 'นามสกุล': df.loc[i,['นามสกุล(ไทย)']], 'เลขที่ใบสมัคร': df.loc[i,['เลขที่ใบสมัคร']]}
+            out.append(data)
+        print(out)
+        return out
+        

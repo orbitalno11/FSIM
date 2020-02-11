@@ -9,7 +9,6 @@ class ProjectRow extends Component {
 
 
     render() {
-
         return (
             <React.Fragment>
                 <InputGroup className="mb-3" >
