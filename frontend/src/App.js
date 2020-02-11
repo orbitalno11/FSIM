@@ -28,11 +28,13 @@ import PartFour from "./Components/admin/alumni/PartFour";
 import PartFive from "./Components/admin/alumni/PartFive";
 import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2";
 
-
 // import User page
-import UserDetails from "./Components/admin/work/UserDetails";
+import UserDetails from "./Components/admin/work/UserDetails"; //อ้อมเพิ่มต่อจากตรงนี้ได้เลย
 
-
+import informationmth from "./Components/User/InfoMTH";
+import Addmission from "./Components/User/Addmission";
+import AddmisstionInfo from "./Components/User/Addmission_information";
+import Activity from "./Components/User/Activity";
 
 const Home = () => <h1>HOME</h1>;
 const About = () => <h1>About</h1>;
@@ -45,7 +47,6 @@ const About = () => <h1>About</h1>;
 // }
 
 function App() {
-
   return (
     <React.Fragment>
       <body>
@@ -54,6 +55,7 @@ function App() {
           <switch>
             <Route exact path="/" component={Index} />
             <Route exact path="/login" component={Login} />
+            {/* Route for amin */}
             <Route exact path="/add_student" component={add_student} />
             <Route exact path="/add_activity" component={add_activity} />
             <Route exact path="/add_project" component={add_project} />
@@ -70,12 +72,14 @@ function App() {
             <Route exact path="/PartTwoStudy" component={PartTwoStudy} />
             <Route exact path="/PartTwoWS" component={PartTwoWS} />
             <Route exact path="/SurveyAlumni2" component={SurveyAlumni2} />
-            
-            <Route exact path="/userdetails" component={UserDetails} />
-         
 
-            
-           
+            {/* Route for user */}
+            <Route exact path="/userdetails" component={UserDetails} />
+
+            <Route exact path="/informationmth" component={informationmth} />
+            <Route exact path="/addmission" component={Addmission} />
+            <Route exact path="/addmissionInfo" component={AddmisstionInfo} />
+            <Route exact path="/activity" component={Activity} />
           </switch>
           <Footer />
         </div>
