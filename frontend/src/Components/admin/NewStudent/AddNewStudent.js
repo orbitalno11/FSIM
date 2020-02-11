@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
-import Year from '../option/year';
-import Around from '../option/admission_channel'
-import Project from '../option/project'
+import Year from '../../option/year';
+import Around from '../../option/admission_channel'
+import Project from '../../option/project'
 
 
 class AddNewStudent extends Component {
@@ -93,26 +93,26 @@ class AddNewStudent extends Component {
     render() {
 
         const project_name = [
-            { id: 1, fK: 1, project_name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
-            { id: 2, fK: 1, project_name: "รอบที่ 1/1 โครงการ Active Recruitment" },
-            { id: 3, fK: 1, project_name: "รอบที่ 1/1 โครงการคัดเลือกตรง ประเภทเรียนดี" },
-            { id: 4, fK: 1, project_name: "รอบที่ 1/1 โครงการคัดเลือกตรงความสามารถพิเศษ และทุนเพชรพระจอมเกล้า" },
-            { id: 5, fK: 1, project_name: "รอบที่ 1/2 โครงการ Active Recruitment" },
-            { id: 6, fK: 1, project_name: "รอบที่ 1/2 โครงการ Active Recruitment (จากโครงการ I am SCI)" },
-            { id: 7, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาจากโรงเรียนเทคโนโลยีฐานวิทยาศาสตร์ 	" },
-            { id: 8, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาพิการ" },
-            { id: 9, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักเรียน โครงการ วมว." },
-            { id: 10, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักเรียน จากมูลนิธิ สอวน." },
-            { id: 11, fK: 1, project_name: "รอบที่ 1/2 โครงการรับนักศึกษาโดยใช้สิทธิ์บุตรบุคลากร ของ มจธ." },
-            { id: 12, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อผู้เรียนดี มีคุณธรรม (รับนักเรียนเขต* 1,3,4,5,9 เเละกรุงเทพฯ))" },
-            { id: 13, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อการกระจายโอกาสทางการศึกษา (รับนักเรียนทุกเขต* ยกเว้นเขต 1 เเละกรุงเทพฯ)" },
-            { id: 14, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรง มจธ. รักษาธรรม เพิ่มโอกาสทางการศึกษา" },
-            { id: 15, fK: 2, project_name: "รอบที่ 2 โครงการคัดเลือกตรงกลุ่ม ปวช." },
-            { id: 16, fK: 2, project_name: "รอบที่ 2 โครงการ Active Recruitment" },
-            { id: 17, fK: 3, project_name: "รอบที่ 3/1 โครงการรับตรงร่วมกัน" },
-            { id: 18, fK: 3, project_name: "รอบที่ 3/2 โครงการรับตรงร่วมกัน" },
-            { id: 19, fK: 4, project_name: "รอบที่ 4 โครงการรับนักศึกษาผ่านระบบ Admissions" },
-            { id: 20, fK: 5, project_name: "รอบที่ 5 โครงการคัดเลือกตรงเพื่อผลิตบุคลากรด้านวิทยาศาสตร์เทคโนโลยีเเละนวัตกรรม (ครั้งที่ 2) ;" }
+            { id: 1, fK: 1, name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
+            { id: 2, fK: 1, name: "รอบที่ 1/1 โครงการ Active Recruitment" },
+            { id: 3, fK: 1, name: "รอบที่ 1/1 โครงการคัดเลือกตรง ประเภทเรียนดี" },
+            { id: 4, fK: 1, name: "รอบที่ 1/1 โครงการคัดเลือกตรงความสามารถพิเศษ และทุนเพชรพระจอมเกล้า" },
+            { id: 5, fK: 1, name: "รอบที่ 1/2 โครงการ Active Recruitment" },
+            { id: 6, fK: 1, name: "รอบที่ 1/2 โครงการ Active Recruitment (จากโครงการ I am SCI)" },
+            { id: 7, fK: 1, name: "รอบที่ 1/2 โครงการรับนักศึกษาจากโรงเรียนเทคโนโลยีฐานวิทยาศาสตร์ 	" },
+            { id: 8, fK: 1, name: "รอบที่ 1/2 โครงการรับนักศึกษาพิการ" },
+            { id: 9, fK: 1, name: "รอบที่ 1/2 โครงการรับนักเรียน โครงการ วมว." },
+            { id: 10, fK: 1, name: "รอบที่ 1/2 โครงการรับนักเรียน จากมูลนิธิ สอวน." },
+            { id: 11, fK: 1, name: "รอบที่ 1/2 โครงการรับนักศึกษาโดยใช้สิทธิ์บุตรบุคลากร ของ มจธ." },
+            { id: 12, fK: 2, name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อผู้เรียนดี มีคุณธรรม (รับนักเรียนเขต* 1,3,4,5,9 เเละกรุงเทพฯ))" },
+            { id: 13, fK: 2, name: "รอบที่ 2 โครงการคัดเลือกตรงโดยใช้คะแนน GAT/PAT เพื่อการกระจายโอกาสทางการศึกษา (รับนักเรียนทุกเขต* ยกเว้นเขต 1 เเละกรุงเทพฯ)" },
+            { id: 14, fK: 2, name: "รอบที่ 2 โครงการคัดเลือกตรง มจธ. รักษาธรรม เพิ่มโอกาสทางการศึกษา" },
+            { id: 15, fK: 2, name: "รอบที่ 2 โครงการคัดเลือกตรงกลุ่ม ปวช." },
+            { id: 16, fK: 2, name: "รอบที่ 2 โครงการ Active Recruitment" },
+            { id: 17, fK: 3, name: "รอบที่ 3/1 โครงการรับตรงร่วมกัน" },
+            { id: 18, fK: 3, name: "รอบที่ 3/2 โครงการรับตรงร่วมกัน" },
+            { id: 19, fK: 4, name: "รอบที่ 4 โครงการรับนักศึกษาผ่านระบบ Admissions" },
+            { id: 20, fK: 5, name: "รอบที่ 5 โครงการคัดเลือกตรงเพื่อผลิตบุคลากรด้านวิทยาศาสตร์เทคโนโลยีเเละนวัตกรรม (ครั้งที่ 2) ;" }
         ]
 
         let CheckProject = (num_project) =>
@@ -120,11 +120,23 @@ class AddNewStudent extends Component {
                 return p.fK == num_project;
             });
 
-
+            const year=[
+                {
+                    id:1,
+                    name:'2012'
+                },
+                {
+                    id:2,
+                    name:'2013'
+                }
+            ]
 
 
 
         return (
+
+        
+
             <React.Fragment>
 
                 <Form style={{ padding: '5%' }} onSubmit={this.handleSubmit}>
@@ -135,7 +147,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} value={this.state.year}/>
+                            {/* <Year option={this.handleChangeYear} value={this.state.year} year={year}/> */}
 
                         </Col>
                     </Row>

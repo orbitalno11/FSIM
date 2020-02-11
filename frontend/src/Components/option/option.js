@@ -10,7 +10,7 @@ class around extends React.Component {
 
         return (
             <React.Fragment>
-                <option value={this.props.items.id}>{this.props.items.project_name}</option>
+                <option value={this.props.items.id}>{this.props.items.name}</option>
             </React.Fragment>
         )
     }

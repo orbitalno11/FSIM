@@ -4,7 +4,7 @@ import { Button, InputGroup, FormControl } from 'react-bootstrap';
 
 class ProjectRow extends Component {
     onDelEvent() {
-        this.props.onDelEvent(this.props.product);
+        this.props.onDelEvent(this.props.row);
     }
 
 
@@ -16,10 +16,10 @@ class ProjectRow extends Component {
                     <FormControl
                         type="text"
                         name="project"
-                        id={this.props.product.id}
+                        id={this.props.row.id}
                         onChange={this.props.onProductTableUpdate}
                         // inputRef={(ref) => { this.input = ref }}
-                        value={this.props.product.project}
+                        value={this.props.row.project}
                         placeholder="ชื่อโครงการ"
                     />
                     <InputGroup.Append >

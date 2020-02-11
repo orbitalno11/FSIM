@@ -9,10 +9,11 @@ import Footer from "./Components/footer";
 import Index from "./Components/Index";
 import Login from "./Components/Login";
 import StudentForm from "./Components/StudentForm";
-import add_student from "./Components/NewStudent/Add_student";
+import add_student from "./Components/admin/NewStudent/Add_student";
 import add_activity from "./Components/admin/activity/add_activity";
 import add_project from "./Components/admin/project/AddProject";
 import main_addmission from "./Components/admin/mainAddmission/main_addmission";
+import add_announcement from "./Components/admin/announcement/add_announcement";
 // import Mthpopup from "./Components/Mthpopup";
 
 
@@ -41,6 +42,7 @@ function App() {
             <Route exact path="/add_activity" component={add_activity} />
             <Route exact path="/add_project" component={add_project} />
             <Route exact path="/main-addmission" component={main_addmission} />
+            <Route exact path="/add_announcement" component={add_announcement} />
 
             
             {/* <Route exact path="/MTH" component={Mthpopup} /> */}

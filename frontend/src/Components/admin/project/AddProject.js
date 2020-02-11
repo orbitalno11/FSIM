@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { Form, Col, Row, Button, Container } from 'react-bootstrap';
 
-import ProjectTable from './ProjectTable'
+import ProductRow from '../../addrow/AddRow'
 
 
 
@@ -64,7 +64,7 @@ class AddActivity extends Component {
         };
         let products = this.state.product.slice();
         let newProducts = products.map(function (product) {
-            console.log(item)
+            // console.log(item)
             for (var key in product) {
                 if (key == item.name && product.id == item.id) {
                     product[key] = item.value;
@@ -87,14 +87,20 @@ class AddActivity extends Component {
 
                     <Form style={{ padding: '5%' }}>
 
-                        <ProjectTable
-                            count={this.state.count}
-                            onProductTableUpdate={this.handleProductTable.bind(this)}
-                            onRowAdd={this.handleAddEvent.bind(this)}
-                            onRowDel={this.handleRowDel.bind(this)}
-                            products={this.state.product}
-                            style={{ marginTop: '5%' }}
-                        />
+                        {
+                            this.state.product.map((product)=>
+                                <ProductRow 
+                                onProductTableUpdate={this.handleProductTable.bind(this)} 
+                                row={product} 
+                                onDelEvent={this.handleRowDel.bind(this)} 
+                                onAddEve={this.handleAddEvent.bind(this)}
+                                style={{ marginTop: '5%' }}
+                                />
+                                
+                            )
+                        }
+
+                     
                         <div style={{ marginTop: '5%' }}>
 
                             <Button

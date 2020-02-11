@@ -6,7 +6,6 @@ import { FormControl } from 'react-bootstrap';
 class activity extends React.Component {
     onSelected = (search) => {
         this.props.option(search)
-
        
     }
     render() {

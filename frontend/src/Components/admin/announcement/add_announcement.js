@@ -1,9 +1,9 @@
 import React, { Component }  from 'react'
-import SearchActivity from './SearchActivity'
-import AddActivity from './AddActivity'
+import SearchAnnouncement from './searchAnnouncement'
+import Addannouncement from './Addannouncement'
 import { Container, Nav, Button, Tab } from 'react-bootstrap';
 
-class add_activity extends Component {
+class add_announcement extends Component {
 
     state = {
         key: 'SearchActivity',
@@ -15,7 +15,7 @@ class add_activity extends Component {
         return (
             <React.Fragment>
                 <Container className="contrain_css" >
-                    <h3 style={{ marginBottom: '5%' }}>จัดการข้อมูลกิจกรรมรับเข้า</h3>
+                    <h3 style={{ marginBottom: '5%' }}>จัดการข้อมูลประชาสัมพันธ์โรงเรียน</h3>
                     <Tab.Container defaultActiveKey="SearchActivity" >
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
@@ -30,10 +30,10 @@ class add_activity extends Component {
                         </Nav>
                         <Tab.Content className='TabContent' >
                             <Tab.Pane eventKey="SearchActivity" >
-                                <SearchActivity />
+                                <SearchAnnouncement />
                             </Tab.Pane>
                             <Tab.Pane eventKey="AddActivity">
-                                <AddActivity />
+                                <Addannouncement />
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
@@ -44,4 +44,4 @@ class add_activity extends Component {
     }
 }
 
-export default add_activity
+export default add_announcement
