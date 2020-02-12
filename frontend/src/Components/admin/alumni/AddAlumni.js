@@ -16,8 +16,6 @@ class AddAlumni extends React.Component {
 
 
             <React.Fragment>
-
-
                 <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
                     <Row  className="style-addData" >
                         <a href="">แบบสอบถามการทำงาน </a>   
