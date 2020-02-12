@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { Carousel } from "react-bootstrap";
 import Logo from "../img/60year-fsci.png";
 import banner from "../img/banner2.png";
-import {
-  Image,
-  Menu,
-  Container
-} from "semantic-ui-react";
+import { Image, Menu, Container, Dropdown } from "semantic-ui-react";
 
 const colors = ["yellow"];
 
@@ -26,7 +22,13 @@ class Navbars extends Component {
 
     return (
       <div>
-        <Menu inverted borderless className="bg-yellow" style={{fontSize: '16px'}} size="tiny">
+        <Menu
+          inverted
+          borderless
+          className="bg-yellow"
+          style={{ fontSize: "16px" }}
+          size="tiny"
+        >
           <Container>
             <Menu.Item
               header
@@ -43,18 +45,33 @@ class Navbars extends Component {
                 active={activeItem === "home"}
                 onClick={this.handleItemClick}
               />
-              <Menu.Item
-                position="right"
-                name="ข้อมูลนักศึกษา"
-                active={activeItem === "messages"}
-                onClick={this.handleItemClick}
-              />
-              <Menu.Item
-                position="right"
-                name="กิจกรรมประชาสัมพันธ์นักศึกษา"
+              <Dropdown
+                item
+                text="ข้อมูลนักศึกษา"
                 active={activeItem === "friends"}
                 onClick={this.handleItemClick}
-              />
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item>ภาควิชาคณิตศาสตร์</Dropdown.Item>
+                  <Dropdown.Item>ภาควิชาฟิสิกส์</Dropdown.Item>
+                  <Dropdown.Item>
+                    ภาควิชาจุลชีววิทยาและเทคโนโลยีการอาหาร
+                  </Dropdown.Item>
+                  <Dropdown.Item>ภาควิชาเคมี</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown
+                item
+                text="กิจกรรมประชาสัมพันธ์นักศึกษา"
+                active={activeItem === "friends"}
+                onClick={this.handleItemClick}
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item>สรุปข้อมูลประชาสัมพันธ์</Dropdown.Item>
+                  <Dropdown.Item>สรุปข้อมูลรับเข้า</Dropdown.Item>
+                  <Dropdown.Item>สรุปข้อมูลโครงการรับเข้า</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <Menu.Item
                 position="right"
                 name="ข้อมูลศิษย์เก่า"
