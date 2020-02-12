@@ -1,8 +1,8 @@
 import React from 'react'
 import { FaSistrix, FaDatabase, FaEdit, FaTrash } from "react-icons/fa";
 import { InputGroup, Button, Table } from 'react-bootstrap';
-import Year from '../option/year';
-import Faulty from '../option/faulty'
+import Year from '../../option/year';
+import Faulty from '../../option/faulty'
 
 class SearchAlumni extends React.Component {
 

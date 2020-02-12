@@ -1,5 +1,5 @@
 import React, { Component }  from 'react'
-import SetButton from './setButton'
+import SetButton from './SetButton'
 import {
     Container
     

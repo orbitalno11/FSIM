@@ -1,8 +1,8 @@
 import React from 'react'
 import { FaSistrix,FaDatabase,FaEdit,FaTrash } from "react-icons/fa";
 import { InputGroup, Button, Table } from 'react-bootstrap';
-import Year from '../option/year';
-import Faulty from '../option/faulty'
+import Year from '../../option/year';
+import Faulty from '../../option/faulty'
 
 class SearchStudent extends React.Component {
 
@@ -32,7 +32,7 @@ class SearchStudent extends React.Component {
             <React.Fragment>
                 <InputGroup className="mb-3" style={{ padding: '5%' }}>
                     <Faulty option={this.handleChangeFaulty} />
-                    <Year option={this.handleChangeYear} />
+                    <Year option={this.handleChangeYear} year={this.props.year}/>
                     <InputGroup.Append >
                         <Button
                             className="btn-info"

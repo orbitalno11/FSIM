@@ -25,6 +25,20 @@ extends React.Component {
         this.setState({ key: selectedtab });
     }
     render() {
+        const year=[
+			{
+				id:1,
+				name:'2012'
+			},
+			{
+				id:2,
+				name:'2013'
+			},
+			{
+				id:3,
+				name:'2014'
+			}
+		]
         return (
             <React.Fragment>
                 <Container className="contrain_css" >
@@ -43,10 +57,10 @@ extends React.Component {
                         </Nav>
                         <Tab.Content className='TabContent' >
                             <Tab.Pane eventKey="SearchStudent" >
-                                <SearchStudent />
+                                <SearchStudent year={year}/>
                             </Tab.Pane>
                             <Tab.Pane eventKey="AddStudent">
-                                <AddStudent />
+                                <AddStudent year={year}/>
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>

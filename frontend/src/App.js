@@ -9,23 +9,14 @@ import Header from "./Components/Navbar";
 import Footer from "./Components/footer";
 import Index from "./Components/Index";
 import Login from "./Components/Login";
-<<<<<<< HEAD
-import StudentForm from "./Components/StudentForm";
-import add_student from "./Components/admin/NewStudent/NewStudent";
-import add_activity from "./Components/admin/activity/activity";
-import add_project from "./Components/admin/project/AddProject";
-import main_addmission from "./Components/admin/mainAddmission/addmission";
-import add_announcement from "./Components/admin/announcement/announcement";
-// import Mthpopup from "./Components/Mthpopup";
-=======
+
 
 // import Admin page
-import add_student from "./Components/admin/NewStudent/Add_student"; //รับเข้า
-import add_activity from "./Components/admin/activity/add_activity";
-import add_project from "./Components/admin/project/AddProject";
-import main_addmission from "./Components/admin/mainAddmission/main_addmission";
-import add_announcement from "./Components/admin/announcement/add_announcement";
->>>>>>> 8a2ac79b9ab049ca7b8f420da0602b7ac3b3e50d
+import add_student from "./Components/admin/NewStudent/NewStudent"; //รับเข้า
+import add_activity from "./Components/admin/activity/Activity";
+import add_project from "./Components/admin/project/Project";
+import main_addmission from "./Components/admin/mainAddmission/Addmission";
+import add_announcement from "./Components/admin/announcement/Announcement";
 
 import see_student from "./Components/admin/student/see_student"; //หน้าแรกโชว์ข้อมูลนักศึกษารายคน
 import add_alumni from "./Components/admin/alumni/add_alumni"; //หน้าหลักเพิ่มศิษย์เก่า

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import Year from '../../option/year';
+import Announcement from '../../option/announcement';
 
 import ProductRow from '../../addrow/AddRow'
 
@@ -17,9 +18,20 @@ class Addannouncement extends Component {
                 name: ''
             }
         ]
+        this.state.year='0'
+        this.state.anno='0'
 
 
         this.handleSubmit = this.handleSubmit.bind(this)
+
+    }
+
+    handleChangeAnno = (search) => {
+        this.setState({ anno: search.target.value });
+    }
+
+    handleChangeYear = (search) => {
+        this.setState({ year:  search.target.value });
 
     }
 
@@ -49,8 +61,14 @@ class Addannouncement extends Component {
             }
         ]
         this.state.school=schoolNew
+        this.state.year='0'
+        this.state.anno='0'
         this.setState(this.state.school);
     }
+
+
+
+
 
     handleProductTable(evt) {
         let item = {
@@ -145,7 +163,7 @@ class Addannouncement extends Component {
                             <label>กิจกรรมประชาสัมพันธ์</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} year={year} value={this.state.year}/>
+                            <Announcement option={this.handleChangeAnno} announcement={Activity} value={this.state.anno}/>
 
                         </Col>
                     </Row>

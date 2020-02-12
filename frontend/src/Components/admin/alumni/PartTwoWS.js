@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
-import CheckT from '../option/checkT';
-import Work from '../option/work';
-import Education from '../option/education';
+import CheckT from '../../option/checkT';
+import Work from '../../option/work';
+import Education from '../../option/education';
 
 // import { Container } from ' ';
 

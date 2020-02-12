@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { FormControl, Button, Form, Col, Row } from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
-import Year from '../option/year';
-import Faulty from '../option/faulty'
+import Year from '../../option/year';
+import Faulty from '../../option/faulty'
 
 
 class AddStudent extends React.Component {
@@ -12,8 +12,8 @@ class AddStudent extends React.Component {
         super();
         this.onChange = this.onChange.bind(this);
         this.state = {
-            faulty: 0,
-            year: 0,
+            faulty: '0',
+            year: '0',
             files : []
             // FormElement:{
             //     faulty: {
@@ -136,7 +136,7 @@ class AddStudent extends React.Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} />
+                            <Year option={this.handleChangeYear}  year={this.props.year} value={this.state.year}/>
 
                         </Col>
                     </Row>

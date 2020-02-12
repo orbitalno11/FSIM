@@ -22,6 +22,20 @@ class Add_student extends Component {
 	}
 
 	render() {
+		const year=[
+			{
+				id:1,
+				name:'2012'
+			},
+			{
+				id:2,
+				name:'2013'
+			},
+			{
+				id:3,
+				name:'2014'
+			}
+		]
 		return (
 
 			<React.Fragment>
@@ -48,11 +62,11 @@ class Add_student extends Component {
 						<Tab.Content >
 							<Tab.Pane
 								eventKey="SearchNewStudent">
-								<SearchNewStudent />
+								<SearchNewStudent year={year} />
 							</Tab.Pane>
 							<Tab.Pane
 								eventKey="AddNewStudent">
-								<AddNewStudent />
+								<AddNewStudent  year={year}/>
 							</Tab.Pane>
 						</Tab.Content>
 					</Tab.Container>

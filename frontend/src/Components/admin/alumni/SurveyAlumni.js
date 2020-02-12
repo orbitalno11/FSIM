@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
-import Nametitle from '../option/nametitle';
-import Branch from '../option/branch';
-import Status from '../option/status';
+import Nametitle from '../../option/nametitle';
+import Branch from '../../option/branch';
+import Status from '../../option/status';
 import PartTwo from './PartTwo';
 import PartTwoStudy from './PartTwoStudy';
 import PartTwoWork from './PartTwoWork';

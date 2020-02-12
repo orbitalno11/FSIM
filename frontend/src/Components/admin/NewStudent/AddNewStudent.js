@@ -120,16 +120,6 @@ class AddNewStudent extends Component {
                 return p.fK == num_project;
             });
 
-            const year=[
-                {
-                    id:1,
-                    name:'2012'
-                },
-                {
-                    id:2,
-                    name:'2013'
-                }
-            ]
 
 
 
@@ -147,7 +137,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} value={this.state.year} year={year}/>
+                            <Year option={this.handleChangeYear} value={this.state.year} year={this.props.year}/>
 
                         </Col>
                     </Row>
