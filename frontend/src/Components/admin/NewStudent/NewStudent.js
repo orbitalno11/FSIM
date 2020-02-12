@@ -45,13 +45,15 @@ class Add_student extends Component {
 						defaultActiveKey="SearchNewStudent">
 						<Nav fill variant="tabs" activeKey={this.state.activeKey}
 							onSelect={this.handleSelect} >
-							<Nav.Item >
+							<Nav.Item className={this.state.key==='SearchNewStudent' ? null: "Tab2"} >
 								<Nav.Link
-									eventKey="SearchNewStudent">ดูข้อมูลนักศึกษารับเข้า</Nav.Link>
+									eventKey="SearchNewStudent"
+									className={this.state.key==='SearchNewStudent' ?  null: "Tab2-text"}
+									>ดูข้อมูลนักศึกษารับเข้า</Nav.Link>
 							</Nav.Item>
-							<Nav.Item>
+							<Nav.Item className={this.state.key==='SearchNewStudent' ? "Tab2" : null} >
 								<Nav.Link
-									eventKey="AddNewStudent" >เพิ่มข้อมูลนักศึกษารับเข้า</Nav.Link>
+									eventKey="AddNewStudent" className={this.state.key==='SearchNewStudent' ? "Tab2-text" :null}>เพิ่มข้อมูลนักศึกษารับเข้า</Nav.Link>
 							</Nav.Item>
 						</Nav>
 						<Tab.Content >

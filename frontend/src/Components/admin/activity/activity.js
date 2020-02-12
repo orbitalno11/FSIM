@@ -20,12 +20,15 @@ class add_activity extends Component {
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >
-                            <Nav.Item >
+                            <Nav.Item  className={this.state.key==='SearchActivity' ? null: "Tab2"} >
                                 <Nav.Link
-                                    eventKey="SearchActivity">ดูข้อมูลกิจกรรม</Nav.Link>
+                                    eventKey="SearchActivity"
+                                    className={this.state.key==='SearchActivity' ?  null: "Tab2-text"}
+                                    >ดูข้อมูลกิจกรรม</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="Tab2">
-                                <Nav.Link className="Tab2-text" eventKey="AddActivity" >เพิ่มข้อมูลกิจกรรม</Nav.Link>
+                            <Nav.Item className={this.state.key==='SearchActivity' ? "Tab2" : null} >
+                                <Nav.Link className={this.state.key==='SearchActivity' ? "Tab2-text" : null} 
+                                eventKey="AddActivity" >เพิ่มข้อมูลกิจกรรม</Nav.Link>
                             </Nav.Item>
                         </Nav>
                         <Tab.Content className='TabContent' >

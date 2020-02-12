@@ -6,7 +6,7 @@ import { Container, Nav, Button, Tab } from 'react-bootstrap';
 class add_announcement extends Component {
 
     state = {
-        key: 'SearchActivity',
+        key: 'SearchAnnouncement',
     }
     handleSelect = (selectedtab) => {
         this.setState({ key: selectedtab });
@@ -16,23 +16,24 @@ class add_announcement extends Component {
             <React.Fragment>
                 <Container className="contrain_css" >
                     <h3 style={{ marginBottom: '5%' }}>จัดการข้อมูลประชาสัมพันธ์โรงเรียน</h3>
-                    <Tab.Container defaultActiveKey="SearchActivity" >
+                    <Tab.Container defaultActiveKey="SearchAnnouncement" >
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >
-                            <Nav.Item >
+                            <Nav.Item className={this.state.key==='SearchAnnouncement' ? null: "Tab2"} >
                                 <Nav.Link
-                                    eventKey="SearchActivity">ดูข้อมูลกิจกรรม</Nav.Link>
+                                    eventKey="SearchAnnouncement"
+                                    className={this.state.key==='SearchAnnouncement' ?  null: "Tab2-text"}>ดูข้อมูลกิจกรรม</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="Tab2">
-                                <Nav.Link className="Tab2-text" eventKey="AddActivity" >เพิ่มข้อมูลกิจกรรม</Nav.Link>
+                            <Nav.Item className={this.state.key==='SearchAnnouncement' ? "Tab2" : null} >
+                                <Nav.Link  className={this.state.key==='SearchAnnouncement' ? "Tab2-text" :null} eventKey="AddAnnouncement" >เพิ่มข้อมูลกิจกรรม</Nav.Link>
                             </Nav.Item>
                         </Nav>
                         <Tab.Content className='TabContent' >
-                            <Tab.Pane eventKey="SearchActivity" >
+                            <Tab.Pane eventKey="SearchAnnouncement" >
                                 <SearchAnnouncement />
                             </Tab.Pane>
-                            <Tab.Pane eventKey="AddActivity">
+                            <Tab.Pane eventKey="AddAnnouncement">
                                 <Addannouncement />
                             </Tab.Pane>
                         </Tab.Content>

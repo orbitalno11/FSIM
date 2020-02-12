@@ -9,11 +9,11 @@ import Footer from "./Components/footer";
 import Index from "./Components/Index";
 import Login from "./Components/Login";
 import StudentForm from "./Components/StudentForm";
-import add_student from "./Components/admin/NewStudent/Add_student";
-import add_activity from "./Components/admin/activity/add_activity";
+import add_student from "./Components/admin/NewStudent/NewStudent";
+import add_activity from "./Components/admin/activity/activity";
 import add_project from "./Components/admin/project/AddProject";
-import main_addmission from "./Components/admin/mainAddmission/main_addmission";
-import add_announcement from "./Components/admin/announcement/add_announcement";
+import main_addmission from "./Components/admin/mainAddmission/addmission";
+import add_announcement from "./Components/admin/announcement/announcement";
 // import Mthpopup from "./Components/Mthpopup";
 
 

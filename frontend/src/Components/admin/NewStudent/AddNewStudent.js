@@ -147,7 +147,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            {/* <Year option={this.handleChangeYear} value={this.state.year} year={year}/> */}
+                            <Year option={this.handleChangeYear} value={this.state.year} year={year}/>
 
                         </Col>
                     </Row>

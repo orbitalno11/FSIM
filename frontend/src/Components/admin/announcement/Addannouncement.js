@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
-import { FaCloudUploadAlt } from "react-icons/fa";
 import Year from '../../option/year';
-// import Around from '../option/admission_channel'
-// import Project from '../option/project'
+
 import ProductRow from '../../addrow/AddRow'
 
 
@@ -16,7 +14,7 @@ class Addannouncement extends Component {
         this.state.school = [
             {
                 id: 0,
-                project: ''
+                name: ''
             }
         ]
 
@@ -24,25 +22,6 @@ class Addannouncement extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
-
-
-
-    // handleChangeAround = (search) => {
-    //     // console.log(search.target.value);
-    //     this.setState({ channel: search.target.value });
-    // }
-
-    // handleChangeProject = (search) => {
-    //     // console.log(search.target.value);
-    //     this.setState({ project: search.target.value });
-    //     this.setState({ channel: 0 });
-    // }
-
-    // handleChangeYear = (search) => {
-    //     this.setState({ year: search.target.value });
-    // }
-
-
 
     handleRowDel(product) {
         let index = this.state.school.indexOf(product);
@@ -54,13 +33,11 @@ class Addannouncement extends Component {
         let id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
         let products = {
             id: id,
-            project: ""
+            name: ""
         }
         this.state.school.push(products);
         this.setState(this.state.school);
-
         console.log(this.state.school)
-
 
     }
 
@@ -68,14 +45,11 @@ class Addannouncement extends Component {
         let schoolNew = [
             {
                 id: 0,
-                project: ""
+                name: ""
             }
         ]
         this.state.school=schoolNew
-        // console.log(this.state.product)
         this.setState(this.state.school);
-        // this.state.product.splice(3, 1);
-        // this.setState(this.state.product);
     }
 
     handleProductTable(evt) {
@@ -84,18 +58,16 @@ class Addannouncement extends Component {
             name: evt.target.name,
             value: evt.target.value
         };
-        let products = this.state.school.slice();
-        let newProducts = products.map(function (product) {
-            // console.log(item)
-            for (var key in product) {
-                if (key == item.name && product.id == item.id) {
-                    product[key] = item.value;
-
+        let schools = this.state.school.slice();
+        let newSchools = schools.map(function (sc) {
+            for (var key in sc) {
+                if (key == item.name && sc.id == item.id) {
+                    sc[key] = item.value;
                 }
             }
-            return product;
+            return sc;
         });
-        this.setState({ school: newProducts });
+        this.setState({ school: newSchools });
 
     }
 
@@ -198,6 +170,7 @@ class Addannouncement extends Component {
                                 <ProductRow 
                                 onProductTableUpdate={this.handleProductTable.bind(this)} 
                                 row={product} 
+                                name={"name"}
                                 onDelEvent={this.handleRowDel.bind(this)} 
                                 onAddEve={this.handleAddEvent.bind(this)}
                                 style={{ marginTop: '5%' }}

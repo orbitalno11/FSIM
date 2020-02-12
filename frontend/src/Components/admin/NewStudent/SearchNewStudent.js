@@ -27,12 +27,23 @@ class SearchNewStudent extends Component {
 
     render() {
 
+        const year=[
+            {
+                id:1,
+                name:'2012'
+            },
+            {
+                id:2,
+                name:'2013'
+            }
+        ]
+
         return (
 
             <React.Fragment>
                 <InputGroup className="mb-3" style={{ padding: '5%' }}>
                     <Faulty option={this.handleChangeFaulty} />
-                    <Year option={this.handleChangeYear} />
+                    <Year option={this.handleChangeYear}  year={year} />
     
                     <InputGroup.Append >
                         <Button

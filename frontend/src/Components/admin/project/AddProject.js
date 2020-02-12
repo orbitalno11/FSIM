@@ -10,10 +10,10 @@ class AddActivity extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.state.product = [
+        this.state.project = [
             {
                 id: 0,
-                project: ''
+                name: ''
             }
         ]
 
@@ -23,21 +23,21 @@ class AddActivity extends Component {
 
 
     handleRowDel(product) {
-        let index = this.state.product.indexOf(product);
-        this.state.product.splice(index, 1);
-        this.setState(this.state.product);
+        let index = this.state.project.indexOf(product);
+        this.state.project.splice(index, 1);
+        this.setState(this.state.project);
     };
 
     handleAddEvent = () => {
         let id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
         let products = {
             id: id,
-            project: ""
+            name: ""
         }
-        this.state.product.push(products);
-        this.setState(this.state.product);
+        this.state.project.push(products);
+        this.setState(this.state.project);
 
-        console.log(this.state.product)
+        console.log(this.state.project)
 
 
     }
@@ -46,14 +46,11 @@ class AddActivity extends Component {
         let products = [
             {
                 id: 0,
-                project: ''
+                name: ''
             }
         ]
-        this.state.product=products
-        // console.log(this.state.product)
-        this.setState(this.state.product);
-        // this.state.product.splice(3, 1);
-        // this.setState(this.state.product);
+        this.state.project=products
+        this.setState(this.state.project);
     }
 
     handleProductTable(evt) {
@@ -62,18 +59,18 @@ class AddActivity extends Component {
             name: evt.target.name,
             value: evt.target.value
         };
-        let products = this.state.product.slice();
-        let newProducts = products.map(function (product) {
+        let projects = this.state.project.slice();
+        let newprojects = projects.map(function (project) {
             // console.log(item)
-            for (var key in product) {
-                if (key == item.name && product.id == item.id) {
-                    product[key] = item.value;
+            for (var key in project) {
+                if (key == item.name && project.id == item.id) {
+                    project[key] = item.value;
 
                 }
             }
-            return product;
+            return project;
         });
-        this.setState({ product: newProducts });
+        this.setState({ project: newprojects });
 
     }
 
@@ -88,12 +85,13 @@ class AddActivity extends Component {
                     <Form style={{ padding: '5%' }}>
 
                         {
-                            this.state.product.map((product)=>
+                            this.state.project.map((product)=>
                                 <ProductRow 
                                 onProductTableUpdate={this.handleProductTable.bind(this)} 
                                 row={product} 
                                 onDelEvent={this.handleRowDel.bind(this)} 
                                 onAddEve={this.handleAddEvent.bind(this)}
+                                name={"name"}
                                 style={{ marginTop: '5%' }}
                                 />
                                 

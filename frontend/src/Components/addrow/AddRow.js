@@ -14,11 +14,11 @@ class ProjectRow extends Component {
                 <InputGroup className="mb-3" >
                     <FormControl
                         type="text"
-                        name="project"
+                        name={this.props.name}
                         id={this.props.row.id}
                         onChange={this.props.onProductTableUpdate}
                         // inputRef={(ref) => { this.input = ref }}
-                        value={this.props.row.project}
+                        value={this.props.row.name}
                         placeholder="ชื่อโครงการ"
                     />
                     <InputGroup.Append >
