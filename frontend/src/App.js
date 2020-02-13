@@ -21,17 +21,9 @@ import add_announcement from "./Components/admin/announcement/Announcement";
 import see_student from "./Components/admin/student/see_student"; //หน้าแรกโชว์ข้อมูลนักศึกษารายคน
 import add_alumni from "./Components/admin/alumni/add_alumni"; //หน้าหลักเพิ่มศิษย์เก่า
 import SurveyAlumni from "./Components/admin/alumni/SurveyAlumni"; //แบบประเมินศิษย์เก่า
-// import PartTwo from "./Components/admin/alumni/PartTwo";
-// import PartTwoWork from "./Components/admin/alumni/PartTwoWork";
-// import PartTwoStudy from "./Components/admin/alumni/PartTwoStudy";
-// import PartTwoWS from "./Components/admin/alumni/PartTwoWS";
-// import PartThree from "./Components/admin/alumni/PartThree";
-// import PartFour from "./Components/admin/alumni/PartFour";
-// import PartFive from "./Components/admin/alumni/PartFive";
-// import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2"; 
+
 
 // import User page
-// import UserDetails from "./Components/admin/work/UserDetails"; //อ้อมเพิ่มต่อจากตรงนี้ได้เลย
 
 import informationmth from "./Components/User/InfoMTH";
 import Addmission from "./Components/User/Addmission";
@@ -66,6 +58,7 @@ function App() {
        
             <Route exact path="/see_student" component={see_student} />
             <Route exact path="/add_alumni" component={add_alumni} />
+<<<<<<< HEAD
             <Route exact path="/l" component={SurveyAlumni} />
             {/* <Route exact path="/PartTwo" component={PartTwo} />
             <Route exact path="/PartThree" component={PartThree} />
@@ -75,6 +68,10 @@ function App() {
             <Route exact path="/PartTwoStudy" component={PartTwoStudy} />
             <Route exact path="/PartTwoWS" component={PartTwoWS} />
             <Route exact path="/SurveyAlumni2" component={SurveyAlumni2} /> */}
+=======
+            <Route exact path="/SurveyAlumni" component={SurveyAlumni} />
+            
+>>>>>>> ed787fcfaa5ea317effc507887e77f8df39506ed
 
             {/* Route for user */}
             <Route exact path="/informationmth" component={informationmth} />
