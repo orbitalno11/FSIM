@@ -7,7 +7,7 @@ import { Route } from "react-router-dom";
 // import Main page
 import Header from "./Components/Navbar";
 import Footer from "./Components/footer";
-import Index from "./Components/Index";
+import Index from "./Components/index/Index";
 import Login from "./Components/Login";
 
 // import Admin page
@@ -46,6 +46,18 @@ function App() {
             <Route exact path="/" component={Index} />
             <Route exact path="/login" component={Login} />
             {/* Route for amin */}
+<<<<<<< HEAD
+            <Route exact path="/add_student" component={add_student} />
+            <Route exact path="/add_activity" component={add_activity} />
+            <Route exact path="/add_project" component={add_project} />
+            <Route exact path="/main-addmission" component={main_addmission} />
+            <Route exact path="/add_announcement" component={add_announcement} />
+       
+            <Route exact path="/see_student" component={see_student} />
+            <Route exact path="/add_alumni" component={add_alumni} />
+
+            <Route exact path="/SurveyAlumni" component={SurveyAlumni} />
+=======
             <Route exact path="/admin_newstudent" component={Admin_Newstudent} />
             <Route exact path="/admin_activity" component={Admin_activity} />
             <Route exact path="/admin_project" component={Admin_project} />
@@ -53,6 +65,7 @@ function App() {
             <Route exact path="/admin_announcement" component={Announcement} />
             <Route exact path="/admin_student" component={Admin_showStudent} />
             <Route exact path="/admin_alumni" component={Admin_alumni} />
+>>>>>>> eff647dbac131f9b9ae31c633bec83964e2fafa8
             
             {/* Route for user */}
             {/* <Route exact path="/informationmth" component={informationmth} />

@@ -29,6 +29,22 @@ class SearchAlumni extends React.Component {
     render() {
 
         const year=[
+<<<<<<< HEAD
+			{
+				id:1,
+				name:'2012'
+			},
+			{
+				id:2,
+				name:'2013'
+			},
+			{
+				id:3,
+				name:'2014'
+			}
+		]
+
+=======
             {
                 id:1,
                 name:'2012'
@@ -42,12 +58,17 @@ class SearchAlumni extends React.Component {
                 name:'2014'
             }
         ]
+>>>>>>> eff647dbac131f9b9ae31c633bec83964e2fafa8
         return (
 
             <React.Fragment>
             <InputGroup className="mb-3" style={{ padding: '5%' }}>
                 <Faulty option={this.handleChangeFaulty} />
+<<<<<<< HEAD
+                <Year option={this.handleChangeYear} year={year}/>
+=======
                 <Year option={this.handleChangeYear} year={year} />
+>>>>>>> eff647dbac131f9b9ae31c633bec83964e2fafa8
                 <InputGroup.Append >
                     <Button
                         className="btn-info"
