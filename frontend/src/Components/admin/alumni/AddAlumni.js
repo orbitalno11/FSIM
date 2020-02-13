@@ -7,14 +7,9 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 
 class AddAlumni extends React.Component {
 
-  
-
-
     render() {
 
         return (
-
-
             <React.Fragment>
                 <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
                     <Row  className="style-addData" >
