@@ -4,6 +4,9 @@ import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import CheckT from '../../option/checkT';
 import Work from '../../option/work';
+import PartThree from './PartThree';
+import PartFive from './PartFive';
+import PartFour from './PartFour';
 
 // import { Container } from ' ';
 
@@ -95,11 +98,14 @@ class PartTwoWork extends React.Component {
                           
                         </Col>
                     </Row>
-
-
+                  
                 </Form>
-               
+                    
             </Container>
+            <PartThree/> 
+            <PartFour/>
+            <PartFive/>  
+           
             </React.Fragment>
 
 

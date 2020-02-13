@@ -7,6 +7,8 @@ import Branch from '../../option/branch';
 import Status from '../../option/status';
 import Reason from '../../option/reason';
 import PartThree from './PartThree';
+import PartFive from './PartFive';
+import PartFour from './PartFour';
 // import { Container } from ' ';
 
 // import MainFormContainer from '../work'
@@ -80,8 +82,12 @@ class PartTwoNotThing extends React.Component {
 
 
                 </Form>
-                <PartThree/> 
+               
             </Container>
+            <PartThree/> 
+            <PartFour/>
+            <PartFive/>  
+           
             </React.Fragment>
 
 
