@@ -9,6 +9,12 @@ from backend.modules.DatabaseConnection import DatabaseConnection
 # import data manager
 from backend.modules.DataManage import DataManage
 
+# import Upload manager
+from backend.modules.UploadManager import UploadManager
+
+# import application Constant
+import backend.Constant as constant
+
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
@@ -70,16 +76,46 @@ def login():
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Please Login'})
 
 
-@api_bp.route('/admission', methods=['GET'])
-def pre_readfile():
+@api_bp.route('/admission', methods=['POST'])
+def insert_admission():
+
+    # This api need "Year" as year , "Admission type" as admission_type and "Admission channel" as admission_channel to be a parameter
     headers = {"Content-type": "application/json"}
-    dm = DataManage()
-    insert = dm.pre_read()
+
+    year = request.form.get('year')
+    admission_type = request.form.get('admission_type')
+    admission_channel = request.form.get('admission_channel')
+
+    try:
+        file = request.files['file']
+        destination = UploadManager.upload_file(constant.ADMISSION_FOLDER, file, year)
+    except Exception as e:
+        print(e)
+        return make_response(jsonify({"result": "Error"}), 400, headers)
+
+    insert = False
+
+    if destination:
+        dm = DataManage()
+        insert = dm.insert_admission(admission_type, admission_channel, year, destination)
 
     if insert:
         return make_response(jsonify({"result": "OK"}), 200, headers)
     else:
         return make_response(jsonify({"result": "Error"}), 500, headers)
+
+
+@api_bp.route('/admission/<year>/<type>/<channel>', methods=['GET'])
+def get_admission(year, type, channel):
+    headers = {"Content-type": "application/json"}
+    con = DatabaseConnection()
+    data = con.get_admission_data(type, channel, year)
+    del con
+
+    if data:
+        return make_response(jsonify({"data": data}), 200, headers)
+    else:
+        return make_response(jsonify({"data": data}), 500, headers)
 
 
 @api_bp.route('/branch', methods=['GET'])
@@ -92,9 +128,3 @@ def branch():
         return make_response(jsonify({"data": data}), 200, headers)
     else:
         return make_response(jsonify({"data": "Error"}), 500, headers)
-
-
-@api_bp.route('/channel', methods=['GET'])
-def admission_channel():
-    headers = {"Content-type": "application/json"}
-    con = DatabaseConnection()
