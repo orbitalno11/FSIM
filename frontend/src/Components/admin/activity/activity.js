@@ -3,7 +3,7 @@ import SearchActivity from './SearchActivity'
 import AddActivity from './AddActivity'
 import { Container, Nav, Button, Tab } from 'react-bootstrap';
 
-class add_activity extends Component {
+class Activity extends Component {
 
     state = {
         key: 'SearchActivity',
@@ -47,4 +47,4 @@ class add_activity extends Component {
     }
 }
 
-export default add_activity
+export default Activity

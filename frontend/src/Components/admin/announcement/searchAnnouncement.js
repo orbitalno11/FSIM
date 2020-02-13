@@ -4,7 +4,7 @@ import { InputGroup, Button, Table } from 'react-bootstrap';
 import Year from '../../option/year';
 import School from '../../option/school'
 
-class searchAnnouncement extends Component {
+class SearchAnnouncement extends Component {
 
 
     state = {
@@ -114,4 +114,4 @@ class searchAnnouncement extends Component {
     }
 }
 
-export default searchAnnouncement
+export default SearchAnnouncement

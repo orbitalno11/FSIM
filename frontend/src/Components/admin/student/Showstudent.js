@@ -4,19 +4,7 @@ import SearchStudent from './SearchStudent'
 import AddStudent from './AddStudent'
 import { Container, Nav, Button, Tab } from 'react-bootstrap';
 
-class see_student
-
-
-
-
-
-
-
-
-
-
-
-extends React.Component {
+class see_student extends React.Component {
 
     state = {
         key: 'SearchStudent',
@@ -47,12 +35,12 @@ extends React.Component {
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >
-                            <Nav.Item >
+                            <Nav.Item className={this.state.key==='SearchStudent' ? null: "Tab2"} >
                                 <Nav.Link
-                                    eventKey="SearchStudent">ดูข้อมูลนักศึกษา</Nav.Link>
+                                    eventKey="SearchStudent" className={this.state.key==='SearchStudent' ?  null: "Tab2-text"}  >ดูข้อมูลนักศึกษา</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="Tab2">
-                                <Nav.Link className="Tab2-text" eventKey="AddStudent" >เพิ่มข้อมูลนักศึกษา</Nav.Link>
+                            <Nav.Item className={this.state.key==='SearchStudent' ? "Tab2" : null}>
+                                <Nav.Link className={this.state.key==='SearchStudent' ? "Tab2-text" :null} eventKey="AddAnnouncement" >เพิ่มข้อมูลนักศึกษา</Nav.Link>
                             </Nav.Item>
                         </Nav>
                         <Tab.Content className='TabContent' >

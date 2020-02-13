@@ -5,6 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import CheckTh from '../../option/checkTh';
 import CheckF from '../../option/checkF';
 import Check from '../../option/check';
+import CheckFive from '../../option/checkFive';
+import Collegeyears from '../../option/collegeyears';
 import Branch from '../../option/branch';
 
 // import { Container } from ' ';
@@ -23,10 +25,15 @@ class SurveyAlumni2 extends React.Component {
             checkTh:'',
             checkF:'',
             check:'',
-            
+            collegeyears:'',
             
         }
     }
+
+    handleChangeCollegeyears = (e, { value }) => {
+        this.setState({ value });
+    }
+
 
     handleChangeCheckF = (e, { value }) => {
         this.setState({ value });
@@ -86,7 +93,7 @@ class SurveyAlumni2 extends React.Component {
                             ได้แก่ การวิเคราะห์ การสังเคราะห์ และการประเมินค่า   </p>
                      <p style = {{ textAlign :"left"}}>(ที่มา : https://th.Wikipedia.org)  </p>
                      </div>
-
+                    
                      <p style = {{ textAlign :"left"}}>1. นักศึกษาคิดว่าการเรียนการสอนแบบใดส่งผลให้เกิดการเรียนรู้ที่มีประสิทธิภาพต่อตัวท่านเอง </p>
                      <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         การเรียนรู้โดยใช้การบรรยายเป็นฐาน (Lecture-based learning ) 
@@ -112,9 +119,11 @@ class SurveyAlumni2 extends React.Component {
                 
                   
                     <p style = {{ textAlign :"left"}}>2. นักศึกษาคิดว่ากระบวนการเรียนการสอนแบบใดในรายวิชาต่อไปนี้เหมาะสมกับวิธีการเรียนรู้ของตัวท่านเอง(ตอบได้มากกว่า 1 รูปแบบ)   </p>
+                   
                     <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         กลุ่มวิชาพื้นฐานทางวิทยาศาสตร์                     
                       < CheckF option={this.handleChangCheckF} />
+                      
                      </p>
                      <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         กลุ่มวิชาเฉพาะทางของสาขา                    
@@ -132,6 +141,8 @@ class SurveyAlumni2 extends React.Component {
                         กลุ่มวิชาศึกษาทั่วไป (Gen. Ed.)                      
                       < CheckF option={this.handleChangCheckF} />
                      </p>
+ 
+                    
                      <Row  className="style-addData "  >
                         <Col sm='2'style = {{textAlign :"left", marginLeft : '10%'}}>
                             <label>ข้อเสนอแนะ</label>
@@ -145,15 +156,15 @@ class SurveyAlumni2 extends React.Component {
                     <p style = {{ textAlign :"left"}}>3. นักศึกษาคิดว่าการจัดการเรียนการสอนทั้ง 3 รูปแบบ เหมาะสมที่จะเกิดขึ้นในชั้นปีใด(สามารถเลือกได้มากกว่า 1 ตัวเลือก) </p>
                     <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         การเรียนรู้โดยใช้การบรรยายเป็นฐาน (Lecture-based learning)                     
-                      < CheckF option={this.handleChangCheckF} />
+                      < Collegeyears option={this.handleChangCollegeyears} />
                      </p>
                      <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         การเรียนรู้โดยใช้ปัญหาเป็นฐาน (Problem-based learning)                    
-                      < CheckF option={this.handleChangCheckF} />
+                      < Collegeyears option={this.handleChangCollegeyears} />
                      </p>
                      <p style = {{textAlign :"left", marginLeft : '10%'}}>
                         การเรียนรู้โดยใช้กิจกรรมเป็นฐาน (Activity-based learning)                      
-                      < CheckF option={this.handleChangCheckF} />
+                      < Collegeyears option={this.handleChangCollegeyears} />
                      </p>
                      
                      <Row  className="style-addData "  >
@@ -213,11 +224,28 @@ class SurveyAlumni2 extends React.Component {
                             
                         </Col>
                     </Row><br></br>
+                    <div>
+                    <p style = {{ textAlign :"left"}}>5.  การเรียนการสอนด้วยภาษาอังกฤษ สามารถเพิ่มทักษะความสามารถทางภาษาอังกฤษของนักศึกษาได้มากน้อยเพียงใด   </p>
+                        < CheckFive option={this.handleChangCheckFive} /> <br></br>
+                        <p style = {{ textAlign :"left"}}>6.  นักศึกษาคิดว่าเรื่องใดที่คณะวิทยาศาสตร์ควรเพิ่มเติมเพื่อส่งเสริมให้นักศึกษามีความสามารถด้านภาษาอังกฤษที่ดียิ่งขึ้น    </p>
+                        <Col sm='11'>
+                         <Form.Control type="offer" placeholder="" />
+                            
+                        </Col>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <br></br>
                     <h5 style = {{ textAlign :"left"}}>ตอนที่ 3  ระดับความพึงพอใจต่อระบบอาจารย์ผู้สอน ที่ปรึกษา และกิจกรรมนักศึกษา</h5><br></br>
                     <h6 style = {{ textAlign :"left" ,marginLeft:'9%',color:"#696969"}}>เกณ์การให้คะแนน : &nbsp;5 = มากที่สุด&nbsp;  4 = มาก &nbsp;3 = ปานกลาง&nbsp; 2 = น้อย &nbsp;1 = น้อยที่สุด</h6><br></br>
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b>7.   อาจารย์ผู้สอน (ด้านการจัดการเรียนการสอน) นักศึกษามีความเห็นเกี่ยวกับอาจารย์ผู้สอนในหัวข้อต่อไปนี้ในระดับใด </b>
+                            <p>7.   อาจารย์ผู้สอน (ด้านการจัดการเรียนการสอน) นักศึกษามีความเห็นเกี่ยวกับอาจารย์ผู้สอนในหัวข้อต่อไปนี้ในระดับใด </p>
                         </Col>
                     </Row>
 
@@ -396,7 +424,7 @@ class SurveyAlumni2 extends React.Component {
                     
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b>8.  อาจารย์ผู้สอน (ด้านการวัดผลและประเมินผลการศึกษา) นักศึกษามีความเห็นเกี่ยวกับอาจารย์ผู้สอนในหัวข้อต่อไปนี้ในระดับใด  </b>
+                            <p>8.  อาจารย์ผู้สอน (ด้านการวัดผลและประเมินผลการศึกษา) นักศึกษามีความเห็นเกี่ยวกับอาจารย์ผู้สอนในหัวข้อต่อไปนี้ในระดับใด  </p>
                         </Col>
                     </Row>
 
@@ -574,7 +602,7 @@ class SurveyAlumni2 extends React.Component {
 
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b>9.  อาจารย์ที่ปรึกษาชั้นปี นักศึกษาเห็นด้วยกับคุณสมบัติอาจารย์ที่ปรึกษาในหัวข้อต่อไปนี้ในระดับใด   </b>
+                            <p>9.  อาจารย์ที่ปรึกษาชั้นปี นักศึกษาเห็นด้วยกับคุณสมบัติอาจารย์ที่ปรึกษาในหัวข้อต่อไปนี้ในระดับใด   </p>
                         </Col>
                     </Row>
 
@@ -685,7 +713,7 @@ class SurveyAlumni2 extends React.Component {
 
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b> 10.  ด้านโครงงานระดับปริญญาตรี / โครงการเรียนรู้ร่วมอุตสาหกรรม นักศึกษาเห็นด้วยกับการทำโครงงานวิจัยระดับปริญญาตรี / โครงการเรียนรู้ร่วมอุตสาหกรรม ในหัวข้อต่อไปนี้ในระดับใด   </b>
+                            <p> 10.  ด้านโครงงานระดับปริญญาตรี / โครงการเรียนรู้ร่วมอุตสาหกรรม นักศึกษาเห็นด้วยกับการทำโครงงานวิจัยระดับปริญญาตรี / โครงการเรียนรู้ร่วมอุตสาหกรรม ในหัวข้อต่อไปนี้ในระดับใด   </p>
                         </Col>
                     </Row>
 
@@ -776,7 +804,7 @@ class SurveyAlumni2 extends React.Component {
                     </Row><br></br>
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b> 11.  อาจารย์ที่ปรึกษากิจกรรมนักศึกษา นักศึกษาเห็นด้วยกับคุณสมบัติอาจารย์ที่ปรึกษากิจกรรมนักศึกษาในหัวข้อต่อไปนี้ในระดับใด </b>
+                            <p> 11.  อาจารย์ที่ปรึกษากิจกรรมนักศึกษา นักศึกษาเห็นด้วยกับคุณสมบัติอาจารย์ที่ปรึกษากิจกรรมนักศึกษาในหัวข้อต่อไปนี้ในระดับใด </p>
                         </Col>
                     </Row>
 
@@ -820,7 +848,7 @@ class SurveyAlumni2 extends React.Component {
                     </Row><br></br>
                     <Row  className="style-addData" >
                         <Col sm='12'>
-                            <b> 12.  นักศึกษาเห็นด้วยกับกิจกรรมนักศึกษาและการพัฒนานักศึกษาในหัวข้อต่อไปนี้ ในระดับใด  </b>
+                            <p> 12.  นักศึกษาเห็นด้วยกับกิจกรรมนักศึกษาและการพัฒนานักศึกษาในหัวข้อต่อไปนี้ ในระดับใด  </p>
                         </Col>
                     </Row>
 
@@ -1361,10 +1389,842 @@ class SurveyAlumni2 extends React.Component {
                         </Col>
                     </Row><br></br>
                     </div>
+
+  {/* ส่วนที่ 2                   */}
+
                     <b style = {{marginLeft:'-59%'}}> ส่วนที่ 2 การให้บริการของส่วนกลางคณะวิทยาศาสตร์  </b>
-                    <p style = {{marginLeft:'-8%'}}>13. นักศึกษาคิดว่าระบบสนับสนุนการศึกษา และการให้บริการของฝ่ายสนับสนุนการศึกษาต่อไปนี้มีความเหมาะสมอย่างไร  </p>
+                    <div style = {{marginLeft:'9%'}}>
+ {/* 13.6 */}
+                        <Row  className="style-addData " >
+                                <Col sm='12'>13.6) สภาพแวดล้อมและสิ่งอำนวยความสะดวกที่สนับสนุนการเรียนการสอน</Col>
+                                  
+                        </Row>
+                  
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ห้องเรียนบรรยายมีขนาดเหมาะสม </a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>จอ LCD Projector และ Visualizer ที่พร้อมใช้งาน</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>มีการให้บริการสัญญาณ wifi ในห้องเรียนบรรยายอย่างทั่วถึง</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ห้องเรียนบรรยายสะอาดและมีแสงสว่างเพียงพอ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>มีการปรับปรุงพัฒนาห้องเรียนบรรยายให้มีความพร้อมต่อการใช้งาน</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+                        </Row><br></br>
+
+{/* 13.7 */}
+                        <Row  className="style-addData " >
+                            <Col sm='12'>13.7) ด้านเครื่องมือและอุปกรณ์ทางวิทยาศาสตร์/คอมพิวเตอร์ ที่สนับสนุนการเรียนการสอนปฏิบัติการและการวิจัย </Col>
+                        </Row>
+
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ครื่องมือและอุปกรณ์/คอมพิวเตอร์ ในห้องปฏิบัติการมีความพร้อมในการใช้งาน </a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>เครื่องมือและอุปกรณ์/คอมพิวเตอร์ ในห้องปฏิบัติการมีเพียงพอ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>เครื่องมือและอุปกรณ์/คอมพิวเตอร์ ในห้องปฏิบัติการมีความทันสมั</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}> มีการแนะนำการใช้เครื่องมือและอุปกรณ์/คอมพิวเตอร์ หรือมีเอกสารแนะนำการใช้เครื่องมือและอุปกรณ์/คอมพิวเตอร์</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row><br></br>
+                        
+
+                        
+                    
+
+                   
+{/* 13.8 */}
+                    <Row  className="style-addData " >
+                            <Col sm='12'>13.8) ด้านห้องปฏิบัติการ/ห้องวิจัย/ห้องปฏิบัติการคอมพิวเตอร์ ที่สนับสนุนการเรียนการสอนและการวิจัย  </Col>
+                        </Row>
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>กห้องปฏิบัติการมีขนาดเหมาะสม ไม่แออัด </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องปฏิบัติการมีแสงสว่างเพียงพอ</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องปฏิบัติการมีความสะอาด </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องปฏิบัติการมีระเบียบในการจัดเก็บเครื่องมือและอุปกรณ์/คอมพิวเตอร</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องปฏิบัติการมีความปลอดภัย</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>มีการปรับปรุงพัฒนาห้องปฏิบัติการให้มีความพร้อมในการใช้งาน</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>มีการให้บริการสัญญาณ wifi ในห้องปฏิบัติการอย่างทั่วถึง</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                 
+                    <br></br>
+                    
+
+
+
+
+    {/* 13.9                */}
+                    <Row  className="style-addData " >
+                            <Col sm='12'>13.9) การจัดบริการด้านกายภาพที่ส่งเสริมคุณภาพชีวิตของนักศึกษา (การให้บริการของภาควิชา) </Col>
+                        </Row>     
+                    
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องสำหรับการให้นักศึกษาจัดกิจกรรม(ห้องกิจกรรมนักศึกษาของภาควิชา)พอเพียงในการให้บริการ </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>พื้นที่บริเวณชั้น 1 ของภาควิชา ได้จัดโต๊ะและเก้าอี้สำหรับให้นักศึกษาพักผ่อนอย่างเพียงพอ</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>มีการให้บริการระบบสัญญาณ wifi ในพื้นที่บริเวณชั้น 1ของภาควิชาอย่างทั่วถึง </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>มีการปรับปรุงพัฒนาอาคารและสถานที่ให้ทันสมัยเพื่อช่วยส่งเสริมคุณภาพชีวิตในระหว่างการศึกษา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row><br></br>
+
+
+{/* 13.10 */}
+                    <Row  className="style-addData " >
+                            <Col sm='12'>13.10) การให้คำปรึกษาทางวิชาการและบริการแก่นักศึกษา  </Col>
+                        </Row>     
+                    
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การให้บริการติดต่อ สอบถามของเจ้าหน้าที่ในสำนักงานภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>เจ้าหน้าที่ภาควิชา (ทางด้านบริการการศึกษา) มีจำนวนเพียงพอ </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ความรู้ ความสามารถ และการให้บริการของเจ้าหน้าห้องปฏิบัติการ</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row><br></br>
                
 
+{/* 13.11 */}
+
+
+                    <Row  className="style-addData " >
+                            <Col sm='12'>13.11) การบริการข้อมูลข่าวสารที่เป็นประโยชน์ต่อนักศึกษา (การให้บริการของภาควิชา) </Col>
+                        </Row>     
+                    
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การได้รับข่าวสารประชาสัมพันธ์กิจกรรมนักศึกษา และความรู้ต่างๆ ผ่านช่องทางเว็บไซต์ของภาควิชา </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การได้รับข่าวสารประชาสัมพันธ์กิจกรรมนักศึกษา และความรู้ต่างๆ ผ่านช่องทาง e-mail ของภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การได้รับข่าวสารประชาสัมพันธ์กิจกรรมนักศึกษา และความรู้ต่างๆ ผ่านช่องทาง Facebook ของภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การได้รับข่าวสารประชาสัมพันธ์กิจกรรมนักศึกษา และความรู้ต่างๆ ผ่านช่องทาง Application Line ของภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การได้รับข่าวสารประชาสัมพันธ์กิจกรรมนักศึกษา และความรู้ต่างๆ ผ่านช่องทางบอร์ดประชาสัมพันธ์ของภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ช่องทางอื่นๆ ที่เหมาะสม</a>
+                            <Form.Control id="Input" type="offer" placeholder="" />
+                         
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row><br></br>
+
+{/* 13.12 */}
+                    <Row  className="style-addData " >
+                            <Col sm='12'>13.12) ด้านสิ่งแวดล้อมเชิงสุขอนามัยและมาตรฐานความปลอดภัยที่เป็นไปตามข้อกำหนด  </Col>
+                    </Row> 
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>การจัดการความปลอดภัยในทรัพย์สินของกล้องวงจรปิดบริเวณภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>มีความปลอดภัยโดยรอบอาคารภาควิชา ยามรักษาความปลอดภัย 24 ชั่วโมง</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ตู้บริการน้ำดื่มแก่นักศึกษาตามอาคารภาควิชาและห้องปฏิบัติการภาควิชา</a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row>
+                    <Row  className="style-addData " >
+                        <Col sm='7'></Col>
+                        <a className="Number "> 5 </a> 
+                        <a className="Number "> 4 </a>  
+                        <a className=" Number"> 3 </a>  
+                        <a className="Number "> 2 </a>  
+                        <a className="Number "> 1 </a>     
+                    </Row>
+                    <Row  className="style-addData"  >
+                        <Col sm='7'>
+                            <a style = {{ fontSize :'90%'}}>ห้องน้ำสะอาดถูกสุขลักษณะ (อาคารภาควิชา) </a>
+                        </Col>
+                        <Col >
+                            < Check option={this.handleChangCheck} />
+                        </Col>
+
+                    </Row><br></br>
+                    </div>
+
+{/* ส่วนที่ 3 */}      <b style = {{marginLeft:'-59%'}}> ส่วนที่ 3 การให้บริการห้องพยาบาล (ของมหาวิทยาลัย)  </b>
+           
+                    <div style = {{marginLeft:'9%'}}>
+ {/* 13.13 */}
+                        <Row  className="style-addData " >
+                                <Col sm='12'>13.13) การให้บริการสำนักหอสมุด (ของมหาวิทยาลัย)  </Col>
+                                  
+                        </Row>
+                  
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>จำนวนหนังสือ ตำรา วารสารที่ครอบคลุมกับความต้องการ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ระบบฐานข้อมูลวารสาร (E-Journal) ที่ครอบคลุมกับความต้องการ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ความสะดวกของระบบการยืม-คืนหนังสือ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row>
+
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>การให้บริการในการติดต่อ สอบถามของเจ้าหน้าที่ในสำนักหอสมุด</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+
+                        </Row><br></br>
+                       
+                        
+{/* 13.14 */}
+                        <Row  className="style-addData " >
+
+                                <Col sm='12'>13.14) การให้บริการห้องพยาบาล (ของมหาวิทยาลัย)   </Col>
+                                  
+                        </Row>
+                  
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ความสะอาดของสถานที่ให้บริการ</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ขั้นตอนการให้บริการมีความสะดวกรวดเร็ว</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>ช่วงเวลาการพบแพทย์มีความเหมาะสม</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+                        </Row>
+                        <Row  className="style-addData " >
+                            <Col sm='7'></Col>
+                            <a className="Number "> 5 </a> 
+                            <a className="Number "> 4 </a>  
+                            <a className=" Number"> 3 </a>  
+                            <a className="Number "> 2 </a>  
+                            <a className="Number "> 1 </a>     
+                        </Row>
+
+                        <Row  className="style-addData"  >
+                            <Col sm='7'>
+                                <a style = {{ fontSize :'90%'}}>การให้บริการในการติดต่อ สอบถามของเจ้าหน้าที่ในห้องพยาบาล</a>
+                            </Col>
+                            <Col >
+                                < Check option={this.handleChangCheck} />
+                            </Col>
+                        </Row><br></br>
+                        <Row  className="style-addData "  >
+                            <Col sm='2'style = {{textAlign :"left", marginLeft : '-7'}}>
+                                <label>ข้อเสนอแนะ</label>
+                            </Col>
+                            <Col sm='9'style = {{marginLeft :'-6%'}}>
+                            <Form.Control type="offer" placeholder="" />
+                                
+                            </Col>
+                        </Row>
+                 </div>
+
+
+                 <div  className="style-addData "  style={{marginTop:'8%',textAlign :'center'}} >
+                        <Button
+                            className='btn-EditData interval-1'
+                            onClick={this.handleSearch}
+                        >RESET</Button>
+
+                        <Button
+                            className='btn-info interval-1'
+                            onClick={this.handleSearch}
+                        >SUBMIT</Button>
+
+                    </div>    
+               
+                
                
                
                

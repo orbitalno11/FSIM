@@ -4,6 +4,9 @@ import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import CheckT from '../../option/checkT';
 import Education from '../../option/education';
+import PartThree from './PartThree';
+import PartFive from './PartFive';
+import PartFour from './PartFour';
 
 // import { Container } from ' ';
 
@@ -41,7 +44,7 @@ class PartTwoStudy extends React.Component {
             <React.Fragment>
 
             <Container className="contrain_css" >
-                <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
+                <Form style={{ marginLeft: '-6%' }} onSubmit={this.onSubmit}>
                     <h5 style = {{ textAlign :"left"}}>ส่วนที่ 2 : ข้อมูลสถานภาพปัจุบัน/ภาวะการทำงาน</h5><br></br>
                     <h6 style = {{ textAlign :"left"}}>สำหรับผู้ที่ศึกษาต่ออย่างเดียว</h6><br></br>
                 
@@ -100,6 +103,10 @@ class PartTwoStudy extends React.Component {
                 </Form>
                
             </Container>
+            <PartThree/> 
+            <PartFour/>
+            <PartFive/>  
+           
             </React.Fragment>
 
 
