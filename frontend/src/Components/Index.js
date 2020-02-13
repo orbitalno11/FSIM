@@ -28,10 +28,7 @@ class Index extends Component {
       open: false
     };
 
-    this.handleClick_MTH = this.handleClick_MTH.bind(this);
-    this.handleClick_PHY = this.handleClick_PHY.bind(this);
-    this.handleClick_MIC = this.handleClick_MIC.bind(this);
-    this.handleClick_CHM = this.handleClick_CHM.bind(this);
+    this.handleClickModel = this.handleClickModel.bind(this);
     this.close = this.close.bind(this);
   }
 
@@ -48,28 +45,13 @@ class Index extends Component {
     });
   }
 
-  handleClick_MTH(e) {
-    // alert(e.currentTarget.id)
-    this.setState({
-      open: true
-    });
+  handleClickModel(e) {
+    alert(e.currentTarget.id)
+    // this.setState({
+    //   open: true
+    // });
   }
-  handleClick_PHY(e) {
-    this.setState({
-      open: true
-    });
-  }
-  handleClick_MIC(e) {
-    this.setState({
-      open: true
-    });
-  }
-  handleClick_CHM(e) {
-    this.setState({
-      open: true
-    });
-  }
-
+  
   // show = dimmer => () => this.setState({ dimmer, open: true });
 
   // handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -77,7 +59,7 @@ class Index extends Component {
   render() {
     const { activeItem } = this.state;
     const { open } = this.state;
-    // console.log(open)
+    
 
     return (
       <React.Fragment>
@@ -96,7 +78,7 @@ class Index extends Component {
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
                     id="math"
-                    onClick={this.handleClick_MTH}
+                    onClick={this.handleClickModel}
                   >
                     <img className="logo-branch" src={Logomth}></img>
                   </button>
@@ -109,7 +91,7 @@ class Index extends Component {
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
                     id="phys"
-                    onClick={this.handleClick_PHY}
+                    onClick={this.handleClickModel}
                     // onClick={this.show(true)}
                   >
                     <img className="logo-branch" src={Logophy}></img>
@@ -123,7 +105,7 @@ class Index extends Component {
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
                     id="mic"
-                    onClick={this.handleClick_MIC}
+                    onClick={this.handleClickModel}
                     //   onClick={ this.handleClick()}
                   >
                     <img className="logo-branch" src={Logomic}></img>
@@ -137,7 +119,7 @@ class Index extends Component {
                     type="button"
                     class="btn btn-light btn-circle btn-xl"
                     id="chm"
-                    onClick={this.handleClick_CHM}
+                    onClick={this.handleClickModel}
                     // onClick={this.show(true)}
                   >
                     <img className="logo-branch" src={Logochm}></img>
