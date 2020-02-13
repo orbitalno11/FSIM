@@ -7,7 +7,7 @@ import { Route } from "react-router-dom";
 // import Main page
 import Header from "./Components/Navbar";
 import Footer from "./Components/footer";
-import Index from "./Components/Index";
+import Index from "./Components/index/Index";
 import Login from "./Components/Login";
 
 
@@ -58,20 +58,9 @@ function App() {
        
             <Route exact path="/see_student" component={see_student} />
             <Route exact path="/add_alumni" component={add_alumni} />
-<<<<<<< HEAD
-            <Route exact path="/l" component={SurveyAlumni} />
-            {/* <Route exact path="/PartTwo" component={PartTwo} />
-            <Route exact path="/PartThree" component={PartThree} />
-            <Route exact path="/PartFour" component={PartFour} />
-            <Route exact path="/PartFive" component={PartFive} />
-            <Route exact path="/PartTwoWork" component={PartTwoWork} />
-            <Route exact path="/PartTwoStudy" component={PartTwoStudy} />
-            <Route exact path="/PartTwoWS" component={PartTwoWS} />
-            <Route exact path="/SurveyAlumni2" component={SurveyAlumni2} /> */}
-=======
+
             <Route exact path="/SurveyAlumni" component={SurveyAlumni} />
             
->>>>>>> ed787fcfaa5ea317effc507887e77f8df39506ed
 
             {/* Route for user */}
             <Route exact path="/informationmth" component={informationmth} />

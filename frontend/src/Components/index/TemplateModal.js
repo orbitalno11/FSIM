@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Modal, Card, Grid } from "semantic-ui-react";
+import { FaThinkPeaks } from "react-icons/fa";
 
-class HomeModal extends Component {
+class TemplateModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,8 +19,7 @@ class HomeModal extends Component {
 
   render() {
     let { dept, open } = this.state;
-    // open = this.props.open
-    console.log(this.props.show);
+
     return (
       <React.Fragment>
         <Modal
@@ -28,11 +28,11 @@ class HomeModal extends Component {
           onClose={this.onClose}
         >
           <Modal.Header className="text-center">
-            จำนวนนักศึกษาทุกชั้นปีของภาควิชาคณิตศาสตร์
+           {this.props.header}
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <Grid columns={3} centered>
+            <Grid columns={3} centered>
                 <Grid.Row>
                   <Grid.Column centered>
                     <Card className="card-hd" color="blue">
@@ -79,4 +79,4 @@ class HomeModal extends Component {
   }
 }
 
-export default HomeModal;
+export default TemplateModal;
