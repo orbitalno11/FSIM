@@ -66,7 +66,7 @@ function App() {
        
             <Route exact path="/see_student" component={see_student} />
             <Route exact path="/add_alumni" component={add_alumni} />
-            <Route exact path="/SurveyAlumni" component={SurveyAlumni} />
+            <Route exact path="/l" component={SurveyAlumni} />
             {/* <Route exact path="/PartTwo" component={PartTwo} />
             <Route exact path="/PartThree" component={PartThree} />
             <Route exact path="/PartFour" component={PartFour} />
