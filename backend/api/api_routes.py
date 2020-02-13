@@ -80,7 +80,6 @@ def login():
 def insert_admission():
 
     # This api need "Year" as year , "Admission type" as admission_type and "Admission channel" as admission_channel to be a parameter
-    
     headers = {"Content-type": "application/json"}
 
     year = request.form.get('year')
