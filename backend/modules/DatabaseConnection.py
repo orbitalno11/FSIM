@@ -103,6 +103,23 @@ class DatabaseConnection:
 
         return out
 
-    def get_channel(self):
+    def get_admission_data(self, type, channel, year):
         cursor = self.__db_connection.cursor()
-        sql = "select "
+        sql = "select application_no, firstname, lastname, gender, gpax, school_id, decision from admission where admission_type = " + str(type) + " and admission_channel = " + channel + " and year = " + str(year)
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return False
+        finally:
+            self.__db_connection.close()
+
+        out = []
+        for data in result:
+            data = {'application_no': data[0], 'firstname': data[1], 'lastname': data[2], 'gender': data[3],
+                    'gpax': str(data[4]), 'school_id': data[5], 'decision': data[6]}
+            out.append(data)
+
+        return out

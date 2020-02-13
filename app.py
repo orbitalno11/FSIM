@@ -73,37 +73,5 @@ def std():
     return render_template('index.html')
 
 
-# api part
-@app.route('/v1/upload', methods=['POST'])
-def file_upload():
-    target = os.path.join(upload_folder, 'test_docs')
-    if not os.path.isdir(target):
-        os.makedirs(target)
-    logger.info("welcome to upload")
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    destination = "/".join([target, filename])
-    file.save(destination)
-
-    # read excel file when upload was finished
-    data = DataManage()
-    data.readExcel(destination)
-    # print(destination)
-    # sessions['uploadFilePath'] = destination
-    response = "Whatever you wish too return"
-    return jsonify({'res': response})
-
-
-@app.route('/v1/getschool', methods=['GET'])
-def get_school_by_id():
-    school_id = request.args.get('school_id')
-
-    connect = DatabaseConnection()
-    data = connect.get_school_by_id(str(school_id))
-    del connect
-
-    return jsonify({"data": data})
-
-
 if __name__ == '__main__':
     app.run(debug=True)
