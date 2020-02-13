@@ -1,6 +1,7 @@
 import pandas as pd
 import pymysql
 from sqlalchemy import create_engine
+import os
 
 # import our module
 from backend.modules.FSIMConstant import FSIMConstant
@@ -26,8 +27,8 @@ class DataManage:
         # df.to_sql('Book2', con=self.engine, if_exists='append', chunksize=1000, index=False)
         print(df)
 
-    def pre_read(self):
-        df = pd.read_excel('uploads/2B.xlsx', sheet_name='Sheet1')
+    def insert_admission(self, type, channel, year, url):
+        df = pd.read_excel(url, sheet_name='Sheet1')
         df = df.loc[1:, ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
                          'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
         df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
@@ -37,9 +38,9 @@ class DataManage:
 
         df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
         df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'
-        df['admission_type'] = 1
-        df['admission_channel'] = 1
-        df['year'] = 2561
+        df['admission_type'] = type
+        df['admission_channel'] = channel
+        df['year'] = year
         df['school_id'] = '0010039990'
 
         branch = {
@@ -49,7 +50,7 @@ class DataManage:
             4: "เคมี",
             5: "จุลชีววิทยา",
             6: "วิทยาศาสตร์และเทคโนโลยีการอาหาร",
-            7: "ฟิสิกส์ประยุกต์(หลักสูตรสองภาษา)"
+            7: "ฟิสิกส์ประยุกต์"
         }
 
         for i in branch:
@@ -66,14 +67,3 @@ class DataManage:
         except Exception as e:
             print(e)
             return False
-
-    def read(self):
-        df = pd.read_excel('uploads/2B.xlsx', sheet_name='Sheet1')
-        df = df.loc[1:, ['ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'เลขที่ใบสมัคร']]
-        out = []
-        for i in range(df.shape[0]):
-            data = {'ชื่อ': df.loc[i,['ชื่อ(ไทย)']], 'นามสกุล': df.loc[i,['นามสกุล(ไทย)']], 'เลขที่ใบสมัคร': df.loc[i,['เลขที่ใบสมัคร']]}
-            out.append(data)
-        print(out)
-        return out
-        

@@ -1,0 +1,2 @@
+UPLOAD_FOLDER = "./uploads/"
+ADMISSION_FOLDER = UPLOAD_FOLDER + "admission"

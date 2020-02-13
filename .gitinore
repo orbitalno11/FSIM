@@ -212,8 +212,8 @@ $RECYCLE.BIN/
 *.lnk
 
 
-frontend/node_modules/
-frontend/.DS_Store
+**frontend/node_modules/
+**frontend/.DS_Store
 
 **/__pycache__/
 
