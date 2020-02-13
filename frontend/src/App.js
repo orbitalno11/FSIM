@@ -21,10 +21,10 @@ import Admin_alumni from "./Components/admin/alumni/Alumni"; //หน้าห�
 
 // import User page
 
-// import informationmth from "./Components/User/InfoMTH";
-// import Addmission from "./Components/User/Addmission";
-// import AddmisstionInfo from "./Components/User/Addmission_information";
-// import Activity from "./Components/User/Activity";
+import informationmth from "./Components/User/InfoMTH";
+import Addmission from "./Components/User/Addmission";
+import AddmisstionInfo from "./Components/User/Addmission_information";
+import Activity from "./Components/User/Activity";
 
 const Home = () => <h1>HOME</h1>;
 const About = () => <h1>About</h1>;
@@ -55,10 +55,10 @@ function App() {
             <Route exact path="/admin_alumni" component={Admin_alumni} />
             
             {/* Route for user */}
-            {/* <Route exact path="/informationmth" component={informationmth} />
+            <Route exact path="/informationmth" component={informationmth} />
             <Route exact path="/addmission" component={Addmission} />
             <Route exact path="/addmissionInfo" component={AddmisstionInfo} />
-            <Route exact path="/activity" component={Activity} /> */}
+            <Route exact path="/activity" component={Activity} />
           </switch>
           <Footer />
         </div>
