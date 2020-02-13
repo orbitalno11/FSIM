@@ -185,3 +185,35 @@ body {
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
  }
+ 
+.card-hd {
+  text-align: center !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.card-circle-modal {
+  text-align: center !important;
+  width: auto !important;
+  height: 300px !important;
+}
+
+.card-twin-modal {
+  text-align: center !important;
+  width: auto !important;
+  height: 150px !important;
+}
+
+.card-default {
+  padding: 20px !important;
+  /* text-align: center !important; */
+  width: auto !important;
+  height: auto !important;
+  background-color: #FFFFFF !important;
+}
+
+.card-count {
+  width: auto !important;
+  height: auto !important;
+  background-color: #ffd110;
+}
