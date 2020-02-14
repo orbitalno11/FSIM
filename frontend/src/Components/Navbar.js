@@ -8,6 +8,68 @@ import { Image, Menu, Container, Dropdown } from "semantic-ui-react";
 const colors = ["yellow"];
 
 class Navbars extends Component {
+
+  state=[
+    {
+        id: 1,
+        name : 'หน้าหลัก',
+        url : '/',
+    },
+    {
+        id: 2,
+        name : 'ภาควิชาคณิตศาสตร์',
+        url : '/',
+    },
+    {
+        id: 3,
+        name : 'ภาควิชาฟิสิกส์',
+        url : '/',
+    },
+    {
+        id: 4,
+        name : 'ภาควิชาจุลชีววิทยา',
+        url : '/',
+    },
+    {
+        id: 5,
+        name : 'ภาควิชาเคมี',
+        url : '/',
+    },
+    {
+        id: 6,
+        name : 'สรุปข้อมูลประชาสัมพันธ์',
+        url : '/',
+    },
+    {
+        id: 7,
+        name : '',
+        url : '/',
+    },
+    {
+        id: 8,
+        name : '',
+        url : '/',
+    },
+    {
+        id: 9,
+        name : '',
+        url : '/',
+    },
+    {
+        id: 10,
+        name : '',
+        url : '/',
+    },
+
+]
+
+Redirect(event){
+    // alert(event.name)
+    
+    this.props.history.push(event.url);
+
+}
+
   static propTypes = {
     color: PropTypes.string
   };
@@ -55,7 +117,7 @@ class Navbars extends Component {
                   <Dropdown.Item>ภาควิชาคณิตศาสตร์</Dropdown.Item>
                   <Dropdown.Item>ภาควิชาฟิสิกส์</Dropdown.Item>
                   <Dropdown.Item>
-                    ภาควิชาจุลชีววิทยาและเทคโนโลยีการอาหาร
+                  ภาควิชาจุลชีววิทยา
                   </Dropdown.Item>
                   <Dropdown.Item>ภาควิชาเคมี</Dropdown.Item>
                 </Dropdown.Menu>

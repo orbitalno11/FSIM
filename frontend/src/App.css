@@ -72,8 +72,8 @@ body {
   padding-bottom: 25px;
 }
 
-.Navbar{
-  font-family: "Patrick Hand", cursive ;
+.Navbar {
+  font-family: "Patrick Hand", cursive;
   font-size: 22px;
 }
 
@@ -88,14 +88,15 @@ body {
 
 }
 
-.bg-deeppurple{
+.bg-deeppurple {
   background-image: linear-gradient(to right, rgb(140, 0, 255), rgba(194, 40, 255, 0));
 }
-.bg-deepgreen{
+
+.bg-deepgreen {
   background-image: linear-gradient(to right, rgba(0, 255, 191, 0), rgb(2, 99, 58));
 }
 
-.bg-deepblue{
+.bg-deepblue {
   background-image: linear-gradient(to left, rgba(4, 70, 131, 0), rgb(0, 204, 255));
 }
 
@@ -125,17 +126,18 @@ body {
   width: 80%;
   height: 100%;
   /* border-top-right-radius: 20em; */
-  clip-path: polygon(30% 100% ,100% 100%,70% 0%,0% 0%);
+  clip-path: polygon(30% 100%, 100% 100%, 70% 0%, 0% 0%);
 
 }
+
 .banner-active2 {
   width: 80%;
   height: 100%;
   /* border-top-left-radius: 20em; */
-  clip-path: polygon(50% 100% ,100% 30%,100% 0%,30% 100%);
+  clip-path: polygon(50% 100%, 100% 30%, 100% 0%, 30% 100%);
 }
 
-.btn-active{
+.btn-active {
   text-align: center;
   font-size: 30px;
   box-shadow: 0 16px 38px -12px rgba(130, 130, 130, 0.56),
@@ -147,45 +149,47 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.carousel-inner{
+.carousel-inner {
   opacity: 80%;
   margin-top: -1rem;
   box-shadow: 0 16px 38px -12px rgba(130, 130, 130, 0.56),
     0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-#btn-alumn{
+#btn-alumn {
   width: 200px;
   height: 50px;
-  
+
 }
 
-.btn-circle.btn-md { 
-  width: 100%; 
-  height: 100%; 
-  padding: 7px 10px; 
-  border-radius: 50%; 
-  font-size: 10px; 
-  text-align: center; 
-} 
+.btn-circle.btn-md {
+  width: 100%;
+  height: 100%;
+  padding: 7px 10px;
+  border-radius: 50%;
+  font-size: 10px;
+  text-align: center;
+}
 
-.btn-circle.btn-xl { 
-  width: 100%; 
-  height: 100%; 
-  padding: 10px 16px; 
-  border-radius: 50%; 
-  font-size: 12px; 
-  text-align: center; 
-} 
-.modal-center{
-  height: 60% !important;
-  width: 50% !important;
+.btn-circle.btn-xl {
+  width: 100%;
+  height: 100%;
+  padding: 10px 16px;
+  border-radius: 50%;
+  font-size: 12px;
+  text-align: center;
+}
+
+.modal-center {
+  height: auto !important;
+  width: 60% !important;
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
- }
- 
+  background: linear-gradient(119.16deg, #eee -19.74%, rgba(156, 156, 155, 0.78) 79.68%) !important;
+}
+
 .card-hd {
   text-align: center !important;
   width: auto !important;
@@ -216,4 +220,32 @@ body {
   width: auto !important;
   height: auto !important;
   background-color: #ffd110;
+}
+
+.card-login {
+  width: 30% !important;
+  height: 30% !important;
+}
+
+.rectangle-30 {
+  position: relative !important;
+  width: auto !important;
+  height: auto !important;
+  text-align: center;
+  background: #FFFFFF !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 30px !important;
+ 
+}
+
+.rectangle-40 {
+  position: relative !important;
+  width: 30% !important;
+  height: auto !important;
+  text-align: center;
+  background: linear-gradient(119.16deg, #F28A2E -19.74%, rgba(242, 138, 46, 0.78) 79.68%) !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 10px !important;
+  margin-top: -5%;
+  left: 60%;
 }

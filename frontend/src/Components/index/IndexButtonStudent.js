@@ -17,7 +17,7 @@ class IndexButtonStudent extends Component {
                         type="button"
                         class="btn btn-light btn-circle btn-xl"
                         id={this.props.item.id}
-                        onClick={this.onClick.bind(this)}                    >
+                        onClick={this.onClick.bind(this)}>
                         <img className="logo-branch" src={this.props.item.img}></img>
                     </button>
                     <Header size="small">{this.props.item.id}</Header>

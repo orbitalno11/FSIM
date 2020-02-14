@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { Modal, Card, Grid } from "semantic-ui-react";
+import { Modal, Card, Grid, Header } from "semantic-ui-react";
 import { FaThinkPeaks } from "react-icons/fa";
+
+import TemplateBranchModal from "./TemplateBranchModal";
+import GraphPie from "../Graph/GraphPie";
+import GraphLine from "../Graph/GraphLine";
+import GraphBar from "../Graph/GraphBar";
+import { Form } from "react-bootstrap";
 
 class TemplateModal extends Component {
   constructor(props) {
@@ -19,7 +25,9 @@ class TemplateModal extends Component {
 
   render() {
     let { dept, open } = this.state;
-
+    let branch = this.props.body.map(item => (
+      <TemplateBranchModal item={item} />
+    ));
     return (
       <React.Fragment>
         <Modal
@@ -28,44 +36,28 @@ class TemplateModal extends Component {
           onClose={this.onClose}
         >
           <Modal.Header className="text-center">
-           {this.props.header}
+            <label>จำนวนนักศึกษาทุกชั้นปี{this.props.header}</label>
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
-            <Grid columns={3} centered>
-                <Grid.Row>
-                  <Grid.Column centered>
-                    <Card className="card-hd" color="blue">
-                      <Card.Content>คณิตศาสตร์</Card.Content>
-                    </Card>
-                  </Grid.Column>
-                  <Grid.Column centered>
-                    <Card className="card-hd" color="blue">
-                      <Card.Content>คณิตศาสตร์</Card.Content>
-                    </Card>
-                  </Grid.Column>
-                  <Grid.Column centered>
-                    <Card className="card-hd" color="blue">
-                      <Card.Content>คณิตศาสตร์</Card.Content>
-                    </Card>
-                  </Grid.Column>
-                </Grid.Row>
+              <Grid columns={3} centered>
+                <Grid.Row>{branch}</Grid.Row>
 
                 <Grid.Row columns={2}>
                   <Grid.Column>
                     <Card className="card-circle-modal">
-                      <Card.Content>MTH</Card.Content>
+                      <Card.Content><GraphPie/></Card.Content>
                     </Card>
                   </Grid.Column>
                   <Grid.Row columns={2}>
                     <Grid.Column>
                       <Card className="card-twin-modal">
-                        <Card.Content>MTH</Card.Content>
+                        <Card.Content><GraphBar/></Card.Content>
                       </Card>
                     </Grid.Column>
                     <Grid.Column>
                       <Card className="card-twin-modal">
-                        <Card.Content>MTH</Card.Content>
+                        <Card.Content><GraphLine/></Card.Content>
                       </Card>
                     </Grid.Column>
                   </Grid.Row>

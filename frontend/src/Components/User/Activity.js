@@ -8,35 +8,9 @@ import {
   Item,
   Table
 } from "semantic-ui-react";
-
-import { Bar, Line, HorizontalBar, Pie, Bubble } from "react-chartjs-2";
-
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      label: "My First dataset",
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: "rgba(75,192,192,0.4)",
-      borderColor: "rgba(75,192,192,1)",
-      borderCapStyle: "butt",
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: "miter",
-      pointBorderColor: "rgba(75,192,192,1)",
-      pointBackgroundColor: "#fff",
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(75,192,192,1)",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
-    }
-  ]
-};
+import GraphPie from "../Graph/GraphPie";
+import GraphLine from "../Graph/GraphLine";
+import GraphBar from "../Graph/GraphBar";
 
 class Activity extends Component {
   render() {
@@ -57,28 +31,14 @@ class Activity extends Component {
           <Divider />
 
           <Grid>
-            <Grid.Row>
+            <Grid.Row stretched>
               <Grid.Column width={8}>
                 <Card className="card-default">
                   <Card.Header as="h3">
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
                   <Card.Content>
-                    <Bar
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphBar />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -120,21 +80,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
                   </Card.Header>
                   <Card.Content>
-                    <Pie
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphPie />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -178,21 +124,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
                   <Card.Content>
-                    <HorizontalBar
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphBar />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -234,21 +166,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
                   <Card.Content>
-                    <Bar
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphBar />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -292,21 +210,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
                   <Card.Content>
-                    <Pie
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphPie />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -348,21 +252,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
                   </Card.Header>
                   <Card.Content>
-                    <Pie
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphPie />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>
@@ -406,21 +296,7 @@ class Activity extends Component {
                     การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
                   <Card.Content>
-                    <Bar
-                      ref="chart"
-                      data={data}
-                      options={{
-                        title: {
-                          display: true,
-                          text: "Average Rainfall per month",
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: "right"
-                        }
-                      }}
-                    />
+                    <GraphBar />
                   </Card.Content>
                   <Card.Content>
                     <Grid columns={4}>

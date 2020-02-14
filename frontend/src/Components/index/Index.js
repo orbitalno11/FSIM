@@ -14,9 +14,9 @@ import {
   Menu
 } from "semantic-ui-react";
 
-import IndexButton from './IndexButtonStudent'
+import IndexButton from "./IndexButtonStudent";
 import TemplateModal from "./TemplateModal";
-import TemplateButton from "./TemplateButton"
+import TemplateButton from "./TemplateButton";
 
 class Index extends Component {
   constructor(props) {
@@ -24,10 +24,10 @@ class Index extends Component {
 
     this.state = {
       open: false,
-      modal_header: '',
-      modal_data: ''
+      modal_header: "",
+      modal_data: "",
+      modal_body: []
     };
-
 
     this.handleClickModel = this.handleClickModel.bind(this);
     this.close = this.close.bind(this);
@@ -40,54 +40,87 @@ class Index extends Component {
   }
 
   handleClickModel(e) {
-    this.state.modal_header = e.header_modal
-    this.state.modal_data = e.modal_data
+    this.state.modal_header = e.header_modal;
+    this.state.modal_body = e.branch;
     this.setState({
       open: true
     });
   }
-
-
 
   render() {
     const { activeItem } = this.state;
     const { open } = this.state;
     const pageStudent = [
       {
-        id: 'Mathematics',
+        id: "Mathematics",
         img: Logomth,
-        header_modal: 'ภาควิชาคณิตศาสตร์',
-        modal_data: "10"
+        header_modal: "ภาควิชาคณิตศาสตร์",
+        branch: [
+          {
+            id: "math",
+            title: "คณิตศาสตร์",
+            data: "100"
+          },
+          {
+            id: "stat",
+            title: "สถิติ",
+            data: "100"
+          },
+          {
+            id: "comsci",
+            title: "วิทยาการคอมพิวเตอร์ประยุกต์",
+            data: "100"
+          }
+        ]
       },
       {
-        id: 'Physic',
+        id: "Physic",
         img: Logophy,
-        header_modal: 'ภาควิชาฟิสิกส์',
-        modal_data: "10"
+        header_modal: "ภาควิชาฟิสิกส์",
+        branch: [
+          {
+            id: "phy",
+            title: "ฟิสิกส์",
+            data: "100"
+          }
+        ]
       },
       {
-        id: 'Microbiology',
+        id: "Microbiology",
         img: Logomic,
-        header_modal: 'ภาควิชาจุลชีววิทยา',
-        modal_data: "10"
-
-
+        header_modal: "ภาควิชาจุลชีววิทยา",
+        branch: [
+          {
+            id: "mic",
+            title: "จุลชีววิทยา",
+            data: "100"
+          },
+          {
+            id: "fst",
+            title: "วิทยาศาสตร์และเทคโนโลยีอาหาร",
+            data: "100"
+          }
+        ]
       },
       {
-        id: 'Chemical',
+        id: "Chemical",
         img: Logochm,
-        header_modal: 'ภาควิชาเคมี',
-        modal_data: "10"
-
-      },
-    ]
+        header_modal: "ภาควิชาเคมี",
+        branch: [
+          {
+            id: "chm",
+            title: "เคมี",
+            data: "100"
+          }
+        ]
+      }
+    ];
 
     const buttonNewStudent = [
       {
         name: "การรับเข้า",
         color: "yellow",
         url: "/"
-       
       },
       {
         name: "โครงการรับเข้า",
@@ -99,16 +132,11 @@ class Index extends Component {
         color: "yellow",
         url: "/"
       }
-    ]
-
-
-
-
-
+    ];
 
     return (
       <React.Fragment>
-        <div className="container">
+        <Container>
           <Form.Group>
             <Menu tabular style={{ marginTop: "3em" }} centered>
               <Menu.Item name="ข้อมูลนักศึกษา" />
@@ -118,18 +146,16 @@ class Index extends Component {
             </Menu>
             <Grid columns={4} style={{ marginTop: "3em" }}>
               <Grid.Row>
-                {
-                  pageStudent.map((item) =>
-                    <IndexButton item={item} onClick={this.handleClickModel} />
-                  )
-                }
+                {pageStudent.map(item => (
+                  <IndexButton item={item} onClick={this.handleClickModel} />
+                ))}
                 <TemplateModal
                   dept="phy"
-                  show={open} 
-                  state={this.close} 
+                  show={open}
+                  state={this.close}
                   header={this.state.modal_header}
-                  data={this.state.modal_data}
-                  />
+                  body={this.state.modal_body}
+                />
               </Grid.Row>
             </Grid>
             <hr />
@@ -140,10 +166,7 @@ class Index extends Component {
               <Menu.Item position="left">
                 <Button>จัดการข้อมูล</Button>
               </Menu.Item>
-              <Menu.Item
-                position="right"
-                name="กิจกรรมประชาสัมพันธ์"
-              />
+              <Menu.Item position="right" name="กิจกรรมประชาสัมพันธ์" />
             </Menu>
             <Grid
               columns={2}
@@ -156,11 +179,9 @@ class Index extends Component {
                 </Grid.Column>
                 <Grid.Column textAlign="center" style={{ marginTop: "10%" }}>
                   <Form.Group>
-                    {
-                    buttonNewStudent.map((item)=>
-                      <TemplateButton item={item}/>
-                    )
-                    }
+                    {buttonNewStudent.map(item => (
+                      <TemplateButton item={item} />
+                    ))}
                   </Form.Group>
                 </Grid.Column>
               </Grid.Row>
@@ -184,7 +205,7 @@ class Index extends Component {
               </Button>
             </Container>
           </Form.Group>
-        </div>
+        </Container>
       </React.Fragment>
     );
   }
