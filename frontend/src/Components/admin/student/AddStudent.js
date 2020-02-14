@@ -1,6 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row } from 'react-bootstrap';
+// import ReactDOM from 'react-dom';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import Year from '../../option/year';
 import Faulty from '../../option/faulty'
@@ -15,45 +15,13 @@ class AddStudent extends React.Component {
             faulty: '0',
             year: '0',
             files : []
-            // FormElement:{
-            //     faulty: {
-            //         type:'text',
-            //         value:'',
-            //         validator :{
-            //             required : true,
-            //         },
-            //         touched : false,
-            //         error : {
-            //             status :{ status : true ,message :''}
-            //         }
-            //     },
-            //     year: {
-            //         type:'text',
-            //         value:'',
-            //         validator :{
-            //             required : true,
-            //         },
-            //         touched : false,
-            //         error : {
-            //             status :{ status : true ,message :''}
-            //         }
-                    
-            //     },
-            //     files:  []
-            // },
-            // formValid : false
             
         }
     }
 
-    // onSubmit = (event) => {
-    //     event.preventDefault();
-    //     console.log(this.state)
-    // }
-
 
     handleChangeFaulty = (search) => {
-        // console.log(search.target.value);
+       
         this.setState({ faulty: search.target.value });
     }
 
@@ -61,53 +29,6 @@ class AddStudent extends React.Component {
         this.setState({ year: search.target.value });
     }
 
-    // onformChange=(event)=>{
-    //     const name=event.target.name;
-    //     const value=event.target.value;
-    //     let UploadForm={...this.state.FormElement};
-    //     UploadForm[name].value=value;
-    //     UploadForm[name].touched=true;
-    //     const validatorObject = this.checkValidator(value,UploadForm[name].validator);
-    //     UploadForm[name].error={
-    //         status : validatorObject.state,
-    //         message : validatorObject.message
-    //     }
-    //     let formStatus = true;
-    //     for(let name in UploadForm){
-    //         if(UploadForm[name].validator.required===true){
-    //             formStatus=!UploadForm[name].error.status && formStatus
-    //         }
-    //     }
-
-    //     this.state({
-    //         ...this.state,
-    //         FormElement : UploadForm,
-    //         formValid : formStatus
-    //     })
-
-    // }
-
-    // checkValidator = (value,rule)=>{
-    //     let valid = true ;
-    //     let message  = '' ;
-    //     if(rule.require){
-    //         if(value.trim().length===0){
-    //             valid=false;
-    //             message='จำเป็นต้องกรอก';
-    //         }
-    //     }
-    // }
-
-    // getErrorMessage=(name)=>{
-    //     return this.state.FormElement[name].error.message;
-    // }
-
-    // getInputClass=(name)=>{
-    //     const elementErrorStatus=this.state.FormElement[name].error.status;
-    //     return elementErrorStatus && this.state.FormElement[name].touched ?
-    //         'form-control is-invalid':
-    //         'form-control is-valid'
-    // }
 
     onChange(e) {
         var files = e.target.files;

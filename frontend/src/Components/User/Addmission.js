@@ -5,11 +5,15 @@ import {
   Divider,
   Grid,
   Card,
-  Container,
-  CardContent
+  Table
 } from "semantic-ui-react";
 
-import { Bar, Line, HorizontalBar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
+const genderOptions = [
+  { key: "m", text: "Male", value: "male" },
+  { key: "f", text: "Female", value: "female" },
+  { key: "o", text: "Other", value: "other" }
+];
 
 const data = {
   labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -38,21 +42,7 @@ const data = {
   ]
 };
 
-class Addmission extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chartData: props.chartData
-    };
-  }
-
-  static defaultProps = {
-    displayTitle: true,
-    displayLegend: true,
-    legendPosition: "right",
-    location: "City"
-  };
-
+class AddmissionInfo extends Component {
   render() {
     return (
       <React.Fragment>
@@ -67,19 +57,52 @@ class Addmission extends Component {
               placeholder="Select"
               selection
             />
+            <Dropdown
+              options={[
+                { key: "2560", value: "2560", text: "2560" },
+                { key: "2561", value: "2561", text: "2561" }
+              ]}
+              placeholder="Select"
+              selection
+            />
           </Header>
-
           <Divider />
 
-          <Grid columns={2}> 
-            <Grid.Row stretched>
+          <Grid>
+            <Grid.Row>
+              <Card fluid>
+                <Table fluid celled padded>
+                  <Table.Body>
+                    <Table.Row textAlign="center">
+                      <Table.Cell>
+                        Active <br />
+                        100 <br /> 5%
+                      </Table.Cell>
+                      <Table.Cell>
+                        Active <br />
+                        100 <br /> 5%
+                      </Table.Cell>
+                      <Table.Cell>
+                        Active <br />
+                        100 <br /> 5%
+                      </Table.Cell>
+                      <Table.Cell>
+                        Active <br />
+                        100 <br /> 5%
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              </Card>
+            </Grid.Row>
+            <Grid.Row>
               <Grid.Column width={8}>
                 <Card className="card-default">
                   <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการต่างๆ
+                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
                   </Card.Header>
-                  <CardContent>
-                    <HorizontalBar
+                  <Card.Content>
+                    <Line
                       ref="chart"
                       data={data}
                       options={{
@@ -94,13 +117,45 @@ class Addmission extends Component {
                         }
                       }}
                     />
-                  </CardContent>
+                  </Card.Content>
+                  <Card.Content>
+                    <Grid columns={4}>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Header as="h5">ทั้งหมด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">สูงสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ต่ำสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ค่าเฉลี่ย</Header>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Card.Content>
                 </Card>
               </Grid.Column>
               <Grid.Column width={8}>
                 <Card className="card-default">
                   <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการต่างๆ
+                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
                   </Card.Header>
                   <Card.Content>
                     <Line
@@ -154,7 +209,178 @@ class Addmission extends Component {
                 </Card>
               </Grid.Column>
             </Grid.Row>
-
+            <Grid.Row fluid>
+              <Grid.Column width={16}>
+                <Card className="card-default">
+                  <Card.Header as="h3">
+                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  </Card.Header>
+                  <Card.Content>
+                    <Line
+                      ref="chart"
+                      data={data}
+                      options={{
+                        title: {
+                          display: true,
+                          text: "Average Rainfall per month",
+                          fontSize: 20
+                        },
+                        legend: {
+                          display: true,
+                          position: "right"
+                        }
+                      }}
+                    />
+                  </Card.Content>
+                  <Card.Content>
+                    <Grid columns={4}>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Header as="h5">ทั้งหมด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">สูงสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ต่ำสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ค่าเฉลี่ย</Header>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <Card className="card-default">
+                  <Card.Header as="h3">
+                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  </Card.Header>
+                  <Card.Content>
+                    <Line
+                      ref="chart"
+                      data={data}
+                      options={{
+                        title: {
+                          display: true,
+                          text: "Average Rainfall per month",
+                          fontSize: 20
+                        },
+                        legend: {
+                          display: true,
+                          position: "right"
+                        }
+                      }}
+                    />
+                  </Card.Content>
+                  <Card.Content>
+                    <Grid columns={4}>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Header as="h5">ทั้งหมด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">สูงสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ต่ำสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ค่าเฉลี่ย</Header>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <Card className="card-default">
+                  <Card.Header as="h3">
+                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
+                  </Card.Header>
+                  <Card.Content>
+                    <Line
+                      ref="chart"
+                      data={data}
+                      options={{
+                        title: {
+                          display: true,
+                          text: "Average Rainfall per month",
+                          fontSize: 20
+                        },
+                        legend: {
+                          display: true,
+                          position: "right"
+                        }
+                      }}
+                    />
+                  </Card.Content>
+                  <Card.Content>
+                    <Grid columns={4}>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Card className="card-count">100</Card>
+                        </Grid.Column>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Header as="h5">ทั้งหมด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">สูงสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ต่ำสุด</Header>
+                        </Grid.Column>
+                        <Grid.Column>
+                          <Header as="h5">ค่าเฉลี่ย</Header>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Card.Content>
+                </Card>
+              </Grid.Column>
+            </Grid.Row>
             <Grid.Row>
               <Grid.Column width={8}>
                 <Card className="card-default">
@@ -270,20 +496,10 @@ class Addmission extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-
-          {/* <div className="header float-left">
-            <Breadcrumb>
-              <Breadcrumb.Section link>Home</Breadcrumb.Section>
-              <Breadcrumb.Divider />
-              <Breadcrumb.Section link>Store</Breadcrumb.Section>
-              <Breadcrumb.Divider />
-              <Breadcrumb.Section active>T-Shirt</Breadcrumb.Section>
-            </Breadcrumb>
-          </div> */}
         </div>
       </React.Fragment>
     );
   }
 }
 
-export default Addmission;
+export default AddmissionInfo;

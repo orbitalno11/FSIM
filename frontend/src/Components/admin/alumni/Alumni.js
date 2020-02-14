@@ -1,9 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import SearchAlumni from './SearchAlumni'
 import AddAlumni from './AddAlumni'
 
-import { Container, Nav, Row, Col, Tab, Button } from 'react-bootstrap';
+import { Container, Nav, Tab } from 'react-bootstrap';
 
 class Alumni extends React.Component {
 

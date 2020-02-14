@@ -120,18 +120,28 @@ class Index extends Component {
       {
         name: "การรับเข้า",
         color: "yellow",
-        url: "/"
+        url: "/addmission"
       },
       {
         name: "โครงการรับเข้า",
         color: "yellow",
-        url: "/"
+        url: "/active"
       },
       {
         name: "ประชาสัมพันธ์",
         color: "yellow",
-        url: "/"
-      }
+        url: "/activity"
+      },
+      {
+        name: "จัดการข้อมูลรับเข้า",
+        color: "yellow",
+        url: "/admin_addmission"
+      },
+      {
+        name: "จัดการข้อมูลประชาสัมพันธ์",
+        color: "yellow",
+        url: "/admin_announcement"
+      },
     ];
 
     return (
@@ -141,7 +151,7 @@ class Index extends Component {
             <Menu tabular style={{ marginTop: "3em" }} centered>
               <Menu.Item name="ข้อมูลนักศึกษา" />
               <Menu.Item position="right">
-                <Button>จัดการข้อมูล</Button>
+                <Button href="/admin_student">จัดการข้อมูล</Button>
               </Menu.Item>
             </Menu>
             <Grid columns={4} style={{ marginTop: "3em" }}>
@@ -164,7 +174,7 @@ class Index extends Component {
           <Form.Group>
             <Menu tabular style={{ marginTop: "5em" }}>
               <Menu.Item position="left">
-                <Button>จัดการข้อมูล</Button>
+                <Button href="/admin_activity">จัดการข้อมูล</Button>
               </Menu.Item>
               <Menu.Item position="right" name="กิจกรรมประชาสัมพันธ์" />
             </Menu>
@@ -177,7 +187,7 @@ class Index extends Component {
                 <Grid.Column width={8}>
                   <Image className="banner-active" src="../img/img-1.jpg" />
                 </Grid.Column>
-                <Grid.Column textAlign="center" style={{ marginTop: "10%" }}>
+                <Grid.Column textAlign="center">
                   <Form.Group>
                     {buttonNewStudent.map(item => (
                       <TemplateButton item={item} />
@@ -192,7 +202,7 @@ class Index extends Component {
             <Menu tabular style={{ marginTop: "5em" }}>
               <Menu.Item name="ข้อมูลศิษย์เก่า" />
               <Menu.Item position="right">
-                <Button>จัดการข้อมูล</Button>
+                <Button href="/admin_alumni">จัดการข้อมูล</Button>
               </Menu.Item>
             </Menu>
 

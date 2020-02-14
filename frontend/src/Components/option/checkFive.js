@@ -1,10 +1,10 @@
 import React from 'react'
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Form, Radio } from 'semantic-ui-react'
 import { Row,Col } from 'react-bootstrap';
 
 
-class checkTh extends React.Component {
+class checkFive extends React.Component {
     
     
     
@@ -39,6 +39,15 @@ class checkTh extends React.Component {
                             
                              />
                         </Col>
+
+                        <Col sm = '3' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
+                            <Radio
+                            label ='ไม่ส่งผล'
+                            name='radioGroup'
+                            value='4' 
+                            
+                             />
+                        </Col>
                     
                     </Row>
                    
@@ -49,4 +58,4 @@ class checkTh extends React.Component {
     }
 }
 
-export default checkTh
+export default checkFive

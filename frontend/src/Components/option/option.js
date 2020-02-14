@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl } from 'react-bootstrap';
-import { Item } from 'semantic-ui-react';
+// import ReactDOM from 'react-dom';
+// import { FormControl } from 'react-bootstrap';
+// import { Item } from 'semantic-ui-react';
 
 
 class around extends React.Component {

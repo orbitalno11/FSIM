@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Container, Label } from "semantic-ui-react";
+import { Form, Container } from "semantic-ui-react";
 import axios from "axios";
 
 class Login extends Component {
@@ -15,35 +15,7 @@ class Login extends Component {
     this.handleSubmit = this.onLoginSubmit.bind(this);
     this.handleChange = this.onInputChange.bind(this);
   }
-  // state = {
-  //   // staff_id: "",
-  //   // password: ""
-  //   formElements:{
-  //     staff_id :{
-  //       type: 'text',
-  //       value: '',
-  //       validator: {
-  //         required : true,
-  //         minLength : 10,
-  //         maxLength : 10
-  //       },
-  //       touched: false,
-  //       error: {status: true, message:'คุณกรอก username ไม่ถูกต้อง'}
-  //     },
-  //     password :{
-  //       type: 'text',
-  //       value: '',
-  //       validator: {
-  //         required : true,
-  //         minLength : 5,
-  //         maxLength : 20
-  //       },
-  //       touched: false,
-  //       error: {status: true, message:'คุณกรอก password ไม่ถูกต้อง'}
-  //     }
-  //   },
-  //   formValid: false
-  // }
+ 
 
   onInputChange = event => {
     this.setState({
@@ -78,42 +50,13 @@ class Login extends Component {
       })
     event.preventDefault();
 
-    // console.log(this.state);
+    
   };
 
-  // checkValidator = (value, rule) =>{
-  //   let valid = true;
-  //   let message = '';
-  //   if(rule.required){
-  //     if(value.trim().length === 0){
-  //       valid = false;
-  //       message = 'จำเป็นต้องกรอก';
-  //     }
-  //   }
-  //   if(value.length < rule.minLength && valid){
-  //     valid = false;
-  //     message = 'น้อยกว่า $(rule.minLength) ตัวอักษร';
-  //   }
-  //   if(value.length > rule.minLength && valid){
-  //     valid = false;
-  //     message = 'มากกว่า $(rule.maxLength) ตัวอักษร';
-  //   }
-  //   return { status:!valid,message:message};
-  // }
-
-  // getErrorMessage = (name) => {
-  //   return this.state.formElement[name].error.message;
-  // }
-
-  // getInputClass = (name) => {
-  //   const elementErrorStatus = this.state.formElement[name].error.status;
-  //   return elementErrorStatus && this.state.formElement[name].touched ?
-  //     'form-control is-invalid':
-  //     'form-control is-valid';
-  // }
+ 
 
   render() {
-    const { values } = this.props;
+    // const { values } = this.props;
     return (
       <React.Fragment>
         <Container>

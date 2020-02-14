@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import {
     Button,
     Icon,
-    Grid,
-    Divider,
-    Segment,
-    
+    Grid
 } from "semantic-ui-react";
 
 

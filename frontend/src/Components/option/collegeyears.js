@@ -1,10 +1,10 @@
 import React from 'react'
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Form, Radio } from 'semantic-ui-react'
 import { Row,Col } from 'react-bootstrap';
 
 
-class check extends React.Component {
+class collegeyears extends React.Component {
     
     
     
@@ -15,46 +15,39 @@ class check extends React.Component {
                 <Form>
                     <Row>
                         {/* <Col sm = '1'></Col> */}
-                        <Col sm = '2'  style = {{ marginTop :'0.5%' ,marginLeft:'3%'}} >
+                        <Col sm = '3'  style = {{ marginTop :'0.5%' ,marginLeft:'3%'}} >
                             <Radio
-                            label=''
+                            label='ชั้นที่ปี 1'
                             name='radioGroup'
-                            value='5'
+                            value='1'
                         
                              />  
                         </Col>
-                        <Col sm = '2' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
+                        <Col sm = '3' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
                             <Radio
-                            label=''
-                            name='radioGroup'
-                            value='4' 
-                            
-                             />
-                        </Col>
-                        <Col sm = '2'style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
-                            <Radio
-                            label=''
-                            name='radioGroup'
-                            value='3'
-                        
-                             />  
-                        </Col>
-                        <Col sm = '2' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
-                            <Radio
-                            label=''
+                            label='ชั้นปีที่ 2'
                             name='radioGroup'
                             value='2' 
                             
                              />
                         </Col>
-                        <Col sm = '2' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
-                            <Radio  
-                            label=''
+                        <Col sm = '3'style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
+                            <Radio
+                            label='ชั้นปีที่ 3'
                             name='radioGroup'
-                            value='1' 
+                            value='3'
+                        
+                             />  
+                        </Col>
+                        <Col sm = '3' style = {{ marginTop :'0.5%' ,marginLeft:'-5%'}} >
+                            <Radio
+                            label='ชั้นปีที่ 4'
+                            name='radioGroup'
+                            value='4' 
                             
                              />
                         </Col>
+                    
                     
                     </Row>
                    
@@ -65,4 +58,4 @@ class check extends React.Component {
     }
 }
 
-export default check
+export default collegeyears

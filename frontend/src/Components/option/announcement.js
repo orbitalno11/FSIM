@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { FormControl } from 'react-bootstrap';
 import Option_channel from './option'
 

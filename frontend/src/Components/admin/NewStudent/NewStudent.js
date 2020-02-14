@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import SearchNewStudent from './SearchNewStudent'
 import AddNewStudent from './AddNewStudent'
 // import { Container, Menu } from 'semantic-ui-react'
 
-import axios from 'axios'
+// import axios from 'axios'
 
 // import ApiManage from "../../Class/ApiManage";
 
-import { Container, Nav, Row, Col, Tab, Button } from 'react-bootstrap';
+import { Container, Nav,Tab} from 'react-bootstrap';
 
 class Add_student extends Component {
 

@@ -9,59 +9,6 @@ const colors = ["yellow"];
 
 class Navbars extends Component {
 
-  state=[
-    {
-        id: 1,
-        name : 'หน้าหลัก',
-        url : '/',
-    },
-    {
-        id: 2,
-        name : 'ภาควิชาคณิตศาสตร์',
-        url : '/',
-    },
-    {
-        id: 3,
-        name : 'ภาควิชาฟิสิกส์',
-        url : '/',
-    },
-    {
-        id: 4,
-        name : 'ภาควิชาจุลชีววิทยา',
-        url : '/',
-    },
-    {
-        id: 5,
-        name : 'ภาควิชาเคมี',
-        url : '/',
-    },
-    {
-        id: 6,
-        name : 'สรุปข้อมูลประชาสัมพันธ์',
-        url : '/',
-    },
-    {
-        id: 7,
-        name : '',
-        url : '/',
-    },
-    {
-        id: 8,
-        name : '',
-        url : '/',
-    },
-    {
-        id: 9,
-        name : '',
-        url : '/',
-    },
-    {
-        id: 10,
-        name : '',
-        url : '/',
-    },
-
-]
 
 Redirect(event){
     // alert(event.name)
@@ -97,6 +44,7 @@ Redirect(event){
               name="หน้าหลัก"
               active={activeItem === "logo"}
               onClick={this.handleItemClick}
+              href="/"
             >
               <Image size="small" src={Logo} />
             </Menu.Item>
@@ -106,6 +54,7 @@ Redirect(event){
                 name="หน้าหลัก"
                 active={activeItem === "home"}
                 onClick={this.handleItemClick}
+                href="/"
               />
               <Dropdown
                 item
@@ -114,12 +63,12 @@ Redirect(event){
                 onClick={this.handleItemClick}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item>ภาควิชาคณิตศาสตร์</Dropdown.Item>
-                  <Dropdown.Item>ภาควิชาฟิสิกส์</Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item href="/mathematics" >ภาควิชาคณิตศาสตร์</Dropdown.Item>
+                  <Dropdown.Item href="/physics">ภาควิชาฟิสิกส์</Dropdown.Item>
+                  <Dropdown.Item href="/microbiology">
                   ภาควิชาจุลชีววิทยา
                   </Dropdown.Item>
-                  <Dropdown.Item>ภาควิชาเคมี</Dropdown.Item>
+                  <Dropdown.Item href="/chemical">ภาควิชาเคมี</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown
@@ -129,9 +78,9 @@ Redirect(event){
                 onClick={this.handleItemClick}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item>สรุปข้อมูลประชาสัมพันธ์</Dropdown.Item>
-                  <Dropdown.Item>สรุปข้อมูลรับเข้า</Dropdown.Item>
-                  <Dropdown.Item>สรุปข้อมูลโครงการรับเข้า</Dropdown.Item>
+                  <Dropdown.Item href="#" >สรุปข้อมูลประชาสัมพันธ์</Dropdown.Item>
+                  <Dropdown.Item href="#">สรุปข้อมูลรับเข้า</Dropdown.Item>
+                  <Dropdown.Item href="#">สรุปข้อมูลโครงการรับเข้า</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Menu.Item
@@ -139,6 +88,7 @@ Redirect(event){
                 name="ข้อมูลศิษย์เก่า"
                 active={activeItem === "friends"}
                 onClick={this.handleItemClick}
+                href="#"
               />
             </Menu.Menu>
           </Container>

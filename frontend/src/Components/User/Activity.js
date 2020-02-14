@@ -4,12 +4,10 @@ import {
   Dropdown,
   Divider,
   Grid,
-  Card,
-  Item,
-  Table
+  Card
 } from "semantic-ui-react";
 import GraphPie from "../Graph/GraphPie";
-import GraphLine from "../Graph/GraphLine";
+// import GraphLine from "../Graph/GraphLine";
 import GraphBar from "../Graph/GraphBar";
 
 class Activity extends Component {

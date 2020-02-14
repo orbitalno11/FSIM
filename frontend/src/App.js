@@ -20,74 +20,28 @@ import Admin_addmission from "./Components/admin/mainAddmission/Addmission";
 import Announcement from "./Components/admin/announcement/Announcement";
 import Admin_showStudent from "./Components/admin/student/Showstudent"; //หน้าแรกโชว์ข้อมูลนักศึกษารายคน
 import Admin_alumni from "./Components/admin/alumni/Alumni"; //หน้าหลักเพิ่มศิษย์เก่า
+import SurveyAlumni from "./Components/admin/alumni/SurveyAlumni";
+import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2";
 
 // import User page
 
-import Addmission from "./Components/User/Addmission";
-import AddmisstionInfo from "./Components/User/Addmission_information";
+import Active from "./Components/User/Active_recruitment";
+import Addmisstion from "./Components/User/Addmission";
 import Activity from "./Components/User/Activity";
+import Alumni from "./Components/User/Alumni";
+import Mathematic from "./Components/infomation/Mathematics";
+import Chemical from "./Components/infomation/Chemical";
+import Physic from "./Components/infomation/Physics";
+import Microbiology from "./Components/infomation/Microbiology";
+
+
+
 import { render } from "react-dom";
 
 const Home = () => <h1>HOME</h1>;
 const About = () => <h1>About</h1>;
 
 class App extends Component {
-  // constructor() {
-  //   super();
-
-  //   this.state = {
-  //     loggedInStatus: "NOT_LOGGED_IN",
-  //     user: {}
-  //   };
-
-  //   this.handleLogin = this.handleLogin.bind(this);
-  //   this.handleLogout = this.handleLogout.bind(this);
-  // }
-
-  // checkLoginStatus() {
-  //   axios
-  //     .get("http://localhost:3000/login", { withCredentials: true })
-  //     .then(response => {
-  //       if (
-  //         response.data.logged_in &&
-  //         this.state.loggedInStatus === "NOT_LOGGED_IN"
-  //       ) {
-  //         this.setState({
-  //           loggedInStatus: "LOGGED_IN",
-  //           user: response.data.user
-  //         });
-  //       } else if (
-  //         !response.data.logged_in &
-  //         (this.state.loggedInStatus === "LOGGED_IN")
-  //       ) {
-  //         this.setState({
-  //           loggedInStatus: "NOT_LOGGED_IN",
-  //           user: {}
-  //         });
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log("check login error", error);
-  //     });
-  // }
-
-  // componentDidMount() {
-  //   this.checkLoginStatus();
-  // }
-
-  // handleLogout() {
-  //   this.setState({
-  //     loggedInStatus: "NOT_LOGGED_IN",
-  //     user: {}
-  //   });
-  // }
-
-  // handleLogin(data) {
-  //   this.setState({
-  //     loggedInStatus: "LOGGED_IN",
-  //     user: data.user
-  //   });
-  // }
 
   render() {
     return (
@@ -116,12 +70,18 @@ class App extends Component {
               <Route exact path="/admin_student" component={Admin_showStudent} />
               <Route exact path="/admin_alumni" component={Admin_alumni} />
   
-              {/* <Route exact path="/SurveyAlumni" component={SurveyAlumni} /> */}
+              <Route exact path="/surveyAlumni" component={SurveyAlumni} />
+              <Route exact path="/surveyAlumni2" component={SurveyAlumni2} />
   
               {/* Route for user */}
-              <Route exact path="/addmission" component={Addmission} />
-              <Route exact path="/addmissionInfo" component={AddmisstionInfo} />
+              <Route exact path="/active" component={Active} />
+              <Route exact path="/addmission" component={Addmisstion} />
               <Route exact path="/activity" component={Activity} />
+              <Route exact path="/alumni" component={Alumni} />
+              <Route exact path="/mathematics" component={Mathematic} />
+              <Route exact path="/chemical" component={Chemical} />
+              <Route exact path="/physics" component={Physic} />
+              <Route exact path="/microbiology" component={Microbiology} />
             </switch>
             <Footer />
           </div>

@@ -1,7 +1,7 @@
 import React, { Component }  from 'react'
 import SearchActivity from './SearchActivity'
 import AddActivity from './AddActivity'
-import { Container, Nav, Button, Tab } from 'react-bootstrap';
+import { Container, Nav, Tab } from 'react-bootstrap';
 
 class Activity extends Component {
 

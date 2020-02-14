@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
-import { FaCloudUploadAlt } from "react-icons/fa";
-import Nametitle from '../../option/nametitle';
-import Branch from '../../option/branch';
-import Status from '../../option/status';
+// import ReactDOM from 'react-dom';
+import { Form, Col, Row ,Container} from 'react-bootstrap';
+// import { FaCloudUploadAlt } from "react-icons/fa";
+// import Nametitle from '../../option/nametitle';
+// import Branch from '../../option/branch';
+// import Status from '../../option/status';
 import Reason from '../../option/reason';
 import PartThree from './PartThree';
 import PartFive from './PartFive';

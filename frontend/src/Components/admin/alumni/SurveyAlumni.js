@@ -1,7 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
-import { FaCloudUploadAlt } from "react-icons/fa";
+// import ReactDOM from 'react-dom';
+import { Button, Form, Col, Row ,Container} from 'react-bootstrap';
+import { Divider } from 'semantic-ui-react';
+// import { FaCloudUploadAlt } from "react-icons/fa";
 import Nametitle from '../../option/nametitle';
 import Branch from '../../option/branch';
 import Status from '../../option/status';
@@ -74,7 +75,8 @@ class SurveyAlumni extends React.Component {
 
             <Container className="contrain_css" >
                 <h3 style={{ marginBottom: '5%' }}>แบบสอบถามการทำงาน</h3>
-                <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
+                <Divider />
+                <Form onSubmit={this.onSubmit}>
                     <h5 style = {{ textAlign :"left"}}>ส่วนที่ 1 : ข้อมูลทั่วไป</h5><br></br>
                     <Row  className="style-addData" >
                         <Col sm='3' >

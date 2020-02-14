@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
-import { Radio } from 'semantic-ui-react';
-import { FaCloudUploadAlt } from "react-icons/fa";
-import Nametitle from '../../option/nametitle';
-import Branch from '../../option/branch';
-import Status from '../../option/status';
+// import ReactDOM from 'react-dom';
+import { Form, Col, Row ,Container} from 'react-bootstrap';
+// import { Radio } from 'semantic-ui-react';
+// import { FaCloudUploadAlt } from "react-icons/fa";
+// import Nametitle from '../../option/nametitle';
+// import Branch from '../../option/branch';
+// import Status from '../../option/status';
 import Check from '../../option/check';
 // import { Container } from ' ';
 
@@ -53,7 +53,7 @@ class PartFour extends React.Component {
             <React.Fragment>
 
             <Container className="contrain_css" >
-                <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
+                <Form onSubmit={this.onSubmit}>
                     <h5 style = {{ textAlign :"left"}}>ส่วนที่ 4 : ความผูกพันของนักศึกษาต่อคณะวิทยาศาสตร์</h5><br></br>
                     <h6 style = {{ textAlign :"left" ,marginLeft:'9%'}}>เกณ์การให้คะแนน : &nbsp;5 = มากที่สุด&nbsp;  4 = มาก &nbsp;3 = ปานกลาง&nbsp; 2 = น้อย &nbsp;1 = น้อยที่สุด</h6><br></br>
                     <Row  className="style-addData" >

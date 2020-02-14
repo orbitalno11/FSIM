@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row } from 'react-bootstrap';
-import { FaCloudUploadAlt } from "react-icons/fa";
+// import ReactDOM from 'react-dom';
+import { Form, Row } from 'react-bootstrap';
+// import { FaCloudUploadAlt } from "react-icons/fa";
 
 
 
@@ -13,11 +13,11 @@ class AddAlumni extends React.Component {
             <React.Fragment>
                 <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
                     <Row  className="style-addData" >
-                        <a href="">แบบสอบถามการทำงาน </a>   
+                        <a href="/surveyAlumni">แบบสอบถามการทำงาน </a>   
                     </Row>
 
                     <Row  className="style-addData" >
-                        <a href="">แบบสอบถามหลักสูตร </a>    
+                        <a href="/">แบบสอบถามหลักสูตร </a>    
                     </Row>
 
 

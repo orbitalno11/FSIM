@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import { FormControl, Button, Form, Col, Row ,Container} from 'react-bootstrap';
-import { FaCloudUploadAlt } from "react-icons/fa";
+// import ReactDOM from 'react-dom';
+import { Button, Form, Col, Row ,Container} from 'react-bootstrap';
+// import { FaCloudUploadAlt } from "react-icons/fa";
 import CheckTh from '../../option/checkTh';
 import CheckF from '../../option/checkF';
 import Check from '../../option/check';

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Modal, Card, Grid, Header } from "semantic-ui-react";
-import { FaThinkPeaks } from "react-icons/fa";
+import { Modal, Card, Grid } from "semantic-ui-react";
+// import { FaThinkPeaks } from "react-icons/fa";
 
 import TemplateBranchModal from "./TemplateBranchModal";
 import GraphPie from "../Graph/GraphPie";
 import GraphLine from "../Graph/GraphLine";
 import GraphBar from "../Graph/GraphBar";
-import { Form } from "react-bootstrap";
+// import { Form } from "react-bootstrap";
 
 class TemplateModal extends Component {
   constructor(props) {

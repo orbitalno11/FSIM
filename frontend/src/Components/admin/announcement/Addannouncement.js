@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import Year from '../../option/year';
 import Announcement from '../../option/announcement';
