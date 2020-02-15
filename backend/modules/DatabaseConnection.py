@@ -107,10 +107,15 @@ class DatabaseConnection:
         cursor = self.__db_connection.cursor()
         sql = "select application_no, firstname, lastname, gender, gpax, school_id, decision from admission where admission_type = " + str(type) + " and admission_channel = " + channel + " and year = " + str(year)
 
+        out_response ={}
+
         try:
             cursor.execute(sql)
             result = cursor.fetchall()
         except pymysql.Error as e:
+            out_response['resonse'] = False
+            out_response['message'] = str(e.args[0])
+            out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return False
         finally:
@@ -122,4 +127,8 @@ class DatabaseConnection:
                     'gpax': str(data[4]), 'school_id': data[5], 'decision': data[6]}
             out.append(data)
 
-        return out
+        out_response['response'] = True
+        out_response['message'] = str("Query Successful")
+        out_response['data'] = out
+
+        return out_response

@@ -119,14 +119,23 @@ def insert_admission():
 @api_bp.route('/admission/<year>/<type>/<channel>', methods=['GET'])
 def get_admission(year, type, channel):
     headers = {"Content-type": "application/json"}
+
+    if year is None or type is None or channel is None:
+        value = {
+            "year": year,
+            "admission_type": type,
+            "admission_channel": channel
+        }
+        return make_response(jsonify({"message": "One of these is Null", "value": [value]}), 418, headers)
+
     con = DatabaseConnection()
     data = con.get_admission_data(type, channel, year)
     del con
 
-    if data:
-        return make_response(jsonify({"data": data}), 200, headers)
+    if data['response']:
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}), 200, headers)
     else:
-        return make_response(jsonify({"data": data}), 500, headers)
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}), 500, headers)
 
 
 @api_bp.route('/branch', methods=['GET'])
