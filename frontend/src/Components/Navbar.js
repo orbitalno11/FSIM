@@ -59,7 +59,7 @@ Redirect(event){
               <Dropdown
                 item
                 text="ข้อมูลนักศึกษา"
-                active={activeItem === "friends"}
+                active={activeItem === "insomationStudent"}
                 onClick={this.handleItemClick}
               >
                 <Dropdown.Menu>
@@ -74,7 +74,7 @@ Redirect(event){
               <Dropdown
                 item
                 text="กิจกรรมประชาสัมพันธ์นักศึกษา"
-                active={activeItem === "friends"}
+                active={activeItem === "Activity"}
                 onClick={this.handleItemClick}
               >
                 <Dropdown.Menu>
@@ -86,9 +86,9 @@ Redirect(event){
               <Menu.Item
                 position="right"
                 name="ข้อมูลศิษย์เก่า"
-                active={activeItem === "friends"}
+                active={activeItem === "Alumni"}
                 onClick={this.handleItemClick}
-                href="#"
+                href="/alumni"
               />
             </Menu.Menu>
           </Container>

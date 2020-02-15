@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import {
-  Header,
-  Dropdown,
-  Divider,
-  Grid,
-  Card
-} from "semantic-ui-react";
+import { Header, Dropdown, Divider, Grid, Card } from "semantic-ui-react";
+
+import AmountStudent from "../Graph/AmountStudent";
 import GraphPie from "../Graph/GraphPie";
 // import GraphLine from "../Graph/GraphLine";
 import GraphBar from "../Graph/GraphBar";
@@ -32,85 +28,27 @@ class Activity extends Component {
             <Grid.Row stretched>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  <Card.Header as="h5">
+                    กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาในพื้นที่ต่างๆแบ่งตามภาควิชา
                   </Card.Header>
                   <Card.Content>
                     <GraphBar />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
+                  <Card.Header as="h5">
+                   แผนภูมิเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาจากพื้นที่ต่างๆ
                   </Card.Header>
                   <Card.Content>
                     <GraphPie />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
@@ -118,85 +56,27 @@ class Activity extends Component {
             <Grid.Row fluid>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  <Card.Header as="h5">
+                   กราฟแสดงพื้นที่ที่นักศึกษามา 5 อันดับแรก
                   </Card.Header>
                   <Card.Content>
                     <GraphBar />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  <Card.Header as="h5">
+                    กราฟแสดงจำนวนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์ มจธ.
                   </Card.Header>
                   <Card.Content>
                     <GraphBar />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
@@ -204,85 +84,27 @@ class Activity extends Component {
             <Grid.Row>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  <Card.Header as="h5">
+                   กราฟแสดงสัดส่วนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์ มจธ.
                   </Card.Header>
                   <Card.Content>
                     <GraphPie />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ B
+                  <Card.Header as="h5">
+                   กราฟแสดงช่องทางที่นักศึกษารู้จัก มจธ.
                   </Card.Header>
                   <Card.Content>
                     <GraphPie />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>
@@ -290,43 +112,14 @@ class Activity extends Component {
             <Grid.Row>
               <Grid.Column width={8}>
                 <Card className="card-default">
-                  <Card.Header as="h3">
-                    การแสดงจำนวนนักศึกษารับเข้าจากโครงการ A
+                  <Card.Header as="h5">
+                    กราฟแสดงเปรียบเทียบจำนวนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์ มจธ. ตามปีการศึกษา
                   </Card.Header>
                   <Card.Content>
                     <GraphBar />
                   </Card.Content>
                   <Card.Content>
-                    <Grid columns={4}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Card className="card-count">100</Card>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Header as="h5">ทั้งหมด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">สูงสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ต่ำสุด</Header>
-                        </Grid.Column>
-                        <Grid.Column>
-                          <Header as="h5">ค่าเฉลี่ย</Header>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
+                    <AmountStudent />
                   </Card.Content>
                 </Card>
               </Grid.Column>

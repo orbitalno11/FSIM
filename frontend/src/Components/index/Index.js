@@ -141,80 +141,81 @@ class Index extends Component {
         name: "จัดการข้อมูลประชาสัมพันธ์",
         color: "yellow",
         url: "/admin_announcement"
-      },
+      }
     ];
 
     return (
       <React.Fragment>
         <Container>
-          <Form.Group>
-            <Menu tabular style={{ marginTop: "3em" }} centered>
-              <Menu.Item name="ข้อมูลนักศึกษา" />
-              <Menu.Item position="right">
-                <Button href="/admin_student">จัดการข้อมูล</Button>
-              </Menu.Item>
-            </Menu>
-            <Grid columns={4} style={{ marginTop: "3em" }}>
-              <Grid.Row>
-                {pageStudent.map(item => (
-                  <IndexButton item={item} onClick={this.handleClickModel} />
-                ))}
-                <TemplateModal
-                  dept="phy"
-                  show={open}
-                  state={this.close}
-                  header={this.state.modal_header}
-                  body={this.state.modal_body}
-                />
-              </Grid.Row>
-            </Grid>
-            <hr />
-          </Form.Group>
+          <Grid padded>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <Menu tabular style={{ marginTop: "3em" }}>
+                  <Menu.Item name="ข้อมูลนักศึกษา" position="left" />
+                  <Menu.Item position="right">
+                    <Button href="/admin_student">จัดการข้อมูล</Button>
+                  </Menu.Item>
+                </Menu>
+              </Grid.Column>
+            </Grid.Row>
 
-          <Form.Group>
-            <Menu tabular style={{ marginTop: "5em" }}>
-              <Menu.Item position="left">
-                <Button href="/admin_activity">จัดการข้อมูล</Button>
-              </Menu.Item>
-              <Menu.Item position="right" name="กิจกรรมประชาสัมพันธ์" />
-            </Menu>
-            <Grid
-              columns={2}
-              style={{ marginTop: "3em" }}
-              className="bg-deepblue"
-            >
-              <Grid.Row>
-                <Grid.Column width={8}>
-                  <Image className="banner-active" src="../img/img-1.jpg" />
-                </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Form.Group>
-                    {buttonNewStudent.map(item => (
-                      <TemplateButton item={item} />
-                    ))}
-                  </Form.Group>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Form.Group>
+            <Grid.Row centered columns={4} >
+              {pageStudent.map(item => (
+                <IndexButton item={item} onClick={this.handleClickModel} />
+              ))}
+              <TemplateModal
+                dept="phy"
+                show={open}
+                state={this.close}
+                header={this.state.modal_header}
+                body={this.state.modal_body}
+              />
+            </Grid.Row>
 
-          <Form.Group>
-            <Menu tabular style={{ marginTop: "5em" }}>
-              <Menu.Item name="ข้อมูลศิษย์เก่า" />
-              <Menu.Item position="right">
-                <Button href="/admin_alumni">จัดการข้อมูล</Button>
-              </Menu.Item>
-            </Menu>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <Menu tabular style={{ marginTop: "3em" }}>
+                  <Menu.Item name="กิจกรรมประชาสัมพันธ์" />
+                  <Menu.Item position="right">
+                    <Button href="/admin_student">จัดการข้อมูล</Button>
+                  </Menu.Item>
+                </Menu>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row centered columns={2}>
+              <Grid.Column width={8}>
+                <Image className="banner-active" src="../img/img-1.jpg" />
+              </Grid.Column>
+              <Grid.Column textAlign="center">
+                <Form.Group>
+                  {buttonNewStudent.map(item => (
+                    <TemplateButton item={item} />
+                  ))}
+                </Form.Group>
+              </Grid.Column>
+            </Grid.Row>
 
-            <Container width={12}>
-              <Button animated size="massive">
-                <Button.Content visible>Login</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="arrow right" />
-                </Button.Content>
-              </Button>
-            </Container>
-          </Form.Group>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                <Menu tabular>
+                  <Menu.Item name="ข้อมูลศิษย์เก่า" />
+                  <Menu.Item position="right">
+                    <Button href="/admin_alumni">จัดการข้อมูล</Button>
+                  </Menu.Item>
+                </Menu>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column centered>
+                <Button animated size="massive" color="yellow">
+                  <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name="arrow right" />
+                  </Button.Content>
+                </Button>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Container>
       </React.Fragment>
     );

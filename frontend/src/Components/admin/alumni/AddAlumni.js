@@ -11,13 +11,13 @@ class AddAlumni extends React.Component {
 
         return (
             <React.Fragment>
-                <Form style={{ padding: '5%' }} onSubmit={this.onSubmit}>
+                <Form  onSubmit={this.onSubmit}>
                     <Row  className="style-addData" >
                         <a href="/surveyAlumni">แบบสอบถามการทำงาน </a>   
                     </Row>
 
                     <Row  className="style-addData" >
-                        <a href="/">แบบสอบถามหลักสูตร </a>    
+                        <a href="/surveyAlumni2">แบบสอบถามหลักสูตร </a>    
                     </Row>
 
 

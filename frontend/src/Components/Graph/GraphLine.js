@@ -29,7 +29,7 @@ const data = {
   ]
 };
 
-class TemplateButton extends Component {
+class GraphLine extends Component {
   
     render() {
         return (
@@ -40,4 +40,4 @@ class TemplateButton extends Component {
     }
 }
 
-export default TemplateButton;
+export default GraphLine;

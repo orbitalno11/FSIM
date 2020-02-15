@@ -8,7 +8,7 @@ import { Route } from "react-router-dom";
 
 // import Main page
 import Header from "./Components/Navbar";
-import Footer from "./Components/footer";
+import Footer from "./Components/Footer";
 import Index from "./Components/index/Index";
 import Login from "./Components/Login";
 
@@ -25,7 +25,7 @@ import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2";
 
 // import User page
 
-import Active from "./Components/User/Active_recruitment";
+import Active from "./Components/User/Active_recruitment"; 
 import Addmisstion from "./Components/User/Addmission";
 import Activity from "./Components/User/Activity";
 import Alumni from "./Components/User/Alumni";
@@ -74,7 +74,7 @@ class App extends Component {
               <Route exact path="/surveyAlumni2" component={SurveyAlumni2} />
   
               {/* Route for user */}
-              <Route exact path="/active" component={Active} />
+              <Route exact path="/active" component={Active} /> 
               <Route exact path="/addmission" component={Addmisstion} />
               <Route exact path="/activity" component={Activity} />
               <Route exact path="/alumni" component={Alumni} />

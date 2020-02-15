@@ -27,7 +27,6 @@ class AddNewStudent extends Component {
     }
 
 
-
     handleChangeAround = (search) => {
         // console.log(search.target.value);
         this.setState({ channel: search.target.value });
@@ -83,13 +82,6 @@ class AddNewStudent extends Component {
     }
 
 
-
-
-
-
-
-
-
     render() {
 
         const project_name = [
@@ -119,8 +111,6 @@ class AddNewStudent extends Component {
             project_name.filter(function (p) {
                 return p.fK == num_project;
             });
-
-
 
 
         return (

@@ -12,7 +12,7 @@ class IndexButtonStudent extends Component {
     render() {
         return (
             <React.Fragment>
-                <Grid.Column>
+                <Grid.Column centered>
                     <button
                         type="button"
                         class="btn btn-light btn-circle btn-xl"
@@ -20,7 +20,7 @@ class IndexButtonStudent extends Component {
                         onClick={this.onClick.bind(this)}>
                         <img className="logo-branch" src={this.props.item.img}></img>
                     </button>
-                    <Header size="small">{this.props.item.id}</Header>
+                    <Header textAlign="center" size="small">{this.props.item.id}</Header>
                 </Grid.Column>
             </React.Fragment>
         )
