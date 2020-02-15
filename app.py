@@ -6,6 +6,7 @@ import jwt
 import os
 import datetime
 from functools import wraps
+from flask_cors import CORS
 
 # import modules
 from backend.modules.DataManage import DataManage
@@ -31,6 +32,8 @@ app.config['SECRET_KEY'] = constant.SECRET_KEY
 
 # setup blueprint
 app.register_blueprint(api_routes.api_bp)
+
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
 
 
 def token_required(f):
