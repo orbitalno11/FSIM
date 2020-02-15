@@ -61,9 +61,15 @@ class DataManage:
         df.loc[df['decision'].notnull(), ['decision']] = -1
         df['decision'].fillna(1, inplace=True)
 
+        out_response = {}
+
         try:
             df.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
-            return True
+            out_response['response'] = True
+            out_response['message'] = "Insert data to database successful"
+            return out_response
         except Exception as e:
-            print(e)
-            return False
+            print(e.args[0])
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            return out_response

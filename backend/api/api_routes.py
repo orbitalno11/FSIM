@@ -86,23 +86,34 @@ def insert_admission():
     admission_type = request.form.get('admission_type')
     admission_channel = request.form.get('admission_channel')
 
+    if year is None or admission_type is None or admission_channel is None:
+        value = {
+            "year": year,
+            "admission_type": admission_type,
+            "admission_channel": admission_channel
+        }
+        return make_response(jsonify({"message": "One of these is Null", "value": [value]}), 418, headers)
+
     try:
-        file = request.files['file']
-        destination = UploadManager.upload_file(constant.ADMISSION_FOLDER, file, year)
+        file = request.files['upload']
+        if file and constant.allowed_admission_file(file.filename):
+            destination = UploadManager.upload_file(constant.ADMISSION_FOLDER, file, year)
+        else:
+            return make_response(jsonify({"message": "Type of file is not match", "value": "file not match"}), 418, headers)
     except Exception as e:
         print(e)
-        return make_response(jsonify({"result": "Error"}), 400, headers)
+        return make_response(jsonify({"message": str(e), "value": str(e.args[0])}), 400, headers)
 
     insert = False
 
-    if destination:
+    if destination['response']:
         dm = DataManage()
-        insert = dm.insert_admission(admission_type, admission_channel, year, destination)
+        insert = dm.insert_admission(admission_type, admission_channel, year, destination['message'])
 
-    if insert:
-        return make_response(jsonify({"result": "OK"}), 200, headers)
+    if insert['response']:
+        return make_response(jsonify({"response": True, "message": str(insert['message'])}), 200, headers)
     else:
-        return make_response(jsonify({"result": "Error"}), 500, headers)
+        return make_response(jsonify({"response": False, "message": str(insert['message'])}), 500, headers)
 
 
 @api_bp.route('/admission/<year>/<type>/<channel>', methods=['GET'])

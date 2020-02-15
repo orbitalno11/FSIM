@@ -14,18 +14,20 @@ from backend.modules.DatabaseConnection import DatabaseConnection
 # import blueprint
 from backend.api import api_routes
 
+# import Constant
+import backend.Constant as constant
+
 # set log
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("FSIM")
 
 # create flask app
 app = Flask(__name__, static_folder='frontend/build/static', template_folder='frontend/build')
-upload_folder = './uploads'
-app.config['UPLOAD_FOLDER'] = upload_folder
+app.config['UPLOAD_FOLDER'] = constant.UPLOAD_FOLDER
 
 # to set json encode
 app.config['JSON_AS_ASCII'] = False
-app.config['SECRET_KEY'] = 'FSIM2020'
+app.config['SECRET_KEY'] = constant.SECRET_KEY
 
 # setup blueprint
 app.register_blueprint(api_routes.api_bp)
