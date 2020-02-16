@@ -176,7 +176,7 @@ class Index extends Component {
                 <Menu tabular style={{ marginTop: "3em" }}>
                   <Menu.Item name="กิจกรรมประชาสัมพันธ์" />
                   <Menu.Item position="right">
-                    <Button href="/admin/activity">จัดการข้อมูล</Button>
+                    <Button href="/admin/admission">จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>

@@ -26,6 +26,20 @@ class SearchNewStudent extends Component {
     }
 
     render() {
+        const year=[
+			{
+				id:1,
+				name:'2012'
+			},
+			{
+				id:2,
+				name:'2013'
+			},
+			{
+				id:3,
+				name:'2014'
+			}
+		]
 
      
 
@@ -34,7 +48,7 @@ class SearchNewStudent extends Component {
             <React.Fragment>
                 <InputGroup className="mb-3" style={{ padding: '5%' }}>
                     <Faulty option={this.handleChangeFaulty} />
-                    <Year option={this.handleChangeYear} year={this.props.year} />
+                    <Year option={this.handleChangeYear} year={year} />
     
                     <InputGroup.Append >
                         <Button
