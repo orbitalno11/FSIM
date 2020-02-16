@@ -3,36 +3,37 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import Year from '../../option/year';
-import Around from '../../option/admission_channel'
+import Admission_channel from '../../option/admission_channel'
 import Project from '../../option/project'
 
 
 class AddNewStudent extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            project: 0,
-            channel: 0,
+            admission_type: 0,
+            admission_channel: 0,
             year: 0,
-            files: []
+            upload: []
 
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
+        // this.onSubmit = this.onSubmit.bind(this)
 
     }
 
     handleChangeAround = (search) => {
         // console.log(search.target.value);
-        this.setState({ channel: search.target.value });
+        this.setState({ admission_channel: search.target.value });
     }
 
     handleChangeProject = (search) => {
         // console.log(search.target.value);
-        this.setState({ project: search.target.value });
-        this.setState({ channel: 0 });
+        this.setState({ admission_type: search.target. value });
+        this.setState({ admission_channel: 0 });
     }
 
     handleChangeYear = (search) => {
@@ -43,29 +44,32 @@ class AddNewStudent extends Component {
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
 
-        this.setState({ files: [...filesArr] });
-        alert(this.state.year + " " + this.state.channel + " " + this.state.project)
+        this.setState({ upload: [...filesArr] });
+        alert(this.state.year + " " + this.state.admission_channel + " " + this.state.admission_type)
     }
+
+
 
     removeFile(f) {
-        this.setState({ files: this.state.files.filter(x => x !== f) });
+        this.setState({ upload: this.state.upload.filter(x => x !== f) });
     }
 
-    handleReset=(event)=>{
+    handleReset = (event) => {
         this.setState({
-            project: 0,
-            channel: 0,
+            admission_type: 0,
+            admission_channel: 0,
             year: 0,
-            files: []
+            upload: []
         });
     }
 
     handleSubmit(event) {
         alert("OK")
+        console.log(this.state.admission_channel)
         let data = this.state
-        // alert(data)
+        alert(data)
 
-        fetch("http://127.0.0.1:5000/api/v1/", {
+        fetch("http://127.0.0.1:5000/api/v1/admission", {
             method: "POST",
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify(data)
@@ -77,6 +81,26 @@ class AddNewStudent extends Component {
                 console.log(data)
             });
     }
+
+    // onSubmit(event) {
+    //     alert(this.state)
+       
+        // let data = this.state
+        // alert(data)
+
+        // fetch("http://127.0.0.1:5000/api/v1/admission", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json", },
+        //     body: JSON.stringify(data)
+        // })
+        //     .then(function (response) {
+        //         return response.json();
+        //     })
+        //     .then(function (data) {
+        //         console.log(data)
+        //     });
+    // }
+
 
 
     render() {
@@ -104,8 +128,23 @@ class AddNewStudent extends Component {
             { id: 20, fK: 5, name: "รอบที่ 5 โครงการคัดเลือกตรงเพื่อผลิตบุคลากรด้านวิทยาศาสตร์เทคโนโลยีเเละนวัตกรรม (ครั้งที่ 2) ;" }
         ]
 
+        const year=[
+			{
+				id:1,
+				name:'2012'
+			},
+			{
+				id:2,
+				name:'2013'
+			},
+			{
+				id:3,
+				name:'2014'
+			}
+		]
+
         let CheckProject = (num_project) =>
-            project_name.filter(function (p) {
+         project_name.filter(p=> {
                 return p.fK == num_project;
             });
 
@@ -113,7 +152,9 @@ class AddNewStudent extends Component {
 
             <React.Fragment>
 
-                <Form style={{ padding: '5%' }} onSubmit={this.handleSubmit}>
+                <Form style={{ padding: '5%' }} 
+                onSubmit={this.handleSubmit}
+                >
 
 
                     <Row className="style-addData" >
@@ -121,7 +162,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear}  value={this.state.year} year={this.props.year}/>
+                            <Year option={this.handleChangeYear} value={this.state.year} year={year}  />
                         </Col>
                     </Row>
                     <Row className="style-addData interval-top"  >
@@ -130,7 +171,7 @@ class AddNewStudent extends Component {
                         </Col>
                         <Col sm='6'>
 
-                            <Project option={this.handleChangeProject}  value={this.state.project}/>
+                            <Project option={this.handleChangeProject} value={this.state.admission_type} />
                         </Col>
                     </Row>
                     <Row className="style-addData interval-top"  >
@@ -138,7 +179,7 @@ class AddNewStudent extends Component {
                             <label>รอบรับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Around option={this.handleChangeAround} project={CheckProject(this.state.project)} value={this.state.channel} />
+                            <Admission_channel option={this.handleChangeAround} project={CheckProject(this.state.admission_type)} value={this.state.admission_channel} />
 
                         </Col>
                     </Row>
@@ -150,9 +191,9 @@ class AddNewStudent extends Component {
                         <Col sm='9'>
                             <input type="file" />
                             <label className="custom-file-upload">
-                                <input type="file" accept=".excel,.csv" onChange={this.onChange}  />
+                                <input type="file" accept=".excel,.csv" onChange={this.onChange} />
                                 <FaCloudUploadAlt style={{ color: '#FFFFFF' }} /> UPLOAD CSV FILE </label>
-                            {this.state.files.map(x =>
+                            {this.state.upload.map(x =>
                                 <div className="file-preview" onClick={this.removeFile.bind(this, x)} key={x.name}>{x.name}</div>
                             )}
                         </Col>

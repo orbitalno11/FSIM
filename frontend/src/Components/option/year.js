@@ -14,7 +14,7 @@ class year extends React.Component {
     render() {
 
         let year = this.props.year.map(function (item) {
-            return (<Option_channel items={item}/>)
+            return (<Option_channel items={item} key={item.id}/>)
         });
 
 

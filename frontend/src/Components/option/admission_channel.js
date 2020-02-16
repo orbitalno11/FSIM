@@ -4,14 +4,14 @@ import { FormControl } from 'react-bootstrap';
 import Option_channel from './option'
 
 
-class around extends React.Component {
+class addmission_channel extends React.Component {
     onSelected = (search) => {
         this.props.option(search)
     }
    
     render() {
         let project = this.props.project.map(function (item) {
-            return (<Option_channel items={item}/>)
+            return (<Option_channel items={item} key={item.id}/>)
         });
         return (
             <React.Fragment>
@@ -29,4 +29,4 @@ class around extends React.Component {
     }
 }
 
-export default around
+export default addmission_channel
