@@ -8,6 +8,14 @@ import GraphLine from "../Graph/GraphLine";
 import GraphBar from "../Graph/GraphBar";
 
 class AddmissionInfo extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      receive_data: []
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
