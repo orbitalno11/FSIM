@@ -20,8 +20,6 @@ class AddActivity extends Component {
 
     }
 
-
-
     handleRowDel(product) {
         let index = this.state.project.indexOf(product);
         this.state.project.splice(index, 1);

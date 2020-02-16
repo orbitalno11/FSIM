@@ -8,16 +8,16 @@ import {Route} from "react-router-dom";
 
 // import Main page
 import Header from "./Components/Navbar";
-import Footer from "./Components/footer";
+import Footer from "./Components/Footer";
 import Index from "./Components/index/Index";
 import Login from "./Components/Login";
 
 // import Admin page
 import Admin_Newstudent from "./Components/admin/NewStudent/NewStudent"; //รับเข้า
-import Admin_activity from "./Components/admin/activity/activity";
+import Admin_activity from "./Components/admin/activity/Activity";
 import Admin_project from "./Components/admin/project/Project";
-import Admin_addmission from "./Components/admin/mainAddmission/addmission";
-import Announcement from "./Components/admin/announcement/announcement";
+import Admin_addmission from "./Components/admin/mainAddmission/Addmission";
+import Announcement from "./Components/admin/announcement/Announcement";
 import Admin_showStudent from "./Components/admin/student/Showstudent"; //หน้าแรกโชว์ข้อมูลนักศึกษารายคน
 import Admin_alumni from "./Components/admin/alumni/Alumni"; //หน้าหลักเพิ่มศิษย์เก่า
 import SurveyAlumni from "./Components/admin/alumni/SurveyAlumni";
@@ -76,19 +76,19 @@ class App extends Component {
                         {/* Route for admin */}
                         <Route
                             exact
-                            path="/admin_Newstudent"
+                            path="/admin/Newstudent"
                             component={Admin_Newstudent}
                         />
-                        <Route exact path="/admin_activity" component={Admin_activity}/>
-                        <Route exact path="/admin_project" component={Admin_project}/>
+                        <Route exact path="/admin/activity" component={Admin_activity}/>
+                        <Route exact path="/admin/project" component={Admin_project}/>
                         <Route
                             exact
-                            path="/admin/admission"
+                            path="/admin/addmission"
                             component={Admin_addmission}
                         />
-                        <Route exact path="/admin_announcement" component={Announcement}/>
-                        <Route exact path="/admin_student" component={Admin_showStudent}/>
-                        <Route exact path="/admin_alumni" component={Admin_alumni}/>
+                        <Route exact path="/admin/announcement" component={Announcement}/>
+                        <Route exact path="/admin/student" component={Admin_showStudent}/>
+                        <Route exact path="/admin/alumni" component={Admin_alumni}/>
 
                         <Route exact path="/surveyAlumni" component={SurveyAlumni}/>
                         <Route exact path="/surveyAlumni2" component={SurveyAlumni2}/>

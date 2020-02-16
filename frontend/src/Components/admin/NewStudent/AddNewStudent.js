@@ -6,6 +6,8 @@ import Year from '../../option/year';
 import Around from '../../option/admission_channel'
 import Project from '../../option/project'
 
+import ApiManage from "../../../Class/ApiManage"
+
 
 class AddNewStudent extends Component {
 
@@ -16,7 +18,10 @@ class AddNewStudent extends Component {
             project: 0,
             channel: 0,
             year: 0,
-            files: []
+            files: [],
+            fileURL:'',
+            data:"",
+            isLoaded:false
 
         }
 
@@ -60,26 +65,65 @@ class AddNewStudent extends Component {
         });
     }
 
+    // handleUploadFile(ev){
+    //     ev.preventDefault()
+
+    //     const data = new FormData()
+    // }
+
+    componentDidMount(){
+        ApiManage.get('addmission/2560/1/1')
+        .then(res => {
+            let receive_data = res.data;
+            if(receive_data.response === true) {
+                this.setState({
+                    data: receive_data.data,
+                    isLoaded:true
+                })
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
     handleSubmit(event) {
-        alert("OK")
-        let data = this.state
+       
+        event.preventDefault();
+        const data = new FormData();
+        const target = event.target;
+
         // alert(data)
 
-        fetch("http://127.0.0.1:5000/api/v1/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", },
-            body: JSON.stringify(data)
-        })
-            .then(function (response) {
-                return response.json();
+        ApiManage.post("admission",data)
+            .then(res => {
+                console.log(res)
             })
-            .then(function (data) {
-                console.log(data)
-            });
+            .then(error =>{
+                console.log(error)
+            })
+
+            .catch(error => {
+                console.log(error.response.data.message);
+                console.log(error.response.data.value);
+            })
     }
 
 
     render() {
+
+        let {isLoaded, data} = this.state;
+
+        let show_data;
+
+        if (isLoaded){
+            show_data = data.map(data => {
+                const {firstname, lastname} = data;
+                return (
+                    <p>{firstname} -- {lastname}</p>
+                )
+            })
+        }
 
         const project_name = [
             { id: 1, fK: 1, name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
@@ -112,7 +156,7 @@ class AddNewStudent extends Component {
         return (
 
             <React.Fragment>
-
+                {show_data}
                 <Form style={{ padding: '5%' }} onSubmit={this.handleSubmit}>
 
 
@@ -150,7 +194,7 @@ class AddNewStudent extends Component {
                         <Col sm='9'>
                             <input type="file" />
                             <label className="custom-file-upload">
-                                <input type="file" accept=".excel,.csv" onChange={this.onChange}  />
+                                <input type="file" accept=".excel,.csv" onChange={this.onChange}  id="file" />
                                 <FaCloudUploadAlt style={{ color: '#FFFFFF' }} /> UPLOAD CSV FILE </label>
                             {this.state.files.map(x =>
                                 <div className="file-preview" onClick={this.removeFile.bind(this, x)} key={x.name}>{x.name}</div>
@@ -166,7 +210,7 @@ class AddNewStudent extends Component {
                         <Button
                             type="submit"
                             className='btn-info interval-1'
-                            onClick={this.onSubmit}
+                            onClick={this.handleSubmit}
                         >SUBMIT</Button>
 
                     </div>
