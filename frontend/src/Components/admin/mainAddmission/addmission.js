@@ -12,7 +12,7 @@ class main_addmission extends Component {
             id: 1,
             name : 'ข้อมูลนักศึกษารับเข้า',
             detail : 'ระบบตรวจสอบการรับเข้าของนักศึกษา ในรอบต่างๆ',
-            url : '/admin_student',
+            url : '/admin_Newstudent',
             icon : 'add user',
         },
         {
@@ -29,7 +29,6 @@ class main_addmission extends Component {
             url : '/admin_project',
             icon : '',
         },
-
     ]
 
     Redirect(event){

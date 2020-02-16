@@ -66,10 +66,8 @@ class App extends Component {
                 component={Admin_addmission}
               />
               <Route exact path="/admin_announcement" component={Announcement} />
-  
               <Route exact path="/admin_student" component={Admin_showStudent} />
               <Route exact path="/admin_alumni" component={Admin_alumni} />
-  
               <Route exact path="/surveyAlumni" component={SurveyAlumni} />
               <Route exact path="/surveyAlumni2" component={SurveyAlumni2} />
   

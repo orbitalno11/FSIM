@@ -3,7 +3,6 @@ import Logomth from "../../img/mth.png";
 import Logochm from "../../img/chm.png";
 import Logomic from "../../img/mic.png";
 import Logophy from "../../img/phy.png";
-
 import {
   Container,
   Grid,
@@ -13,7 +12,7 @@ import {
   Form,
   Menu
 } from "semantic-ui-react";
-
+  
 import IndexButton from "./IndexButtonStudent";
 import TemplateModal from "./TemplateModal";
 import TemplateButton from "./TemplateButton";

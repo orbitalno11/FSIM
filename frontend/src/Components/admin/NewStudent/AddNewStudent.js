@@ -18,14 +18,11 @@ class AddNewStudent extends Component {
             year: 0,
             files: []
 
-
         }
-
 
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
-
 
     handleChangeAround = (search) => {
         // console.log(search.target.value);
@@ -68,7 +65,7 @@ class AddNewStudent extends Component {
         let data = this.state
         // alert(data)
 
-        fetch("https://...", {
+        fetch("http://127.0.0.1:5000/api/v1/", {
             method: "POST",
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify(data)
@@ -112,10 +109,7 @@ class AddNewStudent extends Component {
                 return p.fK == num_project;
             });
 
-
         return (
-
-        
 
             <React.Fragment>
 
@@ -127,8 +121,7 @@ class AddNewStudent extends Component {
                             <label>ปีที่รับเข้า</label>
                         </Col>
                         <Col sm='6'>
-                            <Year option={this.handleChangeYear} value={this.state.year} year={this.props.year}/>
-
+                            <Year option={this.handleChangeYear}  value={this.state.year} year={this.props.year}/>
                         </Col>
                     </Row>
                     <Row className="style-addData interval-top"  >
@@ -137,7 +130,7 @@ class AddNewStudent extends Component {
                         </Col>
                         <Col sm='6'>
 
-                            <Project option={this.handleChangeProject} value={this.state.project}/>
+                            <Project option={this.handleChangeProject}  value={this.state.project}/>
                         </Col>
                     </Row>
                     <Row className="style-addData interval-top"  >
@@ -157,7 +150,7 @@ class AddNewStudent extends Component {
                         <Col sm='9'>
                             <input type="file" />
                             <label className="custom-file-upload">
-                                <input type="file" accept=".excel,.csv" onChange={this.onChange} />
+                                <input type="file" accept=".excel,.csv" onChange={this.onChange}  />
                                 <FaCloudUploadAlt style={{ color: '#FFFFFF' }} /> UPLOAD CSV FILE </label>
                             {this.state.files.map(x =>
                                 <div className="file-preview" onClick={this.removeFile.bind(this, x)} key={x.name}>{x.name}</div>
