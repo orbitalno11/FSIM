@@ -36,6 +36,8 @@ import Microbiology from "./Components/infomation/Microbiology";
 
 import ApiManage from "./Class/ApiManage";
 
+import UploadForm from "./Components/UploadForm";
+
 class App extends Component {
 
     constructor(props) {
@@ -68,6 +70,7 @@ class App extends Component {
                 <Header/>
                 <div className="App">
                     <switch>
+                        <Route exact path={"/testupload"} component={UploadForm} />
                         <Route exact path="/" component={Index}/>
                         <Route exact path="/login" component={Login}/>
                         {/* Route for admin */}
