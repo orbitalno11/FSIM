@@ -116,20 +116,19 @@ def insert_admission():
         return make_response(jsonify({"response": False, "message": str(insert['message'])}), 500, headers)
 
 
-@api_bp.route('/admission/<year>/<type>/<channel>', methods=['GET'])
-def get_admission(year, type, channel):
+@api_bp.route('/admission', defaults={'branch': None, 'year': None, 'types': None, 'channel': None}, methods=['GET'])
+@api_bp.route('/admission/<int:branch>', defaults={'year': None, 'types': None, 'channel': None}, methods=['GET'])
+@api_bp.route('/admission/<int:branch>/<int:year>', defaults={'types': None, 'channel': None}, methods=['GET'])
+@api_bp.route('/admission/<int:branch>/<int:year>/<int:types>', defaults={'channel': None}, methods=['GET'])
+@api_bp.route('/admission/<int:branch>/<int:year>/<int:types>/<int:channel>', methods=['GET'])
+def get_admission(branch, year, types, channel):
+
+    # sending branch, year, admission type and admission channel to get the data
+
     headers = {"Content-type": "application/json"}
 
-    if year is None or type is None or channel is None:
-        value = {
-            "year": year,
-            "admission_type": type,
-            "admission_channel": channel
-        }
-        return make_response(jsonify({"message": "One of these is Null", "value": [value]}), 418, headers)
-
     con = DatabaseConnection()
-    data = con.get_admission_data(type, channel, year)
+    data = con.get_admission_data(branch, year, types, channel)
     del con
 
     if data['response']:
