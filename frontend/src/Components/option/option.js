@@ -4,7 +4,7 @@ import React from 'react'
 // import { Item } from 'semantic-ui-react';
 
 
-class around extends React.Component {
+class option extends React.Component {
   
     render() {
 
@@ -16,4 +16,4 @@ class around extends React.Component {
     }
 }
 
-export default around
+export default option

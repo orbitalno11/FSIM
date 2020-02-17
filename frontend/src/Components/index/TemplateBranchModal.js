@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Header, Grid } from "semantic-ui-react";
 
 class TemplateBranchModal extends Component {
+
+  
+
   render() {
     return (
       <React.Fragment>

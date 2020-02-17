@@ -1,5 +1,5 @@
 import React, { Component }  from 'react'
-import SetButton from './setButton'
+import SetButton from './SetButton'
 import {
     Container
     
@@ -12,21 +12,21 @@ class main_addmission extends Component {
             id: 1,
             name : 'ข้อมูลนักศึกษารับเข้า',
             detail : 'ระบบตรวจสอบการรับเข้าของนักศึกษา ในรอบต่างๆ',
-            url : '/admin_Newstudent',
+            url : '/admin/Newstudent',
             icon : 'add user',
         },
         {
             id: 2,
             name : 'กิจกรรม',
             detail : 'ระบบตรวจสอบกิจกรรมการรับเข้าต่างๆ รวมไปถึงกิจกรรมประชาสัมพันธ์นักศึกษา',
-            url : '/admin_activity',
+            url : '/admin/activity',
             icon : '',
         },
         {
             id: 3,
             name : 'โครงการการรับเข้า',
             detail : 'ระบบตรวจสอบโครงการรับนักศึกษาเข้า',
-            url : '/admin_project',
+            url : '/admin/project',
             icon : '',
         },
     ]

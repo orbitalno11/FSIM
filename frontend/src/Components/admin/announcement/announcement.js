@@ -1,5 +1,5 @@
 import React, { Component }  from 'react'
-import SearchAnnouncement from './searchAnnouncement'
+import SearchAnnouncement from './SearchAnnouncement'
 import Addannouncement from './Addannouncement'
 import { Container, Nav,Tab } from 'react-bootstrap';
 

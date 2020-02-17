@@ -134,12 +134,12 @@ class Index extends Component {
       {
         name: "จัดการข้อมูลรับเข้า",
         color: "yellow",
-        url: "/admin_addmission"
+        url: "/admin/addmission"
       },
       {
         name: "จัดการข้อมูลประชาสัมพันธ์",
         color: "yellow",
-        url: "/admin_announcement"
+        url: "/admin/announcement"
       }
     ];
 
@@ -152,7 +152,7 @@ class Index extends Component {
                 <Menu tabular style={{ marginTop: "3em" }}>
                   <Menu.Item name="ข้อมูลนักศึกษา" position="left" />
                   <Menu.Item position="right">
-                    <Button href="/admin_student">จัดการข้อมูล</Button>
+                    <Button href="/admin/student">จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
@@ -176,7 +176,7 @@ class Index extends Component {
                 <Menu tabular style={{ marginTop: "3em" }}>
                   <Menu.Item name="กิจกรรมประชาสัมพันธ์" />
                   <Menu.Item position="right">
-                    <Button href="/admin_student">จัดการข้อมูล</Button>
+                    <Button href="/admin/admission">จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
@@ -199,7 +199,7 @@ class Index extends Component {
                 <Menu tabular>
                   <Menu.Item name="ข้อมูลศิษย์เก่า" />
                   <Menu.Item position="right">
-                    <Button href="/admin_alumni">จัดการข้อมูล</Button>
+                    <Button href="/admin/alumni">จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
