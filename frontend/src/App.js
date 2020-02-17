@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import "./App.css";
 import axios from "axios";
 
-
 // import Route Tool
 import {Route} from "react-router-dom";
 
@@ -24,7 +23,6 @@ import SurveyAlumni from "./Components/admin/alumni/SurveyAlumni";
 import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2";
 
 // import User page
-
 import Active from "./Components/User/Active_recruitment";
 import Addmisstion from "./Components/User/Addmission";
 import Activity from "./Components/User/Activity";

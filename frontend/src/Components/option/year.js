@@ -9,17 +9,16 @@ class year extends React.Component {
         this.props.option(search)
     }
 
-    
     render() {
 
         let year = this.props.year.map(function (item) {
             return (<Option_channel items={item} key={item.id}/>)
         });
 
-
         return (
             <React.Fragment>
                 <FormControl as="select"
+                id="year"
                  onChange={this.onSelected}
                  value={this.props.value}>
                     <option value='0'>เลือกปีการศึกษา</option>
