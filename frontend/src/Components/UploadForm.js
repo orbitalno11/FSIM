@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import ApiManage from "../Class/ApiManage";
-
+import {icons} from "react-icons";
 
 
 class UploadForm extends Component {
@@ -10,18 +10,13 @@ class UploadForm extends Component {
         super(props);
 
         this.state = {
-            fileURL: '',
-            file: null,
             data: "",
-            isLoaded: false
-        }
-    }
+            isLoaded: false,
+            selectedFile: null,
+            year: 2560
+        };
 
-    handleUploadFile(ev) {
-        ev.preventDefault()
-
-        const data = new FormData()
-        // data.append('file', thi)
+        this.fileInput = React.createRef();
     }
 
     componentDidMount() {
@@ -40,12 +35,37 @@ class UploadForm extends Component {
             })
     }
 
+    handleSubmit = event =>{
+        event.preventDefault();
+        const data = new FormData();
+        const target = event.target;
+        let year = target[0].value
+        let type = target[1].value
+        let channael = target[2].value
+
+        data.append("year", year);
+        data.append("admission_type", type);
+        data.append("admission_channel", channael);
+
+        ApiManage.post("admission", data)
+            .then(res => {
+                console.log(res)
+            })
+            .then(error => {
+                console.log(error)
+            })
+            .catch(error => {
+                console.log(error.response.data.message);
+                console.log(error.response.data.value);
+            })
+    };
+
     render() {
-        let {isLoaded, data} = this.state;
+        let {isLoaded, data, year} = this.state;
 
         let show_data;
 
-        if (isLoaded){
+        if (isLoaded) {
             show_data = data.map(data => {
                 const {firstname, lastname} = data;
                 return (
@@ -56,10 +76,13 @@ class UploadForm extends Component {
 
         return (
             <React.Fragment>
+                {year}
                 {show_data}
-                <form>
-                    <input type="file" name="file" id="file" />
-                    <input type="text" name="year" id="year" />
+                <form onSubmit={this.handleSubmit}>
+                    <input type="text" name="year" id="year"/>
+                    <input type="text" name="type" id="type"/>
+                    <input type="text" name="channel" id="channel"/>
+                    <button type="submit">Submit</button>
                 </form>
             </React.Fragment>
         )

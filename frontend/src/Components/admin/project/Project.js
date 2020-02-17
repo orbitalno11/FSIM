@@ -91,6 +91,7 @@ class AddActivity extends Component {
                                 onAddEve={this.handleAddEvent.bind(this)}
                                 name={"name"}
                                 style={{ marginTop: '5%' }}
+                                key={product.id}
                                 />
                                 
                             )

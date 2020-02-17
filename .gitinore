@@ -212,9 +212,9 @@ $RECYCLE.BIN/
 *.lnk
 
 
-**frontend/node_modules/
-**frontend/.DS_Store
-
-**/__pycache__/
+frontend/node_modules/
+backend/**/__pycache__
+**/.DS_Store
+.DS_Store
 
 # End of https://www.gitignore.io/api/macos,pycharm,windows,phpstorm,visualstudiocode

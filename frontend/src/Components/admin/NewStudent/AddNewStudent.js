@@ -21,6 +21,8 @@ class AddNewStudent extends Component {
       data: "",
       isLoaded: false,
       selectedFile: null,
+      Nameupload:[]
+
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,17 +45,22 @@ class AddNewStudent extends Component {
   };
 
   onChange(e) {
+    let filesName = e.target.files;
     let files = e.target.files[0];
     let filesArr = Array.prototype.slice.call(files);
+    let filesArrName = Array.prototype.slice.call(filesName);
 
-
+ 
     this.setState(
       {
         loaded: 0,
         upload: [...filesArr],
-        selectedFile: files
+        selectedFile: files,
+        Nameupload:[...filesArrName]
       }
     );
+
+
     // alert(
     //   this.state.year +
     //     " " +
@@ -68,7 +75,8 @@ class AddNewStudent extends Component {
   }
 
   removeFile(f) {
-    this.setState({ upload: this.state.upload.filter(x => x !== f) });
+    this.setState({ upload: this.state.upload.filter(x => x !== f) ,
+                    Nameupload: this.state.Nameupload.filter(x => x !== f)});
   }
 
   handleReset = event => {
@@ -76,7 +84,8 @@ class AddNewStudent extends Component {
       admission_type: 0,
       admission_channel: 0,
       year: 0,
-      upload: []
+      upload: [],
+      Nameupload:[]
     });
   };
 
@@ -101,12 +110,20 @@ class AddNewStudent extends Component {
     ApiManage.post("admission", data)
       .then(res => {
         console.log(res);
+        alert('บันทึกสำเร็จ')
        
       })
       .catch(error => {
         console.log(error.response.data.message);
         console.log(error.response.data.value);
+        if(error.response.data.value==='file not match'){
+          alert('กรุณาตรวจสอบไฟล์ใหม่')
+        }else{
+          alert('บันทึกล้มเหลว กรุณาตรวจสอบข้อมูลอีกครั้ง')
+        }
+       
       });
+  
   }
 
   // onSubmit(event) {
@@ -248,7 +265,6 @@ class AddNewStudent extends Component {
               <Project
                 option={this.handleChangeProject}
                 value={this.state.admission_type}
-                // onChange={this.onChange}
               />
             </Col>
           </Row>
@@ -261,7 +277,6 @@ class AddNewStudent extends Component {
                 option={this.handleChangeAround}
                 project={CheckProject(this.state.admission_type)}
                 value={this.state.admission_channel}
-                // onChange={this.onChange}
               />
             </Col>
           </Row>
@@ -274,13 +289,13 @@ class AddNewStudent extends Component {
               <label className="custom-file-upload">
                 <input
                   type="file"
-                  accept=".excel,.csv"
+                  accept=".excel,.xlsx,.csv"
                   onChange={(e) => this.onChange(e)}
                 />
                 <FaCloudUploadAlt style={{ color: "#FFFFFF" }} /> UPLOAD CSV
                 FILE{" "}
               </label>
-              {this.state.upload.map(x => (
+              {this.state.Nameupload.map(x => (
                 <div
                   className="file-preview"
                   onClick={this.removeFile.bind(this, x)}
@@ -288,7 +303,9 @@ class AddNewStudent extends Component {
                 >
                   {x.name}
                 </div>
-              ))}
+              //  alert(x.name)
+              ))
+              }
             </Col>
           </Row>
           <div className="style-addData " style={{ marginTop: "5%" }}>
@@ -301,9 +318,7 @@ class AddNewStudent extends Component {
 
             <Button
               type="submit"
-              className="btn-info interval-1"
-              // onClick={this.handleSubmit}
-             
+              className="btn-info interval-1"             
             >
               SUBMIT
             </Button>

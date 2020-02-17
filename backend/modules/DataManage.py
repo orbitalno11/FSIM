@@ -29,12 +29,22 @@ class DataManage:
 
     def insert_admission(self, type, channel, year, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
-        df = df.loc[1:, ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
-                         'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
-        df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
-                           'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
-                           'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
-                           'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
+
+        out_response = {}
+
+        try:
+            df = df.loc[1:,
+                 ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
+                  'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
+            df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
+                               'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
+                               'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
+                               'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
+        except Exception as e:
+            print(e)
+            out_response['response'] = False
+            out_response['message'] = "Please check your file or table head " + str(e.args[0])
+            return out_response
 
         df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
         df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'
@@ -60,8 +70,6 @@ class DataManage:
 
         df.loc[df['decision'].notnull(), ['decision']] = -1
         df['decision'].fillna(1, inplace=True)
-
-        out_response = {}
 
         try:
             df.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
