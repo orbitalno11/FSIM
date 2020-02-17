@@ -30,6 +30,8 @@ class DataManage:
     def insert_admission(self, type, channel, year, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
 
+        out_response = {}
+
         try:
             df = df.loc[1:,
                  ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
@@ -39,7 +41,10 @@ class DataManage:
                                'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
                                'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
         except Exception as e:
-
+            print(e)
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            return out_response
 
         df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
         df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'
@@ -65,8 +70,6 @@ class DataManage:
 
         df.loc[df['decision'].notnull(), ['decision']] = -1
         df['decision'].fillna(1, inplace=True)
-
-        out_response = {}
 
         try:
             df.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
