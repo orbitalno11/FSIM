@@ -29,12 +29,17 @@ class DataManage:
 
     def insert_admission(self, type, channel, year, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
-        df = df.loc[1:, ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
-                         'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
-        df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
-                           'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
-                           'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
-                           'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
+
+        try:
+            df = df.loc[1:,
+                 ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
+                  'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
+            df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
+                               'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
+                               'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
+                               'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
+        except Exception as e:
+
 
         df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
         df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'

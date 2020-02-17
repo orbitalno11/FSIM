@@ -102,7 +102,7 @@ def insert_admission():
             return make_response(jsonify({"message": "Type of file is not match", "value": "file not match"}), 418, headers)
     except Exception as e:
         print(e)
-        return make_response(jsonify({"message": str(e), "value": str(e.args[0])}), 400, headers)
+        return make_response(jsonify({"message": str(e), "value": "can not find a file with " + str(e.args[0])}), 400, headers)
 
     insert = False
 
