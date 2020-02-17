@@ -14,7 +14,7 @@ class Activity extends Component {
     render() {
         return (
             <React.Fragment>
-                <Container className="contrain_css" >
+                <Container className="card-admin" >
                     <h3 style={{ marginBottom: '5%' }}>จัดการข้อมูลกิจกรรมรับเข้า</h3>
                     <Tab.Container defaultActiveKey="SearchActivity" >
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}

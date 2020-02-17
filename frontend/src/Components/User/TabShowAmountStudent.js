@@ -13,15 +13,19 @@ class TabAmount extends Component {
                 100 <br /> 5%
               </Table.Cell>
               <Table.Cell>
-                Active <br />
+                เรียนดี <br />
                 100 <br /> 5%
               </Table.Cell>
               <Table.Cell>
-                Active <br />
+                ทุนเพชร <br />
                 100 <br /> 5%
               </Table.Cell>
               <Table.Cell>
-                Active <br />
+                ปวช. <br />
+                100 <br /> 5%
+              </Table.Cell>
+              <Table.Cell>
+                Tcas. <br />
                 100 <br /> 5%
               </Table.Cell>
             </Table.Row>

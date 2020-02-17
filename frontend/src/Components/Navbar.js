@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Carousel } from "react-bootstrap";
 import Logo from "../img/60year-fsci.png";
 import banner from "../img/banner2.png";
-import { Image, Menu, Container, Dropdown } from "semantic-ui-react";
+import { Image, Menu, Container, Dropdown, Header } from "semantic-ui-react";
 
 const colors = ["yellow"];
 
@@ -95,9 +95,7 @@ Redirect(event){
         </Menu>
         <div className="carousel-inner">
           <Image src={banner} className="d-block w-100">
-            {/* <div className="bannerOpacity">
-              <Header size='large'>WELCOME TO <br/>FSci Student Information Management System</Header>
-            </div> */}
+           
           </Image>
         </div>
       </div>

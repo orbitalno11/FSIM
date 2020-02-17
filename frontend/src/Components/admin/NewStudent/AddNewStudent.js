@@ -21,7 +21,6 @@ class AddNewStudent extends Component {
       data: "",
       isLoaded: false,
       selectedFile: null,
-
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);

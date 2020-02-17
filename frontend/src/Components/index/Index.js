@@ -3,6 +3,7 @@ import Logomth from "../../img/mth.png";
 import Logochm from "../../img/chm.png";
 import Logomic from "../../img/mic.png";
 import Logophy from "../../img/phy.png";
+
 import {
   Container,
   Grid,
@@ -12,7 +13,7 @@ import {
   Form,
   Menu
 } from "semantic-ui-react";
-  
+
 import IndexButton from "./IndexButtonStudent";
 import TemplateModal from "./TemplateModal";
 import TemplateButton from "./TemplateButton";
@@ -145,20 +146,22 @@ class Index extends Component {
 
     return (
       <React.Fragment>
-        <Container>
+        <Container className="Background-Brown" >
           <Grid padded>
             <Grid.Row>
               <Grid.Column width={16}>
                 <Menu tabular style={{ marginTop: "3em" }}>
-                  <Menu.Item name="ข้อมูลนักศึกษา" position="left" />
+                  <Menu.Item as="h2" position="left">
+                    ข้อมูลนักศึกษา
+                  </Menu.Item>
                   <Menu.Item position="right">
-                    <Button href="/admin/student">จัดการข้อมูล</Button>
+                    <Button href="/admin/student" primary >จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
             </Grid.Row>
 
-            <Grid.Row centered columns={4} >
+            <Grid.Row centered columns={4}>
               {pageStudent.map(item => (
                 <IndexButton item={item} onClick={this.handleClickModel} />
               ))}
@@ -174,10 +177,13 @@ class Index extends Component {
             <Grid.Row>
               <Grid.Column width={16}>
                 <Menu tabular style={{ marginTop: "3em" }}>
-                  <Menu.Item name="กิจกรรมประชาสัมพันธ์" />
-                  <Menu.Item position="right">
-                    <Button href="/admin/admission">จัดการข้อมูล</Button>
+                  <Menu.Item as="h2" position="left">
+                    กิจกรรมประชาสัมพันธ์
                   </Menu.Item>
+
+                  {/* <Menu.Item position="right">
+                    <Button href="/admin/admission">จัดการข้อมูล</Button>
+                  </Menu.Item> */}
                 </Menu>
               </Grid.Column>
             </Grid.Row>
@@ -185,7 +191,7 @@ class Index extends Component {
               <Grid.Column width={8}>
                 <Image className="banner-active" src="../img/img-1.jpg" />
               </Grid.Column>
-              <Grid.Column textAlign="center">
+              <Grid.Column textAlign="center" style={{"marginTop":"3vh"}}>
                 <Form.Group>
                   {buttonNewStudent.map(item => (
                     <TemplateButton item={item} />
@@ -197,9 +203,12 @@ class Index extends Component {
             <Grid.Row>
               <Grid.Column width={16}>
                 <Menu tabular>
-                  <Menu.Item name="ข้อมูลศิษย์เก่า" />
+                  <Menu.Item as="h2" position="left">
+                    ข้อมูลศิษย์เก่า
+                  </Menu.Item>
+
                   <Menu.Item position="right">
-                    <Button href="/admin/alumni">จัดการข้อมูล</Button>
+                    <Button href="/admin/alumni" primary>จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>

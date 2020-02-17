@@ -19,6 +19,7 @@ body {
   /* font-family: 'Athiti', sans-serif; */
   font-weight: 300;
   font-size: 15px;
+  background-color: #eeeeee !important;
 }
 
 .App {
@@ -82,10 +83,25 @@ body {
   color: #eee !important;
 }
 
+.bg-white {
+  background-color: #FFFFFF !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
 .bg-yellow {
   background-color: #ffd110 !important;
   color: #eee !important;
 
+}
+
+.Background-Brown {
+  background-image: url(./img/bg-index.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.btn-index {
+  background-color: #00fc93 !important;
 }
 
 .bg-deeppurple {
@@ -123,11 +139,11 @@ body {
 }
 
 .banner-active {
-  width: 80% !important;
+  width: 100% !important;
   height: 100% !important;
   /* border-top-right-radius: 20em; */
-  clip-path: polygon(30% 100%, 100% 100%, 70% 0%, 0% 0%) !important;
-
+  clip-path: polygon(0% 100%, 100% 100%, 70% 0%, 0% 0%) !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 .btn-active {
@@ -169,6 +185,7 @@ body {
   height: 150% !important;
   padding: 10px 16px !important;
   border-radius: 50% !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 .modal-center {
@@ -179,6 +196,29 @@ body {
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   background: linear-gradient(119.16deg, #eee -19.74%, rgba(156, 156, 155, 0.78) 79.68%) !important;
+}
+
+.card-admission {
+  align-items: center !important;
+  width: 600px !important;
+  height: 400px !important;
+  border-radius: 5% !important;
+  background-color: #ffffff !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  margin-bottom: 5vh !important;
+}
+
+.card-admin {
+  align-items: center !important;
+  width: 1000px !important;
+  height: auto !important;
+  border-radius: 5% !important;
+  background-color: #ffffff !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  margin-bottom: 5vh !important;
+  margin-top: 5vh !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
 }
 
 .card-hd {
@@ -210,12 +250,16 @@ body {
 .card-count {
   width: auto !important;
   height: auto !important;
-  background-color: #ffd110;
+  background-color: #f0efee;
 }
 
 .card-login {
-  width: 30% !important;
-  height: 30% !important;
+  padding-top: 15px !important;
+  align-items: center !important;
+  width: 400px !important;
+  height: 250px !important;
+  background-color: #ffffff !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 .rectangle-30 {
@@ -226,7 +270,7 @@ body {
   background: #FFFFFF !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   border-radius: 30px !important;
- 
+
 }
 
 .rectangle-40 {
@@ -248,26 +292,26 @@ body {
   text-decoration: none !important;
 } */
 
-.Number{
-  margin-top: 0.3% !important ;
-  margin-left: 3%  !important;
+.Number {
+  margin-top: 0.3% !important;
+  margin-left: 3% !important;
   margin-right: 1% !important;
 }
 
-.Number2{
- 
-  margin-top: 0.5%  !important;
-  margin-left: 2%  !important;
+.Number2 {
+
+  margin-top: 0.5% !important;
+  margin-left: 2% !important;
 }
 
-.Number3{
- 
+.Number3 {
+
   margin-top: 0.5% !important;
   margin-left: -4% !important;
 }
 
 #Input {
-    
+
   /* box-sizing: border-box; */
   border: none !important;
   border-bottom: 2px solid rgb(0, 0, 0) !important;

@@ -14,7 +14,7 @@ class add_announcement extends Component {
     render() {
         return (
             <React.Fragment>
-                <Container className="contrain_css" >
+                <Container className="card-admin" >
                     <h3 style={{ marginBottom: '5%' }}>จัดการข้อมูลประชาสัมพันธ์โรงเรียน</h3>
                     <Tab.Container defaultActiveKey="SearchAnnouncement" >
                         <Nav fill variant="tabs" activeKey={this.state.activeKey}

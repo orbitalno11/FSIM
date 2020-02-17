@@ -1,7 +1,7 @@
 import React, { Component }  from 'react'
 import SetButton from './SetButton'
 import {
-    Container
+    Container, Divider
     
 } from "semantic-ui-react";
 // import { useHistory } from 'react-router-dom'
@@ -41,9 +41,10 @@ class main_addmission extends Component {
     render(){
         return(
             <React.Fragment >
-                <Container  className="contrain_css" >
+                <Container  className="card-admission" style={{"margin-top":"5vh"}} >
                     
-                    <h2 style={{color:'#3BB3A9'}}>จัดการข้อมูลการรับเข้า</h2>
+                    <h2 style={{color:'#3BB3A9'},{padding:'20px'}}>จัดการข้อมูลการรับเข้า</h2>
+                    <Divider/>
                     {
                         this.state.map((item)=>
                         <SetButton item={item} Redirect={this.Redirect.bind(this)}/>

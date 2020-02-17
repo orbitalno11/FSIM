@@ -7,7 +7,7 @@ class TemplateButton extends Component {
     return (
       <React.Fragment>
         <Grid columns={"equal"}>
-          <Grid.Row>
+          <Grid.Row style={{"matgin-top":"3vh"}}>
             <Grid.Column>
               <Button href={this.props.item.url} color={this.props.item.color}>
                 {this.props.item.name}
