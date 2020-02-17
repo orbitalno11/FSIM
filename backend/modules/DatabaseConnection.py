@@ -103,9 +103,21 @@ class DatabaseConnection:
 
         return out
 
-    def get_admission_data(self, type, channel, year):
+    def get_admission_data(self, branch, year, types, channel):
         cursor = self.__db_connection.cursor()
-        sql = "select application_no, firstname, lastname, gender, gpax, school_id, decision from admission where admission_type = " + str(type) + " and admission_channel = " + channel + " and year = " + str(year)
+
+        if year is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch)
+        elif types is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(branch) + " and year =" + str(year)
+        elif channel is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(branch) + " and admission_type = " + str(types) + " and year = " + str(year)
+        elif not year is None and not types is None and not channel is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch) + " and admission_type = " + str(types) + " and admission_channel = " + channel + " and year = " + str(year)
+        else:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission"
 
         out_response ={}
 
@@ -113,7 +125,7 @@ class DatabaseConnection:
             cursor.execute(sql)
             result = cursor.fetchall()
         except pymysql.Error as e:
-            out_response['resonse'] = False
+            out_response['response'] = False
             out_response['message'] = str(e.args[0])
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
@@ -123,8 +135,8 @@ class DatabaseConnection:
 
         out = []
         for data in result:
-            data = {'application_no': data[0], 'firstname': data[1], 'lastname': data[2], 'gender': data[3],
-                    'gpax': str(data[4]), 'school_id': data[5], 'decision': data[6]}
+            data = {'application_no': data[0], 'firstname': data[1], 'lastname': data[2], 'branch': data[3], 'year': data[4], 'gender': data[5],
+                    'gpax': str(data[6]), 'school_id': data[7], 'decision': data[8]}
             out.append(data)
 
         out_response['response'] = True
