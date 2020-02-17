@@ -213,6 +213,5 @@ $RECYCLE.BIN/
 
 
 **/frontend/node_modules
-backend/**/__pycache__
 
 # End of https://www.gitignore.io/api/macos,pycharm,windows,phpstorm,visualstudiocode
