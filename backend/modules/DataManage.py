@@ -43,7 +43,7 @@ class DataManage:
         except Exception as e:
             print(e)
             out_response['response'] = False
-            out_response['message'] = str(e.args[0])
+            out_response['message'] = "Please check your file or table head " + str(e.args[0])
             return out_response
 
         df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
