@@ -134,7 +134,7 @@ class Index extends Component {
       {
         name: "จัดการข้อมูลรับเข้า",
         color: "yellow",
-        url: "/admin/addmission"
+        url: "/admin/admission"
       },
       {
         name: "จัดการข้อมูลประชาสัมพันธ์",
@@ -160,7 +160,7 @@ class Index extends Component {
 
             <Grid.Row centered columns={4} >
               {pageStudent.map(item => (
-                <IndexButton item={item} onClick={this.handleClickModel} />
+                <IndexButton item={item} onClick={this.handleClickModel} key={item.id}/>
               ))}
               <TemplateModal
                 dept="phy"
@@ -176,7 +176,7 @@ class Index extends Component {
                 <Menu tabular style={{ marginTop: "3em" }}>
                   <Menu.Item name="กิจกรรมประชาสัมพันธ์" />
                   <Menu.Item position="right">
-                    <Button href="/admin/admission">จัดการข้อมูล</Button>
+                    <Button href="/admin/addmission">จัดการข้อมูล</Button>
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
@@ -188,7 +188,7 @@ class Index extends Component {
               <Grid.Column textAlign="center">
                 <Form.Group>
                   {buttonNewStudent.map(item => (
-                    <TemplateButton item={item} />
+                    <TemplateButton item={item} key={item.name} />
                   ))}
                 </Form.Group>
               </Grid.Column>
