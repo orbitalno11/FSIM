@@ -215,8 +215,8 @@ class Index extends Component {
             </Grid.Row>
             <Grid.Row>
               <Grid.Column centered>
-                <Button animated size="massive" color="yellow">
-                  <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
+                <Button animated size="massive" color="yellow"  href="/alumni">
+                  <Button.Content  visible>สรุปแบบสอบถาม</Button.Content>
                   <Button.Content hidden>
                     <Icon name="arrow right" />
                   </Button.Content>
