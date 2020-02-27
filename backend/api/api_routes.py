@@ -15,10 +15,9 @@ from backend.modules.UploadManager import UploadManager
 # import application Constant
 import backend.Constant as constant
 
-
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
-
+# this api is in develop. can use this api but it might change in the future
 @api_bp.route('/school', methods=['GET'])
 def allSchool():
     headers = {"Content-type": "application/json"}
@@ -32,7 +31,7 @@ def allSchool():
     else:
         return make_response(jsonify({"data": data}), 500, headers)
 
-
+# this api is in develop. can use this api but it might change in the future
 @api_bp.route('/staff', methods=['POST'])
 def create_staff():
     if request.method == 'POST':
@@ -54,7 +53,7 @@ def create_staff():
         else:
             return make_response(jsonify({"result": result}), 500, headers)
 
-
+# this api is in develop. can use this api but it might change in the future
 @api_bp.route('/login', methods=['POST'])
 def login():
     auth = request.authorization
@@ -78,7 +77,6 @@ def login():
 
 @api_bp.route('/admission', methods=['POST'])
 def insert_admission():
-
     # This api need "Year" as year , "Admission type" as admission_type and "Admission channel" as admission_channel to be a parameter
     headers = {"Content-type": "application/json"}
 
@@ -99,10 +97,12 @@ def insert_admission():
         if file and constant.allowed_admission_file(file.filename):
             destination = UploadManager.upload_file(constant.ADMISSION_FOLDER, file, year)
         else:
-            return make_response(jsonify({"message": "Type of file is not match", "value": "file not match"}), 418, headers)
+            return make_response(jsonify({"message": "Type of file is not match", "value": "file not match"}), 418,
+                                 headers)
     except Exception as e:
         print(e)
-        return make_response(jsonify({"message": str(e), "value": "can not find a file with " + str(e.args[0])}), 400, headers)
+        return make_response(jsonify({"message": str(e), "value": "can not find a file with " + str(e.args[0])}), 400,
+                             headers)
 
     insert = False
 
@@ -122,7 +122,6 @@ def insert_admission():
 @api_bp.route('/admission/<int:branch>/<int:year>/<int:types>', defaults={'channel': None}, methods=['GET'])
 @api_bp.route('/admission/<int:branch>/<int:year>/<int:types>/<int:channel>', methods=['GET'])
 def get_admission(branch, year, types, channel):
-
     # sending branch, year, admission type and admission channel to get the data
 
     headers = {"Content-type": "application/json"}
@@ -132,9 +131,11 @@ def get_admission(branch, year, types, channel):
     del con
 
     if data['response']:
-        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}), 200, headers)
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}),
+                             200, headers)
     else:
-        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}), 500, headers)
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}),
+                             500, headers)
 
 
 @api_bp.route('/branch', methods=['GET'])
@@ -143,7 +144,9 @@ def branch():
     con = DatabaseConnection()
     data = con.get_branch()
 
-    if data:
-        return make_response(jsonify({"data": data}), 200, headers)
+    if data['response']:
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}),
+                             200, headers)
     else:
-        return make_response(jsonify({"data": "Error"}), 500, headers)
+        return make_response(jsonify({"response": data['response'], "message": data['message'], "data": data['data']}),
+                             500, headers)
