@@ -87,39 +87,7 @@ class DatabaseConnection:
         cursor = self.__db_connection.cursor()
         sql = "select branch.branch_id as id, branch.branch_name as name, branch.dept_id, dept.dept_name from branch left join department as dept on branch.dept_id = dept.dept_id"
 
-        try:
-            cursor.execute(sql)
-            result = cursor.fetchall()
-        except pymysql.Error as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
-            return False
-        finally:
-            self.__db_connection.close()
-
-        out = []
-        for branch in result:
-            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3]}
-            out.append(data)
-
-        return out
-
-    def get_admission_data(self, branch, year, types, channel):
-        cursor = self.__db_connection.cursor()
-
-        if year is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch)
-        elif types is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(branch) + " and year =" + str(year)
-        elif channel is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(branch) + " and admission_type = " + str(types) + " and year = " + str(year)
-        elif not year is None and not types is None and not channel is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch) + " and admission_type = " + str(types) + " and admission_channel = " + channel + " and year = " + str(year)
-        else:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission"
-
-        out_response ={}
+        out_response = {}
 
         try:
             cursor.execute(sql)
@@ -129,14 +97,154 @@ class DatabaseConnection:
             out_response['message'] = str(e.args[0])
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
-            return False
+            return out_response
+        finally:
+            self.__db_connection.close()
+
+        out = []
+        for branch in result:
+            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3]}
+            out.append(data)
+
+        out_response['response'] = True
+        out_response['message'] = str("Query Successful")
+        out_response['data'] = out
+
+        return out_response
+
+    def get_admission_data(self, branch, year, types, channel):
+        cursor = self.__db_connection.cursor()
+
+        if year is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch)
+        elif types is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch) + " and year =" + str(year)
+        elif channel is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch) + " and admission_type = " + str(types) + " and year = " + str(year)
+        elif not year is None and not types is None and not channel is None:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+                branch) + " and admission_type = " + str(
+                types) + " and admission_channel = " + channel + " and year = " + str(year)
+        else:
+            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission"
+
+        out_response = {}
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            out_response['data'] = str(e.args[1])
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return out_response
         finally:
             self.__db_connection.close()
 
         out = []
         for data in result:
-            data = {'application_no': data[0], 'firstname': data[1], 'lastname': data[2], 'branch': data[3], 'year': data[4], 'gender': data[5],
+            data = {'application_no': data[0], 'firstname': data[1], 'lastname': data[2], 'branch': data[3],
+                    'year': data[4], 'gender': data[5],
                     'gpax': str(data[6]), 'school_id': data[7], 'decision': data[8]}
+            out.append(data)
+
+        out_response['response'] = True
+        out_response['message'] = str("Query Successful")
+        out_response['data'] = out
+
+        return out_response
+
+    # get all student data (pueng request)
+    def get_all_student(self):
+        cursor = self.__db_connection.cursor()
+        sql = "select student_id, department_name as department, branch_name as branch, current_gapx from (student left join department as dept on student.dept_id = dept.dept_id) left join branch on student.branch_id = branch.branch_id"
+
+        out_response = {}
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            out_response['data'] = str(e.args[1])
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return out_response
+        finally:
+            self.__db_connection.close()
+
+        out = []
+
+        for data in result:
+            data = {'student_id': data[0], 'department': data[1], 'branch': data[2], 'current_gapx': data[3]}
+            out.append(data)
+
+        out_response['response'] = True
+        out_response['message'] = str("Query Successful")
+        out_response['data'] = out
+
+        return out_response
+
+    # get all student academic record (pueng request)
+    def get_all_academic_record(self):
+        cursor = self.__db_connection.cursor()
+        sql = "select * from academic_record"
+
+        out_response = {}
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            out_response['data'] = str(e.args[1])
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return out_response
+        finally:
+            self.__db_connection.close()
+
+        out = []
+
+        for data in result:
+            data = {'student_id': data[0], 'subject_code': data[1], 'semester': data[2], 'education_year': data[3],
+                    'grade': data[4]}
+            out.append(data)
+
+        out_response['response'] = True
+        out_response['message'] = str("Query Successful")
+        out_response['data'] = out
+
+        return out_response
+
+    # get alumni data (aom request)
+    def get_all_alumni(self):
+        cursor = self.__db_connection.cursor()
+        sql = "select student_id, branch.branch_name as branch, graduated_gpax, congrat_year, work_status.status_title as work_status, company, salary from (alumni left join branch on alumni.branch_id = branch.branch_id) left join work_status on alumni.work_status = work_status.status_id"
+
+        out_response = {}
+
+        try:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        except pymysql.Error as e:
+            out_response['response'] = False
+            out_response['message'] = str(e.args[0])
+            out_response['data'] = str(e.args[1])
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return out_response
+        finally:
+            self.__db_connection.close()
+
+        out = []
+
+        for data in result:
+            data = {'student_id': data[0], 'branch': data[1], 'graduated_gpax': data[2], 'congrat_year': data[3],
+                    'work_status': data[4], 'company': data[5], 'salary': data[6]}
             out.append(data)
 
         out_response['response'] = True
