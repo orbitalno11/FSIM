@@ -3,15 +3,20 @@ import PropTypes from "prop-types";
 import { Carousel } from "react-bootstrap";
 import Logo from "../img/60year-fsci.png";
 import banner from "../img/banner2.png";
-import {
-  Image,
-  Menu,
-  Container
-} from "semantic-ui-react";
+import { Image, Menu, Container, Dropdown, Header } from "semantic-ui-react";
 
 const colors = ["yellow"];
 
 class Navbars extends Component {
+
+
+Redirect(event){
+    // alert(event.name)
+    
+    this.props.history.push(event.url);
+
+}
+
   static propTypes = {
     color: PropTypes.string
   };
@@ -26,13 +31,20 @@ class Navbars extends Component {
 
     return (
       <div>
-        <Menu inverted borderless className="bg-yellow" style={{fontSize: '16px'}} size="tiny">
+        <Menu
+          inverted
+          borderless
+          className="bg-yellow"
+          style={{ fontSize: "16px" }}
+          size="tiny"
+        >
           <Container>
             <Menu.Item
               header
               name="หน้าหลัก"
               active={activeItem === "logo"}
               onClick={this.handleItemClick}
+              href="/"
             >
               <Image size="small" src={Logo} />
             </Menu.Item>
@@ -42,33 +54,48 @@ class Navbars extends Component {
                 name="หน้าหลัก"
                 active={activeItem === "home"}
                 onClick={this.handleItemClick}
+                href="/"
               />
-              <Menu.Item
-                position="right"
-                name="ข้อมูลนักศึกษา"
-                active={activeItem === "messages"}
+              <Dropdown
+                item
+                text="ข้อมูลนักศึกษา"
+                active={activeItem === "insomationStudent"}
                 onClick={this.handleItemClick}
-              />
-              <Menu.Item
-                position="right"
-                name="กิจกรรมประชาสัมพันธ์นักศึกษา"
-                active={activeItem === "friends"}
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item href="/mathematics" >ภาควิชาคณิตศาสตร์</Dropdown.Item>
+                  <Dropdown.Item href="/physics">ภาควิชาฟิสิกส์</Dropdown.Item>
+                  <Dropdown.Item href="/microbiology">
+                  ภาควิชาจุลชีววิทยา
+                  </Dropdown.Item>
+                  <Dropdown.Item href="/chemical">ภาควิชาเคมี</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown
+                item
+                text="กิจกรรมประชาสัมพันธ์นักศึกษา"
+                active={activeItem === "Activity"}
                 onClick={this.handleItemClick}
-              />
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#" >สรุปข้อมูลประชาสัมพันธ์</Dropdown.Item>
+                  <Dropdown.Item href="#">สรุปข้อมูลรับเข้า</Dropdown.Item>
+                  <Dropdown.Item href="#">สรุปข้อมูลโครงการรับเข้า</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <Menu.Item
                 position="right"
                 name="ข้อมูลศิษย์เก่า"
-                active={activeItem === "friends"}
+                active={activeItem === "Alumni"}
                 onClick={this.handleItemClick}
+                href="/alumni"
               />
             </Menu.Menu>
           </Container>
         </Menu>
         <div className="carousel-inner">
           <Image src={banner} className="d-block w-100">
-            {/* <div className="bannerOpacity">
-              <Header size='large'>WELCOME TO <br/>FSci Student Information Management System</Header>
-            </div> */}
+           
           </Image>
         </div>
       </div>

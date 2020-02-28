@@ -1,55 +1,111 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./App.css";
+import axios from "axios";
 
 // import Route Tool
-import { Route } from "react-router-dom";
+import {Route} from "react-router-dom";
 
+// import Main page
 import Header from "./Components/Navbar";
-import Footer from "./Components/footer";
-import Index from "./Components/Index";
+import Footer from "./Components/Footer";
+import Index from "./Components/index/Index";
 import Login from "./Components/Login";
-import StudentForm from "./Components/StudentForm";
-import add_student from "./Components/NewStudent/Add_student";
-import add_activity from "./Components/admin/activity/add_activity";
-import add_project from "./Components/admin/project/AddProject";
-import main_addmission from "./Components/admin/mainAddmission/main_addmission";
-// import Mthpopup from "./Components/Mthpopup";
 
+// import Admin page
+import Admin_Newstudent from "./Components/admin/NewStudent/NewStudent"; //รับเข้า
+import Admin_activity from "./Components/admin/activity/Activity";
+import Admin_project from "./Components/admin/project/Project";
+import Admin_addmission from "./Components/admin/mainAddmission/Addmission";
+import Announcement from "./Components/admin/announcement/Announcement";
+import Admin_showStudent from "./Components/admin/student/Showstudent"; //หน้าแรกโชว์ข้อมูลนักศึกษารายคน
+import Admin_alumni from "./Components/admin/alumni/Alumni"; //หน้าหลักเพิ่มศิษย์เก่า
+import SurveyAlumni from "./Components/admin/alumni/SurveyAlumni";
+import SurveyAlumni2 from "./Components/admin/alumni/SurveyAlumni2";
 
-const Home = () => <h1>HOME</h1>;
-const About = () => <h1>About</h1>;
+// import User page
+import Active from "./Components/User/Active_recruitment";
+import Addmisstion from "./Components/User/Addmission";
+import Activity from "./Components/User/Activity";
+import Alumni from "./Components/User/Alumni";
+import Mathematic from "./Components/infomation/Mathematics";
+import Chemical from "./Components/infomation/Chemical";
+import Physic from "./Components/infomation/Physics";
+import Microbiology from "./Components/infomation/Microbiology";
 
-// export class Index extends Component{
-//   constructor(props){
-//     super(props);
-//     this.state ={Index:[]}
-//   })
-// }
+import ApiManage from "./Class/ApiManage";
 
-function App() {
+import UploadForm from "./Components/UploadForm";
 
-  return (
-    <React.Fragment>
-      <body>
-        <div className="App">
-          <Header />
-          <switch>
-            <Route exact path="/" component={Index} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/std" component={StudentForm} />
-            <Route exact path="/add_student" component={add_student} />
-            <Route exact path="/add_activity" component={add_activity} />
-            <Route exact path="/add_project" component={add_project} />
-            <Route exact path="/main-addmission" component={main_addmission} />
+class App extends Component {
 
-            
-            {/* <Route exact path="/MTH" component={Mthpopup} /> */}
-          </switch>
-          <Footer />
-        </div>
-      </body>
-    </React.Fragment>
-  );
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: ""
+        }
+    }
+
+    componentDidMount() {
+        ApiManage.get('admission/2560/1/1')
+            .then(res => {
+                let receive_data = res.data
+                if (receive_data.response === true) {
+                    this.setState({
+                        data: receive_data.data
+                    })
+                }
+            })
+            .catch(error => {
+                console.log('Error fetching and parsing data', error)
+            })
+    }
+
+    render() {
+        let {data} = this.state
+        return (
+            <React.Fragment>
+                <Header/>
+                <div className="App">
+                    <switch>
+                        <Route exact path={"/testupload"} component={UploadForm} />
+                        <Route exact path="/" component={Index}/>
+                        <Route exact path="/login" component={Login}/>
+                        {/* Route for admin */}
+                        <Route
+                            exact
+                            path="/admin/Newstudent"
+                            component={Admin_Newstudent}
+                        />
+                        <Route exact path="/admin/activity" component={Admin_activity}/>
+                        <Route exact path="/admin/project" component={Admin_project}/>
+                        <Route
+                            exact
+                            path="/admin/admission"
+                            component={Admin_addmission}
+                        />
+                        <Route exact path="/admin/announcement" component={Announcement}/>
+                        <Route exact path="/admin/student" component={Admin_showStudent}/>
+                        <Route exact path="/admin/alumni" component={Admin_alumni}/>
+
+                        <Route exact path="/surveyAlumni" component={SurveyAlumni}/>
+                        <Route exact path="/surveyAlumni2" component={SurveyAlumni2}/>
+
+                        {/* Route for user */}
+                        <Route exact path="/active" component={Active}/>
+                        <Route exact path="/addmission" component={Addmisstion}/>
+                        <Route exact path="/activity" component={Activity}/>
+                        <Route exact path="/alumni" component={Alumni}/>
+                        <Route exact path="/mathematics" component={Mathematic}/>
+                        <Route exact path="/chemical" component={Chemical}/>
+                        <Route exact path="/physics" component={Physic}/>
+                        <Route exact path="/microbiology" component={Microbiology}/>
+                    </switch>
+                </div>
+                <Footer/>
+            </React.Fragment>
+        );
+    }
 }
 
 export default App;

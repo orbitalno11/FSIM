@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import {
     Button,
     Icon,
-    Grid,
-    Divider,
-    Segment,
-    
+    Grid
 } from "semantic-ui-react";
-
-
 
 class setButton extends Component {
     Redirect_f(){
@@ -24,9 +19,8 @@ class setButton extends Component {
                         onClick={this.Redirect_f.bind(this)}>
                       <Icon name="add user" ></Icon> {this.props.item.name}
                     </Button>
-
                     </Grid.Column>
-
+                    
                     <Grid.Column  verticalAlign='middle' width={10} textAlign='left'>
                         {this.props.item.detail}
                     </Grid.Column>

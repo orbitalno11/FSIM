@@ -23,7 +23,8 @@
     "react-js-banner": "^0.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "simple-react-validator": "^1.4.4"
   },
   "scripts": {
     "start": "react-scripts start",

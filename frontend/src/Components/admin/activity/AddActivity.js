@@ -1,5 +1,5 @@
 import React, { Component }  from 'react'
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Form, Col, Row, Button } from 'react-bootstrap';
 import Project from '../../option/project';
 
@@ -31,6 +31,8 @@ class AddActivity extends Component {
         
     }
 
+   
+    
 
 
 
@@ -61,7 +63,7 @@ class AddActivity extends Component {
                     <div   style={{marginTop:'5%'}}>
                     <Button
                         className='btn-EditData interval-1'
-                        onClick={this.handleSearch}
+                        href="/admin/project"
                     >เพิ่มโครงการ</Button>
                         <Button
                             className='btn-EditData interval-1'
