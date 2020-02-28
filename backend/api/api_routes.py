@@ -17,6 +17,7 @@ import backend.Constant as constant
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
+
 # this api is in develop. can use this api but it might change in the future
 @api_bp.route('/school', methods=['GET'])
 def allSchool():
@@ -30,6 +31,7 @@ def allSchool():
         return make_response(jsonify({"data": data}), 200, headers)
     else:
         return make_response(jsonify({"data": data}), 500, headers)
+
 
 # this api is in develop. can use this api but it might change in the future
 @api_bp.route('/staff', methods=['POST'])
@@ -52,6 +54,7 @@ def create_staff():
             return make_response(jsonify({"result": result}), 200, headers)
         else:
             return make_response(jsonify({"result": result}), 500, headers)
+
 
 # this api is in develop. can use this api but it might change in the future
 @api_bp.route('/login', methods=['POST'])
