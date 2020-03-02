@@ -23,7 +23,7 @@ api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 def allSchool():
     headers = {"Content-type": "application/json"}
 
-    connect = DatabaseConnection()
+    connect = DatabaseConnection.getInstance()
     data = connect.get_all_school_data()
     del connect
 
@@ -46,7 +46,7 @@ def create_staff():
         lname = data['lastname']
         hashed_pass = generate_password_hash(data['password'], method='sha256')
 
-        connect = DatabaseConnection()
+        connect = DatabaseConnection.getInstance()
         result = connect.create_staff(staff_id, staff_level, fname, lname, hashed_pass)
         del connect
 
@@ -63,7 +63,7 @@ def login():
     if not auth or not auth.username or not auth.password:
         return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Please Login'})
 
-    connect = DatabaseConnection()
+    connect = DatabaseConnection().getInstance()
     user = connect.get_user(auth.username)
     del connect
 
@@ -110,7 +110,7 @@ def insert_admission():
     insert = False
 
     if destination['response']:
-        dm = DataManage()
+        dm = DataManage.getInstance()
         insert = dm.insert_admission(admission_type, admission_channel, year, destination['message'])
 
     if insert['response']:
@@ -129,7 +129,7 @@ def get_admission(branch, year, types, channel):
 
     headers = {"Content-type": "application/json"}
 
-    con = DatabaseConnection()
+    con = DatabaseConnection.getInstance()
     data = con.get_admission_data(branch, year, types, channel)
     del con
 
@@ -144,7 +144,7 @@ def get_admission(branch, year, types, channel):
 @api_bp.route('/branch', methods=['GET'])
 def branch():
     headers = {"Content-type": "application/json"}
-    con = DatabaseConnection()
+    con = DatabaseConnection.getInstance()
     data = con.get_branch()
 
     if data['response']:
