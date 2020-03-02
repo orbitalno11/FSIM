@@ -1,20 +1,31 @@
 import pymysql
 import json
 
-# import our module
-from backend.modules.FSIMConstant import FSIMConstant
+import backend.Constant
 
 
 class DatabaseConnection:
-    __constant = FSIMConstant()
-    __host = __constant.get_host()
-    __db = __constant.get_db()
-    __user = __constant.get_user_db()
-    __password = __constant.get_password_db()
+    __constant = backend.Constant
+    __host = __constant.DATABASE_HOST
+    __db = __constant.DATABASE_NAME
+    __user = __constant.DATABASE_USER
+    __password = __constant.DATABASE_PASSWORD
     __db_connection = None
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if DatabaseConnection.__instance is None:
+            DatabaseConnection()
+        return DatabaseConnection.__instance
 
     def __init__(self):
-        self.__db_connection = pymysql.connect(self.__host, self.__user, self.__password, self.__db)
+        if DatabaseConnection.__instance is not None:
+            raise Exception("This class is a singleton!")
+        else:
+            if self.__db_connection is None:
+                self.__db_connection = pymysql.connect(self.__host, self.__user, self.__password, self.__db)
+            DatabaseConnection.__instance = self
 
     def get_all_school_data(self):
         cursor = self.__db_connection.cursor()

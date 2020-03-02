@@ -3,23 +3,35 @@ import pymysql
 from sqlalchemy import create_engine
 import os
 
-# import our module
-from backend.modules.FSIMConstant import FSIMConstant
+import backend.Constant
 
 
 class DataManage:
+    __constant = backend.Constant
+    __host = __constant.DATABASE_HOST
+    __db = __constant.DATABASE_NAME
+    __user = __constant.DATABASE_USER
+    __password = __constant.DATABASE_PASSWORD
+    __engine = None
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if DataManage.__instance is None:
+            DataManage()
+        return DataManage.__instance
 
     def __init__(self):
-        self.__constant = FSIMConstant()
-        self.__host = self.__constant.get_host()
-        self.__db = self.__constant.get_db()
-        self.__user = self.__constant.get_user_db()
-        self.__password = self.__constant.get_password_db()
-        self.__engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
-                                      .format(user=self.__user,
-                                            pw=self.__password,
-                                            db=self.__db,
-                                            host=self.__host))
+        if DataManage.__instance is not None:
+            raise Exception("This class is a singleton!")
+        else:
+            if self.__engine is None:
+                self.__engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}"
+                                              .format(user=self.__user,
+                                                    pw=self.__password,
+                                                    db=self.__db,
+                                                    host=self.__host))
+            DataManage.__instance = self
 
     def readExcel(self, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
