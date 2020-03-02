@@ -1,9 +1,9 @@
 class FSIMConstant:
 
-    __host = "localhost"
-    __db = "fsim"
-    __user_db = "root"
-    __password_db = ""
+    __host = "<database host>"
+    __db = "<database name>"
+    __user_db = "<database username>"
+    __password_db = "<database password>"
 
     def get_host(self):
         return self.__host

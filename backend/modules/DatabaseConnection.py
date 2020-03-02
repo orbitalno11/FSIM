@@ -85,7 +85,7 @@ class DatabaseConnection:
 
     def get_branch(self):
         cursor = self.__db_connection.cursor()
-        sql = "select branch.branch_id as id, branch.branch_name as name, branch.dept_id, dept.dept_name from branch left join department as dept on branch.dept_id = dept.dept_id"
+        sql = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name from branch natural join has_branch natural join department as dept"
 
         out_response = {}
 
