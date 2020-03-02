@@ -84,13 +84,11 @@ def insert_admission():
     headers = {"Content-type": "application/json"}
 
     year = request.form.get('year')
-    admission_type = request.form.get('admission_type')
     admission_channel = request.form.get('admission_channel')
 
-    if year is None or admission_type is None or admission_channel is None:
+    if year is None or admission_channel is None:
         value = {
             "year": year,
-            "admission_type": admission_type,
             "admission_channel": admission_channel
         }
         return make_response(jsonify({"message": "One of these is Null", "value": [value]}), 418, headers)
@@ -111,7 +109,7 @@ def insert_admission():
 
     if destination['response']:
         dm = DataManage.getInstance()
-        insert = dm.insert_admission(admission_type, admission_channel, year, destination['message'])
+        insert = dm.insert_admission(admission_channel, year, destination['message'])
 
     if insert['response']:
         return make_response(jsonify({"response": True, "message": str(insert['message'])}), 200, headers)

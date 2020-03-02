@@ -2,8 +2,12 @@ import pandas as pd
 import pymysql
 from sqlalchemy import create_engine
 import os
+from datetime import datetime
 
 import backend.Constant
+
+# import database connection
+from backend.modules.DatabaseConnection import DatabaseConnection
 
 
 class DataManage:
@@ -39,18 +43,15 @@ class DataManage:
         # df.to_sql('Book2', con=self.engine, if_exists='append', chunksize=1000, index=False)
         print(df)
 
-    def insert_admission(self, type, channel, year, url):
+    def insert_admission(self, channel, year, url):
         df = pd.read_excel(url, sheet_name='Sheet1')
 
         out_response = {}
 
         try:
-            df = df.loc[1:,
-                 ['เลขที่ใบสมัคร', 'หมายเลขบัตรประชาชน', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX',
-                  'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
-            df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'หมายเลขบัตรประชาชน': 'national_id',
-                               'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname', 'นามสกุล(ไทย)': 'lastname',
-                               'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
+            df = df.loc[1:, ['เลขที่ใบสมัคร', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX', 'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
+            df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname',
+                               'นามสกุล(ไทย)': 'lastname', 'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
                                'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
         except Exception as e:
             print(e)
@@ -58,33 +59,45 @@ class DataManage:
             out_response['message'] = "Please check your file or table head " + str(e.args[0])
             return out_response
 
-        df.loc[df['gender'] == 'นาย', ['gender']] = 'male'
-        df.loc[df['gender'].str.contains('นาง'), ['gender']] = 'female'
-        df['admission_type'] = type
-        df['admission_channel'] = channel
-        df['year'] = year
-        df['school_id'] = '0010039990'
+        # admission table
+        admission_table = df.loc[:, ['application_no', 'firstname', 'lastname', 'gender', 'decision']]
+        admission_table['admission_year'] = year
+        admission_table['upload_date'] = datetime.now().date()
+        admission_table.loc[admission_table['gender'] == 'นาย', ['gender']] = 'male'
+        admission_table.loc[admission_table['gender'].str.contains('นาง'), ['gender']] = 'female'
+        admission_table.loc[admission_table['decision'].notnull(), ['decision']] = -1
+        admission_table['decision'].fillna(1, inplace=True)
 
-        branch = {
-            1: "คณิตศาสตร์",
-            2: "วิทยาการคอมพิวเตอร์ประยุกต์",
-            3: "สถิติ",
-            4: "เคมี",
-            5: "จุลชีววิทยา",
-            6: "วิทยาศาสตร์และเทคโนโลยีการอาหาร",
-            7: "ฟิสิกส์ประยุกต์"
-        }
+        # admission in branch table
+        admission_branch = df.loc[:, ['application_no', 'branch']]
+
+        print(admission_branch.loc[:, ['branch']])
+
+        # get branch data from database
+        db = DatabaseConnection.getInstance()
+        branch = db.get_branch()
+        branch = branch['data']
 
         for i in branch:
-            b = branch[i]
-            if df.loc[df['branch'].str.contains(b), ['branch']].shape[0] > 0:
-                df.loc[df['branch'].str.contains(b), ['branch']] = str(i)
+            branch_name = i['branch_name']
+            if admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']].shape[0] > 0:
+                admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']] = str(i['has_branch_id'])
 
-        df.loc[df['decision'].notnull(), ['decision']] = -1
-        df['decision'].fillna(1, inplace=True)
+        admission_branch.rename(columns={'branch': 'has_branch_id'}, inplace=True)
+
+        # admission from table
+        admission_from = df.loc[:, ['application_no']]
+        admission_from['channel_id'] = channel
+
+        # admission studied
+        admission_studied = df.loc[:, ['application_no', 'GPAX']]
+        admission_studied['school_id'] = '1170100028'
 
         try:
-            df.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
+            admission_table.to_sql('admission', con=self.__engine, if_exists='append', chunksize=1000, index=False)
+            admission_branch.to_sql('admission_in_branch', con=self.__engine, if_exists='append', chunksize=1000, index=False)
+            admission_from.to_sql('admission_from', con=self.__engine, if_exists='append', chunksize=1000, index=False)
+            admission_studied.to_sql('admission_studied', con=self.__engine, if_exists='append', chunksize=1000, index=False)
             out_response['response'] = True
             out_response['message'] = "Insert data to database successful"
             return out_response

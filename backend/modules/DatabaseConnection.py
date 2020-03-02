@@ -96,7 +96,7 @@ class DatabaseConnection:
 
     def get_branch(self):
         cursor = self.__db_connection.cursor()
-        sql = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name from branch natural join has_branch natural join department as dept"
+        sql = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
 
         out_response = {}
 
@@ -109,12 +109,12 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
+        # finally:
+        #     self.__db_connection.close()
 
         out = []
         for branch in result:
-            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3]}
+            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3], 'has_branch_id': branch[4]}
             out.append(data)
 
         out_response['response'] = True
