@@ -31,20 +31,20 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    ApiManage.get("admission/2560/1/1")
-      .then(res => {
-        let receive_data = res.data;
-        if (receive_data.response === true) {
-          this.setState({
-            data: receive_data.data
-          });
-        }
-      })
-      .catch(error => {
-        console.log("Error fetching and parsing data", error);
-      });
-  }
+  // componentDidMount() {
+  //   ApiManage.get("admission/2560/1/1")
+  //     .then(res => {
+  //       let receive_data = res.data;
+  //       if (receive_data.response === true) {
+  //         this.setState({
+  //           data: receive_data.data
+  //         });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log("Error fetching and parsing data", error);
+  //     });
+  // }
   render() {
     // let { data } = this.state;
     return (
