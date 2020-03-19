@@ -4,7 +4,25 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+// import route tool
+import { BrowserRouter } from 'react-router-dom'
+import 'semantic-ui-css/semantic.min.css'
+
+
+// const styleLink = document.createElement("link");
+// styleLink.rel = "stylesheet";
+// styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+// document.head.appendChild(styleLink);
+
+const AppWithRouter = () => (
+    <BrowserRouter>
+        <App/>
+    </BrowserRouter>
+)
+
+ReactDOM.render(<AppWithRouter/>, document.getElementById('root'));
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

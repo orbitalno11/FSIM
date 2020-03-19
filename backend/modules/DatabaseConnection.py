@@ -172,7 +172,7 @@ class DatabaseConnection:
     # get all student data (pueng request)
     def get_all_student(self):
         cursor = self.__db_connection.cursor()
-        sql = "select student_id, department_name as department, branch_name as branch, current_gapx from (student left join department as dept on student.dept_id = dept.dept_id) left join branch on student.branch_id = branch.branch_id"
+        sql = "select student_id, dept_name, branch_name, current_gpax from student natural join study_in natural join has_branch natural join branch natural join department"
 
         out_response = {}
 
@@ -191,7 +191,7 @@ class DatabaseConnection:
         out = []
 
         for data in result:
-            data = {'student_id': data[0], 'department': data[1], 'branch': data[2], 'current_gapx': data[3]}
+            data = {'student_id': data[0], 'department': data[1], 'branch': data[2], 'current_gpax': data[3]}
             out.append(data)
 
         out_response['response'] = True
