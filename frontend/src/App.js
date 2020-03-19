@@ -12,9 +12,13 @@ import Navbar from "./Components/Menu";
 import Login from "./Components/Login";
 
 //import Admin Page
+import MainAdmin from "./Components/Admin/MainAdmin/MainAdmission";
 
 //import User Page
 import Active from "./Components/User/ActiveRecruitment";
+import Admission from "./Components/User/Admission";
+import Alumni from "./Components/User/Alumni";
+import Activity from "./Components/User/Activity";
 
 
 
@@ -52,11 +56,13 @@ class App extends Component {
             <Route exact path="/login" component={Login}/>
 
             {/* Route for admin */}
-
+            <Route exact path="/admin" component={MainAdmin} />
 
             {/* Route for user */}
             <Route exact path="/active" component={Active}/>
-
+            <Route exact path="/admission" component={Admission} />
+            <Route exact path="/alumni" component={Alumni}/>
+            <Route exact path="/activity" component={Activity} />
           </Switch>
         </div>
       </React.Fragment>
