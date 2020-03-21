@@ -49,10 +49,10 @@ class DataManage:
         out_response = {}
 
         try:
-            df = df.loc[1:, ['เลขที่ใบสมัคร', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX', 'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'เหตุผลในการสละสิทธิ์']]
+            df = df.loc[1:, ['เลขที่ใบสมัคร', 'คำนำหน้านาม(ไทย)', 'ชื่อ(ไทย)', 'นามสกุล(ไทย)', 'GPAX', 'รหัสสถานศึกษา', 'สาขาวิชาที่สมัคร', 'ได้เข้าศึกษา']]
             df.rename(columns={'เลขที่ใบสมัคร': 'application_no', 'คำนำหน้านาม(ไทย)': 'gender', 'ชื่อ(ไทย)': 'firstname',
                                'นามสกุล(ไทย)': 'lastname', 'รหัสสถานศึกษา': 'school_id', 'สาขาวิชาที่สมัคร': 'branch',
-                               'เหตุผลในการสละสิทธิ์': 'decision'}, inplace=True)
+                               'ได้เข้าศึกษา': 'decision'}, inplace=True)
         except Exception as e:
             print(e)
             out_response['response'] = False
@@ -65,13 +65,14 @@ class DataManage:
         admission_table['upload_date'] = datetime.now().date()
         admission_table.loc[admission_table['gender'] == 'นาย', ['gender']] = 'male'
         admission_table.loc[admission_table['gender'].str.contains('นาง'), ['gender']] = 'female'
-        admission_table.loc[admission_table['decision'].notnull(), ['decision']] = -1
-        admission_table['decision'].fillna(1, inplace=True)
+        admission_table.loc[admission_table['decision'] == 'ไม่', ['decision']] = -1
+        admission_table.loc[admission_table['decision'] == 'ใช่', ['decision']] = 1
+        admission_table['decision'].fillna(-1, inplace=True)
 
         # admission in branch table
         admission_branch = df.loc[:, ['application_no', 'branch']]
 
-        print(admission_branch.loc[:, ['branch']])
+        # print(admission_branch.loc[:, ['branch']])
 
         # get branch data from database
         db = DatabaseConnection.getInstance()
