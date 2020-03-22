@@ -9,11 +9,11 @@ from functools import wraps
 from flask_cors import CORS
 
 # import modules
-from backend.modules.DataManage import DataManage
-from backend.modules.DatabaseConnection import DatabaseConnection
+from backend.modules.old_DatabaseConnection import DatabaseConnection
 
 # import blueprint
 from backend.api import api_routes
+from backend.api import admin_api_routes
 
 # import Constant
 import backend.Constant as constant
@@ -32,6 +32,7 @@ app.config['SECRET_KEY'] = constant.SECRET_KEY
 
 # setup blueprint
 app.register_blueprint(api_routes.api_bp)
+app.register_blueprint(admin_api_routes.admin_bp)
 
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
 
