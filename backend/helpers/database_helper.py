@@ -134,6 +134,7 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
 
+    # get student data by department
     def get_department_student_data(self, dept_id):
         cursor = self.__db_connection.cursor()
         sql_command = "SELECT student_id, current_gpax, branch_name, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id = %s" % (str(dept_id))
@@ -152,6 +153,32 @@ class DatabaseHelper:
                 'current_gpax': data[1],
                 'branch_name': data[2],
                 'status_id': data[3],
+                'education_year': year
+            }
+            out_function_data.append(temp)
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get student in department by status
+    def get_student_status(self, dept_id, status_id):
+        cursor = self.__db_connection.cursor()
+        sql_command = "SELECT student_id, firstname, lastname, current_gpax, branch_name, branch_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id = %s and status_id = %s" % (
+            str(dept_id), str(status_id))
+        execute = self.__execute_query(sql_command, cursor)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            year = data[0]
+            year = year[:2]
+            year = self.__constant.calculate_education_year(year)
+            temp = {
+                'student_id': data[0],
+                'firstname': data[1],
+                'lastname': data[2],
+                'current_gpax': data[3],
+                'branch_name': data[4],
                 'education_year': year
             }
             out_function_data.append(temp)
