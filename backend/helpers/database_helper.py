@@ -74,6 +74,15 @@ class DatabaseHelper:
         cursor.executemany(sql_command, insert_list)
         self.__db_connection.commit()
 
+    def __execute_query(self, sql_command, cursor):
+        try:
+            cursor.execute(sql_command)
+            result = cursor.fetchall()
+            return inner_res_helper.make_inner_response(True, "Success", result)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
         # # # # # manage data for admin part # # # # #
 
 # admission part
@@ -124,3 +133,26 @@ class DatabaseHelper:
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
+
+    def get_department_student_data(self, dept_id):
+        cursor = self.__db_connection.cursor()
+        sql_command = "SELECT student_id, current_gpax, branch_name, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id = %s" % (str(dept_id))
+        execute = self.__execute_query(sql_command, cursor)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            year = data[0]
+            year = year[:2]
+            year = self.__constant.calculate_education_year(year)
+            temp = {
+                'student_id': data[0],
+                'current_gpax': data[1],
+                'branch_name': data[2],
+                'status_id': data[3],
+                'education_year': year
+            }
+            out_function_data.append(temp)
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
