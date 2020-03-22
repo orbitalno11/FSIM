@@ -14,6 +14,6 @@ def create_response(message: str, response: bool, data, response_code: int):
 
 def return_response(data):
     if data['response']:
-        return create_response(data['message'], data['response'], data['data'], 200)
+        return create_response(data['message'], data['response'], data['value'], 200)
     else:
-        return create_response(data['message'], data['response'], data['data'], 500)
+        return create_response(data['message'], data['response'], data['value'], 500)

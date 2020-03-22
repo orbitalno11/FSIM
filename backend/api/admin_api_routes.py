@@ -44,4 +44,10 @@ def insert_admission():
         if insert_value['response']:
             db = DatabaseHelper.get_instance()
             insert = db.insert_admission(insert_value['value'])
+        else:
+            return api_helper.return_response(insert_value)
+    else:
+        return api_helper.return_response(destination)
+    return api_helper.return_response(insert)
+
 

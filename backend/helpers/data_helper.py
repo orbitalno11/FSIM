@@ -75,7 +75,7 @@ class DataHelper:
 
         # admission studied
         admission_studied = df.loc[:, ['application_no', 'GPAX']]
-        admission_studied['school_id'] = '1170100028'
+        admission_studied['school_id'] = '1000100101'
 
         # make json data to send to database helper class
         out_function_data = {'admission_table': admission_table.to_json(orient='index'),
