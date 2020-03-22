@@ -51,3 +51,17 @@ def insert_admission():
     return api_helper.return_response(insert)
 
 
+# upload current student academic record
+
+# get student in department by status
+@admin_bp.route('/department/student/status', methods=['GET'])
+def get_probation_student():
+    # this api need department id and status id
+    department = request.args.get('dept_id')
+    status = request.args.get('status_id')
+
+    db = DatabaseHelper.get_instance()
+    data = db.get_student_status(department, status)
+
+    return api_helper.return_response(data)
+

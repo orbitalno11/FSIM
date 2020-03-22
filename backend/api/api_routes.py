@@ -7,10 +7,32 @@ from backend.helpers.database_helper import DatabaseHelper
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
 
+# # # # # get general data part
+# get general department data such as name , id
+@api_bp.route('/department', methods=['GET'])
+def get_department_data():
+    dept_id = request.args.get('dept_id')
+
+    db = DatabaseHelper.get_instance()
+    data = db.get_department(dept_id)
+
+    return api_helper.return_response(data)
+
+
+# get general branch data
+@api_bp.route('/branch', methods=['GET'])
+def get_branch_data():
+    branch_id = request.args.get('branch_id')
+
+    db = DatabaseHelper.get_instance()
+    data = db.get_branch(branch_id)
+
+    return api_helper.return_response(data)
+
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])
-def get_department_data():
+def get_department_student_data():
     # this api need department id
     department = request.args.get('dept_id')
 
@@ -19,15 +41,3 @@ def get_department_data():
 
     return api_helper.return_response(data)
 
-
-# get student in department by status
-@api_bp.route('/department/student/status', methods=['GET'])
-def get_probation_student():
-    # this api need department id and status id
-    department = request.args.get('dept_id')
-    status = request.args.get('status_id')
-
-    db = DatabaseHelper.get_instance()
-    data = db.get_student_status(department, status)
-
-    return api_helper.return_response(data)

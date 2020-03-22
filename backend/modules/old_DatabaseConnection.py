@@ -3,7 +3,7 @@ import json
 
 import backend.Constant
 
-
+# TODO() Don't use this file and do not delete it too.
 class DatabaseConnection:
     __constant = backend.Constant
     __host = __constant.DATABASE_HOST

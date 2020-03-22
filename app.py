@@ -9,8 +9,7 @@ from functools import wraps
 from flask_cors import CORS
 
 # import modules
-from backend.modules.DataManage import DataManage
-from backend.modules.DatabaseConnection import DatabaseConnection
+from backend.modules.old_DatabaseConnection import DatabaseConnection
 
 # import blueprint
 from backend.api import api_routes

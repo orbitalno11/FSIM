@@ -4,20 +4,15 @@ import jwt
 import datetime
 
 # import database connection
-from backend.modules.DatabaseConnection import DatabaseConnection
+from backend.modules.old_DatabaseConnection import DatabaseConnection
 
-# import data manager
-from backend.modules.DataManage import DataManage
-
-# import Upload manager
-from backend.modules.UploadManager import UploadManager
 
 # import application Constant
 import backend.Constant as constant
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
-
+# TODO() Don't use this file and do not delete it too.
 # this api is in develop. can use this api but it might change in the future
 @api_bp.route('/school', methods=['GET'])
 def allSchool():
@@ -77,39 +72,6 @@ def login():
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Please Login'})
 
-
-@api_bp.route('/admission', methods=['POST'])
-def insert_admission():
-    # This api need "Year" as year , "Admission type" as admission_type and "Admission channel" as admission_channel to be a parameter
-    headers = {"Content-type": "application/json"}
-
-    year = request.form.get('year')
-    admission_channel = request.form.get('admission_channel')
-
-    if year is None or admission_channel is None:
-        value = {
-            "year": year,
-            "admission_channel": admission_channel
-        }
-        return APIResponse.create_error_exception("One of these is Null", [value], 418)
-
-    try:
-        file = request.files['upload']
-        if file and constant.allowed_admission_file(file.filename):
-            destination = UploadManager.upload_file(constant.ADMISSION_FOLDER, file, year)
-        else:
-            return APIResponse.create_error_exception("Type of file is not match", "file not match", 418)
-    except Exception as e:
-        print(e)
-        return APIResponse.create_error_exception(str(e), "can not find a file with " + str(e.args[0]), 400)
-
-    insert = False
-
-    if destination['response']:
-        dm = DataManage.getInstance()
-        insert = dm.insert_admission(admission_channel, year, destination['message'])
-
-    return APIResponse.return_response(insert)
 
 
 @api_bp.route('/admission', defaults={'branch': None, 'year': None, 'types': None, 'channel': None}, methods=['GET'])
