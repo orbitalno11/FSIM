@@ -120,8 +120,11 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
     # get all student data (pueng)
-    def get_all_student(self):
-        sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
+    def get_all_student(self, dept_id=None):
+        if dept_id is not None:
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status where dept_id like '%s'" % dept_id
+        else:
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -129,20 +132,27 @@ class DatabaseHelper:
 
         out_function_data = []
         for data in execute['value']:
+            year = data[0]
+            year = year[:2]
+            year = self.__constant.calculate_education_year(year)
             data = {
                 'student_id': data[0],
                 'department': data[1],
                 'branch': data[2],
                 'current_gpax': data[3],
-                'education_status': data[0]
+                'education_status': data[0],
+                'student_year': year
             }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all student academic record (pueng)
-    def get_all_student_academic_record(self):
-        sql_command = "select student_id, subject_code, semester, education_year, grade, status_id from academic_record NATURAL JOIN has_status"
+    def get_all_academic_record(self, dept_id=None):
+        if dept_id is None:
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id from academic_record NATURAL JOIN has_status"
+        else:
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE dept_id like '%s'" % dept_id
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:

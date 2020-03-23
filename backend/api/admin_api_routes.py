@@ -52,6 +52,10 @@ def insert_admission():
 
 
 # upload current student academic record
+@admin_bp.route('/academic', methods=['GET'])
+def insert_academic_record():
+    return api_helper.create_response(message="Developing", response=True, response_code=200)
+
 
 # get student in department by status
 @admin_bp.route('/department/student/status', methods=['GET'])
@@ -64,4 +68,3 @@ def get_probation_student():
     data = db.get_student_status(department, status)
 
     return api_helper.return_response(data)
-
