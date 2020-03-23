@@ -85,3 +85,9 @@ class DataHelper:
         return inner_res_helper.make_inner_response(True,
                                                     "Data for insert in to database",
                                                     out_function_data)
+
+    def read_academic_file(self, file_location, year, semester):
+        df = pd.read_excel(file_location, converters={'รหัส': str}, sheet_name=None)
+        sheet_name = list(df.keys())
+
+        sheet = df[sheet_name[0]]

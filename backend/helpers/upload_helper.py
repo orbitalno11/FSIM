@@ -6,7 +6,7 @@ from datetime import datetime
 import backend.helpers.inner_response_helper as inner_res_helper
 
 
-def upload_admission_file(store_folder, file, year):
+def upload_file(store_folder, file, year):
     if not os.path.isdir(store_folder):
         os.makedirs(store_folder)
 
