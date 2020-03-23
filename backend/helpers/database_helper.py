@@ -121,7 +121,7 @@ class DatabaseHelper:
 
     # get all student data (pueng)
     def get_all_student(self):
-        sql_command = "select student_id, dept_name, branch_name, current_gpax from student natural join study_in natural join has_branch natural join branch natural join department"
+        sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -129,14 +129,20 @@ class DatabaseHelper:
 
         out_function_data = []
         for data in execute['value']:
-            data = {'student_id': data[0], 'department': data[1], 'branch': data[2], 'current_gpax': data[3]}
+            data = {
+                'student_id': data[0],
+                'department': data[1],
+                'branch': data[2],
+                'current_gpax': data[3],
+                'education_status': data[0]
+            }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all student academic record (pueng)
     def get_all_student_academic_record(self):
-        sql_command = "select student_id, subject_code, semester, education_year, grade from academic_record"
+        sql_command = "select student_id, subject_code, semester, education_year, grade, status_id from academic_record NATURAL JOIN has_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -144,8 +150,14 @@ class DatabaseHelper:
 
         out_function_data = []
         for data in execute['value']:
-            data = {'student_id': data[0], 'subject_code': data[1], 'semester': data[2], 'education_year': data[3],
-                    'grade': data[4]}
+            data = {
+                'student_id': data[0],
+                'subject_code': data[1],
+                'semester': data[2],
+                'education_year': data[3],
+                'grade': data[4],
+                'education_status': data[5]
+            }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
@@ -161,18 +173,26 @@ class DatabaseHelper:
 
         out_function_data = []
         for data in execute['value']:
-            data = {'student_id': data[0], 'branch': data[1], 'graduated_gpax': data[2], 'congrat_year': data[3],
-                    'work_status': data[4], 'company': data[5], 'salary': data[6]}
+            data = {
+                'student_id': data[0],
+                'branch': data[1],
+                'graduated_gpax': data[2],
+                'congrat_year': data[3],
+                'work_status': data[4],
+                'company': data[5],
+                'salary': data[6]
+            }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
         # # # # # general path # # # # #
+
     def get_department(self, name):
         if name is None:
             sql_command = "SELECT dept_name, dept_id FROM department"
         else:
-            sql_command = "SELECT dept_name, dept_id FROM department where dept_id = %s" %(name)
+            sql_command = "SELECT dept_name, dept_id FROM department where dept_id = %s" % (name)
 
         execute = self.__execute_query(sql_command)
 
@@ -193,7 +213,8 @@ class DatabaseHelper:
         if branch_id is None:
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
         else:
-            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept where branch_id = %s" % (branch_id)
+            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept where branch_id = %s" % (
+                branch_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -202,8 +223,13 @@ class DatabaseHelper:
 
         out_function_data = []
         for branch in execute['value']:
-            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3],
-                    'has_branch_id': branch[4]}
+            data = {
+                'branch_id': branch[0],
+                'branch_name': branch[1],
+                'dept_id': branch[2],
+                'dept_name': branch[3],
+                'has_branch_id': branch[4]
+            }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
