@@ -65,17 +65,17 @@ class DataHelper:
         for i in branch:
             branch_name = i['branch_name']
             if admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']].shape[0] > 0:
-                admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']] = str(i['has_branch_id'])
+                admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']] = str(i['branch_id'])
 
-        admission_branch.rename(columns={'branch': 'has_branch_id'}, inplace=True)
+        admission_branch.rename(columns={'branch': 'branch_id'}, inplace=True)
 
         # admission from table
         admission_from = df.loc[:, ['application_no']]
         admission_from['channel_id'] = channel
 
         # admission studied
-        admission_studied = df.loc[:, ['application_no', 'GPAX']]
-        admission_studied['school_id'] = '1000100101'
+        admission_studied = df.loc[:, ['application_no', 'GPAX', 'school_id']]
+        admission_studied['school_id'] = '1010335002'
 
         # make json data to send to database helper class
         out_function_data = {'admission_table': admission_table.to_json(orient='index'),
