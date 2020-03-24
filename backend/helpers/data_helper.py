@@ -88,6 +88,49 @@ class DataHelper:
 
     def read_academic_file(self, file_location, year, semester):
         df = pd.read_excel(file_location, converters={'รหัส': str}, sheet_name=None)
+
+        if df is None:
+            return inner_res_helper.make_inner_response(response=False, message="Cannot read file", value="Cannot read file")
         sheet_name = list(df.keys())
 
-        sheet = df[sheet_name[0]]
+        academic_record = []
+        gpa_record = []
+
+        try:
+            for sheet_number in range(len(sheet_name)):
+                # get sheet from workbook
+                sheet = df[sheet_name[sheet_number]]
+                sheet.dropna(how='all', axis=1, inplace=True)
+                # read data from sheet
+                for std in range(sheet.shape[0]):
+                    temp = sheet.iloc[std, :]
+                    temp = temp.dropna()
+                    temp = temp.reset_index()
+                    subject_list = list(temp.index)
+                    std_id = temp.iloc[0, 1]
+                    gpa = [std_id, temp.iloc[-2, 1], semester, year]
+                    gpa = list(map(str, gpa))
+                    gpa_record.append(tuple(gpa))
+                    # get data per student
+                    for subject in range(1, len(subject_list) - 2):
+                        data = [std_id]
+                        code = temp.iloc[subject, 0][:6]
+                        grade = temp.iloc[subject, 1]
+                        data.append(code)
+                        data.append(grade)
+                        data.append(semester)
+                        data.append(year)
+                        data = list(map(str, data))
+                        academic_record.append(tuple(data))
+        except Exception as e:
+            print(e)
+            return inner_res_helper.make_inner_response(response=False, message="Error in read data", value=str(e))
+
+        out_function_data = {
+            'academic_record': academic_record,
+            'gpa_record': gpa_record
+        }
+
+        return inner_res_helper.make_inner_response(True,
+                                                    "Data for insert in to database",
+                                                    out_function_data)

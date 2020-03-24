@@ -16,6 +16,15 @@ year = 2561
 academic_record = []
 gpa_record = []
 
+
+def change_to_list_no_time(load):
+    output_list = []
+    for data in load:
+        temp = list(data.values())
+        temp = list(map(str, temp))
+        output_list.append(tuple(temp))
+    return output_list
+
 for number in range(len(sheet_name)):
     # get sheet form workbook
     sheet = read[sheet_name[number]]
@@ -39,6 +48,7 @@ for number in range(len(sheet_name)):
             data.append(grade)
             data.append(semester)
             data.append(year)
-            academic_record.append(data)
+            data = list(map(str, data))
+            academic_record.append(tuple(data))
 
-# print(record)
+# myout = change_to_list_no_time(academic_record)

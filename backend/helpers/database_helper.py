@@ -75,6 +75,19 @@ class DatabaseHelper:
         self.__cursor.executemany(sql_command, insert_list)
         self.__db_connection.commit()
 
+    # insert data with correctly form
+    # insert multiple value
+    def __insert_multiple_into(self, table, column, data):
+        sql_command = "insert into %s (%s) values (%s)" % (table, ','.join(column), ','.join('%s' for _ in column))
+        self.__cursor.executemany(sql_command, data)
+        self.__db_connection.commit()
+
+    # insert single value
+    def __insert_into(self, table, column, data):
+        sql_command = "insert into %s (%s) values (%s)" % (table, ','.join(column), ','.join('%s' for _ in column))
+        self.__cursor.execute(sql_command, data)
+        self.__db_connection.commit()
+
     # execute query function
     def __execute_query(self, sql_command):
         try:
@@ -119,6 +132,31 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
+    # academic part
+    # insert academic record
+    def insert_academic_record(self, academic_data):
+        try:
+            self.__insert_multiple_into(table="academic_record",
+                                        column=['student_id', 'subject_code', 'grade', 'semester', 'year'],
+                                        data=academic_data)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
+    # insert gpa record
+    def insert_gpa_record(self, gpa_data):
+        try:
+            self.__insert_multiple_into(table="gpa_record",
+                                        column=['student_id', 'gpa', 'semester', 'year'],
+                                        data=gpa_data)
+        except Exception as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
     # get all student data (pueng)
     def get_all_student(self, dept_id=None):
         if dept_id is not None:
@@ -140,7 +178,7 @@ class DatabaseHelper:
                 'department': data[1],
                 'branch': data[2],
                 'current_gpax': data[3],
-                'education_status': data[0],
+                'education_status': data[4],
                 'student_year': year
             }
             out_function_data.append(data)

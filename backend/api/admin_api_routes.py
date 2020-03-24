@@ -55,14 +55,14 @@ def insert_admission():
 # upload current student academic record
 @admin_bp.route('/academic', methods=['POST'])
 def insert_academic_record():
-    # this api need education year (2561, 2562) and branch id for insert
+    # this api need education year (2561, 2562) and semester (1,2 or S)
     year = request.form.get('year')
-    branch = request.form.get('branch')
+    semester = request.form.get('semester')
 
-    if year is None or branch is None:
+    if year is None or semester is None:
         value = {
             'year': year,
-            'branch': branch
+            'semester': semester
         }
         return api_helper.create_response(message="One of these is Null", response=False, data=[value],
                                           response_code=418)
@@ -79,7 +79,16 @@ def insert_academic_record():
 
     if destination['response']:
         data_helper = DatabaseHelper.get_instance()
-        insert_value = data_helper
+        insert_value = data_helper.read_academic_file(destination['value'], year, semester)
+        if insert_value['response']:
+            data = insert_value['value']
+            db = DatabaseHelper.get_instance()
+            academic_record = db.insert_academic_record(data['academic_record'])
+            if not academic_record['response']:
+                return api_helper.create_response(message=academic_record['message'], response=False, response_code=500)
+            gpa_record = db.insert_gpa_record(data['gpa_record'])
+            if not gpa_record['response']:
+                return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500)
 
     return api_helper.create_response(message="Developing", response=True, response_code=200)
 
