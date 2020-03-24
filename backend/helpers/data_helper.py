@@ -65,23 +65,72 @@ class DataHelper:
         for i in branch:
             branch_name = i['branch_name']
             if admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']].shape[0] > 0:
-                admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']] = str(i['has_branch_id'])
+                admission_branch.loc[admission_branch['branch'].str.contains(branch_name.split()[0]), ['branch']] = str(i['branch_id'])
 
-        admission_branch.rename(columns={'branch': 'has_branch_id'}, inplace=True)
+        admission_branch.rename(columns={'branch': 'branch_id'}, inplace=True)
 
         # admission from table
         admission_from = df.loc[:, ['application_no']]
         admission_from['channel_id'] = channel
 
         # admission studied
-        admission_studied = df.loc[:, ['application_no', 'GPAX']]
-        admission_studied['school_id'] = '1000100101'
+        admission_studied = df.loc[:, ['application_no', 'GPAX', 'school_id']]
+        admission_studied['school_id'] = '1010335002'
 
         # make json data to send to database helper class
         out_function_data = {'admission_table': admission_table.to_json(orient='index'),
                              'admission_branch': admission_branch.to_json(orient='index'),
                              'admission_from': admission_from.to_json(orient='index'),
                              'admission_studied': admission_studied.to_json(orient='index')}
+        return inner_res_helper.make_inner_response(True,
+                                                    "Data for insert in to database",
+                                                    out_function_data)
+
+    def read_academic_file(self, file_location, year, semester):
+        df = pd.read_excel(file_location, converters={'รหัส': str}, sheet_name=None)
+
+        if df is None:
+            return inner_res_helper.make_inner_response(response=False, message="Cannot read file", value="Cannot read file")
+        sheet_name = list(df.keys())
+
+        academic_record = []
+        gpa_record = []
+
+        try:
+            for sheet_number in range(len(sheet_name)):
+                # get sheet from workbook
+                sheet = df[sheet_name[sheet_number]]
+                sheet.dropna(how='all', axis=1, inplace=True)
+                # read data from sheet
+                for std in range(sheet.shape[0]):
+                    temp = sheet.iloc[std, :]
+                    temp = temp.dropna()
+                    temp = temp.reset_index()
+                    subject_list = list(temp.index)
+                    std_id = temp.iloc[0, 1]
+                    gpa = [std_id, temp.iloc[-2, 1], semester, year]
+                    gpa = list(map(str, gpa))
+                    gpa_record.append(tuple(gpa))
+                    # get data per student
+                    for subject in range(1, len(subject_list) - 2):
+                        data = [std_id]
+                        code = temp.iloc[subject, 0][:6]
+                        grade = temp.iloc[subject, 1]
+                        data.append(code)
+                        data.append(grade)
+                        data.append(semester)
+                        data.append(year)
+                        data = list(map(str, data))
+                        academic_record.append(tuple(data))
+        except Exception as e:
+            print(e)
+            return inner_res_helper.make_inner_response(response=False, message="Error in read data", value=str(e))
+
+        out_function_data = {
+            'academic_record': academic_record,
+            'gpa_record': gpa_record
+        }
+
         return inner_res_helper.make_inner_response(True,
                                                     "Data for insert in to database",
                                                     out_function_data)
