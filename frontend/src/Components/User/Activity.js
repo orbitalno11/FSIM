@@ -7,9 +7,12 @@ import {
   Card,
   Responsive,
   Container,
-  Visibility
+  Visibility,
+  Image
 } from "semantic-ui-react";
 
+import logo from "../Image/60year-fsci.png";
+import bg from "../Image/bg-head3.png";
 import AmountStudent from "../User/AmountStudent";
 import GraphPie from "../Graph/Pie";
 import GraphBar from "../Graph/Bar";
@@ -45,7 +48,9 @@ class Activity extends Component {
             />
           </Header>
           <Divider />
+          <Image className="background-white" src={bg} />
           <Container>
+          <Image className="logo" src={logo} />
             <Grid>
               <Grid.Row stretched>
                 <Grid.Column width={8}>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import SearchActivity from "./SearchActivity";
 import AddActivity from "./AddActivity";
-import { Responsive, Container, Tab } from "semantic-ui-react";
+import { Responsive, Container, Visibility } from "semantic-ui-react";
+import { Nav, Tab } from "react-bootstrap";
 
 const getWidth = () => {
   const isSSR = typeof window === "undefined";
@@ -14,7 +15,7 @@ class Activity extends Component {
     key: "SearchActivity"
   };
 
-  handleSelect = selectedtab => {
+  handleSelect = (selectedtab) => {
     this.setState({ key: selectedtab });
   };
 
@@ -30,10 +31,10 @@ class Activity extends Component {
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           ></Visibility>
-          <Container>
+          <Container className="card-admin">
             <h3 style={{ marginBottom: "5%" }}>จัดการข้อมูลกิจกรรมรับเข้า</h3>
             <Tab.Container defaultActiveKey="SearchActivity">
-              <Nav fill variant="tabs" activeKey={this.state.activeKey}>
+              <Nav fill variant="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                 <Nav.Item
                   className={
                     this.state.key === "SearchActivity" ? null : "Tab2"
@@ -78,3 +79,6 @@ class Activity extends Component {
     );
   }
 }
+
+
+export default Activity;
