@@ -8,7 +8,8 @@ import * as serviceWorker from './serviceWorker';
 // import route tool
 import { BrowserRouter } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
-
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap'
 
 // const styleLink = document.createElement("link");
 // styleLink.rel = "stylesheet";

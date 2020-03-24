@@ -7,20 +7,22 @@ import {
   Card,
   Responsive,
   Container,
-  Visibility
+  Visibility,
+  Image
 } from "semantic-ui-react";
 
+
+import logo from "../Image/60year-fsci.png";
+import bg from "../Image/bg-head3.png";
 import TemplateAd from "./TemplateAdmission";
 import GraphLine from "../Graph/Line";
 import GraphBar from "../Graph/Bar";
-
 
 const getWidth = () => {
   const isSSR = typeof window === "undefined";
 
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
 };
-
 
 class Admission extends Component {
   constructor(props) {
@@ -42,7 +44,9 @@ class Admission extends Component {
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           ></Visibility>
+            <Image className="background-white" src={bg} />
           <Container>
+            <Image className="logo" src={logo} />
             <Header as="h5">
               ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}
               <Dropdown

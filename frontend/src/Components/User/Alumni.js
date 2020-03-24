@@ -8,9 +8,12 @@ import {
   Card,
   Table,
   Responsive,
-  Visibility
+  Visibility,
+  Image
 } from "semantic-ui-react";
 
+import bgyel from "../Image/bg-head3.png";
+import logo from "../Image/60year-fsci.png";
 import GraphPie from "../Graph/Pie";
 import GraphLine from "../Graph/Line";
 import GraphBar from "../Graph/Bar";
@@ -36,7 +39,10 @@ class Alumni extends Component {
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           ></Visibility>
+          <Image size="massive" className="background-white" src={bgyel} />
+
           <Container>
+            <Image className="logo" src={logo} />
             <Header as="h5">
               ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}
               <Dropdown
@@ -50,14 +56,12 @@ class Alumni extends Component {
             </Header>
             <Divider />
 
-            <Grid columns={4} centered>
+            <Grid >
               <Grid.Row>
                 <Card fluid>
                   <TemplateAd />
                 </Card>
               </Grid.Row>
-            </Grid>
-            <Grid centered>
               <Grid.Row columns={2} stackable>
                 <Grid.Column>
                   <Card className="card-circle-modal">

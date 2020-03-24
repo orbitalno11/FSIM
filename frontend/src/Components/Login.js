@@ -27,7 +27,7 @@ class Login extends Component {
             <Image
               className="logo"
               src={logo}
-              style={{ "marginTop": "2vh" }}
+              
             />
             <Grid
               textAlign="center"

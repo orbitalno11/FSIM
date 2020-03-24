@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FaSistrix, FaDatabase, FaEdit, FaTrash } from "react-icons/fa";
-import { InputGroup, Button } from "react-bootstrap";
-import { Divider, Table } from "semantic-ui-react";
+import { InputGroup } from "react-bootstrap";
+import { Divider, Table, Button } from "semantic-ui-react";
 
 import Activity from "../Options/Activity";
 
@@ -29,12 +29,12 @@ class SearchActivity extends Component {
           </InputGroup.Append>
         </InputGroup>
         <Divider />
-
         <Table>
-          <Table.Header>
+          <Table.Header >
             <Table.HeaderCell>#</Table.HeaderCell>
             <Table.HeaderCell>กิจกรรมรับเข้า</Table.HeaderCell>
             <Table.HeaderCell>ประเภทโครงการ</Table.HeaderCell>
+            <Table.HeaderCell>การจัดการ</Table.HeaderCell>
           </Table.Header>
           <Table.Body>
             <Table.Row>
@@ -48,8 +48,18 @@ class SearchActivity extends Component {
                 >
                   <FaDatabase />
                 </Button>
-                <Button className="btn-EditData interval"
-                onClick={this.handleSearch}><FaEdit/></Button>
+                <Button
+                  className="btn-EditData interval"
+                  onClick={this.handleSearch}
+                >
+                  <FaEdit />
+                </Button>
+                <Button
+                  className="btn-DeleteData interval"
+                  onClick={this.handleSearch}
+                >
+                  <FaTrash />
+                </Button>
               </Table.Cell>
             </Table.Row>
           </Table.Body>
@@ -58,3 +68,5 @@ class SearchActivity extends Component {
     );
   }
 }
+
+export default SearchActivity;

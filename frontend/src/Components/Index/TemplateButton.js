@@ -6,7 +6,7 @@ class TemplateButton extends Component {
   render() {
     return (
       <React.Fragment>
-        <Button href={this.props.item.url} color={this.props.item.color}>
+        <Button size="massive" href={this.props.item.url} color={this.props.item.color}>
             {this.props.item.name}
           </Button>
       </React.Fragment>
