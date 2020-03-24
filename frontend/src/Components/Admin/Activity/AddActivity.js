@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { Form, Col, Row } from "react-bootstrap";
-import { Button, Responsive, Visibility, Label } from "semantic-ui-react";
+import { Button, Label } from "semantic-ui-react";
 import Project from "../Options/Project";
 
-const getWidth = () => {
-  const isSSR = typeof window === "undefined";
-
-  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
-};
 
 class Addactivity extends Component {
   state = {
