@@ -3,7 +3,7 @@ import json
 
 import backend.Constant
 
-
+# TODO() Don't use this file and do not delete it too.
 class DatabaseConnection:
     __constant = backend.Constant
     __host = __constant.DATABASE_HOST
@@ -96,7 +96,7 @@ class DatabaseConnection:
 
     def get_branch(self):
         cursor = self.__db_connection.cursor()
-        sql = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name from branch natural join has_branch natural join department as dept"
+        sql = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
 
         out_response = {}
 
@@ -109,12 +109,11 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
 
         out = []
         for branch in result:
-            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3]}
+            data = {'branch_id': branch[0], 'branch_name': branch[1], 'dept_id': branch[2], 'dept_name': branch[3],
+                    'has_branch_id': branch[4]}
             out.append(data)
 
         out_response['response'] = True
@@ -126,21 +125,24 @@ class DatabaseConnection:
     def get_admission_data(self, branch, year, types, channel):
         cursor = self.__db_connection.cursor()
 
-        if year is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch)
-        elif types is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch) + " and year =" + str(year)
-        elif channel is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch) + " and admission_type = " + str(types) + " and year = " + str(year)
-        elif not year is None and not types is None and not channel is None:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
-                branch) + " and admission_type = " + str(
-                types) + " and admission_channel = " + channel + " and year = " + str(year)
-        else:
-            sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission"
+        sql = "SELECT application_no,firstname, lastname, branch.branch_name as branch, admission_year as year, gender, admission_studied.gpax as gpx, admission_studied.school_id, decision " \
+              "FROM admission NATURAL JOIN admission_in_branch NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch NATURAL JOIN admission_from NATURAL JOIN has_round NATURAL JOIN admission_channel NATURAL JOIN admission_studied"
+
+        # if year is None:
+        #     sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+        #         branch)
+        # elif types is None:
+        #     sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+        #         branch) + " and year =" + str(year)
+        # elif channel is None:
+        #     sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+        #         branch) + " and admission_type = " + str(types) + " and year = " + str(year)
+        # elif not year is None and not types is None and not channel is None:
+        #     sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission where branch = " + str(
+        #         branch) + " and admission_type = " + str(
+        #         types) + " and admission_channel = " + channel + " and year = " + str(year)
+        # else:
+        #     sql = "select application_no, firstname, lastname, branch, year, gender, gpax, school_id, decision from admission"
 
         out_response = {}
 
@@ -153,8 +155,6 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
 
         out = []
         for data in result:
@@ -185,8 +185,6 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
 
         out = []
 
@@ -203,7 +201,7 @@ class DatabaseConnection:
     # get all student academic record (pueng request)
     def get_all_academic_record(self):
         cursor = self.__db_connection.cursor()
-        sql = "select * from academic_record"
+        sql = "select student_id, subject_code, semester, education_year, grade from academic_record"
 
         out_response = {}
 
@@ -216,8 +214,6 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
 
         out = []
 
@@ -248,8 +244,6 @@ class DatabaseConnection:
             out_response['data'] = str(e.args[1])
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return out_response
-        finally:
-            self.__db_connection.close()
 
         out = []
 
