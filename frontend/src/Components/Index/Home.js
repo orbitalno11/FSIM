@@ -61,9 +61,9 @@ class Index extends Component {
   }
 
   handleClickModel(e) {
-    this.state.modal_header = e.header_modal;
-    this.state.modal_body = e.branch;
-    this.setState({
+    this.setstate({
+      madal_header: e.header.modal,
+      modal_body: e.branch,
       open: true
     });
   }
@@ -166,7 +166,7 @@ class Index extends Component {
 
     const panes = [
       {
-        menuItem: "ข้อมูลนักศึกษา" ,
+        menuItem: "ข้อมูลนักศึกษา",
         render: () => (
           <Container>
             <Grid padded>
@@ -205,7 +205,7 @@ class Index extends Component {
                   แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์
                 </Label>
               </Grid.Row>
-              <Grid.Row >
+              <Grid.Row>
                 {/* <Grid.Column width={8}>
                   <Image className="banner-active" src={banner2} />
                 </Grid.Column> */}
@@ -271,7 +271,7 @@ class Index extends Component {
                     <br />
                     FSci Student Information Management System
                   </p>
-                  <Button  primary href="/login">
+                  <Button primary href="/login">
                     จัดการข้อมูล
                   </Button>
                 </Grid.Column>

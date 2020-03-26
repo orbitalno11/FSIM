@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
-import Option_channel from "./option";
+import Option from "./Option";
 
 class Channel extends Component {
   onSelected = search => {
@@ -9,7 +9,7 @@ class Channel extends Component {
 
   render() {
     let project = this.props.project.map(function(item) {
-      return <Option_channel item={item} key={item.id} />;
+      return <Option item={item} key={item.id} />;
     });
 
     return (
@@ -21,8 +21,11 @@ class Channel extends Component {
           value={this.props.value}
         >
           <option value="0">กรุณาเลือกช่องทางการรับเข้า</option>
+          {project}
         </FormControl>
       </React.Fragment>
     );
   }
 }
+
+export default Channel;
