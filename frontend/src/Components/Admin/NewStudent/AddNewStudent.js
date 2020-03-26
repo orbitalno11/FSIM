@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Form, Input } from "semantic-ui-react-form-validator";
-import { Label, Responsive, Visibility, Container } from "semantic-ui-react";
+import { Container, Label } from "semantic-ui-react";
 import { Button, Col, Row } from "react-bootstrap";
-import { FaCloundUpdateAlt } from "react-icons/fa";
+import { FaCloudUploadAlt } from "react-icons/fa";
 import Year from "../Options/Year";
-import Admission_channel from "../Options/Admission_channel";
+import Admissionchannel from "../Options/Admission_channel";
 import Project from "../Options/Project";
 
 import ApiManage from "../../../Class/ApiManage";
@@ -49,7 +49,7 @@ class AddNewStudent extends Component {
       loaded: 0,
       upload: [...filesArr],
       selectedFile: files,
-      Nameupload: [...fileArrName]
+      Nameupload: [...filesArr]
     });
   }
 
@@ -84,40 +84,48 @@ class AddNewStudent extends Component {
     data.append("admission_channel", channel);
     data.append("upload", this.state.selectedFile);
 
-    ApiManage.post("admission", data).then(res => {
-      console.log(res);
-      alert("บันทึกสำเร็จ");
-    })
-    .catch(error => {
-      console.log(error.response.data.message);
-      console.log(error.response.data.value);
-      if(error.response.data.value === ' file not match'){
-        alert('กรุณาตรวจสอบไฟล์ใหม่')
-      } else {
-        alert('บันทึกล้มเหลว กรุณาตรวจสอบข้อมูลอีกครั้ง')
-      }
-
-    });
+    ApiManage.post("admission", data)
+      .then(res => {
+        console.log(res);
+        alert("บันทึกสำเร็จ");
+      })
+      .catch(error => {
+        console.log(error.response.data.message);
+        console.log(error.response.data.value);
+        if (error.response.data.value === " file not match") {
+          alert("กรุณาตรวจสอบไฟล์ใหม่");
+        } else {
+          alert("บันทึกล้มเหลว กรุณาตรวจสอบข้อมูลอีกครั้ง");
+        }
+      });
   }
 
-  render(){
-    let { isLoaded, data } => this.state;
+  render() {
+    let { isLoaded, data } = this.state;
     let show_data;
 
-    if(isLoaded){
+    if (isLoaded) {
       show_data = data.map(data => {
         const { firstname, lastname } = data;
-        return(
-          <p> { firstname } -- { lastname }</p>
+        return (
+          <p>
+            {" "}
+            {firstname} -- {lastname}
+          </p>
         );
       });
     }
 
     const project_name = [
-      { id: 1, fk: 1, name: "รอบที่ 1/1 โครงการ 2B-KMUTT"},
-      { id: 2, fk: 1, name: "รอบที่ 1/1 โครงการ Active Recruitment"},
-      { id: 3, fk: 1, name: "รอบที่ 1/1 โครงการ คัดเลือกตรง ประเภทเรียนดี"},
-      { id: 4, fk: 1, name: "รอบที่ 1/1 โครงการคัดเลือกตรงความสามารถพิเศษ และทุนเพชรพระจอมเกล้า"},
+      { id: 1, fk: 1, name: "รอบที่ 1/1 โครงการ 2B-KMUTT" },
+      { id: 2, fk: 1, name: "รอบที่ 1/1 โครงการ Active Recruitment" },
+      { id: 3, fk: 1, name: "รอบที่ 1/1 โครงการ คัดเลือกตรง ประเภทเรียนดี" },
+      {
+        id: 4,
+        fk: 1,
+        name:
+          "รอบที่ 1/1 โครงการคัดเลือกตรงความสามารถพิเศษ และทุนเพชรพระจอมเกล้า"
+      },
       { id: 5, fK: 1, name: "รอบที่ 1/2 โครงการ Active Recruitment" },
       {
         id: 6,
@@ -167,46 +175,42 @@ class AddNewStudent extends Component {
       }
     ];
 
-    const year = [ 
-    {
-      id: 1,
-      name: "2012"
-    },
-    {
-      id: 2,
-      name: "2013"
-    },
-    {
-      id: 3,
-      name: "2014"
-    }];
+    const year = [
+      {
+        id: 1,
+        name: "2012"
+      },
+      {
+        id: 2,
+        name: "2013"
+      },
+      {
+        id: 3,
+        name: "2014"
+      }
+    ];
 
     let CheckProject = num_project =>
-    project_name.filter(p => {
-      return p.fk == num_project;
-    });
+      project_name.filter(p => {
+        return p.fk === num_project;
+      });
 
-    return(
+    return (
       <React.Fragment>
-        <Responsive
-         getWidth={getWidth}
-         minWidth={Responsive.onlyTablet.minWidth}>
-          <Visibility once={false}
-            onBottomPassed={this.showFixedMenu}
-            onBottomPassedReverse={this.hideFixedMenu}>
-          </Visibility>
           <Container>
             {show_data}
-            <Form style{{ padding: "5%" }} onSubmit={this.handleSubmit}> 
+            <Form style={{ padding: "5%" }} onSubmit={this.handleSubmit}>
               <Row className="style-addData">
                 <Col sm="3">
                   <Label>ปีที่รับเข้า</Label>
                   <formErrors formErrors={this.state.formErrors} />
                 </Col>
                 <Col sm="6">
-                  <Year option={this.handleChangeYear}
-                  value={this.state.year}
-                  year={year} />
+                  <Year
+                    option={this.handleChangeYear}
+                    value={this.state.year}
+                    year={year}
+                  />
                 </Col>
               </Row>
               <Row className="style-addData interval-top">
@@ -214,58 +218,67 @@ class AddNewStudent extends Component {
                   <Label>โครงการรับเข้า</Label>
                 </Col>
                 <Col sm="6">
-                  <Project option={this.handleChangeProject}
-                  value={this.state.admission_type} />
+                  <Project
+                    option={this.handleChangeProject}
+                    value={this.state.admission_type}
+                  />
                 </Col>
               </Row>
-              <Row className="style-addData interval-top" >
+              <Row className="style-addData interval-top">
                 <Col sm="3">
-                  <Lable>รอบรับเข้า</Lable>
+                  <Label>รอบรับเข้า</Label>
                 </Col>
                 <Col sm="6">
-                  <Admission_channel 
-                  option={this.handleChangeAround}
-                  project={CheckProject(this.state.admission_type)}
-                  value={this.state.admission_channel} />
+                  <Admissionchannel
+                    option={this.handleChangeAround}
+                    project={CheckProject(this.state.admission_type)}
+                    value={this.state.admission_channel}
+                  />
                 </Col>
               </Row>
 
-              <Row className="style-addData interval-top"> 
+              <Row className="style-addData interval-top">
                 <Col sm="3">
                   <Label>ข้อมูลนักศึกษารับเข้า</Label>
                 </Col>
                 <Col sm="9">
                   <Label className="custom-file-upload">
-                    <Input type="file" accept=".excel,.xlsx,.csv"
-                    onChange={(e) => this.onChange(e)} />
-                    <FaCloundUpdateAlt style={{color: "#FFFFFF"}} /> UPLOAD CSV FILE
+                    <Input
+                      type="file"
+                      accept=".excel,.xlsx,.csv"
+                      onChange={e => this.onChange(e)}
+                    />
+                    <FaCloudUploadAlt style={{ color: "#FFFFFF" }} /> UPLOAD
+                    CSV FILE
                   </Label>
                   {this.state.Nameupload.map(x => (
-                    <div className="file-previews"
-                    onClick={this.removefile.bind(this, x)}
-                    key={x.name}>{x.name}</div>
+                    <div
+                      className="file-previews"
+                      onClick={this.removefile.bind(this, x)}
+                      key={x.name}
+                    >
+                      {x.name}
+                    </div>
                   ))}
                 </Col>
               </Row>
               <div className="style-addData " style={{ marginTop: "5%" }}>
-            <Button
-              className="btn-EditData interval-1"
-              onClick={this.handleReset}
-            >
-              RESET
-            </Button>
+                <Button
+                  className="btn-EditData interval-1"
+                  onClick={this.handleReset}
+                >
+                  RESET
+                </Button>
 
-            <Button
-              type="submit"
-              className="btn-info interval-1"             
-            >
-              SUBMIT
-            </Button>
-          </div>
+                <Button type="submit" className="btn-info interval-1">
+                  SUBMIT
+                </Button>
+              </div>
             </Form>
           </Container>
-        </Responsive>
       </React.Fragment>
     );
   }
 }
+
+export default AddNewStudent;
