@@ -9,6 +9,9 @@ from backend.helpers.database_helper import DatabaseHelper
 # import project constant
 import backend.Constant as Constant
 
+# import modules
+from backend.modules.AnalyzeStudent import AnalyzeStudent
+
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
 
@@ -90,7 +93,18 @@ def insert_academic_record():
             if not gpa_record['response']:
                 return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500)
 
-    return api_helper.create_response(message="Developing", response=True, response_code=200)
+    return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
+
+
+@admin_bp.route('/department/analyze/student', methods=['GET'])
+def get_analyze_student():
+    # this api need department id
+    department = request.args.get('dept_id')
+
+    analyze = AnalyzeStudent.get_instance()
+    result = analyze.analyze_by_dept(department)
+
+    return api_helper.return_response(result)
 
 
 # get student in department by status

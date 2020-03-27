@@ -26,7 +26,18 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class AnalyzeAlumni:
 
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if AnalyzeAlumni.__instance is None:
+            AnalyzeAlumni()
+        return AnalyzeAlumni.__instance
+
     def __init__(self):
-        print("Alumni")
+        if AnalyzeAlumni.__instance is not None:
+            raise Exception("This class is a singleton! Alumni")
+        else:
+            AnalyzeAlumni.__instance = self
 
 # get_all_alumni() method for get alumni data
