@@ -9,9 +9,9 @@ class SetButton extends Component{
   render() {
     return (
       <React.Fragment>
-        <Grid columns={2} relaxed='very' style={{ marginTop: '5%' }} divided>
+        <Grid columns={2} relaxed='very' style={{ marginTop: '2%' }} divided>
           <Grid.Column width={6} verticalAlign='middle' textAlign='right'>
-            <Button size='huge' className="Tab2-text btn-EditData" id={this.props.item.name} style={{fontSize:'18px',width:'200px'}}
+            <Button size='huge' className="Tab2-text btn-EditData red" id={this.props.item.name} style={{fontSize:'15px',width:'200px'}}
               onClick={this.Redirect_f.bind(this)}>
                 <Icon name="add user"></Icon>{this.props.item.name}
             </Button>

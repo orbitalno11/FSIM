@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Card, Grid, Label } from "semantic-ui-react";
-
+import { Modal, Card, Grid, Header } from "semantic-ui-react";
 
 import TemplateBranchModal from "./TemplateBranchModal";
 import GraphPie from "../Graph/Pie";
@@ -34,12 +33,14 @@ class TemplateModal extends Component {
           onClose={this.onClose}
         >
           <Modal.Header className="text-center">
-            <Label>จำนวนนักศึกษาทุกชั้นปี{this.props.header}</Label>
+            <Header textAlign="center" as="h3">
+              จำนวนนักศึกษาทุกชั้นปี{this.props.header}
+            </Header>
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <Grid columns={3} >
-                <Grid.Row>{branch}</Grid.Row>
+              <Grid columns={3}>
+                <Grid.Row centered>{branch}</Grid.Row>
 
                 <Grid.Row columns={2}>
                   <Grid.Column>
@@ -56,7 +57,7 @@ class TemplateModal extends Component {
                           <GraphBar />
                         </Card.Content>
                       </Card>
-                    </Grid.Column>  
+                    </Grid.Column>
                     <Grid.Column>
                       <Card className="card-twin-modal">
                         <Card.Content>

@@ -12,8 +12,9 @@ import {
   Image
 } from "semantic-ui-react";
 
-import bgyel from "../Image/bg-head.png";
-import bannerbot from "../Image/bottom-left.png";
+import bgyel from "../Image/bg-head3.png";
+import logo from "../Image/60year-fsci.png";
+// import bannerbot from "../Image/bottom-left.png";
 
 
 import AmountStudent from "./AmountStudent";
@@ -41,9 +42,11 @@ class Active_Recruitment extends Component {
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           ></Visibility>
-          <Image size="massive" className="background-yellow" src={bgyel} />
-          <Image size="massive" className="bottom-left" src={bannerbot} />
+          <Image size="massive" className="background-white" src={bgyel} />
+          {/* <Image size="massive" className="bottom-left" src={bannerbot} /> */}
           <Container className="container my-5">
+          <Image className="logo" src={logo} />
+
             <Header as="h5">
               ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}
               <Dropdown

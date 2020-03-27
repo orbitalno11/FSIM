@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 
 // import Api
-import ApiManage from "./Class/ApiManage";
+// import ApiManage from "./Class/ApiManage";
 
 
 //import Main Page
@@ -13,6 +13,10 @@ import Login from "./Components/Login";
 
 //import Admin Page
 import MainAdmin from "./Components/Admin/MainAdmin/MainAdmission";
+import Admin_activity from "./Components/Admin/Activity/Activity";
+import Admin_NewStudent from "./Components/Admin/NewStudent/NewStudent";
+import Admin_Alumni from "./Components/Admin/Alumni/Alumni";
+import Admin_Announcement from "./Components/Admin/Announcement/Announcement";
 
 //import User Page
 import Active from "./Components/User/ActiveRecruitment";
@@ -50,13 +54,17 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar/>
-        <div className="App">
+        <div className="App" >
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login}/>
 
             {/* Route for admin */}
             <Route exact path="/admin" component={MainAdmin} />
+            <Route exact path="/admin/activity" component={Admin_activity} />
+            <Route exact path="/admin/newstudent" component={Admin_NewStudent} />
+            <Route exact path="/admin/alumni" component={Admin_Alumni} />
+            {/* <Route exact path="/admin/announce" component={Admin_Announcement} /> */}
 
             {/* Route for user */}
             <Route exact path="/active" component={Active}/>

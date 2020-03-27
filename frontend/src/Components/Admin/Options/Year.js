@@ -2,30 +2,30 @@ import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
 import Option from "./Option";
 
-class Channel extends Component {
+class Year extends Component {
   onSelected = search => {
     this.props.option(search);
   };
 
   render() {
-    let project = this.props.project.map(function(item) {
-      return <Option item={item} key={item.id} />;
+    let year = this.props.year.map(function(item) {
+      return <Option items={item} key={item.id} />;
     });
 
     return (
       <React.Fragment>
         <FormControl
           as="select"
-          id="admission_channel"
+          id="year"
           onChange={this.onSelected}
           value={this.props.value}
         >
-          <option value="0">กรุณาเลือกช่องทางการรับเข้า</option>
-          {project}
+          <option value='0'>เลือกปีการศึกษา</option>
+          {year}
         </FormControl>
       </React.Fragment>
     );
   }
 }
 
-export default Channel;
+export default Year;

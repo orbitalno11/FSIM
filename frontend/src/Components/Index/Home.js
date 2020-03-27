@@ -18,9 +18,10 @@ import Logomic from "../Image/mic.png";
 import Logophy from "../Image/phy.png";
 import bgyel from "../Image/bg-head.png";
 import logo from "../Image/60year-fsci.png";
-import banner2 from "../Image/banner3.JPG";
+// import banner2 from "../Image/banner3.JPG";
 import banner3 from "../Image/mockup2.png";
 import bannerbot from "../Image/bottom-left.png";
+// import circle from "../Image/circle.png";
 
 import IndexButton from "./IndexButtonStudent";
 import TemplateModal from "./TemplateModal";
@@ -60,9 +61,9 @@ class Index extends Component {
   }
 
   handleClickModel(e) {
-    this.state.modal_header = e.header_modal;
-    this.state.modal_body = e.branch;
-    this.setState({
+    this.setstate({
+      madal_header: e.header.modal,
+      modal_body: e.branch,
       open: true
     });
   }
@@ -165,7 +166,7 @@ class Index extends Component {
 
     const panes = [
       {
-        menuItem: "ข้อมูลนักศึกษา" ,
+        menuItem: "ข้อมูลนักศึกษา",
         render: () => (
           <Container>
             <Grid padded>
@@ -204,10 +205,10 @@ class Index extends Component {
                   แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์
                 </Label>
               </Grid.Row>
-              <Grid.Row columns={2}>
-                <Grid.Column width={8}>
+              <Grid.Row>
+                {/* <Grid.Column width={8}>
                   <Image className="banner-active" src={banner2} />
-                </Grid.Column>
+                </Grid.Column> */}
                 <Grid.Column textalign="center">
                   <Form.Group>
                     {buttonNewStudent.map(item => (
@@ -264,6 +265,7 @@ class Index extends Component {
             <Grid columns={2}>
               <Grid.Row>
                 <Grid.Column width={6}>
+                  {/* <Image className="" src={circle} /> */}
                   <p className="head-index" as="huge" textalign="center">
                     WELCOME TO
                     <br />
