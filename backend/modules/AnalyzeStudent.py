@@ -40,7 +40,7 @@ class AnalyzeStudent:
 
     def __init__(self):
         if AnalyzeStudent.__instance is not None:
-            raise Exception("This class is a singleton!")
+            raise Exception("This class is a singleton! analyze student")
         else:
             AnalyzeStudent.__instance = self
 
