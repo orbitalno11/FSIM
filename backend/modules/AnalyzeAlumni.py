@@ -41,3 +41,7 @@ class AnalyzeAlumni:
             AnalyzeAlumni.__instance = self
 
 # get_all_alumni() method for get alumni data
+
+
+if __name__ == "__main__":
+    analyze = AnalyzeAlumni()
