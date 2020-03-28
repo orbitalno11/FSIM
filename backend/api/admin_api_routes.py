@@ -5,6 +5,7 @@ import backend.helpers.api_response_helper as api_helper
 import backend.helpers.upload_helper as upload_helper
 from backend.helpers.data_helper import DataHelper
 from backend.helpers.database_helper import DatabaseHelper
+import backend.helpers.read_google_sheet as read_sheet
 
 # import project constant
 import backend.Constant as Constant
@@ -118,3 +119,13 @@ def get_probation_student():
     data = db.get_student_status(department, status)
 
     return api_helper.return_response(data)
+
+
+# # # # # read alumni survey google sheet
+@admin_bp.route('/alumni/readsheet/header', methods=['POST'])
+def read_alumni_survey():
+    # this api require google sheet share url
+    sheet_url = request.form.get('sheet_url')
+    header = read_sheet.read_table_header(sheet_url)
+
+    return api_helper.return_response(header)
