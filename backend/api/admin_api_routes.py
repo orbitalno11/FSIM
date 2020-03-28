@@ -12,6 +12,7 @@ import backend.Constant as Constant
 
 # import modules
 from backend.modules.AnalyzeStudent import AnalyzeStudent
+from backend.modules.AnalyzeAlumni import  AnalyzeAlumni
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
@@ -125,17 +126,16 @@ def get_probation_student():
 @admin_bp.route('/readsheet', methods=['GET'])
 def read_google_sheet():
     # this api require google sheet share url
+    # header and read data is an argument for select return type
     sheet_url = request.args.get('sheet_url')
     header = request.args.get('header')
     read_data = request.args.get('read_data')
 
     if header:
-        print(header)
         data = read_sheet.read_table_header(sheet_url)
         return api_helper.return_response(data)
 
     if read_data:
-        print(read_data)
         data = read_sheet.read_sheet_data(sheet_url)
         return api_helper.return_response(data)
 
@@ -145,3 +145,17 @@ def read_google_sheet():
     }
 
     return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
+
+
+@admin_bp.route('/alumni/analyze/survey', methods=['POST'])
+def alumni_analyze_survey():
+    # this api require sheet_url, columns
+    receive_json = request.json
+    sheet_url = receive_json['sheet_url']
+    column = receive_json['column']
+
+    analyze = AnalyzeAlumni.get_instance()
+    data = analyze.analyze_survey(sheet_url, column)
+
+    return api_helper.return_response(data)
+    # return api_helper.create_response(response_code=200, message="Developing", response=True, data="Developing")
