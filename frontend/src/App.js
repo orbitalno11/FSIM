@@ -16,7 +16,8 @@ import MainAdmin from "./Components/Admin/MainAdmin/MainAdmission";
 import Admin_activity from "./Components/Admin/Activity/Activity";
 import Admin_NewStudent from "./Components/Admin/NewStudent/NewStudent";
 import Admin_Alumni from "./Components/Admin/Alumni/Alumni";
-import Admin_Announcement from "./Components/Admin/Announcement/Announcement";
+// import Admin_Announcement from "./Components/Admin/Announcement/Announcement";
+import Admin_Student from "./Components/Admin/Student/Student";
 
 //import User Page
 import Active from "./Components/User/ActiveRecruitment";
@@ -65,6 +66,7 @@ class App extends Component {
             <Route exact path="/admin/newstudent" component={Admin_NewStudent} />
             <Route exact path="/admin/alumni" component={Admin_Alumni} />
             {/* <Route exact path="/admin/announce" component={Admin_Announcement} /> */}
+            <Route exact path="/admin/student" component={Admin_Student} />
 
             {/* Route for user */}
             <Route exact path="/active" component={Active}/>

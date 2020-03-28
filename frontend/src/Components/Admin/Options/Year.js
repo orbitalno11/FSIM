@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
-import Option from "./Option";
+import Option_channel from "./Option";
 
 class Year extends Component {
   onSelected = search => {
@@ -9,7 +9,7 @@ class Year extends Component {
 
   render() {
     let year = this.props.year.map(function(item) {
-      return <Option items={item} key={item.id} />;
+      return <Option_channel items={item} key={item.id} />;
     });
 
     return (
@@ -20,7 +20,7 @@ class Year extends Component {
           onChange={this.onSelected}
           value={this.props.value}
         >
-          <option value='0'>เลือกปีการศึกษา</option>
+          <option value="0">เลือกปีการศึกษา</option>
           {year}
         </FormControl>
       </React.Fragment>
