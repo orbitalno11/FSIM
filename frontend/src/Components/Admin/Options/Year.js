@@ -11,6 +11,7 @@ class Year extends Component {
     let year = this.props.year.map(function(item) {
       return <Option_channel items={item} key={item.id} />;
     });
+  
 
     return (
       <React.Fragment>

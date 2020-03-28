@@ -6,8 +6,8 @@ import Year from "../Options/Year";
 import Faculty from "../Options/Faculty";
 
 class Add extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.state = {
       faculty: "",
@@ -18,6 +18,7 @@ class Add extends Component {
       isLoaded: false,
       selectedFile: null
     };
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChangeFaculty = search => {
@@ -118,7 +119,7 @@ class Add extends Component {
               <Label className="custom-file-upload">
                 <input
                   type="file"
-                  accept=".exelมใแหอ"
+                  accept=".exel,.csv"
                   onChange={e => this.onChange(e)}
                 />
                 <FaCloudUploadAlt style={{ color: "#FFFFFF" }} /> UPLOAD CSV

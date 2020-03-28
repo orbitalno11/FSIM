@@ -16,7 +16,7 @@ class AddNewStudent extends Component {
     this.state = {
       admission_type: "",
       admission_channel: "",
-      yeaar: "",
+      year: "",
       upload: [],
       fileURL: "",
       dta: "",
