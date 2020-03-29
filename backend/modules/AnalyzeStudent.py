@@ -22,14 +22,105 @@
 # import helper
 from backend.helpers.database_helper import DatabaseHelper
 import backend.helpers.inner_response_helper as inner_res_helper
+from collections import defaultdict
+
+import pandas as pd
+import json
 
 
 class AnalyzeStudent:
 
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if AnalyzeStudent.__instance is None:
+            AnalyzeStudent()
+        return AnalyzeStudent.__instance
+
     def __init__(self):
-        print("Student")
+        if AnalyzeStudent.__instance is not None:
+            raise Exception("This class is a singleton! analyze student")
+        else:
+            AnalyzeStudent.__instance = self
 
+    # this function returns student data and status student that analyze in 'dept'.
+    # this function required department id
+    def analyze_by_dept(self, dept):
+        connect = DatabaseHelper.get_instance()
+        data = connect.get_all_student(dept)
+        value = {}
+        if data['value']:
+            df = self.__set_status(pd.DataFrame(data['value']))
+            num_student_dept = self.__count_student_dept(df)
+            df_branch = self.__count_by_branch(df)
+            df_status = df[['student_year', 'education_status']]
+            df_status_branch = df[['branch', 'student_year', 'education_status']]
+            df_count_status_all_branch = self.__count_status(df_status)
+            df_status_by_branch = self.__status_by_branch(df)
+            # set data
+            value['all_stu_dept'] = str(num_student_dept)
+            value['branch'] = [df_branch]
+            value['status_by_year'] = [df_count_status_all_branch]
+            value['df_status_by_branch'] = [df_status_by_branch]
+            response = True
+            message = "Analyze Student Successfully"
+        else:
+            response = False
+            message = "Analyze Student Failed"
 
+        return inner_res_helper.make_inner_response(response, message, value)
+
+    # this function return  academic results that analyze in 'dept'.
+    # this function required department id
+    def analyze_by_subject_dept(self, dept):
+        connect = DatabaseHelper.get_instance()
+        data = connect.get_all_academic_record(dept)
+        value = {}
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
+            df_grouped = pd.DataFrame(grouped.stack().to_frame(name='count').reset_index())
+            value['subject_by_year'] = [self.__retro_dictify(df_grouped)]
+            response = True
+            message = "Analyze Student Successfully"
+        else:
+            response = False
+            message = "Analyze Student Failed"
+        return inner_res_helper.make_inner_response(response, message, value)
+
+    def __count_by_branch(self, df_dept):
+        df_branch = df_dept.groupby('branch').size().to_dict()
+        return df_branch
+
+    def __count_student_dept(self, df):
+        num_student_dept = len(df.index)
+        return num_student_dept
+
+    def __count_status(self, df):
+        count_status_all_branch = df.groupby(['student_year', 'education_status']).size().unstack(fill_value=0).to_dict(
+            'index')
+        return count_status_all_branch
+
+    def __status_by_branch(self, df):
+        grouped = pd.DataFrame(
+            df.groupby(['branch', 'student_year', 'education_status']).size().to_frame(name='count').reset_index())
+        data_analyze = self.__retro_dictify(grouped)
+        return data_analyze
+
+    def __set_status(self, df):
+        return df.replace({'education_status': {1: 'ปกติ', 2: 'วิทยาฑัณฑ์', 3: 'ตกออก'}})
+
+    def __retro_dictify(self, frame):
+        d = {}
+        for row in frame.values:
+            here = d
+            for elem in row[:-2]:
+                if elem not in here:
+                    here[elem] = {}
+                here = here[elem]
+            here[row[-2]] = row[-1]
+        return d
 
 # get_all_student() method for get student data
 # get_all_academic_record() method get student academic record data

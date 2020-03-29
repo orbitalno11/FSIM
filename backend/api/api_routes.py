@@ -29,6 +29,16 @@ def get_branch_data():
 
     return api_helper.return_response(data)
 
+
+@api_bp.route('/admission/channel', methods=['GET'])
+def get_admission_channel():
+
+    db = DatabaseHelper.get_instance()
+    data = db.get_admission_channel()
+
+    return api_helper.return_response(data)
+
+
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])
@@ -41,3 +51,15 @@ def get_department_student_data():
 
     return api_helper.return_response(data)
 
+
+# # # # # get admission data
+# get admission data by department and year
+@api_bp.route('/admission/department', defaults={'department': None, 'year': None}, methods=['GET'])
+@api_bp.route('/admission/department/<department>', defaults={'year': None}, methods=['GET'])
+@api_bp.route('/admission/department/<department>/<int:year>', methods=['GET'])
+def get_admission_by_dept_year(department, year):
+    # this api required department id and year
+    db = DatabaseHelper.get_instance()
+    data = db.get_admission_data_by_dept(department, year)
+
+    return api_helper.return_response(data)
