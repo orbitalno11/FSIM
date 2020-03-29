@@ -47,7 +47,7 @@ class AnalyzeStudent:
     # this function returns student data and status student that analyze in 'dept'.
     # this function required department id
     def analyze_by_dept(self, dept):
-        connect = DatabaseHelper().get_instance()
+        connect = DatabaseHelper.get_instance()
         data = connect.get_all_student(dept)
         value = {}
         if data['value']:
@@ -74,7 +74,7 @@ class AnalyzeStudent:
     # this function return  academic results that analyze in 'dept'.
     # this function required department id
     def analyze_by_subject_dept(self, dept):
-        connect = DatabaseHelper().get_instance()
+        connect = DatabaseHelper.get_instance()
         data = connect.get_all_academic_record(dept)
         value = {}
         if data['value']:

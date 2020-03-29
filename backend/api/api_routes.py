@@ -30,6 +30,15 @@ def get_branch_data():
     return api_helper.return_response(data)
 
 
+@api_bp.route('/admission/channel', methods=['GET'])
+def get_admission_channel():
+
+    db = DatabaseHelper.get_instance()
+    data = db.get_admission_channel()
+
+    return api_helper.return_response(data)
+
+
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])

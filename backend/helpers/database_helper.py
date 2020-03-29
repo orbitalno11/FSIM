@@ -282,6 +282,23 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
 
+    def get_admission_channel(self):
+        sql_command = "select * from admission_channel"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for channel in execute['value']:
+            data = {
+                'channel_id': channel[0],
+                'channel_name': channel[1]
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
+
     # get student data by department
     def get_department_student_data(self, dept_id):
         sql_command = "SELECT student_id, current_gpax, branch_name, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id like '%s'" % (
