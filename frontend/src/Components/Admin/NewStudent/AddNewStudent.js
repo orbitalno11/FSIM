@@ -15,8 +15,8 @@ class AddNewStudent extends Component {
     this.onChange = this.onChange.bind(this);
     this.state = {
       admission_type: "",
-      admission_channel: [],
-      yeaar: "",
+      admission_channel: "",
+      year: "", 
       upload: [],
       fileURL: "",
       dta: "",

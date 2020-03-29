@@ -26,6 +26,7 @@ import bannerbot from "../Image/bottom-left.png";
 import IndexButton from "./IndexButtonStudent";
 import TemplateModal from "./TemplateModal";
 import TemplateButton from "./TemplateButton";
+import axios from "axios";
 
 const getWidth = () => {
   const isSSR = typeof window === "undefined";
@@ -48,6 +49,24 @@ class Index extends Component {
     this.handleClickModel = this.handleClickModel.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.close = this.close.bind(this);
+    this.handleSuccessAuth = this.handleSuccessAuth.bind(this);
+    this.handleLoggutClick = this.handleLoggutClick.bind(this);
+  }
+
+  handleSuccessAuth(data){
+    this.props.handleLogin(data);
+    this.props.history.push("/");
+  }
+
+  handleLogoutClick(){
+    axios
+      .delete("http://...",{withCredentials: true})
+      .then(response => {
+        this.props.handleLogout();
+      })
+      .catch(error => {
+        console.log("logout error", error)
+      });
   }
 
   handleSelect = selectedtab => {
