@@ -14,8 +14,54 @@ import {
 import bgyel from "../Components/Image/bg-head.png";
 import bannerbot from "../Components/Image/bottom-left.png";
 import logo from "../Components/Image/60year-fsci.png";
+import axios from "axios";
 
 class Login extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      username: "",
+      password: "",
+      loginErrors: ""
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  handleSubmit(event){
+    const{ username, password } = this.state; 
+
+    axios
+      .post(
+        "http://...",
+        {
+          user: {
+            username: username,
+            password: password
+          }
+        },
+        { withCredentials: true }
+      )
+      .then(response => {
+        if(response.data.login) {
+          this.props.handleSuccessAuth(response.data);
+        }
+      })
+      .catch(error => {
+        console.log("login error",error);
+      });
+      event.preventDefault();
+  }
+
 
   render() {
     return (
@@ -47,22 +93,28 @@ class Login extends Component {
                       <Input
                         type="text"
                         placeholder="ชื่อผู้ใช้"
+                        value={this.state.username}
+                        onChange={this.handleChange}
                         label={{ icon: "user" }}
                         labelPosition="left corner"
+                        required
                       />
                     </Form.Field>
                     <Form.Field>
                       <Input
                         type="password"
                         placeholder="รหัสผ่าน"
+                        value={this.state.password}
+                        onChange={this.handleChange}
                         label={{ icon: "lock" }}
                         labelPosition="left corner"
+                        required
                       />
                     </Form.Field>
                     <Divider />
                     <div className="text-center">
                       <Button
-                        onClick={this.onSubmit}
+                        type="submit"
                         className="btn-paku"
                         color="yellow"
                         animated
