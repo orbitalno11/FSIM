@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   Image,
   Container,
@@ -37,18 +38,19 @@ class Index extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      open: false,
-      modal_header: "",
-      modal_data: "",
-      modal_body: [],
-      key: "SearchActivity"
-    };
+    
 
     this.handleClickModel = this.handleClickModel.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.close = this.close.bind(this);
   }
+
+  state = {
+    open: false,
+    modal_header: "",
+    modal_data: "",
+    key: "SearchActivity"
+  };
 
   handleSelect = selectedtab => {
     this.setState({ key: selectedtab });
@@ -61,78 +63,36 @@ class Index extends Component {
   }
 
   handleClickModel(e) {
-    this.setstate({
-      madal_header: e.header.modal,
-      modal_body: e.branch,
-      open: true
-    });
+
+    // this.setState({
+    //   madal_header: e.header_modal,
+    //   open: true
+    // });
   }
 
   render() {
     const { open } = this.state;
     const pageStudent = [
       {
-        id: "Mathematics",
+        name:"Mathematics",
+        id: "mth",
         Image: Logomth,
-        header_modal: "ภาควิชาคณิตศาสตร์",
-        branch: [
-          {
-            id: "math",
-            title: "คณิตศาสตร์",
-            data: "100"
-          },
-          {
-            id: "stat",
-            title: "สถิติ",
-            data: "100"
-          },
-          {
-            id: "comsci",
-            title: "วิทยาการคอมพิวเตอร์ประยุกต์",
-            data: "100"
-          }
-        ]
+        header_modal: "ภาควิชาคณิตศาสตร์"
+     
       },
       {
-        id: "Physic",
+        name:"Physic",
+        id: "phy",
         Image: Logophy,
         header_modal: "ภาควิชาฟิสิกส์",
-        branch: [
-          {
-            id: "phy",
-            title: "ฟิสิกส์",
-            data: "100"
-          }
-        ]
+        
       },
       {
-        id: "Microbiology",
+        name:"Microbiology",
+        id: "mic",
         Image: Logomic,
         header_modal: "ภาควิชาจุลชีววิทยา",
-        branch: [
-          {
-            id: "mic",
-            title: "จุลชีววิทยา",
-            data: "100"
-          },
-          {
-            id: "fst",
-            title: "วิทยาศาสตร์และเทคโนโลยีอาหาร",
-            data: "100"
-          }
-        ]
-      },
-      {
-        id: "Chemical",
-        Image: Logochm,
-        header_modal: "ภาควิชาเคมี",
-        branch: [
-          {
-            id: "chm",
-            title: "เคมี",
-            data: "100"
-          }
-        ]
+      
       }
     ];
 
@@ -188,7 +148,6 @@ class Index extends Component {
                   show={open}
                   state={this.close}
                   header={this.state.modal_header}
-                  body={this.state.modal_body}
                 />
               </Grid.Row>
             </Grid>

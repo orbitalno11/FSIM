@@ -23,7 +23,7 @@ class IndexButtonStudent extends Component {
                         onClick={this.onClick.bind(this)}>
                         <Image className="logo-branch" src={this.props.item.Image}></Image>
                     </Button>
-                    <Header textalign="center" size="small">{this.props.item.id}</Header>
+                    <Header textalign="center" size="small">{this.props.item.name}</Header>
                 </Grid.Column>
             </React.Fragment>
         )

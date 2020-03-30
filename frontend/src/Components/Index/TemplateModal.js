@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Card, Grid, Header } from "semantic-ui-react";
+import ApiManage from "../../Class/ApiManage";
 
 import TemplateBranchModal from "./TemplateBranchModal";
 import GraphPie from "../Graph/Pie";
@@ -11,7 +12,9 @@ class TemplateModal extends Component {
     super(props);
     this.state = {
       dept: 0,
-      open: false
+      open: false,
+      body: [] ,
+      isLoaded:false
     };
   }
 
@@ -21,10 +24,28 @@ class TemplateModal extends Component {
     }
   };
 
+  componentDidMount(){
+    ApiManage.get(`admin/department/analyze/student?dept_id=${this.props.id}`)
+    .then(res => {
+      // console.log(res.data.data)
+      let recive_data = res.data;
+      if (recive_data.response === true) {
+        this.setState({
+          body: recive_data.data,
+          isLoaded: true
+        });
+        // console.log(this.state.data);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
   render() {
-    let branch = this.props.body.map(item => (
-      <TemplateBranchModal item={item} />
-    ));
+    // let branch = this.props.body.map(item => (
+    //   <TemplateBranchModal item={item} />
+    // ));
     return (
       <React.Fragment>
         <Modal
@@ -40,7 +61,7 @@ class TemplateModal extends Component {
           <Modal.Content>
             <Modal.Description>
               <Grid columns={3}>
-                <Grid.Row centered>{branch}</Grid.Row>
+                {/* <Grid.Row centered>{branch}</Grid.Row> */}
 
                 <Grid.Row columns={2}>
                   <Grid.Column>
