@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
-import Option from "./Option";
 
 class Channel extends Component {
   onSelected = search => {
@@ -8,9 +7,6 @@ class Channel extends Component {
   };
 
   render() {
-    let project = this.props.project.map(function(item) {
-      return <Option item={item} key={item.id} />;
-    });
 
     return (
       <React.Fragment>
@@ -21,7 +17,9 @@ class Channel extends Component {
           value={this.props.value}
         >
           <option value="0">กรุณาเลือกช่องทางการรับเข้า</option>
-          {project}
+          {this.props.project.map(item => (
+            <option value={item.id} key={item.id}>{item.name}</option>
+          ))}
         </FormControl>
       </React.Fragment>
     );

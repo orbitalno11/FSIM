@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
-import Option from "./Option";
 
 class Year extends Component {
   onSelected = search => {
@@ -8,9 +7,7 @@ class Year extends Component {
   };
 
   render() {
-    let year = this.props.year.map(function(item) {
-      return <Option items={item} key={item.id} />;
-    });
+  
 
     return (
       <React.Fragment>
@@ -21,7 +18,11 @@ class Year extends Component {
           value={this.props.value}
         >
           <option value='0'>เลือกปีการศึกษา</option>
-          {year}
+          {this.props.year.map(item => (
+            <option value={item.id} key={item.id}>{item.name}</option>
+          ))}
+
+
         </FormControl>
       </React.Fragment>
     );
