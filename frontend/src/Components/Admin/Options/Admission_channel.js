@@ -10,13 +10,11 @@ class Channel extends Component {
 
 
   render() {
-   
     let channel = this.props.value
     let project = channel.map(item => {
       const { channel_id, channel_name } = item
     return <option key={channel_id} value={channel_id}>{channel_name}</option>
     })
-
     return (
       <React.Fragment>
         <FormControl

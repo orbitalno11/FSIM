@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormControl } from 'react-bootstrap';
-import Channel from './Option';
 
 class School extends Component{
   onSelected = (search) => {
@@ -8,17 +7,16 @@ class School extends Component{
   }
 
   render(){
-    let school = this.props.school.map(function (item) {
-      return (<Channel items={item} key={item.id} />)
-    })
-
+  
     return(
       <React.Fragment>
         <FormControl as="select"
         onChange={this.onSelected}
         value={this.props.value}>
           <option value='0'>กรุณาเลือกโรงเรียน</option>
-          {school}
+          {this.props.school.map(item => (
+            <option value={item.id} key={item.id}>{item.name}</option>
+          ))}
         </FormControl>
       </React.Fragment>
     );

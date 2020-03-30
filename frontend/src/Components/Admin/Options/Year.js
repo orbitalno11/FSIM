@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { FormControl } from "react-bootstrap";
 import Option_channel from "./Option";
-
 class Year extends Component {
   onSelected = search => {
     this.props.option(search);
