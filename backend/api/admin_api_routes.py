@@ -125,12 +125,10 @@ def get_probation_student():
 @admin_bp.route('/alumni/readsheet/header', methods=['POST'])
 def read_alumni_survey():
     # this api require google sheet share url
-<<<<<<< HEAD
     sheet_url = request.form.get('sheet_url')
     header = read_sheet.read_table_header(sheet_url)
 
     return api_helper.return_response(header)
-=======
     sheet_url = request.args.get('sheet_url')
     header = request.args.get('header')
     read_data = request.args.get('read_data')
@@ -151,4 +149,3 @@ def read_alumni_survey():
     }
 
     return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
->>>>>>> parent of 012cc524... BE: add alumni read sheet survey analyze

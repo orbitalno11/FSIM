@@ -28,14 +28,12 @@ def read_alumni_sheet(sheet_url: str):
     sheet = gc.open_by_url(sheet_url)
     worksheet = sheet.get_worksheet(0)
     read = worksheet.get_all_values()
-<<<<<<< HEAD
     table_head = read[0]
     data = worksheet.col_values(1)
     print(data)
-=======
+
     data = read[1:]
 
     if data is None:
         return inner_res_helper.make_inner_response(response=False, message="Cannot find table", value=data)
     return inner_res_helper.make_inner_response(response=True, message="Table data", value=data)
->>>>>>> parent of 012cc524... BE: add alumni read sheet survey analyze
