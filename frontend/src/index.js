@@ -22,18 +22,14 @@ import 'bootstrap/dist/js/bootstrap'
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 const AppWithRouter = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
 );
 
-
-ReactDOM.render(
-  <AppWithRouter />,
-  document.getElementById('root')
-);
+ReactDOM.render(<AppWithRouter />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
