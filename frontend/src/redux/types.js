@@ -1,6 +1,0 @@
-export const OPEN_MODAL = "open_modal"
-export const CLOSE_MODAL = "close_modal"
-export const GET_BRANCH_STARTED = "get_branch_started"
-export const GET_BRANCH_SUCCESS = "get_branch_success"
-export const GET_BRANCH_FAILED = "get_branch_failed"
-export const GET_SIMPLE_BRANCH = "get_simple_branch"
