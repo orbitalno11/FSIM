@@ -301,7 +301,7 @@ class DatabaseHelper:
 
     # get student data by department
     def get_department_student_data(self, dept_id):
-        sql_command = "SELECT student_id, current_gpax, branch_name, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id like '%s'" % (
+        sql_command = "SELECT dept_id, dept_name, student_id, current_gpax, branch_name, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id like '%s'" % (
             str(dept_id))
         execute = self.__execute_query(sql_command)
 

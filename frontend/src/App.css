@@ -306,7 +306,7 @@
   width: 800px !important;
   height: 400px !important;
   border-radius: 0% !important;
-  background-image: url(Components/Image/bg-admin.png);
+  background-image: url(img/bg-admin.png);
   /* background-color: #ffe600 !important; */
   -webkit-box-shadow: 7px 9px 31px 0px rgba(0, 0, 0, 0.75) !important;
   -moz-box-shadow: 7px 9px 31px 0px rgba(0, 0, 0, 0.75) !important;
@@ -343,7 +343,7 @@
   opacity: 80% !important;
   margin-top: -1rem !important;
   box-shadow: 0 16px 38px -12px rgba(130, 130, 130, 0.56),
-    0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2) !important;
 }
 
 
