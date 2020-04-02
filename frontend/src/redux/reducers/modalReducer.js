@@ -2,7 +2,7 @@ import { OPEN_MODAL, CLOSE_MODAL } from '../types'
 
 const initialState = {
     modalOpen: null,
-    modalID: ""
+    modalID: null
 }
 
 export default (state = initialState, action) => {
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 modalOpen: action.modalOpen,
-                modalID: "None"
+                modalID: null
             }
         }
 

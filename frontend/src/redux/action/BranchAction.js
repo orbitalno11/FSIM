@@ -1,26 +1,36 @@
-import axios from 'axios'
+import api from 'axios'
 
-import {GET_BRANCH_STARTED, GET_BRANCH_SUCCESS, GET_BRANCH_FAILED} from "../types";
-
-const api = axios.create({
-    baseURL: "http://127.0.0.1:5000/api/v1/"
-})
+import * as types from "../types";
 
 const startGetData = () => ({
-    type: GET_BRANCH_STARTED,
+    type: types.GET_BRANCH_STARTED
 })
 
 const getDataSuccess = data => ({
-    type: GET_BRANCH_SUCCESS,
-    branch: data
+    type: types.GET_BRANCH_LIST_SUCCESS,
+    branch_list: data,
+    error: null
 })
 
 const getDataFailed = error => ({
-    type: GET_BRANCH_FAILED,
-    branch: error
+    type: types.GET_BRANCH_LIST_FAILED,
+    branch_list: null,
+    error: error
 })
 
-export const getAllBranch = () => (dispatch, getState)=> {
+const getDetail = data => ({
+    type: types.GET_BRANCH_DETAIL_SUCCESS,
+    branch_detail: data,
+    error: null
+})
+
+const getDetailFailed = error => ({
+    type: types.GET_BRANCH_DETAIL_FAILED,
+    branch_detail: null,
+    error: error
+})
+
+export const getAllBranch = () => (dispatch)=> {
     dispatch(startGetData())
     api.get('/branch')
         .then(res => {
@@ -35,4 +45,21 @@ export const getAllBranch = () => (dispatch, getState)=> {
             dispatch(getDataFailed(error))
         })
 }
+
+export const getBranchDetail = branch_id => dispatch => {
+    dispatch(startGetData())
+    api.get(`/branch?branch_id=${branch_id}`)
+    .then(res => {
+        let received = res.data
+        if(received.response === true){
+            dispatch(getDetail(received.data))
+        }else{
+            dispatch(getDetailFailed(received.data))
+        }
+    })
+    .catch(error => {
+        dispatch(getDetailFailed(error))
+    })
+}
+
 

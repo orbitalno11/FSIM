@@ -172,7 +172,7 @@ class Admission extends Component {
 }
 
 const mapStateToProps = state => ({
-    branch_list: state.branch.branch
+    branch_list: state.branch.branch_list
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -8,28 +8,66 @@ import Piechart from "../Graph/Pie";
 import Barchart from "../Graph/Bar";
 import Linechart from "../Graph/Line";
 
+import axios from 'axios'
+
 class SummaryModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoaded: false,
             department: "",
-            loadTime: 0
+            loadTime: 0,
+            departmentName: ""
         }
     }
 
     closeModal = () => {
         this.props.closeModal()
+        this.setState({
+            loadTime: 0
+        })
+    }
+
+    fetchData = dept_id => {
+        axios.get(`/department/student?dept_id=${dept_id}`)
+        .then(res => {
+            let received = res.data
+
+            if (received.response === true){
+                let data = received.data
+
+                this.setState({
+                    department: data.dept_name
+                })
+            }
+        })
+        .catch(error => {
+            console.log("error")
+        })
+
+        this.setState({
+            loadTime: 1
+        })
+    }
+
+    componentDidUpdate(){
+        let {modal} = this.props
+        
+        if (modal.modalID != null && this.state.loadTime === 0){
+            this.fetchData(modal.modalID)
+        }
     }
 
     render() {
         let {modal} = this.props
+        let {department} = this.state
+
         return (
             <Fragment>
                 <Modal className="modal-center" open={modal.modalOpen} onClose={this.closeModal}>
                     <ModalHeader className="tex-center">
                         <Header textAlign="center" as="h3">
-                            จำนวนนักศึกษาทุกชั้นปี {modal.modalID}
+                            จำนวนนักศึกษาทุกชั้นปี {department}
                         </Header>
                     </ModalHeader>
                     <ModalContent>

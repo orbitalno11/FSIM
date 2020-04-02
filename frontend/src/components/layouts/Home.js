@@ -139,7 +139,7 @@ class Home extends Component {
                             <Grid.Column textAlign="center">
                                 <Form.Group>
                                     {buttonNewStudent.map(item => (
-                                        <Button size="massive" color={item.color} href={item.url}>{item.name}</Button>))}
+                                        <Button size="massive" color={item.color} href={item.url} key={item.name}>{item.name}</Button>))}
                                 </Form.Group>
                             </Grid.Column>
                         </Grid.Row>

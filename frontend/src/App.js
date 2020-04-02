@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
         <Fragment>
-          {/* <Navbar/> */}
+          <Navbar/>
           <div className="App">
             <Switch>
               <Route exact path="/" component={Home}/>

@@ -1,32 +1,48 @@
-import { GET_BRANCH_STARTED, GET_BRANCH_SUCCESS, GET_BRANCH_FAILED } from "../types";
+import * as types from "../types";
 
 const initialState = {
-    branch: null,
+    branch_list: null,
+    branch_detail: null,
     loading: false,
     error: null
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case GET_BRANCH_STARTED:
+        case types.GET_BRANCH_STARTED:
             return {
                 ...state,
                 loading: true
             }
 
-        case GET_BRANCH_SUCCESS:
+        case types.GET_BRANCH_LIST_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                error: null,
-                branch: action.branch
+                branch_list: action.branch_list
             }
 
-        case GET_BRANCH_FAILED:
+        case types.GET_BRANCH_LIST_FAILED:
             return {
                 ...state,
                 loading: false,
-                error: action.branch
+                error: action.error
+            }
+
+        case types.GET_BRANCH_DETAIL_SUCCESS:
+            return {
+                ...state,
+                branch_detail: action.branch_detail,
+                error: null,
+                loading: false
+            }
+
+        case types.GET_BRANCH_DETAIL_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                branch_detail: null
             }
 
         default:
