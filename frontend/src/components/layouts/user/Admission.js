@@ -14,7 +14,7 @@ import {
 import {connect} from 'react-redux'
 import {getAllBranch} from "../../../redux/action/BranchAction";
 
-import bg from "../../../img/bg-head3.png";
+import bgyel from "../../../img/bg-head3.png";
 import GraphLine from "../../Graph/Line";
 import GraphBar from "../../Graph/Bar";
 import AdmissionTypePanel from "../../general/AddmissionTypePanel";
@@ -57,7 +57,7 @@ class Admission extends Component {
         let {branch_list} = this.props
         return (
             <Fragment>
-                <Image className="background-white" src={bg}/>
+                <Image size="big" className="head-right" src={bgyel}/>
                 <Container>
                     <Header as="h5">
                         ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}

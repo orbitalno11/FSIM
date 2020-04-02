@@ -23,7 +23,7 @@ class ActiveRecruitment extends Component {
     render() {
         return (
             <Fragment>
-                <Image size="massive" className="background-white" src={bgyel}/>
+                <Image size="big" className="head-right" src={bgyel}/>
                 <Container className="container my-5">
                     <Header as="h5">
                         ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}

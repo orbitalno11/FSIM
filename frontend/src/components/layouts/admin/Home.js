@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from "react";
+import { FaUserTie } from 'react-icons/fa'
 
 import {
     Container,
@@ -9,8 +10,8 @@ import {
     Button, Icon
 } from "semantic-ui-react";
 
-import bgyel from "../../../img/bg-head2.png";
-import bannerbot from "../../../img/bottom-left2.png";
+import bgyel from "../../../img/head-left.png";
+import bannerbot from "../../../img/bottom-right.png";
 
 const SetOfButton = ({item}) => (
     <Fragment>
@@ -19,9 +20,9 @@ const SetOfButton = ({item}) => (
                 <Button size="huge" className="Tab2-text btn-EditData red"
                         id={item.name}
                         style={{fontSize: '15px', width: '200px'}}>
-                    <Icon name="add user"/>{item.name}
+                    <Icon name={item.icon}/>{item.name}
                 </Button>
-            </Grid.Column>
+            </Grid.Column>      
 
             <Grid.Column verticalAlign='middle' width={10} textAlign='left'>
                 {item.detail}
@@ -36,7 +37,7 @@ const url = [
         name: "ข้อมูลนักศึกษารับเข้า",
         detail: "ระบบตรวจสอบการรับเข้าในรอบต่างๆ",
         url: "/",
-        icon: "add user"
+        icon: "<FaUserTie/>"
     },
     {
         id: 2,
@@ -67,7 +68,7 @@ class AdminHome extends Component {
                 <Image size="massive" className="bottom-left2" src={bannerbot}/>
 
                 <Container>
-                    <div className="card-admission">
+                    <div className="admission">
                         <Header as="h2" style={{color: "#3BB3A9"}}>
                             จัดการข้อมูลการรับเข้า
                         </Header>

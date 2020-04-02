@@ -22,7 +22,7 @@ class Alumni extends Component {
     render() {
         return (
             <Fragment>
-                <Image size="massive" className="background-white" src={bgyel}/>
+                <Image size="big" className="head-right" src={bgyel}/>
                 <Container>
                     <Header as="h5">
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}

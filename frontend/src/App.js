@@ -8,6 +8,7 @@ import {Route, Switch} from 'react-router-dom'
 import Navbar from './components/general/Menu'
 import Home from './components/layouts/Home'
 
+
 // user component
 import Admission from "./components/layouts/user/Admission";
 import ActiveRecruitment from "./components/layouts/user/ActiveRecruitment";
@@ -23,7 +24,7 @@ class App extends Component {
   render() {
     return (
         <Fragment>
-          {/* <Navbar/> */}
+          <Navbar/>
           <div className="App">
             <Switch>
               <Route exact path="/" component={Home}/>

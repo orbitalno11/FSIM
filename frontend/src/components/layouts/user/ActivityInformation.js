@@ -10,7 +10,7 @@ import {
     Image
 } from "semantic-ui-react";
 
-import bg from "../../../img/bg-head3.png";
+import bgyel from "../../../img/bg-head3.png";
 import AmountStudent from "../../general/AmountStudent";
 import GraphPie from "../../Graph/Pie";
 import GraphBar from "../../Graph/Bar";
@@ -32,7 +32,7 @@ class ActivityInformation extends Component {
                     />
                 </Header>
                 <Divider/>
-                <Image className="background-white" src={bg}/>
+                <Image size="big" className="head-right" src={bgyel}/>
                 <Container>
                     <Grid>
                         <Grid.Row stretched>
