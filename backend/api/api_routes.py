@@ -4,6 +4,9 @@ from flask import Blueprint, jsonify, request, make_response, current_app as app
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
 
+# import modules
+from backend.modules.SummarizeData import SummarizeData as sum
+
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
 
@@ -46,8 +49,11 @@ def get_department_student_data():
     # this api need department id
     department = request.args.get('dept_id')
 
-    db = DatabaseHelper.get_instance()
-    data = db.get_department_student_data(department)
+    # db = DatabaseHelper.get_instance()
+    # data = db.get_department_student_data(department)
+
+    summarize = sum.get_instance()
+    data = summarize.summarize_overview_dept_home(department)
 
     return api_helper.return_response(data)
 
