@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from "react";
-import {Modal, Card, Grid, Header, ModalContent, ModalDescription, ModalHeader} from "semantic-ui-react";
+import React, { Component, Fragment } from "react";
+import { Modal, Card, Grid, Header, ModalContent, ModalDescription, ModalHeader } from "semantic-ui-react";
 
 // redux
-import {connect} from 'react-redux'
-import {closeModal} from "../../redux/action/modalAction";
+import { connect } from 'react-redux'
+import { closeModal } from "../../redux/action/modalAction";
 import Piechart from "../Graph/Pie";
 import Barchart from "../Graph/Bar";
 import Linechart from "../Graph/Line";
@@ -17,7 +17,9 @@ class SummaryModal extends Component {
             isLoaded: false,
             department: "",
             loadTime: 0,
-            departmentName: ""
+            departmentName: "",
+            branch: [],
+            pieData: []
         }
     }
 
@@ -30,37 +32,71 @@ class SummaryModal extends Component {
 
     fetchData = dept_id => {
         axios.get(`/department/student?dept_id=${dept_id}`)
-        .then(res => {
-            let received = res.data
+            .then(res => {
+                let received = res.data
 
-            if (received.response === true){
-                let data = received.data
+                if (received.response === true) {
+                    let data = received.data
 
-                this.setState({
-                    department: data.dept_name
-                })
-            }
-        })
-        .catch(error => {
-            console.log("error")
-        })
+                    this.setState({
+                        department: data.dept_name,
+                        branch: data.branch
+                    })
+                }
+            })
+            .catch(error => {
+                console.log("error")
+            })
 
         this.setState({
             loadTime: 1
         })
     }
 
-    componentDidUpdate(){
-        let {modal} = this.props
-        
-        if (modal.modalID != null && this.state.loadTime === 0){
+    setPieChart = () => {
+        let { branch } = this.state
+        let labels = []
+        let datas = []
+        branch.map(item => {
+            labels.push(item.branch_id)
+            datas.push(item.branch_student)
+        })
+        let graphData = {
+            label: labels,
+            datasets: [
+                {
+                    data: datas,
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56'
+                    ],
+                    hoverBackgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56'
+                    ]
+                }
+            ]
+        }
+
+        this.setState({
+            pieData: graphData
+        })
+    }
+
+    componentDidUpdate() {
+        let { modal } = this.props
+
+        if (modal.modalID != null && this.state.loadTime === 0) {
             this.fetchData(modal.modalID)
+            this.setPieChart()
         }
     }
 
     render() {
-        let {modal} = this.props
-        let {department} = this.state
+        let { modal } = this.props
+        let { department, pieData } = this.state
 
         return (
             <Fragment>
@@ -77,7 +113,7 @@ class SummaryModal extends Component {
                                     <Grid.Column>
                                         <Card className="card-circle-modal">
                                             <Card.Content>
-                                                <Piechart />
+                                                <Piechart data={pieData} />
                                             </Card.Content>
                                         </Card>
                                     </Grid.Column>
