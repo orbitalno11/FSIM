@@ -1,5 +1,7 @@
-# from backend.helpers.database_helper import DatabaseHelper
-# import backend.Constant as Constant
+from backend.helpers.database_helper import DatabaseHelper
+import backend.Constant as Constant
+
+print(Constant.DATABASE_NAME)
 #
 # import pandas as pd
 #

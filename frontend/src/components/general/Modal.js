@@ -19,6 +19,8 @@ class SummaryModal extends Component {
             loadTime: 0,
             departmentName: "",
             branch: [],
+            byYear: [],
+            byBranch: [],
             pieData: []
         }
     }
@@ -30,39 +32,48 @@ class SummaryModal extends Component {
         })
     }
 
-    fetchData = dept_id => {
-        axios.get(`/department/student?dept_id=${dept_id}`)
+    
+
+    fetchData = async (dept_id) => {
+        await axios.get(`/department/student?dept_id=${dept_id}`)
             .then(res => {
                 let received = res.data
 
                 if (received.response === true) {
                     let data = received.data
 
+                    console.log(data)
+
                     this.setState({
                         department: data.dept_name,
-                        branch: data.branch
+                        branch: data.branch,
+                        byYear: data.by_year,
+                        byBranch: data.by_branch,
+                        loadTime: 1
                     })
+
                 }
             })
             .catch(error => {
                 console.log("error")
+                this.setState({
+                    loadTime: 1
+                })
             })
-
-        this.setState({
-            loadTime: 1
-        })
     }
 
-    setPieChart = () => {
+    setBranch = () => {
         let { branch } = this.state
         let labels = []
         let datas = []
-        branch.map(item => {
-            labels.push(item.branch_id)
-            datas.push(item.branch_student)
-        })
+
+        for(let i in branch){
+            labels.push(branch[i].branch_id)
+            datas.push(branch[i].branch_student)
+        }
+
         let graphData = {
-            label: labels,
+            labels: labels,
             datasets: [
                 {
                     data: datas,
@@ -85,18 +96,39 @@ class SummaryModal extends Component {
         })
     }
 
-    componentDidUpdate() {
+    setStudentYear = () => {
+        let { byYear } = this.state
+        let label = []
+        let dataset = []
+
+        let sub_label = []
+        
+        for(let i in byYear){
+            let year = 'ชั้นปีที่ ' + byYear[i].education_year
+            label.push(year)
+            let data = byYear[i]
+            let key = Object.keys(data)
+            
+            for(let j in key){
+                console.log(key[j])
+            }
+        }
+
+    }
+
+    async componentDidUpdate() {
         let { modal } = this.props
 
         if (modal.modalID != null && this.state.loadTime === 0) {
-            this.fetchData(modal.modalID)
-            this.setPieChart()
+            await this.fetchData(modal.modalID)
+            this.setBranch()
+            this.setStudentYear()
         }
     }
 
     render() {
         let { modal } = this.props
-        let { department, pieData } = this.state
+        let { department, pieData, loadTime } = this.state
 
         return (
             <Fragment>

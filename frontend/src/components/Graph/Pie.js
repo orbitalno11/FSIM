@@ -27,12 +27,20 @@ class Piechart extends Component {
 		}
 	}
 
+	componentDidMount(){
+		let { data } = this.props
+
+		if(data.length !== 0){
+			this.setState(data)
+		}
+	}
+
 	render() {
-		let { data } = this.state
-		console.log(data)
+		let { data } = this.props
+
 		return (
 			<React.Fragment>
-				<Pie data={this.state} />
+				{data.length === 0 ? <Pie data={this.state} />: <Pie data={data} />}
 			</React.Fragment>
 		);
 	}
