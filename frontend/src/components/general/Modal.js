@@ -21,7 +21,8 @@ class SummaryModal extends Component {
             branch: [],
             byYear: [],
             byBranch: [],
-            pieData: []
+            pieData: [],
+            barData: []
         }
     }
 
@@ -32,7 +33,7 @@ class SummaryModal extends Component {
         })
     }
 
-    
+
 
     fetchData = async (dept_id) => {
         await axios.get(`/department/student?dept_id=${dept_id}`)
@@ -67,7 +68,7 @@ class SummaryModal extends Component {
         let labels = []
         let datas = []
 
-        for(let i in branch){
+        for (let i in branch) {
             labels.push(branch[i].branch_id)
             datas.push(branch[i].branch_student)
         }
@@ -101,18 +102,61 @@ class SummaryModal extends Component {
         let label = []
         let dataset = []
 
+        // get sub label for check data
         let sub_label = []
-        
-        for(let i in byYear){
-            let year = 'ชั้นปีที่ ' + byYear[i].education_year
-            label.push(year)
+        let cur_size = 0
+        for (let i in byYear) {
             let data = byYear[i]
             let key = Object.keys(data)
-            
-            for(let j in key){
-                console.log(key[j])
+
+            let year = 'ชั้นปีที่ ' + data.education_year
+            label.push(year)
+
+            if (key.length > cur_size) {
+                cur_size = key.length
+                sub_label = key
             }
         }
+
+        sub_label.pop()
+
+        for (let i in sub_label){
+            let inner = {
+                label: sub_label[i],
+                data: []
+            }
+            dataset.push(inner)
+        }
+
+        for(let i in byYear){
+            let data = byYear[i]
+            let key = Object.keys(data)
+            key.pop()
+
+
+            for(let j in sub_label){
+                if (key[j] === undefined){
+                    // console.log(`Status: ${sub_label[j]}: null`)
+                    dataset[j].data.push(0)
+                    continue
+                }
+                // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)
+                dataset[j].data.push(parseInt(data[key[j]]))
+            }
+        }
+
+        dataset[0].backgroundColor = '#ffd11075'
+        dataset[1].backgroundColor = '#FF461275'
+        dataset[2].backgroundColor = '#91919175'
+
+        // console.log(dataset)
+
+        this.setState({
+            barData: {
+                labels: label,
+                datasets: dataset
+            }
+        })
 
     }
 
@@ -128,7 +172,7 @@ class SummaryModal extends Component {
 
     render() {
         let { modal } = this.props
-        let { department, pieData, loadTime } = this.state
+        let { department, pieData, barData } = this.state
 
         return (
             <Fragment>
@@ -153,7 +197,7 @@ class SummaryModal extends Component {
                                         <Grid.Column>
                                             <Card className="card-twin-modal">
                                                 <Card.Content>
-                                                    <Barchart />
+                                                    <Barchart data={barData} isStack={true} />
                                                 </Card.Content>
                                             </Card>
                                         </Grid.Column>

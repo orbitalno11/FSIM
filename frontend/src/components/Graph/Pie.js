@@ -40,7 +40,8 @@ class Piechart extends Component {
 
 		return (
 			<React.Fragment>
-				{data.length === 0 ? <Pie data={this.state} />: <Pie data={data} />}
+				<Pie data={data.length === 0 ? this.state: data} />
+				{/* {data.length === 0 ? <Pie data={this.state} />: <Pie data={data} />} */}
 			</React.Fragment>
 		);
 	}
