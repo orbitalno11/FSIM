@@ -167,7 +167,7 @@ class SummaryModal extends Component {
     setBranchStatus = () => {
         let { byBranch } = this.state
 
-        console.log(byBranch)
+        // console.log(byBranch)
 
         let label = []
         let dataset = []
@@ -182,13 +182,13 @@ class SummaryModal extends Component {
             label.push(key_branch)
 
             if (key_per.length > cur_size) {
-                console.log(key_per)
+                // console.log(key_per)
                 // cur_size = key_per.length
                 // sub_label = key_per
             }
         }
 
-        console.log(sub_label)
+        // console.log(sub_label)
 
         sub_label.pop()
 

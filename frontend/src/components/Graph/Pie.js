@@ -25,9 +25,12 @@ class Piechart extends Component {
 	componentDidMount() {
 		let { data } = this.props
 
-		if (data.length !== 0) {
-			this.setState(data)
+		if (data !== undefined) {
+			if (data.length !== 0) {
+				this.setState(data)
+			}
 		}
+
 	}
 
 	render() {
@@ -35,7 +38,7 @@ class Piechart extends Component {
 
 		return (
 			<React.Fragment>
-				<Pie data={data.length === 0 ? this.state : data} options={option} />
+				{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} />}
 			</React.Fragment>
 		);
 	}
