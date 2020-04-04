@@ -31,30 +31,8 @@ class Barchart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      labels: ['ปี 1', 'ปี 2', 'ปี 3', 'ปี 4'],
-      datasets: [
-        {
-          label: 'ปกติ',
-          backgroundColor: color.yellow + '75',
-          // borderWidth: 1,
-          // hoverBackgroundColor: color.yellow,
-          data: [65, 59, 80, 81]
-        },
-        {
-          label: 'วิทยาฑัณฑ์',
-          backgroundColor: color.grey + '75',
-          // borderWidth: 1,
-          // hoverBackgroundColor: color.grey,
-          data: [6, 5, 8, 8]
-        },
-        {
-          label: 'วิทยาฑัณฑ์2',
-          backgroundColor: color.red + '75',
-          // borderWidth: 1,
-          // hoverBackgroundColor: color.red,
-          data: [5, 9, 7, 1]
-        }
-      ]
+      labels: [],
+      datasets: []
     }
   }
 

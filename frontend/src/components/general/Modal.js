@@ -55,9 +55,9 @@ class SummaryModal extends Component {
 
                     this.setState({
                         department: data.dept_name,
-                        branch: data.branch,
-                        byYear: data.by_year,
-                        byBranch: data.by_branch,
+                        branch: data.branch[0],
+                        byYear: data.status_by_year[0],
+                        byBranch: data.df_status_by_branch[0],
                         loadTime: 1
                     })
 
@@ -73,15 +73,16 @@ class SummaryModal extends Component {
 
     setBranch = () => {
         let { branch } = this.state
-        let labels = []
-        let datas = []
+        let data = branch
+        let labels = Object.keys(data)
+        let dataset = []
         let background = []
         let hoverColor = []
 
-        for (let i in branch) {
-            labels.push(branch[i].branch_id)
-            datas.push(branch[i].branch_student)
+        for (let i in data) {
+            dataset.push(data[i])
         }
+
 
         for (let i in labels) {
             background.push(colorSet[i])
@@ -93,7 +94,7 @@ class SummaryModal extends Component {
                 labels: labels,
                 datasets: [
                     {
-                        data: datas,
+                        data: dataset,
                         backgroundColor: background,
                         hoverBackgroundColor: hoverColor
                     }
@@ -104,26 +105,26 @@ class SummaryModal extends Component {
 
     setStudentYear = () => {
         let { byYear } = this.state
+        let data = byYear
         let label = []
         let dataset = []
 
         // get sub label for check data
         let sub_label = []
         let cur_size = 0
-        for (let i in byYear) {
-            let data = byYear[i]
-            let key = Object.keys(data)
+        for (let key in data) {
+            let temp = data[key]
 
-            let year = 'ชั้นปีที่ ' + data.education_year
+            let year = 'ชั้นปีที่ ' + key
             label.push(year)
 
-            if (key.length > cur_size) {
-                cur_size = key.length
-                sub_label = key
+            let key_per = Object.keys(temp)
+
+            if (key_per.length > cur_size) {
+                cur_size = key_per.length
+                sub_label = key_per
             }
         }
-
-        sub_label.pop()
 
         for (let i in sub_label) {
             let inner = {
@@ -136,7 +137,7 @@ class SummaryModal extends Component {
         for (let i in byYear) {
             let data = byYear[i]
             let key = Object.keys(data)
-            key.pop()
+            // key.pop()
 
 
             for (let j in sub_label) {
@@ -166,23 +167,28 @@ class SummaryModal extends Component {
     setBranchStatus = () => {
         let { byBranch } = this.state
 
+        console.log(byBranch)
+
         let label = []
         let dataset = []
 
         let sub_label = []
         let cur_size = 0
-        for (let i in byBranch) {
-            let data = byBranch[i]
-            let key = Object.keys(data)
+        for (let key in byBranch) {
+            let data = byBranch[key]
+            let key_per = Object.keys(data)
 
-            let year = 'สาขา ' + data.branch_id
-            label.push(year)
+            let key_branch = 'สาขา ' + key
+            label.push(key_branch)
 
-            if (key.length > cur_size) {
-                cur_size = key.length
-                sub_label = key
+            if (key_per.length > cur_size) {
+                console.log(key_per)
+                // cur_size = key_per.length
+                // sub_label = key_per
             }
         }
+
+        console.log(sub_label)
 
         sub_label.pop()
 
@@ -262,10 +268,10 @@ class SummaryModal extends Component {
                                 <Grid.Column>
                                     <Card fluid>
                                         <Card.Header textAlign={"center"}>
-                                            <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                            <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Horizontal data={horizontalData} />
+                                        <Barchart data={barData} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -274,10 +280,10 @@ class SummaryModal extends Component {
                                 <Grid.Column>
                                     <Card fluid>
                                         <Card.Header textAlign={"center"}>
-                                            <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                            <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Barchart data={barData} isStack={false} />
+                                            <Horizontal data={horizontalData} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>

@@ -17,22 +17,8 @@ class Piechart extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			labels: ['Red', 'Blue'],
-			datasets: [
-				{
-					data: [300, 50],
-					backgroundColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56'
-					],
-					hoverBackgroundColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56'
-					]
-				}
-			]
+			labels: [],
+			datasets: []
 		}
 	}
 

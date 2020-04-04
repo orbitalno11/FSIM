@@ -6,6 +6,7 @@ from backend.helpers.database_helper import DatabaseHelper
 
 # import modules
 from backend.modules.SummarizeData import SummarizeData as sum
+from backend.modules.AnalyzeStudent import AnalyzeStudent
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
@@ -49,11 +50,11 @@ def get_department_student_data():
     # this api need department id
     department = request.args.get('dept_id')
 
-    # db = DatabaseHelper.get_instance()
-    # data = db.get_department_student_data(department)
+    db = AnalyzeStudent.get_instance()
+    data = db.analyze_by_dept(department)
 
-    summarize = sum.get_instance()
-    data = summarize.summarize_overview_dept_home(department)
+    # summarize = sum.get_instance()
+    # data = summarize.summarize_overview_dept_home(department)
 
     return api_helper.return_response(data)
 
