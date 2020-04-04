@@ -15,7 +15,7 @@ import bgyel from "../../../img/bg-head3.png";
 
 import AmountStudent from "../../general/AmountStudent";
 import GraphLine from "../../Graph/Line";
-import GraphHorizaontaBar from "../../Graph/Horizonta";
+import GraphHorizaontaBar from "../../Graph/BarHorizontal";
 
 
 class ActiveRecruitment extends Component {

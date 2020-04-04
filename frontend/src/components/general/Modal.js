@@ -1,14 +1,21 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Card, Grid, Header, ModalContent, ModalDescription, ModalHeader } from "semantic-ui-react";
+import { Modal, Grid, Header, ModalContent, Card } from "semantic-ui-react";
 
 // redux
 import { connect } from 'react-redux'
 import { closeModal } from "../../redux/action/modalAction";
+
 import Piechart from "../Graph/Pie";
 import Barchart from "../Graph/Bar";
-import Linechart from "../Graph/Line";
+import Horizontal from '../Graph/BarHorizontal'
+
+//  wait other
+import 'chartjs-plugin-datalabels'
 
 import axios from 'axios'
+
+// import color set
+import { colorSet } from '../Constant'
 
 class SummaryModal extends Component {
     constructor(props) {
@@ -22,7 +29,8 @@ class SummaryModal extends Component {
             byYear: [],
             byBranch: [],
             pieData: [],
-            barData: []
+            barData: [],
+            horizontalData: []
         }
     }
 
@@ -67,33 +75,30 @@ class SummaryModal extends Component {
         let { branch } = this.state
         let labels = []
         let datas = []
+        let background = []
+        let hoverColor = []
 
         for (let i in branch) {
             labels.push(branch[i].branch_id)
             datas.push(branch[i].branch_student)
         }
 
-        let graphData = {
-            labels: labels,
-            datasets: [
-                {
-                    data: datas,
-                    backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56'
-                    ],
-                    hoverBackgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56'
-                    ]
-                }
-            ]
+        for (let i in labels) {
+            background.push(colorSet[i])
+            hoverColor.push(colorSet[i] + "75")
         }
 
         this.setState({
-            pieData: graphData
+            pieData: {
+                labels: labels,
+                datasets: [
+                    {
+                        data: datas,
+                        backgroundColor: background,
+                        hoverBackgroundColor: hoverColor
+                    }
+                ]
+            }
         })
     }
 
@@ -120,7 +125,7 @@ class SummaryModal extends Component {
 
         sub_label.pop()
 
-        for (let i in sub_label){
+        for (let i in sub_label) {
             let inner = {
                 label: sub_label[i],
                 data: []
@@ -128,14 +133,14 @@ class SummaryModal extends Component {
             dataset.push(inner)
         }
 
-        for(let i in byYear){
+        for (let i in byYear) {
             let data = byYear[i]
             let key = Object.keys(data)
             key.pop()
 
 
-            for(let j in sub_label){
-                if (key[j] === undefined){
+            for (let j in sub_label) {
+                if (key[j] === undefined) {
                     // console.log(`Status: ${sub_label[j]}: null`)
                     dataset[j].data.push(0)
                     continue
@@ -145,11 +150,9 @@ class SummaryModal extends Component {
             }
         }
 
-        dataset[0].backgroundColor = '#ffd11075'
-        dataset[1].backgroundColor = '#FF461275'
-        dataset[2].backgroundColor = '#91919175'
-
-        // console.log(dataset)
+        for (let i in dataset) {
+            dataset[i].backgroundColor = colorSet[i]
+        }
 
         this.setState({
             barData: {
@@ -160,58 +163,126 @@ class SummaryModal extends Component {
 
     }
 
+    setBranchStatus = () => {
+        let { byBranch } = this.state
+
+        let label = []
+        let dataset = []
+
+        let sub_label = []
+        let cur_size = 0
+        for (let i in byBranch) {
+            let data = byBranch[i]
+            let key = Object.keys(data)
+
+            let year = 'สาขา ' + data.branch_id
+            label.push(year)
+
+            if (key.length > cur_size) {
+                cur_size = key.length
+                sub_label = key
+            }
+        }
+
+        sub_label.pop()
+
+        for (let i in sub_label) {
+            let inner = {
+                label: sub_label[i],
+                data: []
+            }
+            dataset.push(inner)
+        }
+
+        for (let i in byBranch) {
+            let data = byBranch[i]
+            let key = Object.keys(data)
+            key.pop()
+
+
+            for (let j in sub_label) {
+                if (key[j] === undefined) {
+                    // console.log(`Status: ${sub_label[j]}: null`)
+                    dataset[j].data.push(0)
+                    continue
+                }
+                // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)
+                dataset[j].data.push(parseInt(data[key[j]]))
+            }
+        }
+
+        for (let i in dataset) {
+            dataset[i].backgroundColor = colorSet[i]
+        }
+
+        this.setState({
+            horizontalData: {
+                labels: label,
+                datasets: dataset
+            }
+        })
+    }
+
     async componentDidUpdate() {
         let { modal } = this.props
 
         if (modal.modalID != null && this.state.loadTime === 0) {
             await this.fetchData(modal.modalID)
             this.setBranch()
+            this.setBranchStatus()
             this.setStudentYear()
         }
     }
 
     render() {
         let { modal } = this.props
-        let { department, pieData, barData } = this.state
+        let { department, pieData, barData, horizontalData } = this.state
 
         return (
             <Fragment>
                 <Modal className="modal-center" open={modal.modalOpen} onClose={this.closeModal}>
-                    <ModalHeader className="tex-center">
+                    <Modal.Header className="tex-center">
                         <Header textAlign="center" as="h3">
                             จำนวนนักศึกษาทุกชั้นปี {department}
                         </Header>
-                    </ModalHeader>
+                    </Modal.Header>
                     <ModalContent>
-                        <ModalDescription>
-                            <Grid columns={3}>
-                                <Grid.Row columns={2}>
-                                    <Grid.Column>
-                                        <Card className="card-circle-modal">
-                                            <Card.Content>
-                                                <Piechart data={pieData} />
-                                            </Card.Content>
-                                        </Card>
-                                    </Grid.Column>
-                                    <Grid.Row columns={2}>
-                                        <Grid.Column>
-                                            <Card className="card-twin-modal">
-                                                <Card.Content>
-                                                    <Barchart data={barData} isStack={true} />
-                                                </Card.Content>
-                                            </Card>
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            <Card className="card-twin-modal">
-                                                <Card.Content>
-                                                    <Linechart />
-                                                </Card.Content>
-                                            </Card>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid.Row>
-                            </Grid>
-                        </ModalDescription>
+                        <Grid textAlign={"center"}>
+                            <Grid.Row columns={2}>
+                                <Grid.Column>
+                                    <Card fluid>
+                                        <Card.Header textAlign={"center"}>
+                                            <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <Piechart data={pieData} />
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Card fluid>
+                                        <Card.Header textAlign={"center"}>
+                                            <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <Horizontal data={horizontalData} />
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column>
+                                    <Card fluid>
+                                        <Card.Header textAlign={"center"}>
+                                            <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <Barchart data={barData} isStack={false} />
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </ModalContent>
                 </Modal>
             </Fragment>

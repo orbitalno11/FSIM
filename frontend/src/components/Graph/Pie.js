@@ -2,6 +2,15 @@ import React, { Component } from "react";
 
 import { Pie } from 'react-chartjs-2';
 
+const option = {
+	plugins: {
+		// Change options for ALL labels of THIS CHART
+		datalabels: {
+			color: '#000000',
+			anchor: 'center'
+		}
+	}
+}
 
 class Piechart extends Component {
 
@@ -27,10 +36,10 @@ class Piechart extends Component {
 		}
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		let { data } = this.props
 
-		if(data.length !== 0){
+		if (data.length !== 0) {
 			this.setState(data)
 		}
 	}
@@ -40,8 +49,7 @@ class Piechart extends Component {
 
 		return (
 			<React.Fragment>
-				<Pie data={data.length === 0 ? this.state: data} />
-				{/* {data.length === 0 ? <Pie data={this.state} />: <Pie data={data} />} */}
+				<Pie data={data.length === 0 ? this.state : data} options={option} />
 			</React.Fragment>
 		);
 	}
