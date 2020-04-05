@@ -117,77 +117,93 @@ const buttonNewStudent = [
 ];
 
 class Home extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      pane: []
+    }
+  }
+
   openModal = dept_id => {
     this.props.openHomeModal(dept_id);
   };
 
+  componentDidMount() {
+    this.setState({
+      pane: [
+        {
+          menuItem: "ข้อมูลนักศึกษา",
+          render: () => (
+            <PaneTemplate
+              label="แสดงผลการวิเคราะห์การเรียนของนักศึกษาแต่ละภาควิชาโดยสรุปออกมาเป็นกราฟ"
+              direction="กรุณาเลือกภาควิชา"
+              content={
+                <Grid.Row columns={4}>
+                  {pageStudent.map(item => (
+                    <ButtonStudent
+                      name={item.header_modal}
+                      id={item.id_modal}
+                      image={item.Image}
+                      key={item.id_modal}
+                      clicked={() => this.openModal(item.id_modal)}
+                    />
+                  ))}
+                </Grid.Row>
+              }
+            />
+          )
+        },
+        {
+          menuItem: "กิจกรรมประชาสัมพันธ์",
+          render: () => (
+            <PaneTemplate
+              label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
+              direction="กรุณาเลือกกิจกรรม"
+              content={
+                <Grid.Row>
+                  <Grid.Column textAlign="center">
+                    <Form.Group>
+                      {buttonNewStudent.map((item, index) => (
+                        <Button size="massive" color={item.color} href={item.url} key={index}>
+                          {item.name}
+                        </Button>
+                      ))}
+                    </Form.Group>
+                  </Grid.Column>
+                </Grid.Row>
+              }
+            />
+          )
+        },
+        {
+          menuItem: "ข้อมูลศิษย์เก่า",
+          render: () => (
+            <PaneTemplate
+              label="แสดงผลการวิเคราะห์หน้าที่การงานของนักศึกษาที่จบการศึกษา"
+              content={
+                <Grid.Row>
+                  <Grid.Column>
+                    <Button animated size="massive" color="yellow">
+                      <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="arrow right" />
+                      </Button.Content>
+                    </Button>
+                  </Grid.Column>
+                </Grid.Row>
+              }
+            />
+          )
+        }
+      ]
+    })
+  }
+
   render() {
-    const pane = [
-      {
-        menuItem: "ข้อมูลนักศึกษา",
-        render: () => (
-          <PaneTemplate
-            label="แสดงผลการวิเคราะห์การเรียนของนักศึกษาแต่ละภาควิชาโดยสรุปออกมาเป็นกราฟ"
-            direction="กรุณาเลือกภาควิชา"
-            content={
-              <Grid.Row columns={4}>
-                {pageStudent.map(item => (
-                  <ButtonStudent
-                    name={item.header_modal}
-                    id={item.id_modal}
-                    image={item.Image}
-                    key={item.id_modal}
-                    clicked={() => this.openModal(item.id_modal)}
-                  />
-                ))}
-              </Grid.Row>
-            }
-          />
-        )
-      },
-      {
-        menuItem: "กิจกรรมประชาสัมพันธ์",
-        render: () => (
-          <PaneTemplate
-            label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
-            direction="กรุณาเลือกกิจกรรม"
-            content={
-              <Grid.Row>
-                <Grid.Column textAlign="center">
-                  <Form.Group>
-                    {buttonNewStudent.map(item => (
-                      <Button size="massive" color={item.color} href={item.url}>
-                        {item.name}
-                      </Button>
-                    ))}
-                  </Form.Group>
-                </Grid.Column>
-              </Grid.Row>
-            }
-          />
-        )
-      },
-      {
-        menuItem: "ข้อมูลศิษย์เก่า",
-        render: () => (
-          <PaneTemplate
-            label="แสดงผลการวิเคราะห์หน้าที่การงานของนักศึกษาที่จบการศึกษา"
-            content={
-              <Grid.Row>
-                <Grid.Column>
-                  <Button animated size="massive" color="yellow">
-                    <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
-                    <Button.Content hidden>
-                      <Icon name="arrow right" />
-                    </Button.Content>
-                  </Button>
-                </Grid.Column>
-              </Grid.Row>
-            }
-          />
-        )
-      }
-    ];
+
+    let { pane } = this.state
 
     return (
       <Fragment>
