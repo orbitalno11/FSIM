@@ -2,9 +2,6 @@ import React, { Component } from "react";
 
 import { Bar } from 'react-chartjs-2';
 
-// color
-import * as color from '../Constant'
-
 const option = {
   //////// Don't delete this
   // scales: {

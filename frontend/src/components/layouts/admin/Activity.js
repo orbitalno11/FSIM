@@ -6,6 +6,8 @@ import {Nav, Tab} from "react-bootstrap";
 import SearchActivity from "../../admin/SearchActivity";
 import AddActivity from "../../admin/AddActivity";
 
+import TabDialog from '../../admin/TabDialog'
+
 class Activity extends Component {
 
     constructor(props) {
@@ -24,7 +26,14 @@ class Activity extends Component {
     render() {
         return (
             <Fragment>
-                <Container className="card-admin">
+                <TabDialog
+                    dialogName="จัดการข้อมูลกิจกรรมรับเข้า"
+                    tab1Name="ดูข้อมูลกิจกรรม"
+                    tab2Name="เพิ่มข้อมูลกิจกรรม"
+                    tab1Pane={<SearchActivity />}
+                    tab2Pane={<AddActivity />}
+                />
+                {/* <Container className="card-admin">
                     <h3 style={{marginBottom: "5%"}}>จัดการข้อมูลกิจกรรมรับเข้า</h3>
                     <Tab.Container defaultActiveKey="SearchActivity">
                         <Nav fill={true} variant="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
@@ -61,7 +70,7 @@ class Activity extends Component {
                             </Tab.Pane>
                         </Tab.Content>
                     </Tab.Container>
-                </Container>
+                </Container> */}
             </Fragment>
         );
     }

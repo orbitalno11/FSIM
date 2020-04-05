@@ -15,10 +15,13 @@ import ActiveRecruitment from "./components/layouts/user/ActiveRecruitment";
 import Alumni from "./components/layouts/user/Alumni";
 import ActivityInformation from "./components/layouts/user/ActivityInformation";
 
+import DepartmentDetail from './components/layouts/user/DepartmentDetail'
+
 // admin component
 import AdminHome from "./components/layouts/admin/Home";
 import AdminActivity from "./components/layouts/admin/Activity";
 import AdminNewStudent from "./components/layouts/admin/NewStudent"
+import AlumniManage from './components/layouts/admin/AlumiManage';
 
 class App extends Component {
   render() {
@@ -33,9 +36,12 @@ class App extends Component {
               <Route exact path="/alumni" component={Alumni}/>
               <Route exact path="/activity" component={ActivityInformation}/>
 
+              <Route path="/department/:dept_id" component={DepartmentDetail} />
+
               {/*    admin    */}
               <Route exact path="/admin" component={AdminHome}/>
               <Route exact path="/admin/activity" component={AdminActivity} />
+              <Route exact path="/admin/alumni" component={AlumniManage} />
               <Route exact path="/admin/newstudent" component={AdminNewStudent} />
             </Switch>
           </div>

@@ -51,8 +51,6 @@ class SummaryModal extends Component {
                 if (received.response === true) {
                     let data = received.data
 
-                    console.log(data)
-
                     this.setState({
                         department: data.dept_name,
                         branch: data.branch[0],
@@ -167,8 +165,6 @@ class SummaryModal extends Component {
     setBranchStatus = () => {
         let { byBranch } = this.state
 
-        // console.log(byBranch)
-
         let label = []
         let dataset = []
 
@@ -182,15 +178,10 @@ class SummaryModal extends Component {
             label.push(key_branch)
 
             if (key_per.length > cur_size) {
-                // console.log(key_per)
-                // cur_size = key_per.length
-                // sub_label = key_per
+                cur_size = key_per.length
+                sub_label = key_per
             }
         }
-
-        // console.log(sub_label)
-
-        sub_label.pop()
 
         for (let i in sub_label) {
             let inner = {
@@ -203,13 +194,13 @@ class SummaryModal extends Component {
         for (let i in byBranch) {
             let data = byBranch[i]
             let key = Object.keys(data)
-            key.pop()
+            // key.pop()
 
 
             for (let j in sub_label) {
                 if (key[j] === undefined) {
                     // console.log(`Status: ${sub_label[j]}: null`)
-                    dataset[j].data.push(0)
+                    dataset[j].data.push(0) 
                     continue
                 }
                 // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)

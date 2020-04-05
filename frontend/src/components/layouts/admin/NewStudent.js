@@ -23,7 +23,7 @@ class NewStudent extends Component{
     render() {
         return (
             <Fragment>
-                <TabDialog />
+                <TabDialog dialogName={"Student"} tab1Name={"Tab1"} tab2Name={"Tab2"}/>
             </Fragment>
         );
     }
