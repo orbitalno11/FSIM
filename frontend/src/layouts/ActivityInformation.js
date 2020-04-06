@@ -10,10 +10,10 @@ import {
     Image
 } from "semantic-ui-react";
 
-import bgyel from "../../../img/bg-head3.png";
-import AmountStudent from "../../general/AmountStudent";
-import GraphPie from "../../Graph/Pie";
-import GraphBar from "../../Graph/Bar";
+import bgyel from "../img/bg-head3.png";
+import AmountStudent from "../components/AmountStudent";
+import GraphPie from "../components/Graph/Pie";
+import GraphBar from "../components/Graph/Bar";
 
 class ActivityInformation extends Component {
 

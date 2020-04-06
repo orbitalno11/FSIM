@@ -12,12 +12,12 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import {getAllBranch} from "../../../redux/action/BranchAction";
+import {getAllBranch} from "../redux/action/BranchAction";
 
-import bgyel from "../../../img/bg-head3.png";
-import GraphLine from "../../Graph/Line";
-import GraphBar from "../../Graph/Bar";
-import AdmissionTypePanel from "../../general/AddmissionTypePanel";
+import bgyel from "../img/bg-head3.png";
+import GraphLine from "../components/Graph/Line";
+import GraphBar from "../components/Graph/Bar";
+import AdmissionTypePanel from "../components/AddmissionTypePanel";
 
 class Admission extends Component {
 

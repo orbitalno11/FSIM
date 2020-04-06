@@ -8,7 +8,7 @@ import {
     Image
 } from "semantic-ui-react";
 
-import logo from "../../img/60year-fsci.png";
+import logo from "../img/60year-fsci.png";
 
 const getWidth = () => {
     const isSSR = typeof window === "undefined";

@@ -3,9 +3,9 @@ import React, {Component, Fragment} from "react";
 import {Container} from "semantic-ui-react";
 import {Nav, Tab} from "react-bootstrap";
 
-import SearchActivity from "../../admin/SearchActivity";
-import AddActivity from "../../admin/AddActivity";
-import TabDialog from '../../admin/TabDialog'
+import SearchActivity from "../../components/SearchActivity";
+import AddActivity from "../../components/AddActivity";
+import TabDialog from '../../components/TabDialog'
 
 class Activity extends Component {
 

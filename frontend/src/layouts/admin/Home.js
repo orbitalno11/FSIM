@@ -9,9 +9,9 @@ import {
     Button, Icon
 } from "semantic-ui-react";
 
-import bgyel from "../../../img/head-left.png";
-import bannerbot from "../../../img/bottom-right.png";
-import TemplateHomeAdmin from "../../admin/TemplateHomeAdmin";
+import bgyel from "../../img/head-left.png";
+import bannerbot from "../../img/bottom-right.png";
+import TemplateHomeAdmin from "../../components/TemplateHomeAdmin";
 
 
 const url = [

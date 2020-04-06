@@ -3,11 +3,11 @@ import { Modal, Grid, Header, ModalContent, Card } from "semantic-ui-react";
 
 // redux
 import { connect } from 'react-redux'
-import { closeModal } from "../../redux/action/modalAction";
+import { closeModal } from "../redux/action/modalAction";
 
-import Piechart from "../Graph/Pie";
-import Barchart from "../Graph/Bar";
-import Horizontal from '../Graph/BarHorizontal'
+import Piechart from "./Graph/Pie";
+import Barchart from "./Graph/Bar";
+import Horizontal from './Graph/BarHorizontal'
 
 //  wait other
 import 'chartjs-plugin-datalabels'

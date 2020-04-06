@@ -5,24 +5,24 @@ import './App.css';
 import {Route, Switch} from 'react-router-dom'
 
 // general component
-import Navbar from './components/general/Menu'
-import Home from './components/layouts/Home'
+import Navbar from './components/Menu'
+import Home from './layouts/Home'
 
 
 // user component
-import Admission from "./components/layouts/user/Admission";
-import ActiveRecruitment from "./components/layouts/user/ActiveRecruitment";
-import Alumni from "./components/layouts/user/Alumni";
-import ActivityInformation from "./components/layouts/user/ActivityInformation";
+import Admission from "./layouts/Admission";
+import ActiveRecruitment from "./layouts/ActiveRecruitment";
+import Alumni from "./layouts/Alumni";
+import ActivityInformation from "./layouts/ActivityInformation";
 
-import DepartmentDetail from './components/layouts/user/DepartmentDetail'
+import DepartmentDetail from './layouts/DepartmentDetail'
 
 // admin component
-import AdminHome from "./components/layouts/admin/Home";
-import AdminHomeGeneral from "./components/layouts/admin/HomeGeneral";
-import AdminActivity from "./components/layouts/admin/Activity";
-import AdminNewStudent from "./components/layouts/admin/NewStudent"
-import AlumniManage from './components/layouts/admin/AlumiManage';
+import AdminHome from "./layouts/admin/Home";
+import AdminHomeGeneral from "./layouts/admin/HomeGeneral";
+import AdminActivity from "./layouts/admin/Activity";
+import AdminNewStudent from "./layouts/admin/NewStudent"
+import AlumniManage from './layouts/admin/AlumiManage';
 
 class App extends Component {
   render() {

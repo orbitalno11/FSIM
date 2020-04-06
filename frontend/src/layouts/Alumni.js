@@ -11,12 +11,12 @@ import {
     Image
 } from "semantic-ui-react";
 
-import bgyel from "../../../img/bg-head3.png";
-import GraphPie from "../../Graph/Pie";
-import GraphLine from "../../Graph/Line";
-import GraphBar from "../../Graph/Bar";
-import TemplateAd from "../../general/AddmissionTypePanel";
-import AmountStudent from "../../general/AmountStudent";
+import bgyel from "../img/bg-head3.png";
+import GraphPie from "../components/Graph/Pie";
+import GraphLine from "../components/Graph/Line";
+import GraphBar from "../components/Graph/Bar";
+import TemplateAd from "../components/AddmissionTypePanel";
+import AmountStudent from "../components/AmountStudent";
 
 class Alumni extends Component {
     render() {

@@ -11,11 +11,11 @@ import {
     Image
 } from "semantic-ui-react";
 
-import bgyel from "../../../img/bg-head3.png";
+import bgyel from "../img/bg-head3.png";
 
-import AmountStudent from "../../general/AmountStudent";
-import GraphLine from "../../Graph/Line";
-import GraphHorizaontaBar from "../../Graph/BarHorizontal";
+import AmountStudent from "../components/AmountStudent";
+import GraphLine from "../components/Graph/Line";
+import GraphHorizaontaBar from "../components/Graph/BarHorizontal";
 
 
 class ActiveRecruitment extends Component {

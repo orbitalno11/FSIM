@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react'
 
 import { Grid, Container, GridRow, Menu } from 'semantic-ui-react'
 
-import Piechart from '../../Graph/Pie'
-import Barchart from '../../Graph/Bar'
-import BarHorizontal from '../../Graph/BarHorizontal'
+import Piechart from '../components/Graph/Pie'
+import Barchart from '../components/Graph/Bar'
+import BarHorizontal from '../components/Graph/BarHorizontal'
 
 // 
-import AmountBox from '../../general/AmountBox'
-import Modal from '../../general/Modal'
+import AmountBox from '../components/AmountBox'
+import Modal from '../components/Modal'
 
 // axios
 import axios from 'axios'

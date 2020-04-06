@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 
-import TabDialog from '../../admin/TabDialog'
+import TabDialog from '../../components/TabDialog'
 import { Table, Button } from 'semantic-ui-react'
+import { Form, InputGroup } from 'react-bootstrap'
 
 // 
 
@@ -52,6 +53,27 @@ const ManageTab = () => (
     </Fragment>
 )
 
+const AddTab = () => (
+    <Fragment>
+        <Form>
+            <Form.Group>
+                <Form.Label>
+                    ลิงก์ Google Sheet
+                </Form.Label>
+                <InputGroup>
+                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet" />
+                    <Button>ตรวจสอบ</Button>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>เลือกหัวข้อที่ต้องการ</Form.Label>
+                <Form.Check
+                    label="topic1" />
+            </Form.Group>
+        </Form>
+    </Fragment>
+)
+
 
 class AlumniManage extends Component {
     render() {
@@ -62,6 +84,7 @@ class AlumniManage extends Component {
                     tab1Name="จัดการรายการแบบสอบถาม"
                     tab2Name="เพิ่มข้อแบบสอบถาม"
                     tab1Pane={<ManageTab />}
+                    tab2Pane={<AddTab />}
                 />
             </Fragment>
         )

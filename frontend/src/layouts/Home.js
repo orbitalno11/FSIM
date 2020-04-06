@@ -12,22 +12,22 @@ import {
   Header
 } from "semantic-ui-react";
 
-import SummaryModal from "../general/Modal";
+import SummaryModal from "../components/Modal";
 
-import bgyel from "../../img/bg-head.png";
+import bgyel from "../img/bg-head.png";
 
-import banner3 from "../../img/mockup2.png";
-import bannerbot from "../../img/bottom-left.png";
+import banner3 from "../img/mockup2.png";
+import bannerbot from "../img/bottom-left.png";
 
 // logo
-import Logomth from "../../img/mth.png";
-import Logomic from "../../img/mic.png";
-import Logophy from "../../img/phy.png";
-import Logochm from "../../img/chm.png";
+import Logomth from "../img/mth.png";
+import Logomic from "../img/mic.png";
+import Logophy from "../img/phy.png";
+import Logochm from "../img/chm.png";
 
 // redux
 import { connect } from "react-redux";
-import { openModal } from "../../redux/action/modalAction";
+import { openModal } from "../redux/action/modalAction";
 
 const ButtonStudent = ({ id, name, image, clicked }) => (
   <Fragment>

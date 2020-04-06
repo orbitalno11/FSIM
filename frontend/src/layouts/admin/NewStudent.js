@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import { Container, Nav, Tab } from "react-bootstrap";
 import { Header } from "semantic-ui-react";
 
-import TabDialog from "../../admin/TabDialog";
+import TabDialog from "../../components/TabDialog";
 
 class NewStudent extends Component{
 
