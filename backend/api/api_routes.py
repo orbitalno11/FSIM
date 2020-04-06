@@ -7,6 +7,7 @@ from backend.helpers.database_helper import DatabaseHelper
 # import modules
 from backend.modules.SummarizeData import SummarizeData as sum
 from backend.modules.AnalyzeStudent import AnalyzeStudent
+from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
@@ -41,6 +42,9 @@ def get_admission_channel():
     data = db.get_admission_channel()
 
     return api_helper.return_response(data)
+
+
+
 
 
 # # # # # get department student data

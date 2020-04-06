@@ -21,7 +21,7 @@
 
 import pandas as pd
 import numpy as np
-
+from collections import Counter
 # import helper
 from backend.helpers.database_helper import DatabaseHelper
 import backend.helpers.inner_response_helper as inner_res_helper
@@ -64,3 +64,32 @@ class AnalyzeAlumni:
         print(data.head())
 
         return inner_res_helper.make_inner_response(response=True, message="Developing", value=header)
+
+    def analyze_alumni_work(self):
+        connect = DatabaseHelper.get_instance()
+        data = connect.get_all_alumni()
+        df = pd.DataFrame(data['value'])
+        value={}
+        value['count_by_branch']=df.groupby('branch_id').size().to_dict()
+        value['count_by_status']=df.groupby('work_status').size().to_dict()
+        value['count_by_training']=df.groupby('apprentice_title').size().to_dict()
+        # value['salary_branch_training']=
+        [self.__salary_branch_training(df[['branch_id','apprentice_title','salary']])]
+
+        # print(df)
+
+        return inner_res_helper.make_inner_response(response=True, message="Developing", value=[value])
+
+    # def __salary_branch_training(self,df):
+    #     df.loc[df['salary'] >= 30000, 'salary'] = 1
+    #     df.loc[(df['salary']>=20000)&(df['salary']<30000), 'salary'] = 2
+    #     df.loc[(df['salary']>=10000)&(df['salary']<20000), 'salary'] = 3
+    #     df.loc[df['salary']<10000, 'salary'] = 4
+    #     count_status_all_branch = df.groupby(['branch_id', 'apprentice_title','salary']).size().unstack(fill_value=0)
+    #     print(count_status_all_branch)
+    #     # return count_status_all_branch
+
+
+
+   
+
