@@ -5,7 +5,6 @@ import {Nav, Tab} from "react-bootstrap";
 
 import SearchActivity from "../../admin/SearchActivity";
 import AddActivity from "../../admin/AddActivity";
-
 import TabDialog from '../../admin/TabDialog'
 
 class Activity extends Component {

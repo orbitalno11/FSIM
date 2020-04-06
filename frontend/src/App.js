@@ -19,6 +19,7 @@ import DepartmentDetail from './components/layouts/user/DepartmentDetail'
 
 // admin component
 import AdminHome from "./components/layouts/admin/Home";
+import AdminHomeGeneral from "./components/layouts/admin/HomeGeneral";
 import AdminActivity from "./components/layouts/admin/Activity";
 import AdminNewStudent from "./components/layouts/admin/NewStudent"
 import AlumniManage from './components/layouts/admin/AlumiManage';
@@ -40,6 +41,7 @@ class App extends Component {
 
               {/*    admin    */}
               <Route exact path="/admin" component={AdminHome}/>
+              <Route exact path="/adminGeneral" component={AdminHomeGeneral}/>
               <Route exact path="/admin/activity" component={AdminActivity} />
               <Route exact path="/admin/alumni" component={AlumniManage} />
               <Route exact path="/admin/newstudent" component={AdminNewStudent} />

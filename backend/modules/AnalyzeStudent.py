@@ -92,6 +92,7 @@ class AnalyzeStudent:
         return inner_res_helper.make_inner_response(response, message, value)
 
 
+
     def __count_by_branch(self, df_dept):
         df_branch = df_dept.groupby('branch').size().to_dict()
         return df_branch
