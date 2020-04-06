@@ -77,14 +77,14 @@ const AddTab = () => (
 
 class AlumniManage extends Component {
     render() {
+        let tabName = ["จัดการรายการแบบสอบถาม", "เพิ่มข้อแบบสอบถาม", "tab3", "tab4", "tab5"]
+        let paneTab = [<ManageTab/>, <AddTab/>]
         return (
             <Fragment>
                 <TabDialog
                     dialogName="จัดการข้อมูลศิษย์เก่า"
-                    tab1Name="จัดการรายการแบบสอบถาม"
-                    tab2Name="เพิ่มข้อแบบสอบถาม"
-                    tab1Pane={<ManageTab/>}
-                    tab2Pane={<AddTab/>}
+                    tabList={tabName}
+                    paneList={paneTab}
                 />
             </Fragment>
         )

@@ -13,6 +13,8 @@ class TabDialog extends Component {
             tab2Name: props.tab2Name,
             tab1Pane: props.tab1Pane,
             tab2Pane: props.tab2Pane,
+            tabList: props.tabList,
+            paneList: props.paneList,
             key: "tab1"
         }
     }
@@ -24,7 +26,8 @@ class TabDialog extends Component {
     }
 
     render() {
-        let { dialogName, tab1Name, tab2Name, tab1Pane, tab2Pane } = this.state
+        let { dialogName, tabList, paneList, key } = this.state
+
         return (
             <Fragment>
                 <Container>
@@ -32,26 +35,22 @@ class TabDialog extends Component {
                         {dialogName}
                     </Header>
 
-                    <TabContainer defaultActiveKey="tab1">
+                    <TabContainer defaultActiveKey={0}>
                         <Nav fill={true} variant={"tabs"} activeKey={this.state.activeKey} onSelect={this.handleSelect}>
-                            <NavItem className={this.state.key === "tab1" ? null : "Tab2"}>
-                                <NavLink eventKey="tab1" className={this.state.key === "tab1" ? null : "Tab2-text"}>
-                                    {tab1Name}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem className={this.state.key === "tab1" ? "Tab2" : null} >
-                                <NavLink eventKey="tab2" className={this.state.key === "tab1" ? "Tab2-text" : null}>
-                                    {tab2Name}
-                                </NavLink>
-                            </NavItem>
+                            {tabList.map((item, index) => (
+                                <NavItem key={index} className={key === index ? null : "Tab2"}>
+                                    <NavLink eventKey={index} className={key === index ? "Tab2-text" : null}>
+                                        {item}
+                                    </NavLink>
+                                </NavItem>
+                            ))}
                         </Nav>
-                        <TabContent>
-                            <TabPane eventKey="tab1">
-                                {tab1Pane}
-                            </TabPane>
-                            <TabPane eventKey="tab2">
-                                {tab2Pane}
-                            </TabPane>
+                        <TabContent className="mt-4">
+                            {paneList.map((item, index) => (
+                                <TabPane eventKey={index} key={index}>
+                                    {item}
+                                </TabPane>
+                            ))}
                         </TabContent>
                     </TabContainer>
                 </Container>

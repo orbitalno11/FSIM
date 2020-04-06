@@ -28,7 +28,7 @@ class AdminLayout extends Component {
     render() {
         let { match } = this.props
         return (
-            <div>
+            <Fragment>
                 <Row noGutters>
                     <Col lg={2}>
                         <div id="adminNav">
@@ -57,7 +57,7 @@ class AdminLayout extends Component {
                         </Row>
                     </Col>
                 </Row>
-            </div>
+            </Fragment>
         )
     }
 }
