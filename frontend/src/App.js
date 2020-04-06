@@ -24,7 +24,7 @@ import DepartmentDetail from './pages/DepartmentDetail'
 import AdminHome from "./pages/admin/Home";
 import AdminHomeGeneral from "./pages/admin/HomeGeneral";
 import AdminActivity from "./pages/admin/Activity";
-import AdminNewStudent from "./pages/admin/NewStudent"
+import AdminNewStudent from "./pages/admin/AdmissionManage"
 import AlumniManage from './pages/admin/AlumiManage';
 
 import AdminLayout from './layouts/Admin'

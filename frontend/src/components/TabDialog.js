@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 
 import { Container, Nav, NavItem, NavLink, TabContainer, TabContent, TabPane } from "react-bootstrap";
-import { Header } from "semantic-ui-react";
 
 class TabDialog extends Component {
 
@@ -31,13 +30,11 @@ class TabDialog extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h3" style={{ marginBottom: "5%" }}>
-                        {dialogName}
-                    </Header>
+                    <h3>{dialogName}</h3>
 
                     <TabContainer defaultActiveKey={0}>
-                        <Nav fill={true} variant={"tabs"} activeKey={this.state.activeKey} onSelect={this.handleSelect}>
-                            {tabList.map((item, index) => (
+                        <Nav fill variant={"tabs"} activeKey={this.state.activeKey} onSelect={this.handleSelect}>
+                            {tabList !== undefined && tabList.map((item, index) => (
                                 <NavItem key={index} className={key === index ? null : "Tab2"}>
                                     <NavLink eventKey={index} className={key === index ? "Tab2-text" : null}>
                                         {item}
@@ -46,7 +43,7 @@ class TabDialog extends Component {
                             ))}
                         </Nav>
                         <TabContent className="mt-4">
-                            {paneList.map((item, index) => (
+                            {paneList !== undefined && paneList.map((item, index) => (
                                 <TabPane eventKey={index} key={index}>
                                     {item}
                                 </TabPane>

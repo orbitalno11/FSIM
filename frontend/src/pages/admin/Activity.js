@@ -14,12 +14,12 @@ class Activity extends Component {
     }
 
     render() {
-        let tabName = ["ดูข้อมูลกิจกรรม", "เพิ่มข้อมูลกิจกรรม"]
-        let pane = [<SearchActivity />, <AddActivity />]
+        let tabName = ["ข้อมูลกิจกรรมประชาสัมพันธ์", "ข้อมูล Active Recruitment", "จัดการข้อมูลกิจกรรม", "เพิ่มข้อมูล"]
+        let pane = [null, null, <SearchActivity />, <AddActivity />]
         return (
             <Fragment>
                 <TabDialog
-                    dialogName="จัดการข้อมูลกิจกรรมรับเข้า"
+                    dialogName="กิจกรรมประชาสัมพันธ์ และ Active Recruitment"
                     tabList={tabName}
                     paneList={pane}
                 />
