@@ -213,7 +213,7 @@ class DatabaseHelper:
     # get alumni data (aom request)
     # TODO() this method doesn't change the sql command waiting the data
     def get_all_alumni(self):
-        sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, company, salary FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status"
+        sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, company, salary, apprentice_id, apprentice_title FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -229,7 +229,9 @@ class DatabaseHelper:
                 'congrat_year': data[4],
                 'work_status': data[6],
                 'company': data[7],
-                'salary': data[8]
+                'salary': data[8],
+                'apprentice_id': data[9],
+                'apprentice_title': data[10]
             }
             out_function_data.append(data)
 
