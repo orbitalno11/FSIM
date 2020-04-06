@@ -6,23 +6,25 @@ import {Route, Switch} from 'react-router-dom'
 
 // general component
 import Navbar from './components/Menu'
-import Home from './layouts/Home'
+import Home from './pages/Home'
 
 
 // user component
-import Admission from "./layouts/Admission";
-import ActiveRecruitment from "./layouts/ActiveRecruitment";
-import Alumni from "./layouts/Alumni";
-import ActivityInformation from "./layouts/ActivityInformation";
+import Admission from "./pages/Admission";
+import ActiveRecruitment from "./pages/ActiveRecruitment";
+import Alumni from "./pages/Alumni";
+import ActivityInformation from "./pages/ActivityInformation";
 
-import DepartmentDetail from './layouts/DepartmentDetail'
+import DepartmentDetail from './pages/DepartmentDetail'
 
 // admin component
-import AdminHome from "./layouts/admin/Home";
-import AdminHomeGeneral from "./layouts/admin/HomeGeneral";
-import AdminActivity from "./layouts/admin/Activity";
-import AdminNewStudent from "./layouts/admin/NewStudent"
-import AlumniManage from './layouts/admin/AlumiManage';
+import AdminHome from "./pages/admin/Home";
+import AdminHomeGeneral from "./pages/admin/HomeGeneral";
+import AdminActivity from "./pages/admin/Activity";
+import AdminNewStudent from "./pages/admin/NewStudent"
+import AlumniManage from './pages/admin/AlumiManage';
+
+import AdminLayout from './layouts/Admin'
 
 class App extends Component {
   render() {
@@ -45,6 +47,7 @@ class App extends Component {
               <Route exact path="/admin/activity" component={AdminActivity} />
               <Route exact path="/admin/alumni" component={AlumniManage} />
               <Route exact path="/admin/newstudent" component={AdminNewStudent} />
+              <Route exact path="/layout" component={AdminLayout} />
             </Switch>
           </div>
         </Fragment>
