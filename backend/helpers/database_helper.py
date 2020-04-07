@@ -217,7 +217,7 @@ class DatabaseHelper:
         if graduated_year is None:
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
         else:
-            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year like '%s'" % (graduated_year)
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%d'" % (graduated_year)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
