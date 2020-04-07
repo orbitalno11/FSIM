@@ -98,7 +98,7 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
-        # # # # # manage data for admin part # # # # #
+        # TODO() # # # # manage data for admin part # # # # #
 
     # admission part
     def insert_admission(self, data):
@@ -242,7 +242,7 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-        # # # # # general path # # # # #
+        # TODO() # # # # general path # # # # #
 
     def get_department(self, name):
         if name is None:
@@ -404,6 +404,60 @@ class DatabaseHelper:
                 'channel_name': data[3],
                 'branch_id': data[4],
                 'branch_name': data[5]
+            }
+            out_function_data.append(temp)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get student status list data
+    def get_status_list(self):
+        sql_command = "SELECT * FROM student_status"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            temp ={
+                'status_id': data[0],
+                'status_title': data[1]
+            }
+            out_function_data.append(temp)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get working status list data
+    def get_working_status_list(self):
+        sql_command = "SELECT * FROM working_status"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            temp = {
+                'status_id': data[0],
+                'status_title': data[1]
+            }
+            out_function_data.append(temp)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get apprentice status list data
+    def get_apprentice_status_list(self):
+        sql_command = "SELECT * FROM apprentice_status"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            temp = {
+                'status_id': data[0],
+                'status_title': data[1]
             }
             out_function_data.append(temp)
 
