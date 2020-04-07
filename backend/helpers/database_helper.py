@@ -212,8 +212,11 @@ class DatabaseHelper:
 
     # get alumni data (aom request)
     # TODO() this method doesn't change the sql command waiting the data
-    def get_all_alumni(self):
-        sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, company, salary, apprentice_id, apprentice_title FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status"
+    def get_all_alumni(self, dept_id=None):
+        if dept_id is None:
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
+        else:
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE dept_id like '%s'" % (dept_id)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -225,13 +228,14 @@ class DatabaseHelper:
                 'student_id': data[0],
                 'branch_id': data[1],
                 'branch_name': data[2],
+                'dept_id': data[10],
+                'dept_name': data[11],
                 'graduated_gpax': data[3],
                 'congrat_year': data[4],
                 'work_status': data[6],
-                'company': data[7],
-                'salary': data[8],
-                'apprentice_id': data[9],
-                'apprentice_title': data[10]
+                'salary': data[7],
+                'apprentice_id': data[8],
+                'apprentice_title': data[9]
             }
             out_function_data.append(data)
 
