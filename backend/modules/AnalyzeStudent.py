@@ -48,29 +48,30 @@ class AnalyzeStudent:
     # this function returns student data and status student that analyze in 'dept'.
     # this function required department id
     def analyze_by_dept(self, dept):
+        value = {}
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_student(dept)
-        value = {}
+
         if data['value']:
             df = self.__set_status(pd.DataFrame(data['value']))
-            num_student_dept = self.__count_student_dept(df)
-            df_branch = self.__count_by_branch(df)
-            df_status = df[['student_year', 'education_status']]
-            df_status_branch = df[['branch', 'student_year', 'education_status']]
-            df_count_status_all_branch = self.__count_status(df_status)
-            df_status_by_branch = self.__status_by_branch(df)
-            # set data
-            value['all_stu_dept'] = str(num_student_dept)
-            value['branch'] = [df_branch]
-            value['status_by_year'] = [df_count_status_all_branch]
-            value['df_status_by_branch'] = [df_status_by_branch]
+            df_branch=df[['branch_id','branch']]
+            dic_branch=self.__set_branch_dic(df_branch)
+            count_by_branch=self.__count_by_branch(df)
+            status_by_branch=self.__status_by_branch(df)
+            value['all_stu_dept']           = self.__count_student_dept(df)
+            value['branch']                 = [self.__set_branch(dic_branch,count_by_branch).to_dict()]
+            value['status_by_year']         = [self.__count_status(df[['student_year', 'education_status']])]
+            value['df_status_by_branch']    = [self.__set_branch(dic_branch,status_by_branch).to_dict('index')]
             response = True
             message = "Analyze Student Successfully"
+            print(inner_res_helper.make_inner_response(response, message, value))
         else:
             response = False
             message = "Analyze Student Failed"
 
         return inner_res_helper.make_inner_response(response, message, value)
+
+
 
     # uses in user and admin
     # this function return  academic results that analyze in 'dept'.
@@ -79,6 +80,7 @@ class AnalyzeStudent:
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_academic_record(dept)
         value = {}
+    
         if data['value']:
             df = pd.DataFrame(data['value'])
             grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
@@ -94,7 +96,7 @@ class AnalyzeStudent:
 
 
     def __count_by_branch(self, df_dept):
-        df_branch = df_dept.groupby('branch').size().to_dict()
+        df_branch = df_dept.groupby('branch_id').size()
         return df_branch
 
     def __count_student_dept(self, df):
@@ -108,9 +110,8 @@ class AnalyzeStudent:
 
 
     def __status_by_branch(self, df):
-        grouped = df.groupby(['branch', 'education_status']).size().unstack(fill_value=0)
-           
-        df_set_status=self.__check_column_status(grouped).to_dict('index')
+        grouped = df.groupby(['branch_id', 'education_status']).size().unstack(fill_value=0)
+        df_set_status=self.__check_column_status(grouped)
         # print(grouped)
         return df_set_status
 
@@ -137,5 +138,16 @@ class AnalyzeStudent:
         df=df[['ปกติ','วิทยาฑัณฑ์','ตกออก','ลาพัก']]
         return df
 
+
+    def __set_branch_dic(self,main):
+        main['branch']=main.branch.str.split('-').str[0]
+        main=main.drop_duplicates(keep='last')
+        branch_dic=dict([(branch_id,branch) for branch_id,branch in zip(main.branch_id, main.branch)])
+        return branch_dic
+
+    def __set_branch(self,dic,data):
+        data.index =data.index.map(dic)
+        return data
+    
 # get_all_student() method for get student data
 # get_all_academic_record() method get student academic record data
