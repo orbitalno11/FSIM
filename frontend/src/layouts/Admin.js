@@ -9,6 +9,9 @@ import Activity from "../pages/admin/Activity";
 import Admission from "../pages/admin/AdmissionManage";
 import Information from "../pages/admin/Information";
 
+// redux
+import { connect } from 'react-redux'
+
 
 class AdminLayout extends Component {
 
@@ -19,7 +22,7 @@ class AdminLayout extends Component {
     render() {
         return (
             <Fragment>
-                <AdminMenu />
+                <AdminMenu username={this.props.user.userName} />
                 <Switch>
                     <Route exact path={"/admin"} component={AdminHome} />
                     <Route exact path={"/admin/information"} component={Information} />
@@ -32,4 +35,8 @@ class AdminLayout extends Component {
     }
 }
 
-export default AdminLayout
+const mapStateToProps = state => ({
+    user : state.auth
+})
+
+export default connect(mapStateToProps)(AdminLayout)

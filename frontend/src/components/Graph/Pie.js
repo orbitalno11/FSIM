@@ -9,6 +9,12 @@ const option = {
 			color: '#000000',
 			anchor: 'center'
 		}
+	},
+	legend: {
+		position: 'right',
+		labels: {
+			fontSize: 12
+		}
 	}
 }
 
@@ -34,11 +40,11 @@ class Piechart extends Component {
 	}
 
 	render() {
-		let { data } = this.props
+		let { data, height, width } = this.props
 
 		return (
 			<React.Fragment>
-				{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} />}
+				{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
 			</React.Fragment>
 		);
 	}

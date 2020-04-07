@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 
-import { Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from "react-router-dom";
 
@@ -13,7 +13,7 @@ class AdminMenu extends Component {
         return (
             <Fragment>
                 <Navbar expand="lg">
-                    <Navbar.Brand><img src={Logo} height="45px" alt="fsci-logo"/></Navbar.Brand>
+                    <Navbar.Brand><img src={Logo} height="50px" alt="fsci-logo"/></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navBarContent" />
                     <Navbar.Collapse id="navBarContent">
                         <Nav className="mr-auto" activeKey="/admin">
@@ -77,6 +77,9 @@ class AdminMenu extends Component {
                             </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
+                    <NavDropdown title={"สวัสดี! "+this.props.username}>
+                        <NavDropdown.Item className="nav-link">ออกจากระบบ</NavDropdown.Item>
+                    </NavDropdown>
                 </Navbar>
             </Fragment>
         )

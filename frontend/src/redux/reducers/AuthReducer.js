@@ -2,6 +2,7 @@ import * as types from '../types'
 
 const initialState = {
     userType: "admin",
+    userName: "FSIM Admin",
     token: null,
     error: null,
     loading: false
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
                 loading: false,
                 token: action.token,
                 userType: action.userType,
+                userName: action.userName,
                 error: null
             }
 
@@ -30,6 +32,7 @@ export default (state = initialState, action) => {
                 loading: false,
                 token: null,
                 userType: null,
+                userName: null,
                 error: action.error
             }
 
