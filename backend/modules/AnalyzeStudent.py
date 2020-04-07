@@ -64,7 +64,7 @@ class AnalyzeStudent:
             value['df_status_by_branch']    = [self.__set_branch(dic_branch,status_by_branch).to_dict('index')]
             response = True
             message = "Analyze Student Successfully"
-            print(inner_res_helper.make_inner_response(response, message, value))
+            # print(inner_res_helper.make_inner_response(response, message, value))
         else:
             response = False
             message = "Analyze Student Failed"
