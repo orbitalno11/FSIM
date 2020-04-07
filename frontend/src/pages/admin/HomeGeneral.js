@@ -54,7 +54,7 @@ class AdminHome extends Component {
             <Fragment>
                 <Image size="massive" className="background-white" src={bgyel} />
                 <Image size="massive" className="bottom-left2" src={bannerbot} />
-                <TemplateHomeAdmin manage={url} header={"จัดการข้อมูลทั่วไป"}/>
+                {/* <TemplateHomeAdmin manage={url} header={"จัดการข้อมูลทั่วไป"}/> */}
             </Fragment>
         )
     }

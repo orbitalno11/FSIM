@@ -7,22 +7,35 @@
     /*margin-left: -250px;*/
 }
 
-.nav-link{
-    color: black;
-    font-size: 1.5rem;
+.navActive {
+    border-bottom: solid 3px #FF4612;
+    font-weight: bolder;
 }
 
-.nav-link:hover{
+.navHover{
+    font-weight: bold;
+}
+
+.navHover:hover{
+    border-bottom: solid 3px #FFD110;
+}
+
+.navbar .nav-link{
+    color: black;
+    font-size: 1.35rem;
+}
+
+/* .nav-link:hover{
     color: black;
     background-color: #f39c1275;
     transition: all 0.5s;
-}
+} */
 
-.adminActiveLink {
+/* .adminActiveLink {
     background-color: #f39c12;
     font-size: 1.5rem;
     color: black;
-}
+} */
 
 .footer {
     background-color: #ffd110;

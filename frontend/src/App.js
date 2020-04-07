@@ -21,17 +21,15 @@ import ActivityInformation from "./pages/ActivityInformation";
 import DepartmentDetail from './pages/DepartmentDetail'
 
 // admin component
-import AdminHome from "./pages/admin/Home";
-import AdminHomeGeneral from "./pages/admin/HomeGeneral";
-import AdminActivity from "./pages/admin/Activity";
-import AdminNewStudent from "./pages/admin/AdmissionManage"
-import AlumniManage from './pages/admin/AlumiManage';
-
 import AdminLayout from './layouts/Admin'
 
 class App extends Component {
+    constructor(props){
+        super(props)
+    }
+
     render() {
-        let {user} = this.props
+        let { user } = this.props
         return (
             <Fragment>
                 {user.userType === 'user' && <Navbar/>}
@@ -46,11 +44,6 @@ class App extends Component {
                         <Route path="/department/:dept_id" component={DepartmentDetail}/>
 
                         {/*    admin    */}
-                        {/*<Route exact path="/admin" component={AdminHome}/>*/}
-                        {/*<Route exact path="/adminGeneral" component={AdminHomeGeneral}/>*/}
-                        {/*<Route exact path="/admin/activity" component={AdminActivity} />*/}
-                        {/*<Route exact path="/admin/alumni" component={AlumniManage} />*/}
-                        {/*<Route exact path="/admin/newstudent" component={AdminNewStudent} />*/}
                         <Route path="/admin" component={AdminLayout}/>
                     </Switch>
                 </div>
