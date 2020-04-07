@@ -65,31 +65,41 @@ class AnalyzeAlumni:
 
         return inner_res_helper.make_inner_response(response=True, message="Developing", value=header)
 
+    #this function will return analyze alumni work in 'year'
     def analyze_alumni_work(self):
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_alumni()
-        df = pd.DataFrame(data['value'])
-        value={}
-        value['count_by_branch']=df.groupby('branch_id').size().to_dict()
-        value['count_by_status']=df.groupby('work_status').size().to_dict()
-        value['count_by_training']=df.groupby('apprentice_title').size().to_dict()
-        # value['salary_branch_training']=
-        [self.__salary_branch_training(df[['branch_id','apprentice_title','salary']])]
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            df['graduated_gpax']=df['graduated_gpax'].astype(int)
+            df['salary']=df['salary'].astype(int)
+            print(df.info())
+            value = {
+                'count_student'     : len(df.index),
+                # 'brance'            : df[df[['branch_id','branch_name']].duplicated(keep='last')]
+                'count_by_branch'   : df.groupby('branch_id').size().to_dict(),
+                'count_by_status'   : df.groupby('work_status').size().to_dict(),
+                'count_by_training' : df.groupby('apprentice_title').size().to_dict(),
+                'salary_all_branch_trining':[self.__salary_branch_training(df[['apprentice_title','salary']])],
+                'gpax_by_branch'    : df.groupby('branch_id')['graduated_gpax'].size().to_dict()
+                }
+            print(df.groupby('branch_id')['branch_name'])
+            response = True
+            message = "Analyze Alumni Work Successfully"
+        else :
+            value = {}
+            response = False
+            message = "AnalyzeAlumni Work Failed"
+        return inner_res_helper.make_inner_response(response=response, message=message, value=[value])
 
-        # print(df)
-
-        return inner_res_helper.make_inner_response(response=True, message="Developing", value=[value])
-
-    # def __salary_branch_training(self,df):
-    #     df.loc[df['salary'] >= 30000, 'salary'] = 1
-    #     df.loc[(df['salary']>=20000)&(df['salary']<30000), 'salary'] = 2
-    #     df.loc[(df['salary']>=10000)&(df['salary']<20000), 'salary'] = 3
-    #     df.loc[df['salary']<10000, 'salary'] = 4
-    #     count_status_all_branch = df.groupby(['branch_id', 'apprentice_title','salary']).size().unstack(fill_value=0)
-    #     print(count_status_all_branch)
-    #     # return count_status_all_branch
-
-
-
-   
+    def __salary_branch_training(self,df):
+        grouped_df = df.copy()
+        grouped_df.loc[df['salary']<10000, 'salary1'] = 'น้อยกว่า 10,000'
+        grouped_df = grouped_df.copy()
+        grouped_df.loc[(df['salary']>=10000)&(df['salary']<20000), 'salary1'] = '10,000-19,999'
+        grouped_df.loc[(df['salary']>=20000)&(df['salary']<30000), 'salary1'] = '20,000-30,000'
+        grouped_df.loc[df['salary'] >= 30000, 'salary1'] = 'มากกว่า 30,000'
+        grouped_df= grouped_df.drop('salary', 1)
+        count_status_all_branch  = grouped_df.groupby(['apprentice_title', 'salary1']).size().unstack(fill_value=0).reindex(['เรียนรู้ร่วมอุตสาหกรรม','ฝึกงานภาคฤดูร้อน','ไม่ระบุ']).to_dict()
+        return count_status_all_branch
 

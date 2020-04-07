@@ -46,7 +46,6 @@ def get_admission_channel():
 
 
 
-
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])
