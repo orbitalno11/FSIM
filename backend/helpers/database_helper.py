@@ -160,9 +160,9 @@ class DatabaseHelper:
     # get all student data (pueng)
     def get_all_student(self, dept_id=None):
         if dept_id is not None:
-            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status where dept_id like '%s'" % dept_id
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status where dept_id like '%s'" % dept_id
         else:
-            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -175,7 +175,9 @@ class DatabaseHelper:
             year = self.__constant.calculate_education_year(year)
             data = {
                 'student_id': data[0],
+                'dept_id': data[5],
                 'department': data[1],
+                'branch_id': data[6],
                 'branch': data[2],
                 'current_gpax': data[3],
                 'education_status': data[4],
@@ -211,7 +213,6 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get alumni data (aom request)
-    # TODO() this method doesn't change the sql command waiting the data
     def get_all_alumni(self, dept_id=None):
         if dept_id is None:
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
