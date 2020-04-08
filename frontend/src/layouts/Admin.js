@@ -15,6 +15,9 @@ import Department from '../pages/admin/Department'
 // redux
 import { connect } from 'react-redux'
 
+// image
+import bottomRight from '../img/bottom-right.png'
+
 
 class AdminLayout extends Component {
 

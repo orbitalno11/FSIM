@@ -65,6 +65,16 @@
     font-weight: bold;
 }
 
+.text-bullet {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.text-sub-header{
+    font-family: OpenSans-Quark, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
 .yellow-hr{
     border-color: #ffd110;
     border-width: thick;
