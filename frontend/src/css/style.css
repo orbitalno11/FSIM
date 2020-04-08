@@ -1,10 +1,19 @@
-#adminNav {
+/* .sub-nav {
     background-color: #ffd110;
-    /*font-size: large;*/
+    font-size: large;
     height: 100%;
     min-height: 100vh;
-    /*transition: all 0.3s;*/
-    /*margin-left: -250px;*/
+    transition: all 0.3s;
+    margin-left: -250px;
+} */
+
+.sub-nav {
+    color: black;
+    font-size: 1.25rem;
+}
+
+.sub-nav:hover {
+    color: #FF4612;
 }
 
 .navActive {
@@ -48,6 +57,17 @@
     border-radius: 0.5rem;
     padding: 1.5rem;
     height: 100%;
+}
+
+.admin-page-header{
+    font-family: OpenSans-Quark, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+
+.yellow-hr{
+    border-color: #ffd110;
+    border-width: thick;
 }
 
 .footer {
