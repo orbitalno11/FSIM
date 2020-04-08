@@ -233,6 +233,7 @@ class DatabaseHelper:
                 'dept_name': data[11],
                 'graduated_gpax': data[3],
                 'congrat_year': data[4],
+                'work_id': data[5],
                 'work_status': data[6],
                 'salary': data[7],
                 'apprentice_id': data[8],

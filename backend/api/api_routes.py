@@ -35,6 +35,7 @@ def get_branch_data():
     return api_helper.return_response(data)
 
 
+
 @api_bp.route('/admission/channel', methods=['GET'])
 def get_admission_channel():
 
