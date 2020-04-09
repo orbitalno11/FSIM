@@ -19,7 +19,9 @@ google_sheet_scope = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
 
 def allowed_admission_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    from werkzeug.utils import secure_filename
+    name = secure_filename(filename)
+    return '.' in name and name.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def allowed_academic_file(filename):
