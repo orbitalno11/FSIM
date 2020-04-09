@@ -117,7 +117,7 @@ class AnalyzeAlumni:
             value = {}
             response = False
             message = "AnalyzeAlumni Work Failed"
-        return inner_res_helper.make_inner_response(response="response", message="message", value=[value])
+        return inner_res_helper.make_inner_response(response=response, message=message, value=[value])
 
     # uses in user pages and admin pages
     # this function will return "analyze alumni salary only and number of student " in 'year' and 'branch'
@@ -155,7 +155,7 @@ class AnalyzeAlumni:
             value = {}
             response = False
             message = "AnalyzeAlumni Work Failed"
-        return inner_res_helper.make_inner_response(response="response", message="message", value=[value])
+        return inner_res_helper.make_inner_response(response=response, message=message, value=[value])
 
 
 
