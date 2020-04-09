@@ -430,7 +430,7 @@ class DatabaseHelper:
 
     # get working status list data
     def get_working_status_list(self):
-        sql_command = "SELECT * FROM working_status"
+        sql_command = "SELECT * FROM work_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:

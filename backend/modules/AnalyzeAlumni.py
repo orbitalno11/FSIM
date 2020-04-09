@@ -79,6 +79,7 @@ class AnalyzeAlumni:
             branch_dic                  =   self.__set_dict(branch_data.index, branch_data.branch_name)
             status_working_dic          =   self.__set_dict(status_working.index, status_working.status_title)
             status_apprentice_dic       =   self.__set_dict(status_apprentice.index, status_apprentice.status_title)
+            
 
             df_brach                    =   df.groupby('branch_id').size()
             df_branch_finish            =   self.__check_list(branch_data.index.values,df_brach)
@@ -92,14 +93,16 @@ class AnalyzeAlumni:
             gpax_by_branch              =   df.groupby('branch_id')['graduated_gpax'].mean()
             gpax_by_branch_2decimal     =   gpax_by_branch.round(2)
             gpax_by_branch_finish       =   self.__check_list(branch_data.index.values,gpax_by_branch_2decimal)
+            print(gpax_by_branch_finish)
             
             list_salary                 =   {1:'น้อยกว่า 10,000',2:'10,000-19,999',3:'20,000-30,000',4:'มากกว่า 30,000'}
 
             salary_all_branch_trining            =  self.__salary_branch_training(df[['apprentice_id', 'salary']])
-            salary_all_branch_trining_index      =  self.__set_fullname_index(status_apprentice_dic,salary_all_branch_trining)
+            salary_all_branch_trining_check_index =  self.__check_list(status_apprentice.index.values,salary_all_branch_trining)
+            salary_all_branch_trining_check_column=  self.__check_list_column(list_salary.keys(),salary_all_branch_trining_check_index)
+            salary_all_branch_trining_index      =  self.__set_fullname_index(status_apprentice_dic,salary_all_branch_trining_check_column)
             salary_all_branch_trining_finist     =  self.__set_fullname_column(list_salary,salary_all_branch_trining_index)
 
-           
             value = {
                 'count_student'                 : len(df.index),
                 'count_by_branch'               : self.__set_fullname_index(branch_dic,df_branch_finish).to_dict(),
@@ -115,6 +118,46 @@ class AnalyzeAlumni:
             response = False
             message = "AnalyzeAlumni Work Failed"
         return inner_res_helper.make_inner_response(response="response", message="message", value=[value])
+
+    # uses in user pages and admin pages
+    # this function will return "analyze alumni salary only and number of student " in 'year' and 'branch'
+    def analyze_alumni_salary(self,year=None,branch='all'):
+        connect = DatabaseHelper.get_instance()
+        data = connect.get_all_alumni(year)
+        if data['value']:
+            df  =   pd.DataFrame(data['value'])
+            if branch!='all':
+                df=df.loc[df['branch_id']==branch]
+            
+            if not df.empty:
+                df['salary']                =   df['salary'].astype(int)
+                status_apprentice           =   self.__set_status(connect.get_apprentice_status_list())
+                status_apprentice_dic       =   self.__set_dict(status_apprentice.index, status_apprentice.status_title)
+                list_salary                 =   {1:'น้อยกว่า 10,000',2:'10,000-19,999',3:'20,000-30,000',4:'มากกว่า 30,000'}
+                salary_all_branch_trining               =  self.__salary_branch_training(df[['apprentice_id', 'salary']])
+                salary_all_branch_trining_check_index   =  self.__check_list(status_apprentice.index.values,salary_all_branch_trining)
+                salary_all_branch_trining_check_column  =  self.__check_list_column(list_salary.keys(),salary_all_branch_trining_check_index)
+                salary_all_branch_trining_index         =  self.__set_fullname_index(status_apprentice_dic,salary_all_branch_trining_check_column)
+                salary_all_branch_trining_finist        =  self.__set_fullname_column(list_salary,salary_all_branch_trining_index)
+
+                value = {
+                    'num_student'                   : len(df.index),
+                    'salary_all_branch_trining'     : [salary_all_branch_trining_finist.to_dict('index')]
+                }
+                response = True
+                message = "Analyze Alumni Salary Successfully"
+            else: 
+                value = {}
+                response = False
+                message = "Analyze Alumni Salary Failed,Don't have student in this branch"
+
+        else:
+            value = {}
+            response = False
+            message = "AnalyzeAlumni Work Failed"
+        return inner_res_helper.make_inner_response(response="response", message="message", value=[value])
+
+
 
     
 
@@ -142,8 +185,12 @@ class AnalyzeAlumni:
 
     def __check_list(self,sample,main):
         list_miss=set(sample) - set(main.index.values)
-        return self.__loop_to_set_zero(main,list_miss)
+        return self.__loop_to_set_zero_index(main,list_miss)
 
+    def __check_list_column(self,sample,main):
+        list_miss=set(sample) - set(main.columns.values)
+        return self.__loop_to_set_zero(main,list_miss)
+       
     def __set_fullname_index(self,dic,data):
         data.index  =data.index.map(dic)
         return data
@@ -158,4 +205,11 @@ class AnalyzeAlumni:
     def __loop_to_set_zero(self,df,list):
         for col in list:
             df[col] = 0
+        print(df)
+        return df
+
+    def __loop_to_set_zero_index(self,df,list):
+        for col in list:
+            df.loc[col] = 0
+        print(df)
         return df

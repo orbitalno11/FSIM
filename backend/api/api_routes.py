@@ -63,6 +63,7 @@ def get_department_student_data():
     return api_helper.return_response(data)
 
 
+
 # # # # # get admission data
 # get admission data by department and year
 @api_bp.route('/admission/department', defaults={'department': None, 'year': None}, methods=['GET'])
