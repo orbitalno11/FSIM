@@ -3,6 +3,8 @@ import React, {Component, Fragment} from 'react'
 import TabDialog from '../../components/TabDialog'
 import {Table, Button} from 'semantic-ui-react'
 import {Form, InputGroup} from 'react-bootstrap'
+import SummaryAlumni from "../../pages/admin/SummaryAlumni";
+import SummarySurvey from "../../pages/admin/SummarySurvey";
 
 // 
 
@@ -78,7 +80,7 @@ const AddTab = () => (
 class AlumniManage extends Component {
     render() {
         let tabName = ["สรุปข้อมูลศิษย์เก่า", "สรุปข้อมูลแบบสอบถาม", "จัดการรายการแบบสอบถาม", "เพิ่มข้อมูลแบบสอบถาม"]
-        let paneTab = [null, null, <ManageTab/>, <AddTab/>]
+        let paneTab = [<SummaryAlumni/>,<SummarySurvey/>, <ManageTab/>, <AddTab/>]
         return (
             <Fragment>
                 <TabDialog
