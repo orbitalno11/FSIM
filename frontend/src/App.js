@@ -2,46 +2,65 @@ import React, { Component, Fragment } from 'react';
 import './App.css';
 
 // router
-import {Route, Switch} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
+
+// redux
+import { connect } from 'react-redux'
 
 // general component
-import Navbar from './components/general/Menu'
-import Home from './components/layouts/Home'
+import Navbar from './components/Menu'
+import Home from './pages/Home'
 
 
 // user component
-import Admission from "./components/layouts/user/Admission";
-import ActiveRecruitment from "./components/layouts/user/ActiveRecruitment";
-import Alumni from "./components/layouts/user/Alumni";
-import ActivityInformation from "./components/layouts/user/ActivityInformation";
+import Admission from "./pages/Admission";
+import ActiveRecruitment from "./pages/ActiveRecruitment";
+import Alumni from "./pages/Alumni";
+import ActivityInformation from "./pages/ActivityInformation";
+
+import DepartmentDetail from './pages/DepartmentDetail'
 
 // admin component
-import AdminHome from "./components/layouts/admin/Home";
-import AdminActivity from "./components/layouts/admin/Activity";
-import AdminNewStudent from "./components/layouts/admin/NewStudent"
+import AdminLayout from './layouts/Admin'
 
 class App extends Component {
-  render() {
-    return (
-        <Fragment>
-          <Navbar/>
-          <div className="App">
-            <Switch>
-              <Route exact path="/" component={Home}/>
-              <Route exact path="/admission" component={Admission}/>
-              <Route exact path="/active" component={ActiveRecruitment}/>
-              <Route exact path="/alumni" component={Alumni}/>
-              <Route exact path="/activity" component={ActivityInformation}/>
+    constructor(props) {
+        super(props)
+    }
 
-              {/*    admin    */}
-              <Route exact path="/admin" component={AdminHome}/>
-              <Route exact path="/admin/activity" component={AdminActivity} />
-              <Route exact path="/admin/newstudent" component={AdminNewStudent} />
-            </Switch>
-          </div>
-        </Fragment>
-    )
-  }
+    render() {
+        let { user } = this.props
+        return (
+            <Fragment>
+                {user.userType === 'user' && <Navbar />}
+                <div className="App">
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/admission" component={Admission} />
+                        <Route exact path="/active" component={ActiveRecruitment} />
+                        <Route exact path="/alumni" component={Alumni} />
+                        <Route exact path="/activity" component={ActivityInformation} />
+
+                        <Route path="/department/:dept_id" component={DepartmentDetail} />
+
+                        {/*    admin    */}
+                        <Route path="/admin" component={AdminLayout} />
+                    </Switch>
+                </div>
+                {user.userType !== 'user' &&
+                    <div className="footer mt-0">
+                        ภาควิชาคณิตศาสตร์, คณะวิทยาศาสตร์, มจธ.<br />
+                126 ถ.ประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร 10140<br />
+                โทรศัพท์ (+66) 2 470 8820, (+66) 2 470 8822, (+66) 2 470 8839,
+                โทรสาร (+66) 2 428 4025
+             </div>}
+            </Fragment>
+        )
+    }
 }
 
-export default App;
+const mapStateToProps = state => ({
+    user: state.auth
+})
+
+export default connect(mapStateToProps)(App);

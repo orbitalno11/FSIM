@@ -12,3 +12,11 @@ export const GET_DEPT_LIST_SUCCESS = "get_dept_list_success"
 export const GET_DEPT_LIST_FAILED = "get_dept_list_failed"
 export const GET_DEPT_DETAIL_SUCCESS = "get_dept_detail_success"
 export const GET_DEPT_DETAIL_FAILED = "get_dept_detail_failed"
+
+// auth
+export const LOGIN_STARTED = "login_started"
+export const LOGIN_SUCCESS = "login_success"
+export const LOGIN_FAILED = "login_failed"
+export const LOGOUT_STARTED = "logout_started"
+export const LOGOUT_SUCCESS = "logout_success"
+export const LOGOUT_FAILED = "logout_failed"

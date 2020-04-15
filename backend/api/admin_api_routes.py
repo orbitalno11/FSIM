@@ -109,6 +109,8 @@ def get_analyze_student():
     return api_helper.return_response(result)
 
 
+
+
 # get student in department by status
 @admin_bp.route('/department/student/status', methods=['GET'])
 def get_probation_student():

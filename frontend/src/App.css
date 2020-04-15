@@ -1,8 +1,10 @@
 .App {
   font-size: 18px !important;
-  text-align: center;
+  /* text-align: center; */
   margin-top: 0 !important;
   /* background-color: #919191 !important; */
+  height: 100%;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -316,7 +318,7 @@
   transform: translate(-50%, -50%) !important;
   /* align-items: center !important; */
   width: 800px !important;
-  height: 400px !important;
+  /* height: 400px !important; */
   /* border-radius: 0% !important; */
   /* background-image: url(img/bg-admin.png); */
   /* background-color: #ffe600 !important; */

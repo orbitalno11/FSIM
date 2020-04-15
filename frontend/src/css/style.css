@@ -1,0 +1,120 @@
+/* .sub-nav {
+    background-color: #ffd110;
+    font-size: large;
+    height: 100%;
+    min-height: 100vh;
+    transition: all 0.3s;
+    margin-left: -250px;
+} */
+
+.sub-nav {
+    color: black;
+    font-size: 1.25rem;
+}
+
+.sub-nav:hover {
+    color: #FF4612;
+}
+
+.navActive {
+    border-bottom: solid 3px #FF4612;
+    font-weight: bolder;
+}
+
+.navHover{
+    font-weight: bold;
+}
+
+.navHover:hover{
+    border-bottom: solid 3px #FFD110;
+}
+
+.navbar .nav-link{
+    color: black;
+    font-size: 1.35rem;
+}
+
+/* .nav-link:hover{
+    color: black;
+    background-color: #f39c1275;
+    transition: all 0.5s;
+} */
+
+/* .adminActiveLink {
+    background-color: #f39c12;
+    font-size: 1.5rem;
+    color: black;
+} */
+
+.card-header{
+    font-size: 2rem;
+    background-color: white;
+    text-align: center;
+}
+
+.admin-home-card{
+    border: 2px solid #FFD110;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.admin-page-header{
+    font-family: OpenSans-Quark, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+
+.text-bullet {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.text-sub-header{
+    font-family: OpenSans-Quark, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.yellow-hr{
+    border-color: #ffd110;
+    border-width: thick;
+}
+
+.footer {
+    background-color: #ffd110;
+    padding: 1em;
+    /* padding-top: 2rem; */
+    color: black;
+    text-align: center;
+    font-size: 0.75em;
+    margin-top: 2rem;
+}
+
+.circle{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    background-color: #ffd110;
+    padding: 1.5rem;
+    color: white;
+}
+
+.circle:hover{
+    background-color: #ffd11050;
+    transition: 0.2s;
+}
+
+.circle+label{
+    color: black;
+    font-size: 1.5rem;
+}
+
+.branch{
+    margin-top:-3rem;
+}
+
+.topicsurvey{
+    margin-left:27rem;
+    font-size: 1.75em;
+    margin-top:1rem;
+}

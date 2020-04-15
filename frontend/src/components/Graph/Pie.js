@@ -2,37 +2,49 @@ import React, { Component } from "react";
 
 import { Pie } from 'react-chartjs-2';
 
+const option = {
+	plugins: {
+		// Change options for ALL labels of THIS CHART
+		datalabels: {
+			color: '#000000',
+			anchor: 'center'
+		}
+	},
+	legend: {
+		position: 'right',
+		labels: {
+			fontSize: 12
+		}
+	}
+}
 
 class Piechart extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			labels: ['Red', 'Blue'],
-			datasets: [
-				{
-					data: [300, 50],
-					backgroundColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56'
-					],
-					hoverBackgroundColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56'
-					]
-				}
-			]
+			labels: [],
+			datasets: []
 		}
 	}
 
+	componentDidMount() {
+		let { data } = this.props
+
+		if (data !== undefined) {
+			if (data.length !== 0) {
+				this.setState(data)
+			}
+		}
+
+	}
+
 	render() {
-		let { data } = this.state
-		console.log(data)
+		let { data, height, width } = this.props
+
 		return (
 			<React.Fragment>
-				<Pie data={this.state} />
+				{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
 			</React.Fragment>
 		);
 	}
