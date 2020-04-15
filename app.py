@@ -34,7 +34,7 @@ app.config['SECRET_KEY'] = constant.SECRET_KEY
 app.register_blueprint(api_routes.api_bp)
 app.register_blueprint(admin_api_routes.admin_bp)
 
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
+# CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
 
 
 def token_required(f):
@@ -69,7 +69,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/about')
+@app.route('/admin')
 def about():
     return render_template('index.html')
 
