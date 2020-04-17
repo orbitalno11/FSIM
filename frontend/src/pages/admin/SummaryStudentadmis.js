@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-
+import { Link } from 'react-router-dom'
 import {
     Header,
     Dropdown,
@@ -7,26 +7,30 @@ import {
     Grid,
     Card,
     Container,
+    Button,
     Image
 } from "semantic-ui-react";
 
 // redux
 import {connect} from 'react-redux'
-import {getAllBranch} from "../redux/action/BranchAction";
+import {getAllBranch} from "../../redux/action/BranchAction";
 
 
 import GraphBar from "../../components/Graph/Bar";
-import AdmissionTypePanel from "../../components/AddmissionTypePanel";
 
-class Admission extends Component {
+
+class SummaryStudentadmis extends Component {
+
+ 
 
     render() {
-        
+        let {branch_list} = this.props
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5">
+                    <Header as="h5" textAlign="center">
                         ค้นหาการรับเข้าโดยปีการศึกษา{" "}
+                       
                         <Dropdown
                             options={[
                                 {key: "2560", value: "2560", text: "2560"},
@@ -43,8 +47,7 @@ class Admission extends Component {
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
-                                        2560
+                                        กราฟแสดงจำนวนที่รับเข้านักศึกษาของโครงการแต่ละประเภท
                                     </Card.Header>
                                     <Card.Content>
                                         <GraphBar/>
@@ -54,7 +57,7 @@ class Admission extends Component {
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
+                                        กราฟแสดงผลการศึกษาโครงการต่างๆ 
                                     </Card.Header>
                                     <Card.Content>
                                         <GraphBar/>
@@ -63,23 +66,10 @@ class Admission extends Component {
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphLine/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟแสดงโรงเรียนที่เข้าศึกษา 5 โรงเรียนแรก
-                                        ที่เข้าศึกษามากที่สุด
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/1
                                     </Card.Header>
                                     <Card.Content>
                                         <GraphBar/>
@@ -89,10 +79,10 @@ class Admission extends Component {
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        10 อันดับโรงเรียนที่เข้าศึกษามากที่สุด
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/2 
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphBar/>
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -101,33 +91,79 @@ class Admission extends Component {
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโรงเรียน
-                                        ประจำปี 2560 และ 2561
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 2
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphBar/>
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี
-                                        2560 และ 2561
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/1 
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphBar/>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/2
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <GraphBar/>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 4
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <GraphBar/>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 5
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <GraphBar/>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        เกรดเฉลี่ยของนักศึกษาแต่ละรอบที่รับเข้า
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <GraphBar/>
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <Grid.Row>
+                        <Button as={Link} to="/admission">
+                            เพิ่มเติม
+                        </Button>
+                    </Grid.Row>
                 </Container>
             </Fragment>
         )
     }
 }
-
 
 
 export default SummaryStudentadmis
