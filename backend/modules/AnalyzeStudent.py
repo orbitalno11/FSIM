@@ -46,7 +46,7 @@ class AnalyzeStudent:
     # uses in user and admin
     # this function returns student data and status student that analyze in 'dept'.
     # this function required department id
-    def analyze_by_dept(self, dept=None):
+    def analyze_by_dept(self, dept):
         value = {}
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_student(dept)

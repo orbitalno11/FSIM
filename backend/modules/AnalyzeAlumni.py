@@ -56,13 +56,14 @@ class AnalyzeAlumni:
         header = data[0]
         data = data[1:]
         select_column = list(column)
-        print(select_column)
+        # print(select_column)
 
-        data = pd.DataFrame(data, columns=header)
-        data = data.loc[:, select_column]
-        print(data.head())
-
-        return inner_res_helper.make_inner_response(response=True, message="Developing", value=header)
+        data    =   pd.DataFrame(data, columns=header)
+        data    =   data.loc[:, select_column].apply(pd.to_numeric)
+        mean    =   pd.Series(data.mean(), name="mean")
+        sd      =   pd.Series(data.std(), name="std")
+        df      =   pd.concat([mean, sd], axis=1)        
+        return inner_res_helper.make_inner_response(response=True, message="Developing", value=[df.round(2).to_dict('index')])
 
     # uses in user pages and admin pages
     # this function will return analyze alumni working in 'year'

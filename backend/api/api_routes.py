@@ -4,6 +4,8 @@ from flask import Blueprint, jsonify, request, make_response, current_app as app
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
 
+
+
 # import modules
 from backend.modules.SummarizeData import SummarizeData as sum
 from backend.modules.AnalyzeStudent import AnalyzeStudent
@@ -64,6 +66,7 @@ def get_department_student_data():
 
 
 
+
 # # # # # get admission data
 # get admission data by department and year
 @api_bp.route('/admission/department', defaults={'department': None, 'year': None}, methods=['GET'])
@@ -75,3 +78,5 @@ def get_admission_by_dept_year(department, year):
     data = db.get_admission_data_by_dept(department, year)
 
     return api_helper.return_response(data)
+
+
