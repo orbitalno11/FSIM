@@ -12,7 +12,6 @@ import {
   Header
 } from "semantic-ui-react";
 
-import SummaryModal from "../components/Modal";
 
 import bgyel from "../img/bg-head.png";
 
@@ -25,19 +24,21 @@ import Logomic from "../img/mic.png";
 import Logophy from "../img/phy.png";
 import Logochm from "../img/chm.png";
 
-// redux
-import { connect } from "react-redux";
-import { openModal } from "../redux/action/modalAction";
 
-const ButtonStudent = ({ id, name, image, clicked }) => (
+
+const ButtonStudent = ({ id, name, image}) => (
   <Fragment>
     <Grid.Column>
       <Button
         id={id}
         type="button"
-        onClick={clicked}
+        href={
+           `/student/${id}`
+        }
         className="btn btn-light btn-circle btn-xl"
+        
       >
+        
         <Image className="logo-branch" src={image} />
       </Button>
       <Header textalign="center" size="small">
@@ -126,10 +127,7 @@ class Home extends Component {
     }
   }
 
-  openModal = dept_id => {
-    this.props.openHomeModal(dept_id);
-  };
-
+ 
   componentDidMount() {
     this.setState({
       pane: [
@@ -147,9 +145,10 @@ class Home extends Component {
                       id={item.id_modal}
                       image={item.Image}
                       key={item.id_modal}
-                      clicked={() => this.openModal(item.id_modal)}
                     />
+                   
                   ))}
+                  
                 </Grid.Row>
               }
             />
@@ -207,7 +206,6 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <SummaryModal />
         <Image size="massive" className="background-yellow" src={bgyel} />
         <Image size="massive" className="bottom-left" src={bannerbot} />
         <Container>
@@ -247,12 +245,5 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  modal: state.modal
-});
 
-const mapDispatchToProps = dispatch => ({
-  openHomeModal: txt => dispatch(openModal(true, txt))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

@@ -19,6 +19,7 @@ import Alumni from "./pages/Alumni";
 import ActivityInformation from "./pages/ActivityInformation";
 
 import DepartmentDetail from './pages/DepartmentDetail'
+import DepartmentStudent from './pages/DepartmentStudent'
 
 // admin component
 import AdminLayout from './layouts/Admin'
@@ -40,7 +41,7 @@ class App extends Component {
                         <Route exact path="/active" component={ActiveRecruitment} />
                         <Route exact path="/alumni" component={Alumni} />
                         <Route exact path="/activity" component={ActivityInformation} />
-
+                        <Route exact path="/student/:id" component={DepartmentStudent}/>
                         <Route path="/department/:dept_id" component={DepartmentDetail} />
 
                         {/*    admin    */}

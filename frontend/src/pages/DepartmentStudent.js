@@ -1,13 +1,20 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Grid, Header, ModalContent, Card } from "semantic-ui-react";
 
-// redux
-import { connect } from 'react-redux'
-import { closeModal } from "../redux/action/modalAction";
+import {
+    Image,
+    Container,
+    Grid,
+    Header,
+    Card
+} from "semantic-ui-react";
 
-import Piechart from "./Graph/Pie";
-import Barchart from "./Graph/Bar";
-import Horizontal from './Graph/BarHorizontal'
+import bgyel from "../img/bg-head.png";
+import bannerbot from "../img/bottom-left.png";
+
+
+import Piechart from "../components/Graph/Pie";
+import Barchart from "../components/Graph/Bar";
+import Horizontal from "../components/Graph/BarHorizontal";
 
 //  wait other
 import 'chartjs-plugin-datalabels'
@@ -17,7 +24,8 @@ import axios from 'axios'
 // import color set
 import { colorSet } from '../Constant'
 
-class SummaryModal extends Component {
+class DepartmentStudent extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -34,14 +42,6 @@ class SummaryModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.props.closeModal()
-        this.setState({
-            loadTime: 0
-        })
-    }
-
-
 
     fetchData = async (dept_id) => {
         await axios.get(`/department/student?dept_id=${dept_id}`)
@@ -50,7 +50,7 @@ class SummaryModal extends Component {
 
                 if (received.response === true) {
                     let data = received.data
-                   
+                    console.log(data)
 
                     this.setState({
                         department: data.dept_name,
@@ -221,30 +221,32 @@ class SummaryModal extends Component {
         })
     }
 
-    async componentDidUpdate() {
-        let { modal } = this.props
-
-        if (modal.modalID != null && this.state.loadTime === 0) {
-            await this.fetchData(modal.modalID)
+    async componentDidMount() {
+        let id=this.props.match.params.id
+        console.log(id)
+        if (id!= null && this.state.loadTime === 0) {
+            await this.fetchData(id)
             this.setBranch()
             this.setBranchStatus()
             this.setStudentYear()
         }
     }
 
+
     render() {
-        let { modal } = this.props
+        
         let { department, pieData, barData, horizontalData } = this.state
+       
         return (
             <Fragment>
-                <Modal className="modal-center" open={modal.modalOpen} onClose={this.closeModal}>
-                    <Modal.Header className="tex-center">
-                        <Header textAlign="center" as="h3">
-                            จำนวนนักศึกษาทุกชั้นปี {department}
-                        </Header>
-                    </Modal.Header>
-                    <ModalContent>
-                        <Grid textAlign={"center"}>
+                <Image size="massive" className="background-yellow" src={bgyel} />
+                <Image size="massive" className="bottom-left" src={bannerbot} />
+                <Container style={{backgroundColor:"#FFFFFF",marginTop:"5%",padding:"5%"}}>
+                    <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
+                        จำนวนนักศึกษาทุกชั้นปี {department}
+                    </Header>
+                    
+                    <Grid textAlign={"center"}>
                             <Grid.Row columns={2}>
                                 <Grid.Column>
                                     <Card fluid>
@@ -280,19 +282,10 @@ class SummaryModal extends Component {
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
-                    </ModalContent>
-                </Modal>
+                </Container>
             </Fragment>
         )
     }
 }
+export default DepartmentStudent
 
-const mapStateToProps = state => ({
-    modal: state.modal
-})
-
-const mapDispatchToProps = dispatch => ({
-    closeModal: () => dispatch(closeModal())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SummaryModal)

@@ -43,7 +43,8 @@ class AnalyzeAlumni:
         else:
             AnalyzeAlumni.__instance = self
 
-    # get_all_alumni() method for get alumni data
+   # uses in user pages and admin pages
+    # this function will return analyze survey  in 'sheet_url' and 'column'
 
     def analyze_survey(self, sheet_url, column):
         # read and analyze survey data
@@ -160,7 +161,6 @@ class AnalyzeAlumni:
 
 
 
-    
 
     def __set_branch(self,data):
         branch_data=pd.DataFrame(data['value'])

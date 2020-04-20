@@ -54,7 +54,8 @@ class AnalyzeStudent:
         if data['value']:
             df = pd.DataFrame(data['value'])
             df_branch = df[['branch_id', 'branch']]
-            branch_data = self.__set_branch(connect.get_department(dept))
+            get_branch=connect.get_department(dept)
+            branch_data = self.__set_branch(get_branch)
             status_data = self.__set_status(connect.get_status_list())
             branch_dic = self.__set_dict(branch_data.index, branch_data.branch_name)
             status_dic = self.__set_dict(status_data.index, status_data.status_title)
@@ -65,7 +66,7 @@ class AnalyzeStudent:
             status_by_year = self.__count_status(df[['student_year', 'education_status']],
                                                  list(status_data.index.values))
             status_by_year_finist = self.__set_fullname_column(status_dic, status_by_year)
-
+            value['dept_name'] = get_branch['value'][0]['dept_name']
             value['all_stu_dept'] = self.__count_student_dept(df)
             value['branch'] = [self.__set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()]
             value['status_by_year'] = [status_by_year_finist.to_dict('index')]
