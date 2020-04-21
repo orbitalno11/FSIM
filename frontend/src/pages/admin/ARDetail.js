@@ -30,7 +30,7 @@ class ARDetail extends Component {
             <Fragment>
                  <Container>
                     <Header as="h4" align = 'center'>
-                            ค้นหาข้อมูล RodeShow ของปีการศึกษา{" "}
+                            ค้นหาข้อมูล Road Show ของปีการศึกษา{" "}
                             <Dropdown
                                 options={[
                                     {key: "2560", value: "2560", text: "2560"},

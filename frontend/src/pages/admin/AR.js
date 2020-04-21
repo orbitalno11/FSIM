@@ -40,7 +40,7 @@ class AR extends Component {
                                 <Col lg={3}>
                                     <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" paneList={[<ARDetail />]} > RoadShow</Nav.Link>
+                                            <Nav.Link eventKey="1" className="sub-nav" paneList={[<ARDetail />]} > RodaShow</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
                                             <Nav.Link eventKey="2" className="sub-nav">I AM SCI</Nav.Link>
