@@ -109,12 +109,9 @@
     font-size: 1.5rem;
 }
 
-.branch{
-    margin-top:-3rem;
-}
+.year-select{
+    font-size: 0.75rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
 
-.topicsurvey{
-    margin-left:27rem;
-    font-size: 1.75em;
-    margin-top:1rem;
 }

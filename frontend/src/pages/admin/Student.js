@@ -3,16 +3,15 @@ import { Form, FormControl, InputGroup } from 'react-bootstrap'
 import { Table, Button } from 'semantic-ui-react'
 
 import SearchActivity from "../../components/SearchActivity";
-// import AddActivity from "../../components/AddActivity";
+import AddActivity from "../../components/AddActivity";
 import TabDialog from '../../components/TabDialog'
-import SummaryActivity from "../../pages/admin/SummaryActivity";
+import SummaryStudent from "../../pages/admin/SummaryStudent";
 import AR from "../../pages/admin/AR";
-import AddActivity  from "../../pages/admin/AddActivity";
 
 const ManageTab = () => (
     <Fragment>
         <Table>
-        <Table.Header>
+            <Table.Header>
                 <Table.Row textAlign="center">
                     <Table.HeaderCell>
                         ลำดับ
@@ -77,39 +76,21 @@ const AddTab = () => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ประเภทโครงการ
+                    ประเภทข้อมูล
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
+                        <option>กรุณาเลือกประเภทข้อมูล</option>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    โครงการ
+                    ข้อมูลกิจกรรมประชาสัมพันธ์
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv">
                     </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    งบประมาณ
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่งบประมาณ"/>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ลิงก์ Google Sheet
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
-                    <Button>ตรวจสอบ</Button>
                 </InputGroup>
             </Form.Group>
             <Button className="btn-EditData interval-1" >RESET</Button>
@@ -119,7 +100,7 @@ const AddTab = () => (
 )
 
 
-class Activity extends Component {
+class Student extends Component {
 
     constructor(props) {
         super(props);
@@ -129,12 +110,12 @@ class Activity extends Component {
     }
 
     render() {
-        let tabName = ["ข้อมูลกิจกรรมประชาสัมพันธ์", "ข้อมูล Active Recruitment", "จัดการข้อมูลกิจกรรม", "เพิ่มข้อมูล"]
-        let pane = [<SummaryActivity/>, <AR/>,< ManageTab/>, <AddActivity/>]
+        let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
+        let pane = [<SummaryStudent/>, <AR/>,< ManageTab/>, <AddTab />]
         return (
             <Fragment>
                 <TabDialog
-                    dialogName="กิจกรรมประชาสัมพันธ์ และ Active Recruitment"
+                    dialogName="ข้อมูลนักศึกษาปัจจุบัน"
                     tabList={tabName}
                     paneList={pane}
                 />
@@ -143,4 +124,4 @@ class Activity extends Component {
     }
 }
 
-export default Activity
+export default Student

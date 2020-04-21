@@ -7,6 +7,7 @@ import AdminHome from "../pages/admin/Home";
 import AlumniManage from "../pages/admin/AlumiManage";
 import Activity from "../pages/admin/Activity";
 import Admission from "../pages/admin/AdmissionManage";
+import Student from "../pages/admin/Student";
 
 // information
 import Information from "../pages/admin/Information";
@@ -36,6 +37,7 @@ class AdminLayout extends Component {
                     <Route exact path={"/admin/admission"} component={Admission} />
                     <Route exact path={"/admin/activity"} component={Activity} />
                     <Route exact path={"/admin/alumni"} component={AlumniManage} />
+                    <Route exact path={"/admin/student"} component={Student} />
                 </Switch>
             </Fragment>
         )
