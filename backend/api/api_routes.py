@@ -10,6 +10,8 @@ from backend.helpers.database_helper import DatabaseHelper
 from backend.modules.SummarizeData import SummarizeData as sum
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
+from backend.modules.AnalyzeAdmission import AnalyzeAdmission
+
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
@@ -48,7 +50,6 @@ def get_admission_channel():
 
 
 
-
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])
@@ -65,6 +66,52 @@ def get_department_student_data():
     return api_helper.return_response(data)
 
 
+#get analyze admission student
+@api_bp.route('/admission/analyze', methods=['GET'])
+def get_admission_admission():
+    year = request.args.get('year')
+    branch = request.args.get('branch_id')
+
+    db = AnalyzeAdmission.get_instance()
+    data = db.analyze_admission(branch,year)
+
+    return api_helper.return_response(data)
+
+
+#get analyze analyze survey
+@api_bp.route('/alumni/analyze/survey', methods=['GET'])
+def get_analyze_alumni_survey():
+    sheet_url = request.args.get('sheet_url')
+    column = request.args.get('column')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_survey(sheet_url,column)
+
+    return api_helper.return_response(data)
+
+
+
+#get analyze analyze work
+@api_bp.route('/alumni/analyze/work', methods=['GET'])
+def get_analyze_alumni_work():
+    year = request.args.get('year')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_alumni_work(year)
+
+    return api_helper.return_response(data)
+
+
+#get analyze analyze salary
+@api_bp.route('/alumni/analyze/salary', methods=['GET'])
+def get_analyze_alumni_salary():
+    year = request.args.get('year')
+    branch_id = request.args.get('branch_id')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_alumni_salary(year,branch_id)
+
+    return api_helper.return_response(data)
 
 
 # # # # # get admission data
