@@ -29,6 +29,18 @@ class SummarySurvey extends Component {
         return (
             <Fragment>
                  <Container>
+                 <Header as="h5" align = 'center'>
+                        ค้นหาข้อมูลแบบสอบถามของปีการศึกษา{" "}
+                        <Dropdown
+                            options={[
+                                {key: "2560", value: "2560", text: "2560"},
+                                {key: "2561", value: "2561", text: "2561"}
+                            ]}
+                            placeholder="Select"
+                            selection
+                        />
+                    </Header>
+                    <Divider/>
                      <Grid>
                            
                          <Grid.Row>

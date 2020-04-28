@@ -6,7 +6,8 @@ import SearchActivity from "../../components/SearchActivity";
 import AddActivity from "../../components/AddActivity";
 import TabDialog from '../../components/TabDialog'
 import SummaryStudent from "../../pages/admin/SummaryStudent";
-import AR from "../../pages/admin/AR";
+import Tracking from "../../pages/admin/Tracking";
+import AddStudent from "../../pages/admin/AddStudent";
 
 const ManageTab = () => (
     <Fragment>
@@ -20,14 +21,14 @@ const ManageTab = () => (
                         ปีการศึกษา
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                       ประเภทโครงการ
-                    </Table.HeaderCell>
+                       ภาควิชา
+                    </Table.HeaderCell>     
                     <Table.HeaderCell>
-                       โครงการ
-                    </Table.HeaderCell>
+                       สาขา
+                    </Table.HeaderCell> 
                    
                     <Table.HeaderCell>
-                     ลิงก์ Google Sheet
+                        ไฟล์
                     </Table.HeaderCell>
                     <Table.HeaderCell>
                         ดำเนินการ
@@ -43,13 +44,14 @@ const ManageTab = () => (
                         2560
                     </Table.Cell>
                     <Table.Cell>
-                        Active Recruitment
+                        คณิตศาสตร์
                     </Table.Cell>
                     <Table.Cell>
-                        I AM SCI
+                        สถิติ
                     </Table.Cell>
+                
                     <Table.Cell>
-                         ลิงก์ Google Sheet
+                        ไฟล์
                     </Table.Cell>
                     <Table.Cell>
                         <Button>แก้ไข</Button>
@@ -76,17 +78,27 @@ const AddTab = () => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ประเภทข้อมูล
+                    ภาควิชา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกประเภทข้อมูล</option>
+                        <option>กรุณาเลือกภาควิชา</option>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ข้อมูลกิจกรรมประชาสัมพันธ์
+                   สาขา
+                </Form.Label>
+                <InputGroup>
+                    <FormControl as="select">
+                        <option>กรุณาเลือกสาขา</option>
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    ข้อมูลนักศึกษา
                 </Form.Label>
                 <InputGroup>
                     <FormControl type="file" accept=".excel,.xlsx,.csv">
@@ -111,7 +123,7 @@ class Student extends Component {
 
     render() {
         let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
-        let pane = [<SummaryStudent/>, <AR/>,< ManageTab/>, <AddTab />]
+        let pane = [<SummaryStudent/>, <Tracking/>,< ManageTab/>, <AddStudent/>]
         return (
             <Fragment>
                 <TabDialog

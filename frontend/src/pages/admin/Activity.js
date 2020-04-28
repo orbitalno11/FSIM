@@ -61,63 +61,6 @@ const ManageTab = () => (
         </Table>
     </Fragment>
 )
-const AddTab = () => (
-    <Fragment>
-        <Form>
-            <Form.Group>
-                <Form.Label>
-                    ปีการศึกษา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ประเภทโครงการ
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    โครงการ
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    งบประมาณ
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่งบประมาณ"/>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ลิงก์ Google Sheet
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
-                    <Button>ตรวจสอบ</Button>
-                </InputGroup>
-            </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
-        </Form>
-    </Fragment>
-)
-
 
 class Activity extends Component {
 

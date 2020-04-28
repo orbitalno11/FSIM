@@ -18,6 +18,7 @@ import {getAllBranch} from "../../redux/action/BranchAction";
 
 import GraphPie from "../../components/Graph/Pie";
 import GraphBar from "../../components/Graph/Bar";
+import GraphHorizontal from "../../components/Graph/BarHorizontal";
 
 
 
@@ -73,7 +74,7 @@ class ARDetail extends Component {
                                             กราฟแสดงพื้นที่ที่นักศึกษามา 5 อันดับแรก
                                         </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphHorizontal/>
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>

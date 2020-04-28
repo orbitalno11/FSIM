@@ -18,10 +18,10 @@ const ManageTab = () => (
                         ปีการศึกษา
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                        โครงการที่รับเข้า
+                       รอบรับเข้า
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                       รอบรับเข้า
+                        โครงการที่รับเข้า
                     </Table.HeaderCell>
                     <Table.HeaderCell>
                        ไฟล์
@@ -40,10 +40,10 @@ const ManageTab = () => (
                         2560
                     </Table.Cell>
                     <Table.Cell>
-                        เรียนดี
+                        1
                     </Table.Cell>
                     <Table.Cell>
-                        1
+                        เรียนดี
                     </Table.Cell>
                     <Table.Cell>
                         ไฟล์
@@ -73,21 +73,21 @@ const AddTab = () => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    โครงการที่รับเข้า
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
                     รอบรับเข้า
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
                         <option>กรุณาเลือกรอบที่รับเข้า</option>
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    โครงการที่รับเข้า
+                </Form.Label>
+                <InputGroup>
+                    <FormControl as="select">
+                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
