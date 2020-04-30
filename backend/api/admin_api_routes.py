@@ -114,9 +114,10 @@ def get_analyze_student():
 def get_analyze_subject():
     # this api need department id
     department = request.args.get('dept_id')
+    year = request.args.get('year')
 
     analyze = AnalyzeStudent.get_instance()
-    result = analyze.analyze_by_subject_dept(department)
+    result = analyze.analyze_by_subject_dept(department,year)
 
     return api_helper.return_response(result)
 
