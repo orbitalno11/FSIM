@@ -43,6 +43,7 @@ class AnalyzeAdmission:
         else:
             AnalyzeAdmission.__instance = self
 
+
     def analyze_admission(self,branch_id=None,year=None):
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_admission(year)
@@ -52,6 +53,7 @@ class AnalyzeAdmission:
 
             df = pd.DataFrame(data['value'])
             # real data  
+            print(df)
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
             channel_data    =   analyze_helper.set_fullname(connect.get_admission_channel())
@@ -71,7 +73,7 @@ class AnalyzeAdmission:
             count_by_branch_fullname        = analyze_helper.set_fullname_column(branch_dict,count_by_branch_check_channel)
             
             if  branch_id :
-                data_not_year   =   data_not_year.loc[data_not_year['branch_id']==branch_id]
+                data_not_year    =   data_not_year.loc[data_not_year['branch_id']==branch_id]
                 data_split_now   =   data_split_now.loc[data_split_now['branch_id']==branch_id]
 
             #not used branch 
@@ -94,13 +96,14 @@ class AnalyzeAdmission:
                 max_year=data_not_year.admission_year.max()
                 year_select.append(max_year)
                 year_select.append(max_year-1)
+            data_compare    = data_not_year[data_not_year['admission_year'].isin(year_select)]
+            compare_year    = data_compare.groupby(['channel_name','admission_year']).size().unstack(fill_value=0)
             
-            compare_year=data_not_year.groupby(['channel_name','admission_year']).size().unstack(fill_value=0)
             if compare_year.empty:
-                compare_year_success = pd.DataFrame(columns = year_select)  
+            
+                compare_year_success = pd.DataFrame(0,index=np.arange(1),columns = year_select)  
                 channel_name=channel_sample.channel_name.drop_duplicates().tolist()
                 compare_year_success['channel_name']=channel_name
-                compare_year_success.fillna(0,inplace=True)
                 compare_year_success.set_index('channel_name',inplace=True)
             else:
                 compare_year_check_channel  = analyze_helper.check_list(channel_sample.channel_name,compare_year)
@@ -140,11 +143,14 @@ class AnalyzeAdmission:
             analyze_by_round = []
             for i in channel_round: 
                 data_in_round=data_split[data_split['channel_round']==i]
+                
+                
                 if data_in_round.empty:
                     data_channel_sample=channel_sample[channel_sample['channel_round']==i]
                     data_group=data_channel_sample.groupby(['channel_round','channel_name']).size().unstack(fill_value=0)
                     data_group.iloc[:]=0
                     analyze_by_round.append(data_group.to_dict('index'))
+
                     
                 else:
                     data_group=data_in_round.groupby(['channel_round','channel_name']).size().unstack(fill_value=0)

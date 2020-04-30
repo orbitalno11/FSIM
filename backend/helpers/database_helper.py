@@ -268,7 +268,56 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-        # TODO() # # # # general path # # # # #
+
+    # get all activity NOT AR (pueng)
+    def get_admission_publicize(self, year= None):
+        if year is not None:
+            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (year,int(year)-1)
+        else:
+            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar"
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'activity_id'       : data[0],
+                'activity_year'     : data[1],
+                'activity_budget'   : data[2],
+                'student_id'        : data[3]
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get all activity  AR (pueng)
+    def get_admission_ar(self, year= None):
+        if year is not None:
+            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity where activity_year like '%s' " % (year)
+        else:
+            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity"
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'activity_id'       : data[0],
+                'school_name'       : data[1],
+                'branch_name'       : data[2],
+                'gpax'              : data[3],
+                'activity_year'     : data[4]
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+
+    # TODO() # # # # general path # # # # #
 
     def get_department(self, name):
         if name is None:
@@ -509,4 +558,25 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
    
+   # get apprentice status list data
+    def get_activity_list(self):
+        sql_command = "SELECT activity_id,activity_name,activity_type_id,activity_year,activity_budget FROM activity"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            temp = {
+                'activity_id'       : data[0],
+                'activity_name'     : data[1],
+                'activity_type_id'  : data[2],
+                'activity_year'     : data[3],
+                'activity_budget'   : data[4],
+            }
+            out_function_data.append(temp)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
    

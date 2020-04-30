@@ -11,6 +11,7 @@ from backend.modules.SummarizeData import SummarizeData as sum
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
+from backend.modules.AnalyzeActivity import AnalyzeActivity
 
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
@@ -112,6 +113,27 @@ def get_analyze_alumni_salary():
     data = db.analyze_alumni_salary(year,branch_id)
 
     return api_helper.return_response(data)
+
+   
+@api_bp.route('/analyze/activity/notar', methods=['GET'])
+def get_analyze_activity_noar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity.get_instance()
+    data = db.analyze_publicize(year)
+
+    return api_helper.return_response(data)
+
+   
+@api_bp.route('/analyze/activity/ar', methods=['GET'])
+def get_analyze_activity_ar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity.get_instance()
+    data = db.analyze_ar(year)
+
+    return api_helper.return_response(data)
+
 
 
 # # # # # get admission data
