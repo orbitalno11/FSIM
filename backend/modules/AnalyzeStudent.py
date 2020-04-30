@@ -84,19 +84,25 @@ class AnalyzeStudent:
     # uses in user and admin
     # this function return  academic results that analyze in 'dept'.
     # this function required department id
-    def analyze_by_subject_dept(self, dept):
+    def analyze_by_subject_dept(self, dept=None,year=None):
         connect = DatabaseHelper.get_instance()
-        data = connect.get_all_academic_record(dept)
+        data = connect.get_all_academic_record(dept,year)
         value = {}
 
         if data['value']:
             df = pd.DataFrame(data['value'])
-            grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
-            df_grouped = pd.DataFrame(grouped.stack().to_frame(name='count').reset_index())
-            value['subject_by_year'] = [self.__retro_dictify(df_grouped)]
+            print(df)
+            group_subject   = df.groupby(['subject_code','grade']).size().unstack(fill_value=0)
+            # grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
+            # df_grouped = pd.DataFrame(grouped.stack().to_frame(name='count').reset_index())
+            # value['subject_by_year'] = [self.__retro_dictify(df_grouped)]
+            value={
+                'analyze_by_grade' : group_subject.to_dict('index')
+            }
             response = True
             message = "Analyze Subject Successfully"
         else:
+            
             response = False
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response, message, value)
@@ -123,16 +129,16 @@ class AnalyzeStudent:
             grouped[col] = 0
         return grouped
 
-    def __retro_dictify(self, frame):
-        d = {}
-        for row in frame.values:
-            here = d
-            for elem in row[:-2]:
-                if elem not in here:
-                    here[elem] = {}
-                here = here[elem]
-            here[row[-2]] = row[-1]
-        return d
+    # def __retro_dictify(self, frame):
+    #     d = {}
+    #     for row in frame.values:
+    #         here = d
+    #         for elem in row[:-2]:
+    #             if elem not in here:
+    #                 here[elem] = {}
+    #             here = here[elem]
+    #         here[row[-2]] = row[-1]
+    #     return d
 
     def __check_list(self, sample, main):
         list_miss = set(sample) - set(main)
