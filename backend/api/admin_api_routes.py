@@ -12,7 +12,7 @@ import backend.Constant as Constant
 
 # import modules
 from backend.modules.AnalyzeStudent import AnalyzeStudent
-from backend.modules.AnalyzeAlumni import  AnalyzeAlumni
+from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 from backend.modules.FirebaseModule import FirebaseModule
 

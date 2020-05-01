@@ -1,16 +1,14 @@
-import React, { Component, Fragment } from 'react';
-import './App.css';
+import React, { Component, Fragment } from 'react'
+import './App.css'
 
 // router
 import { Route, Switch } from 'react-router-dom'
 
-// redux
-import { connect } from 'react-redux'
+import jwtDecode from 'jwt-decode'
 
 // general component
 import Navbar from './components/Menu'
 import Home from './pages/Home'
-
 
 // user component
 import Admission from "./pages/Admission";
@@ -24,48 +22,56 @@ import DepartmentStudent from './pages/DepartmentStudent'
 // admin component
 import AdminLayout from './layouts/Admin'
 
-// set base url
-import axios from 'axios'
-axios.defaults.baseURL = "http://127.0.0.1:5000/api/v1/"
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from "redux";
+import logger from 'redux-logger'
+import thunk from "redux-thunk";
+import rootReducer from './redux/reducers';
 
-class App extends Component {
-    constructor(props) {
-        super(props)
+import { userLogout } from './redux/action/authAction'
+import { LOGIN_SUCCESS } from './redux/types'
+
+import axios from 'axios'
+
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+
+const token = localStorage.FSIMIdToken
+if (token){
+    const decodeToken = jwtDecode(token)
+    if (decodeToken.exp * 1000 < Date.now()){
+        store.dispatch(userLogout())
+        window.location.href = '/login'
+    }else{
+        store.dispatch({ type: LOGIN_SUCCESS })
+        // axios.defaults.headers.common['Authorization'] = token
     }
 
+}
+
+class App extends Component {
+
     render() {
-        let { user } = this.props
         return (
-            <Fragment>
-                {user.userType === 'user' && <Navbar />}
+            <Provider store={store}>
                 <div className="App">
+                    <Navbar />
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/admission" component={Admission} />
                         <Route exact path="/active" component={ActiveRecruitment} />
                         <Route exact path="/alumni" component={Alumni} />
                         <Route exact path="/activity" component={ActivityInformation} />
-                        <Route exact path="/student/:id" component={DepartmentStudent}/>
+                        <Route exact path="/student/:id" component={DepartmentStudent} />
                         <Route path="/department/:dept_id" component={DepartmentDetail} />
 
                         {/*    admin    */}
                         <Route path="/admin" component={AdminLayout} />
                     </Switch>
                 </div>
-                {user.userType !== 'user' &&
-                    <div className="footer mt-0">
-                        ภาควิชาคณิตศาสตร์, คณะวิทยาศาสตร์, มจธ.<br />
-                126 ถ.ประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร 10140<br />
-                โทรศัพท์ (+66) 2 470 8820, (+66) 2 470 8822, (+66) 2 470 8839,
-                โทรสาร (+66) 2 428 4025
-             </div>}
-            </Fragment>
+            </Provider>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    user: state.auth
-})
 
-export default connect(mapStateToProps)(App);
+export default App

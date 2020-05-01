@@ -12,7 +12,6 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import {getAllBranch} from "../redux/action/BranchAction";
 
 import bgyel from "../img/bg-head3.png";
 import GraphLine from "../components/Graph/Line";
@@ -33,11 +32,7 @@ class Admission extends Component {
     }
 
     fetchBranch = () => {
-        this.props.allBranch()
-        let {branch_list} = this.props
-        this.setState({
-            branch: branch_list
-        })
+
     }
 
     setUpDropDown = branch => {
@@ -171,12 +166,5 @@ class Admission extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    branch_list: state.branch.branch_list
-})
 
-const mapDispatchToProps = dispatch => ({
-    allBranch: () => dispatch(getAllBranch())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Admission)
+export default Admission
