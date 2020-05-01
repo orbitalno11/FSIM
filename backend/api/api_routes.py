@@ -12,6 +12,7 @@ from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 from backend.modules.AnalyzeActivity import AnalyzeActivity
+from backend.modules.FirebaseModule import FirebaseModule
 
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
@@ -123,6 +124,37 @@ def get_analyze_activity_ar():
 
     return api_helper.return_response(data)
 
+
+
+@api_bp.route('/firebase/survey', methods=['GET'])
+def get_alumni_survey():
+
+    db = FirebaseModule.get_instance()
+    data = db.alumni_get_survey()
+
+    return api_helper.return_response(data)
+
+
+@api_bp.route('/firebase/survey/year', methods=['GET'])
+def get_survey_year():
+    year = request.args.get('year')
+
+    db = FirebaseModule.get_instance()
+    data = db.alumni_get_survey_by_year(year)
+
+    return api_helper.return_response(data)
+
+
+@api_bp.route('/firebase/add/survey', methods=['POST'])
+def add_survey_year():
+    year = request.args.get('year')
+    url  = request.args.get('url')
+    table_header = request.args.get('header')
+
+    db = FirebaseModule.get_instance()
+    data = db.alumni_add_survey(year,url,table_header)
+
+    return api_helper.return_response(data)
 
 
 # # # # # get admission data
