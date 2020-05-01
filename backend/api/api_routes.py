@@ -103,17 +103,6 @@ def get_analyze_alumni_work():
     return api_helper.return_response(data)
 
 
-#get analyze analyze salary
-@api_bp.route('/alumni/analyze/salary', methods=['GET'])
-def get_analyze_alumni_salary():
-    year = request.args.get('year')
-    branch_id = request.args.get('branch_id')
-
-    db = AnalyzeAlumni.get_instance()
-    data = db.analyze_alumni_salary(year,branch_id)
-
-    return api_helper.return_response(data)
-
    
 @api_bp.route('/analyze/activity/notar', methods=['GET'])
 def get_analyze_activity_noar():
