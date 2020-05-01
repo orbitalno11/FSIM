@@ -16,12 +16,16 @@ from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 from backend.modules.FirebaseModule import FirebaseModule
 
+# import authen
+import backend.modules.AuthenticationModule as auth
+
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
 
 # upload admission data api
 @admin_bp.route('/admission', methods=['POST'])
-def insert_admission():
+@auth.token_required
+def insert_admission(current_user):
     # This api need "Year" as year , "Admission type" as admission_type
     # and "Admission channel" as channel to be a parameter
 
