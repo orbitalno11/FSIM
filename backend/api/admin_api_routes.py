@@ -13,6 +13,7 @@ import backend.Constant as Constant
 # import modules
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import  AnalyzeAlumni
+from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
@@ -109,6 +110,16 @@ def get_analyze_student():
     return api_helper.return_response(result)
 
 
+@admin_bp.route('/department/analyze/course', methods=['GET'])
+def get_analyze_subject():
+    # this api need department id
+    department = request.args.get('dept_id')
+
+    analyze = AnalyzeStudent.get_instance()
+    result = analyze.analyze_by_subject_dept(department)
+
+    return api_helper.return_response(result)
+
 
 
 # get student in department by status
@@ -122,6 +133,9 @@ def get_probation_student():
     data = db.get_student_status(department, status)
 
     return api_helper.return_response(data)
+
+
+
 
 
 # # # # # read alumni survey google sheet
@@ -149,15 +163,13 @@ def read_google_sheet():
     return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
 
 
-@admin_bp.route('/alumni/analyze/survey', methods=['POST'])
-def alumni_analyze_survey():
-    # this api require sheet_url, columns
-    receive_json = request.json
-    sheet_url = receive_json['sheet_url']
-    column = receive_json['column']
-
-    analyze = AnalyzeAlumni.get_instance()
-    data = analyze.analyze_survey(sheet_url, column)
+# # # # # get admission_year 
+#get analyze admission channel
+@admin_bp.route('/admission/analyze/channel', methods=['GET'])
+def get_analyze_admission_channel():
+    year = request.args.get('year')
+  
+    db = AnalyzeAdmission.get_instance()
+    data = db.analyze_admission_admin(year)
 
     return api_helper.return_response(data)
-    # return api_helper.create_response(response_code=200, message="Developing", response=True, data="Developing")

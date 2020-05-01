@@ -4,10 +4,15 @@ from flask import Blueprint, jsonify, request, make_response, current_app as app
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
 
+
+
 # import modules
 from backend.modules.SummarizeData import SummarizeData as sum
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
+from backend.modules.AnalyzeAdmission import AnalyzeAdmission
+from backend.modules.AnalyzeActivity import AnalyzeActivity
+
 
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
@@ -46,7 +51,6 @@ def get_admission_channel():
 
 
 
-
 # # # # # get department student data
 # show department data page (vut)
 @api_bp.route('/department/student', methods=['GET'])
@@ -63,6 +67,74 @@ def get_department_student_data():
     return api_helper.return_response(data)
 
 
+#get analyze admission student
+@api_bp.route('/admission/analyze', methods=['GET'])
+def get_admission_admission():
+    year = request.args.get('year')
+    branch = request.args.get('branch_id')
+
+    db = AnalyzeAdmission.get_instance()
+    data = db.analyze_admission(branch,year)
+
+    return api_helper.return_response(data)
+
+
+#get analyze analyze survey
+@api_bp.route('/alumni/analyze/survey', methods=['GET'])
+def get_analyze_alumni_survey():
+    sheet_url = request.args.get('sheet_url')
+    column = request.args.get('column')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_survey(sheet_url,column)
+
+    return api_helper.return_response(data)
+
+
+
+#get analyze analyze work
+@api_bp.route('/alumni/analyze/work', methods=['GET'])
+def get_analyze_alumni_work():
+    year = request.args.get('year')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_alumni_work(year)
+
+    return api_helper.return_response(data)
+
+
+#get analyze analyze salary
+@api_bp.route('/alumni/analyze/salary', methods=['GET'])
+def get_analyze_alumni_salary():
+    year = request.args.get('year')
+    branch_id = request.args.get('branch_id')
+
+    db = AnalyzeAlumni.get_instance()
+    data = db.analyze_alumni_salary(year,branch_id)
+
+    return api_helper.return_response(data)
+
+   
+@api_bp.route('/analyze/activity/notar', methods=['GET'])
+def get_analyze_activity_noar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity.get_instance()
+    data = db.analyze_publicize(year)
+
+    return api_helper.return_response(data)
+
+   
+@api_bp.route('/analyze/activity/ar', methods=['GET'])
+def get_analyze_activity_ar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity.get_instance()
+    data = db.analyze_ar(year)
+
+    return api_helper.return_response(data)
+
+
 
 # # # # # get admission data
 # get admission data by department and year
@@ -75,3 +147,5 @@ def get_admission_by_dept_year(department, year):
     data = db.get_admission_data_by_dept(department, year)
 
     return api_helper.return_response(data)
+
+

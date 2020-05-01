@@ -147,7 +147,7 @@ sketch
 
 ### pychache ###
 !**/__pycache__/
-
+__pycache__
 # End of https://www.gitignore.io/api/react,macos,pycharm,visualstudiocode
 /uploads/
 

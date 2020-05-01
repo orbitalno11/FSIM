@@ -1,13 +1,21 @@
 import React, { Component, Fragment } from "react";
-import { Modal, Grid, Header, ModalContent, Card } from "semantic-ui-react";
 
-// redux
-import { connect } from 'react-redux'
-import { closeModal } from "../redux/action/modalAction";
+import {
+    Dropdown,
+    Divider,
+    Image,
+    Container,
+    Grid,
+    Header,
+    Card
+} from "semantic-ui-react";
 
-import Piechart from "./Graph/Pie";
-import Barchart from "./Graph/Bar";
-import Horizontal from './Graph/BarHorizontal'
+
+
+import GraphBar from "../../components/Graph/Bar";
+import Piechart from "../../components/Graph/Pie";
+import Barchart from "../../components/Graph/Bar";
+import Horizontal from "../../components/Graph/BarHorizontal";
 
 //  wait other
 import 'chartjs-plugin-datalabels'
@@ -15,9 +23,10 @@ import 'chartjs-plugin-datalabels'
 import axios from 'axios'
 
 // import color set
-import { colorSet } from '../Constant'
+import { colorSet } from '../../Constant'
 
-class SummaryModal extends Component {
+class DataStudent extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -34,14 +43,6 @@ class SummaryModal extends Component {
         }
     }
 
-    closeModal = () => {
-        this.props.closeModal()
-        this.setState({
-            loadTime: 0
-        })
-    }
-
-
 
     fetchData = async (dept_id) => {
         await axios.get(`/department/student?dept_id=${dept_id}`)
@@ -50,7 +51,7 @@ class SummaryModal extends Component {
 
                 if (received.response === true) {
                     let data = received.data
-                   
+                    console.log(data)
 
                     this.setState({
                         department: data.dept_name,
@@ -163,88 +164,33 @@ class SummaryModal extends Component {
 
     }
 
-    setBranchStatus = () => {
-        let { byBranch } = this.state
 
-        let label = []
-        let dataset = []
-
-        let sub_label = []
-        let cur_size = 0
-        for (let key in byBranch) {
-            let data = byBranch[key]
-            let key_per = Object.keys(data)
-
-            let key_branch = 'สาขา ' + key
-            label.push(key_branch)
-
-            if (key_per.length > cur_size) {
-                cur_size = key_per.length
-                sub_label = key_per
-            }
-        }
-
-        for (let i in sub_label) {
-            let inner = {
-                label: sub_label[i],
-                data: []
-            }
-            dataset.push(inner)
-        }
-
-        for (let i in byBranch) {
-            let data = byBranch[i]
-            let key = Object.keys(data)
-            // key.pop()
-
-
-            for (let j in sub_label) {
-                if (key[j] === undefined) {
-                    // console.log(`Status: ${sub_label[j]}: null`)
-                    dataset[j].data.push(0) 
-                    continue
-                }
-                // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)
-                dataset[j].data.push(parseInt(data[key[j]]))
-            }
-        }
-
-        for (let i in dataset) {
-            dataset[i].backgroundColor = colorSet[i]
-        }
-
-        this.setState({
-            horizontalData: {
-                labels: label,
-                datasets: dataset
-            }
-        })
-    }
-
-    async componentDidUpdate() {
-        let { modal } = this.props
-
-        if (modal.modalID != null && this.state.loadTime === 0) {
-            await this.fetchData(modal.modalID)
-            this.setBranch()
-            this.setBranchStatus()
-            this.setStudentYear()
-        }
-    }
 
     render() {
-        let { modal } = this.props
+        
         let { department, pieData, barData, horizontalData } = this.state
+       
         return (
             <Fragment>
-                <Modal className="modal-center" open={modal.modalOpen} onClose={this.closeModal}>
-                    <Modal.Header className="tex-center">
-                        <Header textAlign="center" as="h3">
-                            จำนวนนักศึกษาทุกชั้นปี {department}
+                
+                <Container style={{backgroundColor:"#FFFFFF",padding:"2%"}}>
+                    <Header as="h3" align = 'center'>
+                            ค้นหาข้อมูลการรับเข้าของปีการศึกษา{" "}
+                            <Dropdown
+                                options={[
+                                    {key: "2560", value: "2560", text: "2560"},
+                                    {key: "2561", value: "2561", text: "2561"}
+                                ]}
+                                placeholder="Select"
+                                selection
+                            />
                         </Header>
-                    </Modal.Header>
-                    <ModalContent>
-                        <Grid textAlign={"center"}>
+                        <Divider/>
+                    <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
+                        จำนวนนักศึกษาทุกชั้นปี {department}
+                    </Header>
+                    
+                    <Grid textAlign={"center"}>
                             <Grid.Row columns={2}>
                                 <Grid.Column>
                                     <Card fluid>
@@ -279,20 +225,56 @@ class SummaryModal extends Component {
                                     </Card>
                                 </Grid.Column>
                             </Grid.Row>
+                           
+                            <Grid.Row>
+                                <Grid.Column width={8}>
+                                    <Card className="card-default">
+                                        <Card.Header as="h5">
+                                            กราฟแสดงผลการเรียน
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <GraphBar/>
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                                <Grid.Column width={8}>
+                                    <Card className="card-default">
+                                        <Card.Header as="h5">
+                                            กราฟแสดงผลการเรียน 
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <GraphBar/>
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Grid.Column width={8}>
+                                    <Card className="card-default">
+                                        <Card.Header as="h5">
+                                            กราฟแสดงผลการเรียน
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <GraphBar/>
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                                <Grid.Column width={8}>
+                                    <Card className="card-default">
+                                        <Card.Header as="h5">
+                                            กราฟแสดงผลการเรียน 
+                                        </Card.Header>
+                                        <Card.Content>
+                                            <GraphBar/>
+                                        </Card.Content>
+                                    </Card>
+                                </Grid.Column>
+                            </Grid.Row>
                         </Grid>
-                    </ModalContent>
-                </Modal>
+                </Container>
             </Fragment>
         )
     }
 }
+export default DataStudent
 
-const mapStateToProps = state => ({
-    modal: state.modal
-})
-
-const mapDispatchToProps = dispatch => ({
-    closeModal: () => dispatch(closeModal())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SummaryModal)

@@ -399,6 +399,10 @@
 .Tab2 {
   background-Color: #F2C029;
 }
+.Tab3 {
+  background-Color: #FFCC66;
+  width: 80px;
+}
 
 .Tab2-text {
   color: #FFFFFF !important;

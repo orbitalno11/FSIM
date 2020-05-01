@@ -1,10 +1,13 @@
-import React, { Component, Fragment } from "react";
-
-import TabDialog from "../../components/TabDialog";
-import { Table, Button } from 'semantic-ui-react'
+import React, {Component, Fragment} from "react";
 import { Form, FormControl, InputGroup } from 'react-bootstrap'
-import SummaryAdmission from "../../pages/admin/SummaryAdmission";
-import SummaryStudentadmis from "../../pages/admin/SummaryStudentadmis";
+import { Table, Button } from 'semantic-ui-react'
+
+import SearchActivity from "../../components/SearchActivity";
+import AddActivity from "../../components/AddActivity";
+import TabDialog from '../../components/TabDialog'
+import SummaryStudent from "../../pages/admin/SummaryStudent";
+import Tracking from "../../pages/admin/Tracking";
+import AddStudent from "../../pages/admin/AddStudent";
 
 const ManageTab = () => (
     <Fragment>
@@ -18,13 +21,14 @@ const ManageTab = () => (
                         ปีการศึกษา
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                       รอบรับเข้า
-                    </Table.HeaderCell>
+                       ภาควิชา
+                    </Table.HeaderCell>     
                     <Table.HeaderCell>
-                        โครงการที่รับเข้า
-                    </Table.HeaderCell>
+                       สาขา
+                    </Table.HeaderCell> 
+                   
                     <Table.HeaderCell>
-                       ไฟล์
+                        ไฟล์
                     </Table.HeaderCell>
                     <Table.HeaderCell>
                         ดำเนินการ
@@ -40,11 +44,12 @@ const ManageTab = () => (
                         2560
                     </Table.Cell>
                     <Table.Cell>
-                        1
+                        คณิตศาสตร์
                     </Table.Cell>
                     <Table.Cell>
-                        เรียนดี
+                        สถิติ
                     </Table.Cell>
+                
                     <Table.Cell>
                         ไฟล์
                     </Table.Cell>
@@ -62,38 +67,38 @@ const AddTab = () => (
         <Form>
             <Form.Group>
                 <Form.Label>
-                    ปีที่รับเข้า
+                    ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
+                        <option>กรุณาเลือกปีการศึกษา</option>
                         {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    รอบรับเข้า
+                    ภาควิชา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกรอบที่รับเข้า</option>
+                        <option>กรุณาเลือกภาควิชา</option>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    โครงการที่รับเข้า
+                   สาขา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
+                        <option>กรุณาเลือกสาขา</option>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ข้อมูลการรับนักศึกษา
+                    ข้อมูลนักศึกษา
                 </Form.Label>
                 <InputGroup>
                     <FormControl type="file" accept=".excel,.xlsx,.csv">
@@ -106,24 +111,24 @@ const AddTab = () => (
     </Fragment>
 )
 
-class NewStudent extends Component {
+
+class Student extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            key: "SearchNewStudent",
-            branch: []
+            key: "SearchActivity"
         }
     }
 
     render() {
-        let tab = ["สรุปข้อมูลนักศึกษาใหม่", "สรุปข้อมูลการรับนักศึกษา", "จัดการข้อมูล", "เพิ่มข้อมูลการรับนักศึกษาใหม่"]
-        let pane = [<SummaryAdmission/>,<SummaryStudentadmis/> , < ManageTab/>, <AddTab />]
+        let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
+        let pane = [<SummaryStudent/>, <Tracking/>,< ManageTab/>, <AddStudent/>]
         return (
             <Fragment>
                 <TabDialog
-                    dialogName="ข้อมูลการรับนักศึกษา"
-                    tabList={tab}
+                    dialogName="ข้อมูลนักศึกษาปัจจุบัน"
+                    tabList={tabName}
                     paneList={pane}
                 />
             </Fragment>
@@ -131,4 +136,4 @@ class NewStudent extends Component {
     }
 }
 
-export default NewStudent
+export default Student
