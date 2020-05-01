@@ -15,7 +15,6 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import {getAllBranch} from "../../redux/action/BranchAction";
 
 // import bgyel from "../img/bg-head3.png";
 import GraphPie from "../../components/Graph/Pie";

@@ -1,9 +1,9 @@
 import * as types from '../types'
 
 const initialState = {
-    userType: "admin",
-    userName: "FSIM Admin",
-    token: null,
+    userType: null,
+    userName: null,
+    authenticated: false,
     error: null,
     loading: false
 }
@@ -11,7 +11,7 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case types.LOGIN_STARTED:
-            return{
+            return {
                 ...state,
                 loading: true
             }
@@ -19,22 +19,30 @@ export default (state = initialState, action) => {
         case types.LOGIN_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                token: action.token,
-                userType: action.userType,
-                userName: action.userName,
-                error: null
+                authenticated: true,
+                error: null,
+                loading: false
             }
 
         case types.LOGIN_FAILED:
             return {
                 ...state,
-                loading: false,
-                token: null,
-                userType: null,
+                authenticated: false,
                 userName: null,
-                error: action.error
+                userType: null,
+                error: action.error,
+                loading: false
             }
+
+        case types.GET_USER_DATA:
+            return {
+                ...state,
+                userName: action.userName,
+                userType: action.userType
+            }
+
+        case types.LOGOUT:
+            return initialState
 
         default:
             return state

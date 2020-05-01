@@ -13,7 +13,6 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import {getAllBranch} from "../../redux/action/BranchAction";
 
 
 import GraphBar from "../../components/Graph/Bar";

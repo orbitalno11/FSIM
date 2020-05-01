@@ -98,6 +98,49 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
+    # TODO() get user for authentication
+    # get user
+    def get_user(self, username: str = None):
+        if username is None:
+            return inner_res_helper.make_inner_response(response=False, message="No username input.",
+                                                        value="No username input")
+
+        sql_command = "select staff_id, level_id, firstname, lastname from staff where staff_id like '%s'" % username
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return inner_res_helper.make_inner_response(response=False, message="User not found",
+                                                        value="User not found")
+
+        return execute
+
+    # get user for auth (have password)
+    def get_user_for_auth(self, username: str = None):
+        if username is None:
+            return inner_res_helper.make_inner_response(response=False, message="No username input.", value="No username input")
+
+        sql_command = "select staff_id, level_id, firstname, lastname, password from staff where staff_id like '%s'" % username
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return inner_res_helper.make_inner_response(response=False, message="User not found", value="User not found")
+
+        return execute
+
+    # create user
+    def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None, hashed_pass: str = None, staff_level: int = -1,):
+        if staff_id is None or first_name is None or last_name is None or hashed_pass is None:
+            return inner_res_helper.make_inner_response(response=False, message="Some argument is None", value="Some argument is None")
+
+        try:
+            self.__insert_into(table="staff", column=["staff_id", "level_id", "firstname", "lastname", "password"],
+                               data=[staff_id, staff_level, first_name, last_name, hashed_pass])
+        except Exception as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Success", "User was created")
+
         # TODO() # # # # manage data for admin part # # # # #
 
     # admission part

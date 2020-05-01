@@ -23,6 +23,7 @@ import Logomth from "../img/mth.png";
 import Logomic from "../img/mic.png";
 import Logophy from "../img/phy.png";
 import Logochm from "../img/chm.png";
+import { Link } from "react-router-dom";
 
 
 
@@ -32,11 +33,9 @@ const ButtonStudent = ({ id, name, image}) => (
       <Button
         id={id}
         type="button"
-        href={
-           `/student/${id}`
-        }
+        as={Link}
+        to={`/student/${id}`}
         className="btn btn-light btn-circle btn-xl"
-        
       >
         
         <Image className="logo-branch" src={image} />
