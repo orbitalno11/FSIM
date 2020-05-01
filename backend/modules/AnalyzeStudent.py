@@ -88,16 +88,26 @@ class AnalyzeStudent:
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_academic_record(dept,year)
         value = {}
-
         if data['value']:
             df = pd.DataFrame(data['value'])
-            print(df)
+            get_branch      =connect.get_branch()
+            branch_data     = analyze_helper.set_branch(get_branch['value'])
+            branch_dic      = (branch_data.branch_name).to_dict()
+            df_f            = df[df['grade']=='F']
+            if dept:
+                branch      = branch_data[branch_data['dept_id']==dept]
+                list_branch = branch.index.tolist()
+            else:
+                list_branch = branch_data.index.tolist()
+            print()
             group_subject   = df.groupby(['subject_code','grade']).size().unstack(fill_value=0)
-            # grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
-            # df_grouped = pd.DataFrame(grouped.stack().to_frame(name='count').reset_index())
-            # value['subject_by_year'] = [self.__retro_dictify(df_grouped)]
+            group_subject_F = df_f.groupby(['subject_code','branch_id']).size().unstack(fill_value=0)
+            group_subject_F = analyze_helper.check_list_column(list_branch,group_subject_F)
+            group_subject_F = analyze_helper.set_fullname_column(branch_dic,group_subject_F)
+
             value={
-                'analyze_by_grade' : group_subject.to_dict('index')
+                'analyze_by_grade' : group_subject.to_dict('index'),
+                'group_F'          : [group_subject_F.to_dict('index')]
             }
             response = True
             message = "Analyze Subject Successfully"
