@@ -1,7 +1,7 @@
-DATABASE_HOST = "<host>"
+DATABASE_HOST = "localhost"
 DATABASE_NAME = "FSIM"
 DATABASE_USER = "root"
-DATABASE_PASSWORD = "<password>"
+DATABASE_PASSWORD = ""
 
 
 UPLOAD_FOLDER = "./uploads/"

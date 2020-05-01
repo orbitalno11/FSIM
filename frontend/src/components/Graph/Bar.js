@@ -45,10 +45,10 @@ class Barchart extends Component {
   }
 
   render() {
-    let { data } = this.props
+    let { data, legend } = this.props
     return (
       <React.Fragment>
-        {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option} />}
+        {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option} legend={ legend !== undefined ? {display: true} : {display: false, position: legend} } />}
       </React.Fragment>
     );
   }

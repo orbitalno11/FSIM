@@ -1,5 +1,10 @@
 import React, {Component, Fragment} from "react";
 
+import axios from 'axios'
+
+// import graph data control
+import * as graphController from '../../components/Graph/GraphController'
+
 import {
     Dropdown,
     Divider,
@@ -11,10 +16,6 @@ import {
     Image
 } from "semantic-ui-react";
 
-// redux
-import {connect} from 'react-redux'
-import {getAllBranch} from "../../redux/action/BranchAction";
-
 // import bgyel from "../img/bg-head3.png";
 import GraphPie from "../../components/Graph/Pie";
 import GraphBar from "../../components/Graph/Bar";
@@ -24,23 +25,66 @@ import AlumniTypePanel from "../../components/AlumniTypePanel";
 class SummaryAlumni extends Component {
     
     constructor(props) {
-        super(props);
+        super(props)
+        let year = new Date()
+        year = year.getFullYear() + 543
         this.state = {
-            branch: props.branch_list
+            branch: null,
+            year: year - 3,
+            salaryBranch: null,
+            branchStudentChart: null,
+            workChart: null,
+            trainingChart: null,
+            gpaChart: null
         }
     }
 
     componentDidMount() {
         this.fetchBranch()
+        this.fetchWorkData()
     }
 
     fetchBranch = () => {
-        this.props.allBranch()
-        let {branch_list} = this.props
-        this.setState({
-            branch: branch_list
+    }
+
+    fetchWorkData = () => {
+        let { year } = this.state
+
+        axios.get(`/alumni/analyze/work?year=${year}`)
+        .then(res => {
+            let recieved_data = res.data.data[0]
+
+            if (recieved_data['count_by_branch'] == null) return
+            let branchData = recieved_data['count_by_branch']
+            let workStatus = recieved_data['count_by_status']
+            let trainingData = recieved_data['count_by_training']
+            let gpaChart = recieved_data['gpax_by_branch']
+            // let branchKey = Object.keys(branchData)
+            // let branchStudent = []
+
+            // branchKey.forEach( key => {
+            //     let branch = {
+            //         name: key,
+            //         number: branchData[key]
+            //     }
+            //     branchStudent.push(branch)
+            // })
+
+            this.setState({
+                branchStudentChart: graphController.setupPieChart(branchData),
+                workChart: graphController.setupPieChart(workStatus),
+                trainingChart: graphController.setupPieChart(trainingData),
+                gpaChart: graphController.setupNoneStackBarChart(gpaChart)
+            })
+
+            console.log(recieved_data)
+        })
+        .catch(err => {
+            console.error(err)
         })
     }
+
+    
 
     setUpDropDown = branch => {
         let options = []
@@ -54,8 +98,12 @@ class SummaryAlumni extends Component {
         }
         return options.sort()
     }
+
     render() {
         let {branch_list} = this.props
+
+        let { branchStudentChart, workChart, trainingChart, gpaChart } = this.state
+
         return (
             <Fragment>
                 {/* <Image size="big" className="head-right" src={bgyel}/> */}
@@ -75,7 +123,7 @@ class SummaryAlumni extends Component {
                     <Grid>
                         <Grid.Row>
                             <Card fluid={true}>
-                                <AlumniTypePanel/>
+                                {/* { branchStudent !== null && <AlumniTypePanel data={branchStudent} />} */}
                             </Card>
                         </Grid.Row>
                         <Grid.Row columns={2}>
@@ -85,7 +133,7 @@ class SummaryAlumni extends Component {
                                             กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                         </Card.Header>
                                     <Card.Content>
-                                        <GraphPie/>
+                                        { branchStudentChart !== null && <GraphPie data={branchStudentChart} />}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -96,7 +144,7 @@ class SummaryAlumni extends Component {
                                             กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                         <Card.Content>
-                                            <GraphPie/>
+                                        { workChart !== null && <GraphPie data={workChart} />}
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -107,7 +155,7 @@ class SummaryAlumni extends Component {
                                             กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                         <Card.Content>
-                                            <GraphPie/>
+                                        { trainingChart !== null && <GraphPie data={trainingChart} />}
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -120,7 +168,7 @@ class SummaryAlumni extends Component {
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                    { gpaChart !== null && <GraphBar data={gpaChart} />}
                                     </Card.Content>
                                    
                                 </Card>
@@ -198,11 +246,5 @@ class SummaryAlumni extends Component {
         )
     }
 }
-const mapStateToProps = state => ({
-    branch_list: state.branch.branch_list
-})
 
-const mapDispatchToProps = dispatch => ({
-    allBranch: () => dispatch(getAllBranch())
-})
-export default  connect(mapStateToProps, mapDispatchToProps)(SummaryAlumni)
+export default  SummaryAlumni

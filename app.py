@@ -35,6 +35,7 @@ app.register_blueprint(api_routes.api_bp)
 app.register_blueprint(admin_api_routes.admin_bp)
 
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
+CORS(app)
 
 
 def token_required(f):

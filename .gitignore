@@ -145,13 +145,14 @@ sketch
 # Ignore all local history of files
 .history
 
-### pychache ###
+## pychache ###
 !**/__pycache__/
 __pycache__
 # End of https://www.gitignore.io/api/react,macos,pycharm,visualstudiocode
 /uploads/
 
 fsimenv
+.idea
 
 firebase_credentials.json
 google_credentials.json
