@@ -4,10 +4,18 @@ import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from "react-router-dom";
 
+// redux
+import { connect } from 'react-redux'
+import { userLogout } from '../redux/action/authAction'
+
 // 
 import Logo from '../img/60year-fsci.png'
 
 class AdminMenu extends Component {
+
+    handleLogout = () => {
+        this.props.logout()
+    }
 
     render() {
         return (
@@ -81,8 +89,8 @@ class AdminMenu extends Component {
                             </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
-                    <NavDropdown title={"สวัสดี! " + this.props.username}>
-                        <NavDropdown.Item className="nav-link">ออกจากระบบ</NavDropdown.Item>
+                    <NavDropdown title={"สวัสดี! " + this.props.auth.userName}>
+                        <NavDropdown.Item className="nav-link" onClick={this.handleLogout}>ออกจากระบบ</NavDropdown.Item>
                     </NavDropdown>
                 </Navbar>
             </Fragment>
@@ -90,4 +98,12 @@ class AdminMenu extends Component {
     }
 }
 
-export default AdminMenu
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(userLogout())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminMenu)

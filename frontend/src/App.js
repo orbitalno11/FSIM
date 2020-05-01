@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import './App.css'
 
 // router
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 
 import jwtDecode from 'jwt-decode'
 
@@ -22,16 +22,22 @@ import DepartmentStudent from './pages/DepartmentStudent'
 // admin component
 import AdminLayout from './layouts/Admin'
 
+// authen
+import Login from './pages/Login'
+import AuthRoute from './components/AuthRoute'
+import AdminRoute from './components/AdminRoute'
+
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from "redux";
 import logger from 'redux-logger'
 import thunk from "redux-thunk";
 import rootReducer from './redux/reducers';
 
-import { userLogout } from './redux/action/authAction'
+import { userLogout, setUser } from './redux/action/authAction'
 import { LOGIN_SUCCESS } from './redux/types'
 
 import axios from 'axios'
+import AdminMenu from './components/AdminMenu'
 
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
@@ -43,7 +49,8 @@ if (token){
         window.location.href = '/login'
     }else{
         store.dispatch({ type: LOGIN_SUCCESS })
-        // axios.defaults.headers.common['Authorization'] = token
+        store.dispatch(setUser(localStorage.userName, localStorage.userType))
+        axios.defaults.headers.common['x-access-token'] = token
     }
 
 }
@@ -54,7 +61,7 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <div className="App">
-                    <Navbar />
+                    { store.getState().auth.authenticated ? <AdminMenu /> : <Navbar />}
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/admission" component={Admission} />
@@ -65,7 +72,9 @@ class App extends Component {
                         <Route path="/department/:dept_id" component={DepartmentDetail} />
 
                         {/*    admin    */}
-                        <Route path="/admin" component={AdminLayout} />
+                        <AdminRoute path="/admin" component={AdminLayout} />
+
+                        <AuthRoute exact path="/login" component={Login} />
                     </Switch>
                 </div>
             </Provider>
@@ -74,4 +83,4 @@ class App extends Component {
 }
 
 
-export default App
+export default withRouter(App)

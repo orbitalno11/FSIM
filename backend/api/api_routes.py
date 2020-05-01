@@ -169,9 +169,15 @@ def sign_in():
 
     user = result['value']
     user = list(user[0])
+    user_type = "user" if user[1] == -1 else "admin"
+
+    userData = {
+        'name': user[2],
+        'type': user_type
+    }
     if check_password_hash(user[4], auth_data['password']):
         token = jwt.encode({'staff_id': user[0], 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)},
                            app.config['SECRET_KEY'])
-        return api_helper.create_response(message="Signin successful", data={'token': token.decode('UTF-8')}, response_code=200, response=True)
+        return api_helper.create_response(message="Signin successful", data={'token': token.decode('UTF-8'), 'userData': userData}, response_code=200, response=True)
 
     return api_helper.create_error_exception(message="Cloud not verify.", response_code=401, value="Cloud not verify.")

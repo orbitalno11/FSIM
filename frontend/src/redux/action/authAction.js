@@ -15,6 +15,14 @@ const loginSuccess = () => (
     }
 )
 
+const setUserData = (name, type) => (
+    {
+        type: types.GET_USER_DATA,
+        userName: name,
+        userType: type
+    }
+)
+
 const loginFailed = error => (
     {
         type: types.LOGIN_FAILED,
@@ -31,16 +39,21 @@ const logout = () => (
 )
 
 // login action
-export const login = (loginData) => dispatch => {
+export const login = (loginData, history) => dispatch => {
     dispatch(loginStart())
-    axios.post('/auth/login', loginData)
+    axios.post('/signin', loginData)
         .then(res => {
             let data = res.data
-            if (data['result']) {
-                const FSIMIdToken = `Bearer ${data['token']}`
-                localStorage.setItem('LSIdToken', FSIMIdToken)
-                axios.defaults.headers.common['Authorization'] = FSIMIdToken
-                window.location.href = "/"
+            if (data['response']) {
+                const FSIMIdToken = data['data']['token']
+                const userData = data['data']['userData']
+                localStorage.setItem('FSIMIdToken', FSIMIdToken)
+                localStorage.setItem('userName', userData['name'])
+                localStorage.setItem('userType', userData['type'])
+                axios.defaults.headers.common['x-access-token'] = FSIMIdToken
+                // history.push("/admin")
+                window.location.href = "/admin"
+                dispatch(setUserData(userData['name'], userData['type']))
                 dispatch(loginSuccess())
             } else {
                 dispatch(loginFailed(data['message']))
@@ -58,4 +71,9 @@ export const userLogout = () => dispatch => {
     delete axios.defaults.headers.common['Authorization']
     window.location.href = "/"
     dispatch(logout)
+}
+
+// set user data
+export const setUser = (userName, userType) => dispatch => {
+    dispatch(setUserData(userName, userType))
 }

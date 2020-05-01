@@ -18,3 +18,6 @@ export const LOGIN_STARTED = "login_started"
 export const LOGIN_SUCCESS = "login_success"
 export const LOGIN_FAILED = "login_failed"
 export const LOGOUT = "logout"
+
+// user
+export const GET_USER_DATA = "get_user_data"

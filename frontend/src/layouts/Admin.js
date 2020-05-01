@@ -29,7 +29,6 @@ class AdminLayout extends Component {
     render() {
         return (
             <Fragment>
-                <AdminMenu username={this.props.user.userName} />
                 <Switch>
                     <Route exact path={"/admin"} component={AdminHome} />
                     <Route exact path={"/admin/information"} component={Information} />
