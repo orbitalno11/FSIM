@@ -167,6 +167,7 @@ class AnalyzeAdmission:
             message = "Analyze Successfully"
 
         else:
+            value={}
             response = False
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)

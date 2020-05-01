@@ -98,63 +98,64 @@ class AnalyzeAlumni:
             gpax_by_branch_finish       =   analyze_helper.check_list(branch_data.index.values,gpax_by_branch_2decimal)
             
             list_salary                 =   {1:'น้อยกว่า 10,000',2:'10,000-19,999',3:'20,000-30,000',4:'มากกว่า 30,000'}
+            salary_branch_trining       =   []
+            list_analze                 =   {}
+            salary_all_branch_trining   =   self.__salary_branch_training(df[['apprentice_id', 'salary']])
+            salary_all_branch_trining_check_index   =  analyze_helper.check_list(status_apprentice.index.values,salary_all_branch_trining)
+            salary_all_branch_trining_check_column  =  analyze_helper.check_list_column(list_salary.keys(),salary_all_branch_trining_check_index)
+            salary_all_branch_trining_index         =  analyze_helper.set_fullname_index(status_apprentice_dic,salary_all_branch_trining_check_column)
+            salary_all_branch_trining_finist        =  analyze_helper.set_fullname_column(list_salary,salary_all_branch_trining_index)
+            list_analze['dept_name']                =  'ทั้งหมด' 
+            list_analze['num_student']              =  len(df) 
+            list_analze['salary_all_branch_trining']=  [salary_all_branch_trining_finist.to_dict('index')]
+            salary_branch_trining.append([list_analze])
+            
 
-            salary_all_branch_trining            =  self.__salary_branch_training(df[['apprentice_id', 'salary']])
-            salary_all_branch_trining_check_index =  analyze_helper.check_list(status_apprentice.index.values,salary_all_branch_trining)
-            salary_all_branch_trining_check_column=  analyze_helper.check_list_column(list_salary.keys(),salary_all_branch_trining_check_index)
-            salary_all_branch_trining_index      =  analyze_helper.set_fullname_index(status_apprentice_dic,salary_all_branch_trining_check_column)
-            salary_all_branch_trining_finist     =  analyze_helper.set_fullname_column(list_salary,salary_all_branch_trining_index)
+            list_branch_traning=df_brach.index.tolist()
+            for i in list_branch_traning:
+                list_analze       =   {}
+                data=df[df['branch_id']==i]
+                if not data.empty:
+                    analyze_salart  =   self.__salary_branch_training(data[['apprentice_id', 'salary']])
+                    analyze_salart  =  analyze_helper.check_list(status_apprentice.index.values,analyze_salart)
+                    analyze_salart  =  analyze_helper.check_list_column(list_salary.keys(),analyze_salart)
+                    analyze_salart  =  analyze_helper.set_fullname_index(status_apprentice_dic,analyze_salart)
+                    analyze_salart  =  analyze_helper.set_fullname_column(list_salary,analyze_salart)
+                    list_analze['dept_name']                =  branch_dic[i]
+                    list_analze['num_student']              =  len(data) 
+                    list_analze['salary_all_branch_trining']=  [analyze_salart.to_dict('index')]
+                    
+                else:
+                    analyze_salart  = pd.DataFrame(0,index=np.arange(len(status_apprentice)),columns = list_salary.values()) 
+                    analyze_salart['status_apprentice']   = status_apprentice.status_title.tolist()
+                    analyze_salart.set_index('status_apprentice',inplace=True)
+                    list_analze['dept_name']                =  branch_dic[i]
+                    list_analze['num_student']              =  0
+                    list_analze['salary_all_branch_trining']=  [analyze_salart.to_dict('index')]
+                    
+                salary_branch_trining.append([list_analze])
 
+            list_branch_traning.insert(0,'all')
+            
+            # print(salary_branch_trining)
+            # for
             value = {
                 'count_student'                 : len(df.index),
                 'count_by_branch'               : analyze_helper.set_fullname_index(branch_dic,df_branch_finish).to_dict(),
                 'count_by_status'               : analyze_helper.set_fullname_index(status_working_dic,count_by_status_finish).to_dict(),
                 'count_by_training'             : analyze_helper.set_fullname_index(status_apprentice_dic,count_by_training_finish).to_dict(),
-                'salary_all_branch_trining'     : [salary_all_branch_trining_index.to_dict('index')],
+                'salary_all_branch_trining'     : [dict(zip(list_branch_traning, salary_branch_trining))],
                 'gpax_by_branch'                : analyze_helper.set_fullname_index(branch_dic,gpax_by_branch_finish).to_dict(),
             }
+
             response = True
-            message = "Don't have Data"
+            message = "Analyze Successfully"
         else:
             value = {}
             response = False
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=[value])
 
-    # uses in user pages and admin pages
-    # this function will return "analyze alumni salary only and number of student " in 'year' and 'branch'
-    def analyze_alumni_salary(self,year=None,branch=None):
-        connect = DatabaseHelper.get_instance()
-        data = connect.get_all_alumni(year)
-        print(branch)
-        if data['value']:
-            df  =   pd.DataFrame(data['value'])
-            if branch:
-                df=df.loc[df['branch_id']==branch]
-                
-            if not df.empty:
-                df['salary']                =   df['salary'].astype(int)
-                status_apprentice           =   analyze_helper.set_fullname(connect.get_apprentice_status_list())
-                status_apprentice_dic       =   analyze_helper.set_dict(status_apprentice.index, status_apprentice.status_title)
-                list_salary                 =   {1:'น้อยกว่า 10,000',2:'10,000-19,999',3:'20,000-30,000',4:'มากกว่า 30,000'}
-                salary_all_branch_trining               =  self.__salary_branch_training(df[['apprentice_id', 'salary']])
-                salary_all_branch_trining_check_index   =  analyze_helper.check_list(status_apprentice.index.values,salary_all_branch_trining)
-                salary_all_branch_trining_check_column  =  analyze_helper.check_list_column(list_salary.keys(),salary_all_branch_trining_check_index)
-                salary_all_branch_trining_index         =  analyze_helper.set_fullname_index(status_apprentice_dic,salary_all_branch_trining_check_column)
-                salary_all_branch_trining_finist        =  analyze_helper.set_fullname_column(list_salary,salary_all_branch_trining_index)
-
-                value = {
-                    'num_student'                   : len(df.index),
-                    'salary_all_branch_trining'     : [salary_all_branch_trining_finist.to_dict('index')]
-                }
-                response = True
-                message = "Don't have Data"
-
-        else:
-            value = {}
-            response = False
-            message = "Don't have Data"
-        return inner_res_helper.make_inner_response(response=response, message=message, value=[value])
 
 
     def __salary_branch_training(self, df):

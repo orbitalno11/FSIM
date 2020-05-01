@@ -174,14 +174,13 @@ class AnalyzeActivity:
                     analyze_by_gpax     = analyze_helper.set_fullname_index(activity_dict,analyze_by_gpax) 
                     analyze_by_activity_gpax.append(analyze_by_gpax.to_dict('index'))
 
-
-
-            
             value={
                 'count_school'  : sort_count_school.to_dict(),
                 'gpax'          : sort_gpax_school.to_dict(),
                 'activity_by_branch_count': analyze_by_activity,
                 'activity_by_branch_gpax': analyze_by_activity_gpax
             }
+        else:
+            value={}
         
         return inner_res_helper.make_inner_response(response="response", message="message", value=value)
