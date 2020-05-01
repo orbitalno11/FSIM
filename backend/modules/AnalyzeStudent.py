@@ -117,6 +117,35 @@ class AnalyzeStudent:
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response, message, value)
 
+    def student_tracking(self,id_student):
+        connect = DatabaseHelper.get_instance()
+        data = connect.get_student_tracking(id_student)
+        value = {}
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            df = df.sort_values(by=['education_year', 'semester'])
+            df_drop_s = df[df['semester']!='S']
+            df_drop_s.reset_index(inplace=True)
+            df_tracking = df_drop_s.gpa
+
+
+            
+            value={
+                'student_id' : id_student,
+                'gpax'  :   df_drop_s.current_gpax.loc[1],
+                'trackking' : df_tracking.to_dict()
+            }
+            print(value)
+            response = True
+            message = "Analyze Subject Successfully"
+        else:
+            print("null")
+            response= False
+            message = "Don't have Data"
+        
+        return inner_res_helper.make_inner_response(response, message, value)
+
+
     
     def __count_student_dept(self, df):
         num_student_dept = len(df.index)
@@ -139,17 +168,7 @@ class AnalyzeStudent:
             grouped[col] = 0
         return grouped
 
-    # def __retro_dictify(self, frame):
-    #     d = {}
-    #     for row in frame.values:
-    #         here = d
-    #         for elem in row[:-2]:
-    #             if elem not in here:
-    #                 here[elem] = {}
-    #             here = here[elem]
-    #         here[row[-2]] = row[-1]
-    #     return d
-
+    
     def __check_list(self, sample, main):
         list_miss = set(sample) - set(main)
         return list_miss

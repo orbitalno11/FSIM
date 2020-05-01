@@ -207,3 +207,12 @@ def edit_alumni_survey():
     result = firebase.alumni_update_survey(year, update)
 
     return api_helper.return_response(result)
+
+
+@admin_bp.route('/student/tracking', methods=['GET'])
+def get_student_tracking():
+    id_student = request.args.get('id_student')
+    db = AnalyzeStudent.get_instance()
+    data = db.student_tracking(id_student)
+
+    return api_helper.return_response(data)

@@ -232,6 +232,29 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
+        # get all student data (pueng)
+    def get_student_tracking(self, id_student):
+
+        sql_command = "SELECT gpa, semester, current_gpax, education_year FROM `gpa_record` NATURAL JOIN student where student_id='%s'" % id_student
+        execute = self.__execute_query(sql_command)
+        print(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'gpa': data[0],
+                'semester': data[1],
+                'current_gpax':data[2],
+                'education_year':data[3]
+            }
+            out_function_data.append(data)
+
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+
     # get all student academic record (pueng)
     def get_all_academic_record(self, dept_id=None,year=None):
         if dept_id is None and year is None:
