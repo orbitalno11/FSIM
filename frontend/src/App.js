@@ -24,6 +24,10 @@ import DepartmentStudent from './pages/DepartmentStudent'
 // admin component
 import AdminLayout from './layouts/Admin'
 
+// set base url
+import axios from 'axios'
+axios.defaults.baseURL = "http://127.0.0.1:5000/api/v1/"
+
 class App extends Component {
     constructor(props) {
         super(props)

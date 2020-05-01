@@ -1,5 +1,5 @@
-DATABASE_HOST = "127.0.0.1"
-DATABASE_NAME = "fsim"
+DATABASE_HOST = "localhost"
+DATABASE_NAME = "FSIM"
 DATABASE_USER = "root"
 DATABASE_PASSWORD = ""
 
@@ -16,6 +16,10 @@ RESPONSE_HEADERS = {"Content-type": "application/json"}
 # read google sheet part
 google_credentials = "google_credentials.json"
 google_sheet_scope = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+
+# firebase
+firebase_credentials = "firebase_credentials.json"
+firebase_database_url = "https://my-fsim.firebaseio.com/"
 
 
 def allowed_admission_file(filename):

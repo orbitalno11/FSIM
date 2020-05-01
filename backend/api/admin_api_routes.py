@@ -14,6 +14,7 @@ import backend.Constant as Constant
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 from backend.modules.AnalyzeAlumni import  AnalyzeAlumni
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
+from backend.modules.FirebaseModule import FirebaseModule
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
@@ -58,6 +59,18 @@ def insert_admission():
     return api_helper.return_response(insert)
 
 
+# get analyze admission channel
+@admin_bp.route('/admission/analyze/channel', methods=['GET'])
+def get_analyze_admission_channel():
+    # get admission_year
+    year = request.args.get('year')
+
+    db = AnalyzeAdmission.get_instance()
+    data = db.analyze_admission_admin(year)
+
+    return api_helper.return_response(data)
+
+
 # upload current student academic record
 @admin_bp.route('/academic', methods=['POST'])
 def insert_academic_record():
@@ -98,7 +111,8 @@ def insert_academic_record():
 
     return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
 
-
+# # # # # department part # # # # #
+# get analyze student by department
 @admin_bp.route('/department/analyze/student', methods=['GET'])
 def get_analyze_student():
     # this api need department id
@@ -109,7 +123,7 @@ def get_analyze_student():
 
     return api_helper.return_response(result)
 
-
+# get analyze student by course (subject)
 @admin_bp.route('/department/analyze/course', methods=['GET'])
 def get_analyze_subject():
     # this api need department id
@@ -120,7 +134,6 @@ def get_analyze_subject():
     result = analyze.analyze_by_subject_dept(department,year)
 
     return api_helper.return_response(result)
-
 
 
 # get student in department by status
@@ -136,10 +149,8 @@ def get_probation_student():
     return api_helper.return_response(data)
 
 
-
-
-
-# # # # # read alumni survey google sheet
+# # # # # alumni part # # # # #
+# read alumni survey google sheet
 @admin_bp.route('/readsheet', methods=['GET'])
 def read_google_sheet():
     # this api require google sheet share url
@@ -164,13 +175,55 @@ def read_google_sheet():
     return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
 
 
-# # # # # get admission_year 
-#get analyze admission channel
-@admin_bp.route('/admission/analyze/channel', methods=['GET'])
-def get_analyze_admission_channel():
-    year = request.args.get('year')
-  
-    db = AnalyzeAdmission.get_instance()
-    data = db.analyze_admission_admin(year)
+# read survey data from firebase
+@admin_bp.route('/alumni/survey', methods=['GET'])
+def get_alumni_survey_list():
 
-    return api_helper.return_response(data)
+    firebase = FirebaseModule.get_instance()
+    result = firebase.alumni_get_survey()
+
+    return api_helper.return_response(result)
+
+
+# read survey data from firebase by year
+@admin_bp.route('/alumni/survey/<int:year>', methods=['GET'])
+def get_alumni_survey_list_by_year(year):
+
+    firebase = FirebaseModule.get_instance()
+    result = firebase.alumni_get_survey_by_year(year)
+
+    return api_helper.return_response(result)
+
+
+# add survey data to firebase by year
+@admin_bp.route('/alumni/survey/add', methods=['POST'])
+def add_alumni_survey():
+    # this api need education year (2561, 2562), table header as a list and google sheet url
+    year = request.form.get('year')
+    table_header = request.form.get('table_header')
+    sheet_url = request.form.get('sheet_url')
+
+    firebase = FirebaseModule.get_instance()
+    result = firebase.alumni_add_survey(year, sheet_url, table_header)
+
+    return api_helper.return_response(result)
+
+
+# add survey data to firebase by year
+@admin_bp.route('/alumni/survey/edit', methods=['POST'])
+def edit_alumni_survey():
+    # this api need education year (2561, 2562), table header as a list and google sheet url
+    year = request.form.get('year')
+    table_header = request.form.get('table_header')
+    sheet_url = request.form.get('sheet_url')
+
+    update = {
+        "educationYear": year,
+        "tableHeader": table_header,
+        "sheetUrl": sheet_url
+    }
+
+    firebase = FirebaseModule.get_instance()
+    result = firebase.alumni_update_survey(year, update)
+
+    return api_helper.return_response(result)
