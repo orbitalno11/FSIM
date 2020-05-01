@@ -115,30 +115,6 @@ def insert_academic_record():
 
     return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
 
-# # # # # department part # # # # #
-# get analyze student by department
-@admin_bp.route('/department/analyze/student', methods=['GET'])
-def get_analyze_student():
-    # this api need department id
-    department = request.args.get('dept_id')
-
-    analyze = AnalyzeStudent.get_instance()
-    result = analyze.analyze_by_dept(department)
-
-    return api_helper.return_response(result)
-
-# get analyze student by course (subject)
-@admin_bp.route('/department/analyze/course', methods=['GET'])
-def get_analyze_subject():
-    # this api need department id
-    department = request.args.get('dept_id')
-    year = request.args.get('year')
-
-    analyze = AnalyzeStudent.get_instance()
-    result = analyze.analyze_by_subject_dept(department,year)
-
-    return api_helper.return_response(result)
-
 
 # get student in department by status
 @admin_bp.route('/department/student/status', methods=['GET'])
