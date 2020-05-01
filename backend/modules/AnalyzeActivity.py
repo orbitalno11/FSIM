@@ -142,45 +142,28 @@ class AnalyzeActivity:
             gpax_school         = data.groupby(['school_name'])['gpax'].mean()
             sort_gpax_school    = gpax_school.sort_values(ascending=False).head()
             
-            activity_ar = activityAr.index.to_list()
-            list_branch = data.branch_name.drop_duplicates().tolist()
-            # print(list_branch)
-            analyze_by_activity = []
-            analyze_by_activity_gpax = []
            
-           
-            for i in activity_ar:
-                data_by_activity    = data[data['activity_id']==i]
-                if not data_by_activity.empty:
-                    analyze_by_branch   = data_by_activity.groupby(['activity_id','branch_name']).size().unstack(fill_value=0)
-                    analyze_by_branch   = analyze_helper.set_fullname_index(activity_dict,analyze_by_branch)
-                    analyze_by_activity.append(analyze_by_branch.to_dict('index'))
 
-                    analyze_by_gpax     = data_by_activity.groupby(['activity_id','branch_name'])['gpax'].mean().unstack(fill_value=0) 
-                    analyze_by_gpax     = analyze_helper.set_fullname_index(activity_dict,analyze_by_gpax) 
-                    analyze_by_gpax     = analyze_by_gpax.round(2)
-                    analyze_by_activity_gpax.append(analyze_by_gpax.to_dict('index'))
-                    
-                else:
-                    analyze_by_branch   = pd.DataFrame(0,index=np.arange(1),columns=list_branch)
-                    analyze_by_branch['activity_id']=i
-                    analyze_by_branch.set_index('activity_id',inplace=True)
-                    analyze_by_branch   = analyze_helper.set_fullname_index(activity_dict,analyze_by_branch)
-                    analyze_by_activity.append(analyze_by_branch.to_dict('index'))
+            analyze_by_activity = data.groupby(['activity_id','branch_name']).size().unstack(fill_value=0)
+            analyze_by_activity = analyze_helper.check_list(activityAr.index,analyze_by_activity)     
+            analyze_by_activity = analyze_helper.set_fullname_index(activity_dict,analyze_by_activity) 
 
-                    analyze_by_gpax   = pd.DataFrame(0,index=np.arange(1),columns=list_branch)
-                    analyze_by_gpax['activity_id']=i
-                    analyze_by_gpax.set_index('activity_id',inplace=True)
-                    analyze_by_gpax     = analyze_helper.set_fullname_index(activity_dict,analyze_by_gpax) 
-                    analyze_by_activity_gpax.append(analyze_by_gpax.to_dict('index'))
+            analyze_by_activity_gpax = data.groupby(['activity_id','branch_name'])['gpax'].mean().unstack(fill_value=0)
+            analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index,analyze_by_activity_gpax)     
+            analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict,analyze_by_activity_gpax) 
+            analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
             value={
                 'count_school'  : sort_count_school.to_dict(),
                 'gpax'          : sort_gpax_school.to_dict(),
-                'activity_by_branch_count': analyze_by_activity,
-                'activity_by_branch_gpax': analyze_by_activity_gpax
+                'activity_by_branch_count': [analyze_by_activity.to_dict('index')],
+                'activity_by_branch_gpax' : [analyze_by_activity_gpax.to_dict('index')]
             }
+            response = True
+            message = "Analyze Successfully"
         else:
             value={}
+            response = False
+            message = "Don't have Data"
         
-        return inner_res_helper.make_inner_response(response="response", message="message", value=value)
+        return inner_res_helper.make_inner_response(response=response, message=message, value=value)
