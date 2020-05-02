@@ -41,7 +41,7 @@ class AdminMenu extends Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <LinkContainer to={"/admin/student"} className="navHover" activeClassName="navActive">
-                                    <NavLink exact to={"/admin/activity"} className="nav-link" activeClassName="active">ข้อมูลนักศึกษาปัจจุบัน</NavLink>
+                                    <NavLink exact to={"/admin/student"} className="nav-link" activeClassName="active">ข้อมูลนักศึกษาปัจจุบัน</NavLink>
                                     {/* <NavDropdown title="ข้อมูลนักศึกษาปัจจุบัน">
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/student"} className="nav-link" activeClassName="active">ข้อมูลนักศึกษาปัจจุบัน</NavDropdown.Item>
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/student/academic"} className="nav-link" activeClassName="active">สรุปข้อมูลผลการศึกษา</NavDropdown.Item>
@@ -53,7 +53,7 @@ class AdminMenu extends Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <LinkContainer to={"/admin/admission"} className="navHover" activeClassName="navActive">
-                                    <NavLink exact to={"/admin/activity"} className="nav-link" activeClassName="active">ข้อมูลการรับนักศึกษา</NavLink>
+                                    <NavLink exact to={"/admin/admission"} className="nav-link" activeClassName="active">ข้อมูลการรับนักศึกษา</NavLink>
                                     {/* <NavDropdown title="ข้อมูลการรับนักศึกษา">
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/admission"} className="nav-link" activeClassName="active">ข้อมูลการรับนักศึกษา</NavDropdown.Item>
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/admission/summary"} className="nav-link" activeClassName="active">สรุปข้อมูลการรับนักศึกษา</NavDropdown.Item>

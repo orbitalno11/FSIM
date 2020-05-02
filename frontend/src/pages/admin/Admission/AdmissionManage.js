@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 
-import TabDialog from "../../components/TabDialog";
+import TabDialog from "../../../components/TabDialog";
 import { Table, Button } from 'semantic-ui-react'
 import { Form, FormControl, InputGroup } from 'react-bootstrap'
-import SummaryAdmission from "../../pages/admin/SummaryAdmission";
-import SummaryStudentadmis from "../../pages/admin/SummaryStudentadmis";
+import AdmissionSummary from "./AdmissionSummary";
+import AdmissionStudentSummary from "./AdmissionStudentSummary";
 
 const ManageTab = () => (
     <Fragment>
@@ -118,7 +118,7 @@ class NewStudent extends Component {
 
     render() {
         let tab = ["สรุปข้อมูลนักศึกษาใหม่", "สรุปข้อมูลการรับนักศึกษา", "จัดการข้อมูล", "เพิ่มข้อมูลการรับนักศึกษาใหม่"]
-        let pane = [<SummaryAdmission/>,<SummaryStudentadmis/> , < ManageTab/>, <AddTab />]
+        let pane = [<AdmissionSummary/>,<AdmissionStudentSummary/> , < ManageTab/>, <AddTab />]
         return (
             <Fragment>
                 <TabDialog

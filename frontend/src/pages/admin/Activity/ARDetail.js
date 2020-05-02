@@ -15,9 +15,9 @@ import {
 import {connect} from 'react-redux'
 
 
-import GraphPie from "../../components/Graph/Pie";
-import GraphBar from "../../components/Graph/Bar";
-import GraphHorizontal from "../../components/Graph/BarHorizontal";
+import GraphPie from "../../../components/Graph/Pie";
+import GraphBar from "../../../components/Graph/Bar";
+import GraphHorizontal from "../../../components/Graph/BarHorizontal";
 
 
 

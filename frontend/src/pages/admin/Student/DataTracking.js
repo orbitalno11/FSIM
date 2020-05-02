@@ -17,9 +17,9 @@ import {
 import {connect} from 'react-redux'
 
 // import bgyel from "../img/bg-head3.png";
-import GraphPie from "../../components/Graph/Pie";
-import DataTable from "../../components/DataTable";
-import AlumniTypePanel from "../../components/AlumniTypePanel";
+import GraphPie from "../../../components/Graph/Pie";
+import DataTable from "../../../components/DataTable";
+import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
 class SummarySurvey extends Component {

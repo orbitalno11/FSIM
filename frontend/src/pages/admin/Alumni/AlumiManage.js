@@ -1,13 +1,14 @@
 import React, {Component, Fragment} from 'react'
 
-import TabDialog from '../../components/TabDialog'
+import axios from 'axios'
+
+import TabDialog from '../../../components/TabDialog'
 import {Table, Button} from 'semantic-ui-react'
 import {Form, InputGroup} from 'react-bootstrap'
-import SummaryAlumni from "../../pages/admin/SummaryAlumni";
-import SummarySurvey from "../../pages/admin/SummarySurvey";
+import AlumniSummary from "./AlumniSummary";
+import AlumniSurvey from "./AlumniSurvey";
 
 // 
-
 
 const ManageTab = () => (
     <Fragment>
@@ -78,9 +79,27 @@ const AddTab = () => (
 
 
 class AlumniManage extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            surveyList: null
+        }
+    }
+
+    componentDidMount(){
+        axios.get('alumni/survey')
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
     render() {
         let tabName = ["สรุปข้อมูลศิษย์เก่า", "สรุปข้อมูลแบบสอบถาม", "จัดการรายการแบบสอบถาม", "เพิ่มข้อมูลแบบสอบถาม"]
-        let paneTab = [<SummaryAlumni/>,<SummarySurvey/>, <ManageTab/>, <AddTab/>]
+        let paneTab = [<AlumniSummary/>,<AlumniSurvey/>, <ManageTab/>, <AddTab/>]
         return (
             <Fragment>
                 <TabDialog

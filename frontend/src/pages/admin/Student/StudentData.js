@@ -12,10 +12,10 @@ import {
 
 
 
-import GraphBar from "../../components/Graph/Bar";
-import Piechart from "../../components/Graph/Pie";
-import Barchart from "../../components/Graph/Bar";
-import Horizontal from "../../components/Graph/BarHorizontal";
+import GraphBar from "../../../components/Graph/Bar";
+import Piechart from "../../../components/Graph/Pie";
+import Barchart from "../../../components/Graph/Bar";
+import Horizontal from "../../../components/Graph/BarHorizontal";
 
 //  wait other
 import 'chartjs-plugin-datalabels'
@@ -23,9 +23,9 @@ import 'chartjs-plugin-datalabels'
 import axios from 'axios'
 
 // import color set
-import { colorSet } from '../../Constant'
+import { colorSet } from '../../../Constant'
 
-class DataStudent extends Component {
+class StudentData extends Component {
 
     constructor(props) {
         super(props);
@@ -276,5 +276,5 @@ class DataStudent extends Component {
         )
     }
 }
-export default DataStudent
+export default StudentData
 

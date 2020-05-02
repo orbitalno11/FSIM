@@ -2,31 +2,29 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap'
 
-
 //
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../components/TabDialog';
-import DataStudent from "../../pages/admin/DataStudent";
-
+import TabDialog from '../../../components/TabDialog'
+import ARDetail from "./ARDetail";
+import AMSci from "./AMSci";
 
 // 
-import LineChart from '../../components/Graph/Line'
 
 
 
-class SummaryStudent extends Component {
+class ActivityActiveRecruitment extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: 'mth'
+            tabKey: '1'
         }
     }
 
-   
+  
 
     render() {
         let { location, match } = this.props
@@ -34,46 +32,40 @@ class SummaryStudent extends Component {
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
-
+                    {/* <h1 className="admin-page-header">ข้อมูลภาควิชา</h1>
+                    <hr className="yellow-hr" /> */}
                     <Container fluid>
                         <Tab.Container defaultActiveKey={tabKey}>
                             <Row>
-                            <Col lg={3}>
+                                <Col lg={3}>
                                     <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="mth" className="sub-nav"><FontAwesomeIcon icon={faSquareRootAlt} /> ภาควิชาคณิตศาสตร์</Nav.Link>
+                                            <Nav.Link eventKey="1" className="sub-nav" paneList={[<ARDetail />]} > RoadShow</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="chm" className="sub-nav"><FontAwesomeIcon icon={faFlask} /> ภาควิชาเคมี</Nav.Link>
+                                            <Nav.Link eventKey="2" className="sub-nav">I AM SCI</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="mic" className="sub-nav"><FontAwesomeIcon icon={faMicroscope} /> ภาควิชาจุลชีววิทยา</Nav.Link>
+                                            <Nav.Link eventKey="" className="sub-nav"></Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="phy" className="sub-nav"><FontAwesomeIcon icon={faAtom} /> ภาควิชาฟิสิกส์</Nav.Link>
+                                            <Nav.Link eventKey="" className="sub-nav"> </Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col lg={9}>
                                     <Tab.Content>
                                         
-                                        <Tab.Pane eventKey="mth">
-                                             <DataStudent/>
+                                        <Tab.Pane eventKey="1">
+                                            <ARDetail />
                                         </Tab.Pane>
-                                        <Tab.Pane eventKey="chm">
-                                            <DataStudent/>
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="mic">
-                                             <DataStudent/>
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="phy">
-                                            <DataStudent/>
+                                        <Tab.Pane eventKey="2">
+                                           <AMSci/>
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>
                             </Row>
                         </Tab.Container>
-
                     </Container>
                 </div>
             </Fragment>
@@ -81,4 +73,4 @@ class SummaryStudent extends Component {
     }
 }
 
-export default SummaryStudent
+export default ActivityActiveRecruitment

@@ -340,7 +340,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
 
-    # get all activity NOT AR (pueng)
+    # get all activity NOT ActivityActiveRecruitment (pueng)
     def get_admission_publicize(self, year= None):
         if year is not None:
             sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (year,int(year)-1)
@@ -363,7 +363,7 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-    # get all activity  AR (pueng)
+    # get all activity  ActivityActiveRecruitment (pueng)
     def get_admission_ar(self, year= None):
         if year is not None:
             sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity where activity_year like '%s' " % (year)

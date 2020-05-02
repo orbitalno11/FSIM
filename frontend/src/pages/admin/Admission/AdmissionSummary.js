@@ -15,12 +15,12 @@ import {
 import {connect} from 'react-redux'
 
 
-import GraphPie from "../../components/Graph/Pie";
-import GraphBar from "../../components/Graph/Bar";
-import AlumniTypePanel from "../../components/AlumniTypePanel";
+import GraphPie from "../../../components/Graph/Pie";
+import GraphBar from "../../../components/Graph/Bar";
+import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
-class SummaryAdmission extends Component {
+class AdmissionSummary extends Component {
     
   
     render() {
@@ -198,4 +198,4 @@ class SummaryAdmission extends Component {
         )
     }
 }
-export default SummaryAdmission
+export default AdmissionSummary

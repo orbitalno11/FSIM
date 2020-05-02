@@ -16,10 +16,10 @@ import {
 import {connect} from 'react-redux'
 
 
-import GraphBar from "../../components/Graph/Bar";
+import GraphBar from "../../../components/Graph/Bar";
 
 
-class SummaryActivity extends Component {
+class ActivitySummary extends Component {
 
  
 
@@ -161,4 +161,4 @@ class SummaryActivity extends Component {
 }
 
 
-export default SummaryActivity
+export default ActivitySummary

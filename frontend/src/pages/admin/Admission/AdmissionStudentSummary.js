@@ -15,10 +15,10 @@ import {
 import {connect} from 'react-redux'
 
 
-import GraphBar from "../../components/Graph/Bar";
+import GraphBar from "../../../components/Graph/Bar";
 
 
-class SummaryStudentadmis extends Component {
+class AdmissionStudentSummary extends Component {
 
  
 
@@ -165,4 +165,4 @@ class SummaryStudentadmis extends Component {
 }
 
 
-export default SummaryStudentadmis
+export default AdmissionStudentSummary

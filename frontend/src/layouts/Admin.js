@@ -4,10 +4,10 @@ import { Route, Switch } from 'react-router-dom'
 // page component
 import AdminMenu from "../components/AdminMenu";
 import AdminHome from "../pages/admin/Home";
-import AlumniManage from "../pages/admin/AlumiManage";
-import Activity from "../pages/admin/Activity";
-import Admission from "../pages/admin/AdmissionManage";
-import Student from "../pages/admin/Student";
+import AlumniManage from "../pages/admin/Alumni/AlumiManage";
+import Activity from "../pages/admin/Activity/Activity";
+import Admission from "../pages/admin/Admission/AdmissionManage";
+import Student from "../pages/admin/Student/Student";
 
 // information
 import Information from "../pages/admin/Information";

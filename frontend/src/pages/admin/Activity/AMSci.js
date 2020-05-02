@@ -15,7 +15,7 @@ import {
 import {connect} from 'react-redux'
 
 
-import GraphBar from "../../components/Graph/Bar";
+import GraphBar from "../../../components/Graph/Bar";
 
 
 

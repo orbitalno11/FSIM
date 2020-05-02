@@ -3,7 +3,7 @@ import React, {Component, Fragment} from "react";
 import axios from 'axios'
 
 // import graph data control
-import * as graphController from '../../components/Graph/GraphController'
+import * as graphController from '../../../components/Graph/GraphController'
 
 import {
     Dropdown,
@@ -17,13 +17,13 @@ import {
 } from "semantic-ui-react";
 
 // import bgyel from "../img/bg-head3.png";
-import GraphPie from "../../components/Graph/Pie";
-import GraphBar from "../../components/Graph/Bar";
+import GraphPie from "../../../components/Graph/Pie";
+import GraphBar from "../../../components/Graph/Bar";
 import { Bar } from 'react-chartjs-2';
-import AlumniTypePanel from "../../components/AlumniTypePanel";
+import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
-class SummaryAlumni extends Component {
+class AlumniSummary extends Component {
     
     constructor(props) {
         super(props)
@@ -126,8 +126,11 @@ class SummaryAlumni extends Component {
     }
 
     handleSalarySelect = event => {
-        let value = event.target
-        console.log(value)
+        let value = event.target.value
+        let { salaryData } = this.state
+        this.setState({
+            salaryChart: graphController.setupNoneStackBarChart(salaryData[value]['salary_all_branch_training'], null, true)
+        })
     }
 
     render() {
@@ -213,12 +216,16 @@ class SummaryAlumni extends Component {
                                        
                                     </Card.Header>
                                     <Card.Header as="h6" align = 'right' className='branch' >
-                                        <Dropdown
-                                            options={this.setupBranchSelect()}
-                                            placeholder="ทุกสาขาวิชา"
-                                            selection
-                                            onChange={this.handleSalarySelect}
-                                        />
+                                        <select className="form-control" onChange={this.handleSalarySelect}>
+                                            <option value="all">ทุกสาขาวิชา</option>
+                                            {
+                                                branch !== null && (
+                                                    branch.map((item, index) => (
+                                                        <option key={index} value={item['branch_id']}>{item['branch_name']}</option>
+                                                        ))
+                                                )
+                                            }
+                                        </select>
                                     </Card.Header>
 
                                     <Card.Content>
@@ -280,4 +287,4 @@ class SummaryAlumni extends Component {
     }
 }
 
-export default  SummaryAlumni
+export default  AlumniSummary

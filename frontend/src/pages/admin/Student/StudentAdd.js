@@ -7,12 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../components/TabDialog'
-import ARDetail from "./ARDetail";
-import AMSci from "./AMSci";
+import TabDialog from '../../../components/TabDialog'
+import ARDetail from "../Activity/ARDetail";
+import AMSci from "../Activity/AMSci";
 
 // 
-import LineChart from '../../components/Graph/Line'
+import LineChart from '../../../components/Graph/Line'
 
 const AddTab = () => (
     <Fragment>
@@ -30,75 +30,61 @@ const AddTab = () => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ประเภทโครงการ
+                    ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv">
                     </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    โครงการ
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    งบประมาณ
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่งบประมาณ"/>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ลิงก์ Google Sheet
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
-                    <Button>ตรวจสอบ</Button>
                 </InputGroup>
             </Form.Group>
             <Button className="btn-EditData interval-1" >RESET</Button>
             <Button className="btn-info interval-1" >SUBMIT</Button>
+           
         </Form>
     </Fragment>
 )
 
 const AddNew = () => (
-    <Fragment>
+        <Fragment>
         <Form>
             <Form.Group>
                 <Form.Label>
-                    ชื่อโครงการ
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่ชื่อโครงการ"/>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ประเภทโครงการ
+                    ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
+                        <option>กรุณาเลือกปีการศึกษา</option>
+                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ลิงก์ Google Sheet
+                    ภาควิชา
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
-                    <Button>ตรวจสอบ</Button>
+                    <FormControl as="select">
+                        <option>กรุณาเลือกภาควิชา</option>
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                สาขา
+                </Form.Label>
+                <InputGroup>
+                    <FormControl as="select">
+                        <option>กรุณาเลือกสาขา</option>
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    ข้อมูลนักศึกษา
+                </Form.Label>
+                <InputGroup>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv">
+                    </FormControl>
                 </InputGroup>
             </Form.Group>
             <Button className="btn-EditData interval-1" >RESET</Button>
@@ -107,7 +93,7 @@ const AddNew = () => (
     </Fragment>
 )
 
-class AddActivity extends Component {
+class StudentAdd extends Component {
 
     constructor(props) {
         super(props)
@@ -132,16 +118,10 @@ class AddActivity extends Component {
                                 <Col lg={3}>
                                     <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" >โครงการ</Nav.Link>
+                                            <Nav.Link eventKey="1" className="sub-nav" >เพิ่มข้อมูลเกรด</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
-                                            <Nav.Link eventKey="2" className="sub-nav" >โครงการใหม่</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"></Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"> </Nav.Link>
+                                            <Nav.Link eventKey="2" className="sub-nav" >เพิ่มข้อมูลนักศึกษาปัจจุบัน</Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>
@@ -165,4 +145,4 @@ class AddActivity extends Component {
     }
 }
 
-export default  AddActivity 
+export default  StudentAdd

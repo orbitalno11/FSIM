@@ -2,12 +2,12 @@ import React, {Component, Fragment} from "react";
 import { Form, FormControl, InputGroup } from 'react-bootstrap'
 import { Table, Button } from 'semantic-ui-react'
 
-import SearchActivity from "../../components/SearchActivity";
+import SearchActivity from "../../../components/SearchActivity";
 // import AddActivity from "../../components/AddActivity";
-import TabDialog from '../../components/TabDialog'
-import SummaryActivity from "../../pages/admin/SummaryActivity";
-import AR from "../../pages/admin/AR";
-import AddActivity  from "../../pages/admin/AddActivity";
+import TabDialog from '../../../components/TabDialog'
+import ActivitySummary from "./ActivitySummary";
+import ActivityActiveRecruitment from "./ActivityActiveRecruitment";
+import AddActivity  from "./AddActivity";
 
 const ManageTab = () => (
     <Fragment>
@@ -73,7 +73,7 @@ class Activity extends Component {
 
     render() {
         let tabName = ["ข้อมูลกิจกรรมประชาสัมพันธ์", "ข้อมูล Active Recruitment", "จัดการข้อมูลกิจกรรม", "เพิ่มข้อมูล"]
-        let pane = [<SummaryActivity/>, <AR/>,< ManageTab/>, <AddActivity/>]
+        let pane = [<ActivitySummary/>, <ActivityActiveRecruitment/>,< ManageTab/>, <AddActivity/>]
         return (
             <Fragment>
                 <TabDialog

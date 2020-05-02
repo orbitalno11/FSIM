@@ -8,16 +8,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../components/TabDialog';
-import DataTracking from "../../pages/admin/DataTracking";
+import TabDialog from '../../../components/TabDialog';
+import DataTracking from "./DataTracking";
 
 
 // 
-import LineChart from '../../components/Graph/Line'
+import LineChart from '../../../components/Graph/Line'
 
 
 
-class Tracking extends Component {
+class StudentTracking extends Component {
 
     constructor(props) {
         super(props)
@@ -82,4 +82,4 @@ class Tracking extends Component {
     }
 }
 
-export default Tracking
+export default StudentTracking

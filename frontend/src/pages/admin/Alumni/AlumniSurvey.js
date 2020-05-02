@@ -15,12 +15,12 @@ import {
 import {connect} from 'react-redux'
 
 // import bgyel from "../img/bg-head3.png";
-import GraphPie from "../../components/Graph/Pie";
-import GraphBar from "../../components/Graph/Bar";
-import AlumniTypePanel from "../../components/AlumniTypePanel";
+import GraphPie from "../../../components/Graph/Pie";
+import GraphBar from "../../../components/Graph/Bar";
+import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
-class SummarySurvey extends Component {
+class AlumniSurvey extends Component {
     
     render() {
         let {branch_list} = this.props
@@ -380,4 +380,4 @@ class SummarySurvey extends Component {
         )
     }
 }
-export default SummarySurvey
+export default AlumniSurvey
