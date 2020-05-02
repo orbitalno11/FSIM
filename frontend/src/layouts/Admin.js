@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { Route, Switch } from 'react-router-dom'
 
 // page component
-import AdminMenu from "../components/AdminMenu";
 import AdminHome from "../pages/admin/Home";
 import Alumni from "../pages/admin/Alumni";
 import Activity from "../pages/admin/Activity/Activity";
@@ -10,14 +9,12 @@ import Admission from "../pages/admin/Admission/AdmissionManage";
 import Student from "../pages/admin/Student/Student";
 
 // information
-import Information from "../pages/admin/Information";
-import Department from '../pages/admin/Department'
+import Information from "../pages/admin/Information/Information";
+import Department from '../pages/admin/Information/Department'
 
 // redux
 import { connect } from 'react-redux'
 
-// image
-import bottomRight from '../img/bottom-right.png'
 
 
 class AdminLayout extends Component {

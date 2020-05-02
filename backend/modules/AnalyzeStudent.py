@@ -2,7 +2,7 @@
 # to get data from database please use DatabaseConnection class and
 # use method which provide the data that you want
 # Example for get data
-#  1. database = DatabaseConnection().get_instance()
+#  1. database = DatabaseConnection()
 #  2. variable_to_get_response_data = database.your_method()
 # the response data is in JSON form it will have 3 part
 # 1. response state (True/False) this part will send the state of query success or not
@@ -37,7 +37,7 @@ class AnalyzeStudent:
     # this function required department id
     def analyze_by_dept(self, dept):
         value = {}
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_student(dept)
 
         if data['value']:
@@ -72,7 +72,7 @@ class AnalyzeStudent:
     # this function return  academic results that analyze in 'dept'.
     # this function required department id
     def analyze_by_subject_dept(self, dept=None,year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_academic_record(dept,year)
         value = {}
         if data['value']:
@@ -105,7 +105,7 @@ class AnalyzeStudent:
         return inner_res_helper.make_inner_response(response, message, value)
 
     def student_tracking(self,id_student):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_student_tracking(id_student)
         value = {}
         if data['value']:

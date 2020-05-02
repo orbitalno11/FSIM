@@ -14,8 +14,6 @@ import bannerbot from "../../img/bottom-right.png";
 import TemplateHomeAdmin from "../../components/TemplateHomeAdmin";
 
 
-
-
 const url = [
     {
         id: 1,

@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../components/TabDialog'
+import TabDialog from '../../../components/TabDialog'
 
 // 
-import LineChart from '../../components/Graph/Line'
+import LineChart from '../../../components/Graph/Line'
 
 const DepartmentDetail = () => (
     <Fragment>

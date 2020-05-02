@@ -6,13 +6,11 @@ import backend.Constant as Constant
 
 import backend.helpers.inner_response_helper as inner_res_helper
 
+__cred = credentials.Certificate(Constant.firebase_credentials)
+firebase_admin.initialize_app(__cred, {'databaseURL': Constant.firebase_database_url})
+
 
 class FirebaseModule:
-    # class attribute
-    __cred = credentials.Certificate(Constant.firebase_credentials)
-
-    def __init__(self):
-        firebase_admin.initialize_app(self.__cred, {'databaseURL': Constant.firebase_database_url})
 
     # read all data for alumni survey
     def alumni_get_survey(self):

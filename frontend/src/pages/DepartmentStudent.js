@@ -16,6 +16,8 @@ import Piechart from "../components/Graph/Pie";
 import Barchart from "../components/Graph/Bar";
 import Horizontal from "../components/Graph/BarHorizontal";
 
+import { setupPieChart, setupStackBarChart } from '../components/Graph/GraphController'
+
 //  wait other
 import 'chartjs-plugin-datalabels'
 
@@ -36,12 +38,11 @@ class DepartmentStudent extends Component {
             branch: [],
             byYear: [],
             byBranch: [],
-            pieData: [],
-            barData: [],
-            horizontalData: []
+            studentByBranch: [],
+            studentByYear: [],
+            branchByStatus: []
         }
     }
-
 
     fetchData = async (dept_id) => {
         await axios.get(`/department/student?dept_id=${dept_id}`)
@@ -70,172 +71,26 @@ class DepartmentStudent extends Component {
             })
     }
 
-    setBranch = () => {
-        let { branch } = this.state
-        let data = branch
-        let labels = Object.keys(data)
-        let dataset = []
-        let background = []
-        let hoverColor = []
-
-        for (let i in data) {
-            dataset.push(data[i])
-        }
-
-
-        for (let i in labels) {
-            background.push(colorSet[i])
-            hoverColor.push(colorSet[i] + "75")
-        }
+    setupGraph = () => {
+        let { branch, byYear, byBranch } = this.state
 
         this.setState({
-            pieData: {
-                labels: labels,
-                datasets: [
-                    {
-                        data: dataset,
-                        backgroundColor: background,
-                        hoverBackgroundColor: hoverColor
-                    }
-                ]
-            }
-        })
-    }
-
-    setStudentYear = () => {
-        let { byYear } = this.state
-        let data = byYear
-        let label = []
-        let dataset = []
-
-        // get sub label for check data
-        let sub_label = []
-        let cur_size = 0
-        for (let key in data) {
-            let temp = data[key]
-
-            let year = 'ชั้นปีที่ ' + key
-            label.push(year)
-
-            let key_per = Object.keys(temp)
-
-            if (key_per.length > cur_size) {
-                cur_size = key_per.length
-                sub_label = key_per
-            }
-        }
-
-        for (let i in sub_label) {
-            let inner = {
-                label: sub_label[i],
-                data: []
-            }
-            dataset.push(inner)
-        }
-
-        for (let i in byYear) {
-            let data = byYear[i]
-            let key = Object.keys(data)
-            // key.pop()
-
-
-            for (let j in sub_label) {
-                if (key[j] === undefined) {
-                    // console.log(`Status: ${sub_label[j]}: null`)
-                    dataset[j].data.push(0)
-                    continue
-                }
-                // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)
-                dataset[j].data.push(parseInt(data[key[j]]))
-            }
-        }
-
-        for (let i in dataset) {
-            dataset[i].backgroundColor = colorSet[i]
-        }
-
-        this.setState({
-            barData: {
-                labels: label,
-                datasets: dataset
-            }
-        })
-
-    }
-
-    setBranchStatus = () => {
-        let { byBranch } = this.state
-
-        let label = []
-        let dataset = []
-
-        let sub_label = []
-        let cur_size = 0
-        for (let key in byBranch) {
-            let data = byBranch[key]
-            let key_per = Object.keys(data)
-
-            let key_branch = 'สาขา ' + key
-            label.push(key_branch)
-
-            if (key_per.length > cur_size) {
-                cur_size = key_per.length
-                sub_label = key_per
-            }
-        }
-
-        for (let i in sub_label) {
-            let inner = {
-                label: sub_label[i],
-                data: []
-            }
-            dataset.push(inner)
-        }
-
-        for (let i in byBranch) {
-            let data = byBranch[i]
-            let key = Object.keys(data)
-            // key.pop()
-
-
-            for (let j in sub_label) {
-                if (key[j] === undefined) {
-                    // console.log(`Status: ${sub_label[j]}: null`)
-                    dataset[j].data.push(0) 
-                    continue
-                }
-                // console.log(`Status: ${sub_label[j]}: ${data[key[j]]}`)
-                dataset[j].data.push(parseInt(data[key[j]]))
-            }
-        }
-
-        for (let i in dataset) {
-            dataset[i].backgroundColor = colorSet[i]
-        }
-
-        this.setState({
-            horizontalData: {
-                labels: label,
-                datasets: dataset
-            }
+            studentByBranch: setupPieChart(branch),
+            studentByYear: setupStackBarChart(byYear),
+            branchByStatus: setupStackBarChart(byBranch)
         })
     }
 
     async componentDidMount() {
         let id=this.props.match.params.id
-        console.log(id)
-        if (id!= null && this.state.loadTime === 0) {
-            await this.fetchData(id)
-            this.setBranch()
-            this.setBranchStatus()
-            this.setStudentYear()
-        }
+        await this.fetchData(id)
+        this.setupGraph()
     }
 
 
     render() {
         
-        let { department, pieData, barData, horizontalData } = this.state
+        let { department, studentByBranch, studentByYear, branchByStatus } = this.state
        
         return (
             <Fragment>
@@ -254,7 +109,7 @@ class DepartmentStudent extends Component {
                                             <h3>จำนวนนักศึกษาต่อสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Piechart data={pieData} />
+                                            <Piechart data={studentByBranch} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -264,7 +119,7 @@ class DepartmentStudent extends Component {
                                             <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                        <Barchart data={barData} />
+                                        <Barchart data={studentByYear} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -276,7 +131,7 @@ class DepartmentStudent extends Component {
                                             <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Horizontal data={horizontalData} />
+                                            <Horizontal data={branchByStatus} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
