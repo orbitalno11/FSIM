@@ -51,10 +51,10 @@ def insert_admission(current_user):
         return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
 
     if destination['response']:
-        data_helper = DataHelper.get_instance()
+        data_helper = DataHelper()
         insert_value = data_helper.read_admission(channel, year, destination['value'])
         if insert_value['response']:
-            db = DatabaseHelper.get_instance()
+            db = DatabaseHelper()
             insert = db.insert_admission(insert_value['value'])
         else:
             return api_helper.return_response(insert_value)
@@ -69,7 +69,7 @@ def get_analyze_admission_channel():
     # get admission_year
     year = request.args.get('year')
 
-    db = AnalyzeAdmission.get_instance()
+    db = AnalyzeAdmission()
     data = db.analyze_admission_admin(year)
 
     return api_helper.return_response(data)
@@ -101,11 +101,11 @@ def insert_academic_record():
         return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
 
     if destination['response']:
-        data_helper = DatabaseHelper.get_instance()
+        data_helper = DatabaseHelper()
         insert_value = data_helper.read_academic_file(destination['value'], year, semester)
         if insert_value['response']:
             data = insert_value['value']
-            db = DatabaseHelper.get_instance()
+            db = DatabaseHelper()
             academic_record = db.insert_academic_record(data['academic_record'])
             if not academic_record['response']:
                 return api_helper.create_response(message=academic_record['message'], response=False, response_code=500)
@@ -123,7 +123,7 @@ def get_probation_student():
     department = request.args.get('dept_id')
     status = request.args.get('status_id')
 
-    db = DatabaseHelper.get_instance()
+    db = DatabaseHelper()
     data = db.get_student_status(department, status)
 
     return api_helper.return_response(data)
@@ -159,7 +159,7 @@ def read_google_sheet():
 @admin_bp.route('/alumni/survey', methods=['GET'])
 def get_alumni_survey_list():
 
-    firebase = FirebaseModule.get_instance()
+    firebase = FirebaseModule()
     result = firebase.alumni_get_survey()
 
     return api_helper.return_response(result)
@@ -169,7 +169,7 @@ def get_alumni_survey_list():
 @admin_bp.route('/alumni/survey/<int:year>', methods=['GET'])
 def get_alumni_survey_list_by_year(year):
 
-    firebase = FirebaseModule.get_instance()
+    firebase = FirebaseModule()
     result = firebase.alumni_get_survey_by_year(year)
 
     return api_helper.return_response(result)
@@ -179,11 +179,13 @@ def get_alumni_survey_list_by_year(year):
 @admin_bp.route('/alumni/survey/add', methods=['POST'])
 def add_alumni_survey():
     # this api need education year (2561, 2562), table header as a list and google sheet url
-    year = request.form.get('year')
-    table_header = request.form.get('table_header')
-    sheet_url = request.form.get('sheet_url')
+    data = request.get_json()
 
-    firebase = FirebaseModule.get_instance()
+    year = data['year']
+    table_header = data['table_header']
+    sheet_url = data['sheet_url']
+
+    firebase = FirebaseModule()
     result = firebase.alumni_add_survey(year, sheet_url, table_header)
 
     return api_helper.return_response(result)
@@ -193,9 +195,11 @@ def add_alumni_survey():
 @admin_bp.route('/alumni/survey/edit', methods=['POST'])
 def edit_alumni_survey():
     # this api need education year (2561, 2562), table header as a list and google sheet url
-    year = request.form.get('year')
-    table_header = request.form.get('table_header')
-    sheet_url = request.form.get('sheet_url')
+    data = request.get_json()
+
+    year = data['year']
+    table_header = data['table_header']
+    sheet_url = data['sheet_url']
 
     update = {
         "educationYear": year,
@@ -203,7 +207,7 @@ def edit_alumni_survey():
         "sheetUrl": sheet_url
     }
 
-    firebase = FirebaseModule.get_instance()
+    firebase = FirebaseModule()
     result = firebase.alumni_update_survey(year, update)
 
     return api_helper.return_response(result)
@@ -212,7 +216,7 @@ def edit_alumni_survey():
 @admin_bp.route('/student/tracking', methods=['GET'])
 def get_student_tracking():
     id_student = request.args.get('id_student')
-    db = AnalyzeStudent.get_instance()
+    db = AnalyzeStudent()
     data = db.student_tracking(id_student)
 
     return api_helper.return_response(data)

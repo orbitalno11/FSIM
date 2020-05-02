@@ -30,19 +30,6 @@ import backend.helpers.read_google_sheet as read_sheet
 
 
 class AnalyzeAlumni:
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if AnalyzeAlumni.__instance is None:
-            AnalyzeAlumni()
-        return AnalyzeAlumni.__instance
-
-    def __init__(self):
-        if AnalyzeAlumni.__instance is not None:
-            raise Exception("This class is a singleton! Alumni")
-        else:
-            AnalyzeAlumni.__instance = self
 
     # uses in user pages and admin pages
     # this function will return analyze survey  in 'sheet_url' and 'column'
@@ -70,7 +57,7 @@ class AnalyzeAlumni:
     # uses in user pages and admin pages
     # this function will return analyze alumni working in 'year'
     def analyze_alumni_work(self, year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_alumni(year)
         if data['value']:
             df = pd.DataFrame(data['value'])

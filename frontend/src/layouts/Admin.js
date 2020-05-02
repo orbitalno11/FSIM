@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 // page component
 import AdminMenu from "../components/AdminMenu";
 import AdminHome from "../pages/admin/Home";
-import AlumniManage from "../pages/admin/Alumni/AlumiManage";
+import Alumni from "../pages/admin/Alumni";
 import Activity from "../pages/admin/Activity/Activity";
 import Admission from "../pages/admin/Admission/AdmissionManage";
 import Student from "../pages/admin/Student/Student";
@@ -35,7 +35,7 @@ class AdminLayout extends Component {
                     <Route exact path={"/admin/information/department"} component={Department} />
                     <Route exact path={"/admin/admission"} component={Admission} />
                     <Route exact path={"/admin/activity"} component={Activity} />
-                    <Route exact path={"/admin/alumni"} component={AlumniManage} />
+                    <Route exact path={"/admin/alumni"} component={Alumni} />
                     <Route exact path={"/admin/student"} component={Student} />
                 </Switch>
             </Fragment>

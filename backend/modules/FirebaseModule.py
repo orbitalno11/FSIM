@@ -9,22 +9,10 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class FirebaseModule:
     # class attribute
-    __instance = None
     __cred = credentials.Certificate(Constant.firebase_credentials)
 
-    # singleton check
-    @staticmethod
-    def get_instance():
-        if FirebaseModule.__instance is None:
-            FirebaseModule()
-        return FirebaseModule.__instance
-
     def __init__(self):
-        if FirebaseModule.__instance is not None:
-            raise Exception("This class is singleton")
-        else:
-            FirebaseModule.__instance = self
-            firebase_admin.initialize_app(self.__cred, {'databaseURL': Constant.firebase_database_url})
+        firebase_admin.initialize_app(self.__cred, {'databaseURL': Constant.firebase_database_url})
 
     # read all data for alumni survey
     def alumni_get_survey(self):

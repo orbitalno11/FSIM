@@ -29,21 +29,6 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class AnalyzeAdmission:
 
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if AnalyzeAdmission.__instance is None:
-            AnalyzeAdmission()
-        return AnalyzeAdmission.__instance
-
-    def __init__(self):
-        if AnalyzeAdmission.__instance is not None:
-            raise Exception("This class is a singleton! analyze activity")
-        else:
-            AnalyzeAdmission.__instance = self
-
-
     def analyze_admission(self,branch_id=None,year=None):
         connect = DatabaseHelper.get_instance()
         data = connect.get_all_admission(year)

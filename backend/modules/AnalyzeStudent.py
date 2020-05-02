@@ -31,19 +31,6 @@ import json
 
 
 class AnalyzeStudent:
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if AnalyzeStudent.__instance is None:
-            AnalyzeStudent()
-        return AnalyzeStudent.__instance
-
-    def __init__(self):
-        if AnalyzeStudent.__instance is not None:
-            raise Exception("This class is a singleton! analyze student")
-        else:
-            AnalyzeStudent.__instance = self
 
     # uses in user and admin
     # this function returns student data and status student that analyze in 'dept'.

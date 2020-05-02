@@ -43,13 +43,13 @@ class AlumniSummary extends Component {
         }
     }
 
-    async componentDidMount() {
-        await this.fetchBranch()
+    componentDidMount() {
+        this.fetchBranch()
         this.fetchWorkData()
     }
 
-    fetchBranch = async () => {
-        await axios.get('/branch')
+    fetchBranch = () => {
+        axios.get('/branch')
         .then(res => {
             let data = res.data.data
             this.setState({
@@ -67,8 +67,6 @@ class AlumniSummary extends Component {
         axios.get(`/alumni/analyze/work?year=${year}`)
         .then(res => {
             let recieved_data = res.data.data
-
-            console.log(recieved_data)
 
             if (recieved_data['count_by_branch'] == null) return
             let branchData = recieved_data['count_by_branch']

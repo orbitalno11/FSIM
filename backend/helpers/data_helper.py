@@ -13,21 +13,6 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 
 class DataHelper:
-    # class attribute
-    __instance = None
-
-    # singleton check
-    @staticmethod
-    def get_instance():
-        if DataHelper.__instance is None:
-            DataHelper()
-        return DataHelper.__instance
-
-    def __init__(self):
-        if DataHelper.__instance is not None:
-            raise Exception("This class is singleton")
-        else:
-            DataHelper.__instance = self
 
     # read admission data from excel file
     def read_admission(self, channel, year, file_location):

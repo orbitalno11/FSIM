@@ -20,21 +20,9 @@ class DatabaseHelper:
     __instance = None
     __cursor = None
 
-    # singleton check
-    @staticmethod
-    def get_instance():
-        if DatabaseHelper.__instance is None:
-            DatabaseHelper()
-        return DatabaseHelper.__instance
-
     def __init__(self):
-        if DatabaseHelper.__instance is not None:
-            raise Exception("This class is a singleton!")
-        else:
-            if self.__db_connection is None:
-                self.__db_connection = pymysql.connect(self.__host, self.__user, self.__password, self.__db)
-                self.__cursor = self.__db_connection.cursor()
-                DatabaseHelper.__instance = self
+        self.__db_connection = pymysql.connect(self.__host, self.__user, self.__password, self.__db)
+        self.__cursor = self.__db_connection.cursor()
 
     # change epoch time to string format 2020-01-01
     def __change_time_epoch_to_string(self, time):
