@@ -19,6 +19,7 @@ import {
 // import bgyel from "../img/bg-head3.png";
 import GraphPie from "../../components/Graph/Pie";
 import GraphBar from "../../components/Graph/Bar";
+import { Bar } from 'react-chartjs-2';
 import AlumniTypePanel from "../../components/AlumniTypePanel";
 
 
@@ -32,19 +33,32 @@ class SummaryAlumni extends Component {
             branch: null,
             year: year - 3,
             salaryBranch: null,
+            salaryData: null,
+            salarySelect: null,
             branchStudentChart: null,
             workChart: null,
             trainingChart: null,
-            gpaChart: null
+            gpaChart: null,
+            salaryChart: null
         }
     }
 
-    componentDidMount() {
-        this.fetchBranch()
+    async componentDidMount() {
+        await this.fetchBranch()
         this.fetchWorkData()
     }
 
-    fetchBranch = () => {
+    fetchBranch = async () => {
+        await axios.get('/branch')
+        .then(res => {
+            let data = res.data.data
+            this.setState({
+                branch: data
+            })
+        })
+        .catch(err => {
+            console.error(err)
+        })
     }
 
     fetchWorkData = () => {
@@ -52,13 +66,18 @@ class SummaryAlumni extends Component {
 
         axios.get(`/alumni/analyze/work?year=${year}`)
         .then(res => {
-            let recieved_data = res.data.data[0]
+            let recieved_data = res.data.data
+
+            console.log(recieved_data)
 
             if (recieved_data['count_by_branch'] == null) return
             let branchData = recieved_data['count_by_branch']
             let workStatus = recieved_data['count_by_status']
             let trainingData = recieved_data['count_by_training']
             let gpaChart = recieved_data['gpax_by_branch']
+            let salaryData = recieved_data['salary_all_branch_training']
+            let salaryChart = salaryData['all']['salary_all_branch_training']
+
             // let branchKey = Object.keys(branchData)
             // let branchStudent = []
 
@@ -70,24 +89,31 @@ class SummaryAlumni extends Component {
             //     branchStudent.push(branch)
             // })
 
+
             this.setState({
                 branchStudentChart: graphController.setupPieChart(branchData),
                 workChart: graphController.setupPieChart(workStatus),
                 trainingChart: graphController.setupPieChart(trainingData),
-                gpaChart: graphController.setupNoneStackBarChart(gpaChart)
+                gpaChart: graphController.setupNoneStackBarChart(gpaChart),
+                salaryData: salaryData,
+                salaryChart: graphController.setupNoneStackBarChart(salaryChart, null, true)
             })
 
-            console.log(recieved_data)
         })
         .catch(err => {
             console.error(err)
         })
     }
 
-    
-
-    setUpDropDown = branch => {
+    setupBranchSelect = () => {
+        let { branch } = this.state
         let options = []
+        let first = {
+            key: "0all",
+            value: "all",
+            text: "ทุกสาขาวิชา"
+        }
+        options.push(first)
         for (const item in branch) {
             let b = {
                 key: branch[item].branch_id,
@@ -99,10 +125,15 @@ class SummaryAlumni extends Component {
         return options.sort()
     }
 
+    handleSalarySelect = event => {
+        let value = event.target
+        console.log(value)
+    }
+
     render() {
         let {branch_list} = this.props
 
-        let { branchStudentChart, workChart, trainingChart, gpaChart } = this.state
+        let {branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
 
         return (
             <Fragment>
@@ -168,7 +199,7 @@ class SummaryAlumni extends Component {
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
-                                    { gpaChart !== null && <GraphBar data={gpaChart} />}
+                                    { gpaChart !== null && <GraphBar data={gpaChart} legend={ {display: false} } />}
                                     </Card.Content>
                                    
                                 </Card>
@@ -183,14 +214,16 @@ class SummaryAlumni extends Component {
                                     </Card.Header>
                                     <Card.Header as="h6" align = 'right' className='branch' >
                                         <Dropdown
-                                            options={this.setUpDropDown(branch_list)}
-                                            placeholder="สาขาวิชา"
+                                            options={this.setupBranchSelect()}
+                                            placeholder="ทุกสาขาวิชา"
                                             selection
+                                            onChange={this.handleSalarySelect}
                                         />
                                     </Card.Header>
 
                                     <Card.Content>
-                                        <GraphBar/>
+                                    
+                                    { salaryChart !== null && <Bar data={salaryChart} legend={ {display: true}  } />}
                                     </Card.Content>
                             
                                 </Card>
@@ -205,7 +238,7 @@ class SummaryAlumni extends Component {
                                     </Card.Header>
                                     <Card.Header as="h6" align = 'right' className='branch' >
                                         <Dropdown
-                                            options={this.setUpDropDown(branch_list)}
+                                            options={this.setupBranchSelect()}
                                             placeholder="สาขาวิชา"
                                             selection
                                         />
@@ -227,7 +260,7 @@ class SummaryAlumni extends Component {
                                     </Card.Header>
                                     <Card.Header as="h6" align = 'right' className='branch' >
                                         <Dropdown
-                                            options={this.setUpDropDown(branch_list)}
+                                            options={this.setupBranchSelect()}
                                             placeholder="สาขาวิชา"
                                             selection
                                         />

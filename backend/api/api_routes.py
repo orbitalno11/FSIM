@@ -41,7 +41,6 @@ def get_branch_data():
     return api_helper.return_response(data)
 
 
-
 @api_bp.route('/admission/channel', methods=['GET'])
 def get_admission_channel():
 
@@ -49,7 +48,6 @@ def get_admission_channel():
     data = db.get_admission_channel()
 
     return api_helper.return_response(data)
-
 
 
 # # # # # get department student data
@@ -67,6 +65,7 @@ def get_department_student_data():
 
     return api_helper.return_response(data)
 
+
 # get analyze student by course (subject)
 @api_bp.route('/department/analyze/course', methods=['GET'])
 def get_analyze_subject():
@@ -80,7 +79,7 @@ def get_analyze_subject():
     return api_helper.return_response(result)
 
 
-#get analyze admission student
+# get analyze admission student
 @api_bp.route('/admission/analyze', methods=['GET'])
 def get_admission_admission():
     year = request.args.get('year')
@@ -92,7 +91,7 @@ def get_admission_admission():
     return api_helper.return_response(data)
 
 
-#get analyze analyze survey
+# get analyze analyze survey
 @api_bp.route('/alumni/analyze/survey', methods=['GET'])
 def get_analyze_alumni_survey():
     sheet_url = request.args.get('sheet_url')
@@ -104,8 +103,7 @@ def get_analyze_alumni_survey():
     return api_helper.return_response(data)
 
 
-
-#get analyze analyze work
+# get analyze analyze work
 @api_bp.route('/alumni/analyze/work', methods=['GET'])
 def get_analyze_alumni_work():
     year = request.args.get('year')
@@ -114,7 +112,6 @@ def get_analyze_alumni_work():
     data = db.analyze_alumni_work(year)
 
     return api_helper.return_response(data)
-
 
    
 @api_bp.route('/analyze/activity/notar', methods=['GET'])
@@ -135,7 +132,6 @@ def get_analyze_activity_ar():
     data = db.analyze_ar(year)
 
     return api_helper.return_response(data)
-
 
 
 @api_bp.route('/firebase/survey', methods=['GET'])

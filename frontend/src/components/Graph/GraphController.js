@@ -37,15 +37,45 @@ export const setupNoneStackBarChart = (recievedData, graphLabel = null, isMultip
     let dataset = []
 
     if (isMultipleBar) {
-        for (let index in label) {
-            let value = {
-                label: label[index],
-                backgroundColor: colorSet[index],
-                hoverBackgroundColor: colorSet[index] + "75",
-                data: [parseFloat(recievedData[label[index]])]
+        let sub_label
+        let cur_size = 0
+
+        for(let key in recievedData){
+            let temp = recievedData[key]
+            let key_per = Object.keys(temp)
+            
+            if (key_per.length > cur_size) {
+                cur_size = key_per.length
+                sub_label = key_per
             }
-            dataset.push(value)
         }
+
+        for (let i in sub_label) {
+            let inner = {
+                label: sub_label[i],
+                data: []
+            }
+            dataset.push(inner)
+        }
+
+        for (let i in recievedData) {
+            let data = recievedData[i]
+            let key = Object.keys(data)
+
+
+            for (let j in sub_label) {
+                if (key[j] === undefined) {
+                    dataset[j].data.push(0)
+                    continue
+                }
+                dataset[j].data.push(parseInt(data[key[j]]))
+            }
+        }
+
+        for (let i in dataset) {
+            dataset[i].backgroundColor = colorSet[i]
+        }
+
     } else {
         let dataList = []
         let background = []
