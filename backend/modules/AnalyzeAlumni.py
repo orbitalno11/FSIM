@@ -87,18 +87,19 @@ class AnalyzeAlumni:
             list_salary = {1: 'น้อยกว่า 10,000', 2: '10,000-19,999', 3: '20,000-30,000', 4: 'มากกว่า 30,000'}
             salary_branch_trining = []
             list_analze = {}
-            salary_all_branch_trining = self.__salary_branch_training(df[['apprentice_id', 'salary']])
-            salary_all_branch_trining_check_index = analyze_helper.check_list(status_apprentice.index.values,
+            salary_all_branch_trining = self.__salary_branch_training(df[['salary','apprentice_id']])
+            # print(df)    
+            salary_all_branch_trining_check_index = analyze_helper.check_list_column(status_apprentice.index.values,
                                                                               salary_all_branch_trining)
-            salary_all_branch_trining_check_column = analyze_helper.check_list_column(list_salary.keys(),
+            salary_all_branch_trining_check_column = analyze_helper.check_list(list_salary.keys(),
                                                                                       salary_all_branch_trining_check_index)
-            salary_all_branch_trining_index = analyze_helper.set_fullname_index(status_apprentice_dic,
+            salary_all_branch_trining_index = analyze_helper.set_fullname_column(status_apprentice_dic,
                                                                                 salary_all_branch_trining_check_column)
-            salary_all_branch_trining_finist = analyze_helper.set_fullname_column(list_salary,
-                                                                                  salary_all_branch_trining_index)
+            salary_all_branch_trining_finist = analyze_helper.set_fullname_index(list_salary,
+                                                                                  salary_all_branch_trining_index)                                                                   
             list_analze['dept_name'] = 'ทั้งหมด'
             list_analze['num_student'] = len(df)
-            list_analze['salary_all_branch_training'] = salary_all_branch_trining_finist.to_dict('index')
+            list_analze['salary_all_branch_training'] = [salary_all_branch_trining_finist.to_dict('index')]
             salary_branch_trining.append(list_analze)
 
             list_branch_traning = df_brach.index.tolist()
@@ -106,20 +107,20 @@ class AnalyzeAlumni:
                 list_analze = {}
                 data = df[df['branch_id'] == i]
                 if not data.empty:
-                    analyze_salart = self.__salary_branch_training(data[['apprentice_id', 'salary']])
-                    analyze_salart = analyze_helper.check_list(status_apprentice.index.values, analyze_salart)
-                    analyze_salart = analyze_helper.check_list_column(list_salary.keys(), analyze_salart)
-                    analyze_salart = analyze_helper.set_fullname_index(status_apprentice_dic, analyze_salart)
-                    analyze_salart = analyze_helper.set_fullname_column(list_salary, analyze_salart)
+                    analyze_salart = self.__salary_branch_training(data[['salary','apprentice_id']])
+                    analyze_salart = analyze_helper.check_list_column(status_apprentice.index.values, analyze_salart)
+                    analyze_salart = analyze_helper.check_list(list_salary.keys(), analyze_salart)
+                    analyze_salart = analyze_helper.set_fullname_column(status_apprentice_dic, analyze_salart)
+                    analyze_salart = analyze_helper.set_fullname_index(list_salary, analyze_salart)
                     list_analze['dept_name'] = branch_dic[i]
                     list_analze['num_student'] = len(data)
-                    list_analze['salary_all_branch_training'] = analyze_salart.to_dict('index')
-
+                    list_analze['salary_all_branch_training'] = [analyze_salart.to_dict('index')]
+                    # print(analyze_salart)
                 else:
-                    analyze_salart = pd.DataFrame(0, index=np.arange(len(status_apprentice)),
-                                                  columns=list_salary.values())
-                    analyze_salart['status_apprentice'] = status_apprentice.status_title.tolist()
-                    analyze_salart.set_index('status_apprentice', inplace=True)
+                    analyze_salart = pd.DataFrame(0, index=np.arange(len(list_salary)),
+                                                  columns= status_apprentice.status_title.tolist())
+                    analyze_salart['list_salary'] = list_salary.values()
+                    analyze_salart.set_index('list_salary', inplace=True)
                     list_analze['dept_name'] = branch_dic[i]
                     list_analze['num_student'] = 0
                     list_analze['salary_all_branch_training'] = [analyze_salart.to_dict('index')]
@@ -128,7 +129,7 @@ class AnalyzeAlumni:
 
             list_branch_traning.insert(0, 'all')
 
-            # print(salary_branch_trining)
+            print(salary_branch_trining)
             # for
             value = {
                 'count_student': len(df.index),
@@ -157,6 +158,6 @@ class AnalyzeAlumni:
         grouped_df.loc[(df['salary'] >= 20000) & (df['salary'] < 30000), 'salary1'] = 3
         grouped_df.loc[df['salary'] >= 30000, 'salary1'] = 4
         grouped_df = grouped_df.drop('salary', 1)
-        count_status_all_branch = grouped_df.groupby(['apprentice_id', 'salary1']).size().unstack(
+        count_status_all_branch = grouped_df.groupby(['salary1','apprentice_id']).size().unstack(
             fill_value=0)
         return count_status_all_branch
