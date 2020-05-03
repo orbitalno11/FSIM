@@ -22,6 +22,47 @@ import backend.modules.AuthenticationModule as auth
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/api/v1/admin')
 
 
+# upload current student academic record
+@admin_bp.route('/academic', methods=['POST'])
+def insert_academic_record():
+    # this api need education year (2561, 2562) and semester (1,2 or S)
+    year = request.form.get('year')
+    semester = request.form.get('semester')
+
+    if year is None or semester is None:
+        value = {
+            'year': year,
+            'semester': semester
+        }
+        return api_helper.create_response(message="One of these is Null", response=False, data=[value],
+                                          response_code=418)
+
+    try:
+        file = request.files['upload']
+        if file and Constant.allowed_academic_file(file.filename):
+            destination = upload_helper.upload_file(store_folder=Constant.ACADEMIC_FOLDER, file=file, year=year)
+        else:
+            return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
+    except Exception as e:
+        print(e)
+        return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+
+    if destination['response']:
+        data_helper = DatabaseHelper()
+        insert_value = data_helper.read_academic_file(destination['value'], year, semester)
+        if insert_value['response']:
+            data = insert_value['value']
+            db = DatabaseHelper()
+            academic_record = db.insert_academic_record(data['academic_record'])
+            if not academic_record['response']:
+                return api_helper.create_response(message=academic_record['message'], response=False, response_code=500)
+            gpa_record = db.insert_gpa_record(data['gpa_record'])
+            if not gpa_record['response']:
+                return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500)
+
+    return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
+
+
 # upload admission data api
 @admin_bp.route('/admission', methods=['POST'])
 @auth.token_required
@@ -75,45 +116,55 @@ def get_analyze_admission_channel():
     return api_helper.return_response(data)
 
 
-# upload current student academic record
-@admin_bp.route('/academic', methods=['POST'])
-def insert_academic_record():
-    # this api need education year (2561, 2562) and semester (1,2 or S)
-    year = request.form.get('year')
-    semester = request.form.get('semester')
+# add survey data to firebase by year
+@admin_bp.route('/alumni/survey', methods=['POST'])
+def add_alumni_survey():
+    # this api need education year (2561, 2562), table header as a list and google sheet url
+    data = request.get_json()
 
-    if year is None or semester is None:
-        value = {
-            'year': year,
-            'semester': semester
-        }
-        return api_helper.create_response(message="One of these is Null", response=False, data=[value],
-                                          response_code=418)
+    year = data['year']
+    table_header = data['table_header']
+    sheet_url = data['sheet_url']
 
-    try:
-        file = request.files['upload']
-        if file and Constant.allowed_academic_file(file.filename):
-            destination = upload_helper.upload_file(store_folder=Constant.ACADEMIC_FOLDER, file=file, year=year)
-        else:
-            return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
-    except Exception as e:
-        print(e)
-        return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+    firebase = FirebaseModule()
+    result = firebase.alumni_add_survey(year, sheet_url, table_header)
 
-    if destination['response']:
-        data_helper = DatabaseHelper()
-        insert_value = data_helper.read_academic_file(destination['value'], year, semester)
-        if insert_value['response']:
-            data = insert_value['value']
-            db = DatabaseHelper()
-            academic_record = db.insert_academic_record(data['academic_record'])
-            if not academic_record['response']:
-                return api_helper.create_response(message=academic_record['message'], response=False, response_code=500)
-            gpa_record = db.insert_gpa_record(data['gpa_record'])
-            if not gpa_record['response']:
-                return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500)
+    return api_helper.return_response(result)
 
-    return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
+
+# add survey data to firebase by year
+@admin_bp.route('/alumni/survey', methods=['DELETE'])
+def delete_alumni_survey():
+    # this api need education year (2561, 2562), table header as a list and google sheet url
+    key = request.args.get('key')
+
+    firebase = FirebaseModule()
+    result = firebase.alumni_delete_survey(key)
+
+    return api_helper.return_response(result)
+
+
+# add survey data to firebase by year
+@admin_bp.route('/alumni/survey', methods=['PUT'])
+def edit_alumni_survey():
+    # this api need education year (2561, 2562), table header as a list and google sheet url
+    data = request.get_json()
+
+    key = data['key']
+    year = data['year']
+    table_header = data['table_header']
+    sheet_url = data['sheet_url']
+
+    update = {
+        "educationYear": year,
+        "tableHeader": table_header,
+        "sheetUrl": sheet_url
+    }
+
+    firebase = FirebaseModule()
+    result = firebase.alumni_update_survey(key, update)
+
+    return api_helper.return_response(result)
 
 
 # get student in department by status
@@ -153,64 +204,6 @@ def read_google_sheet():
     }
 
     return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
-
-
-# read survey data from firebase
-@admin_bp.route('/alumni/survey', methods=['GET'])
-def get_alumni_survey_list():
-
-    firebase = FirebaseModule()
-    result = firebase.alumni_get_survey()
-
-    return api_helper.return_response(result)
-
-
-# read survey data from firebase by year
-@admin_bp.route('/alumni/survey/<int:year>', methods=['GET'])
-def get_alumni_survey_list_by_year(year):
-
-    firebase = FirebaseModule()
-    result = firebase.alumni_get_survey_by_year(year)
-
-    return api_helper.return_response(result)
-
-
-# add survey data to firebase by year
-@admin_bp.route('/alumni/survey/add', methods=['POST'])
-def add_alumni_survey():
-    # this api need education year (2561, 2562), table header as a list and google sheet url
-    data = request.get_json()
-
-    year = data['year']
-    table_header = data['table_header']
-    sheet_url = data['sheet_url']
-
-    firebase = FirebaseModule()
-    result = firebase.alumni_add_survey(year, sheet_url, table_header)
-
-    return api_helper.return_response(result)
-
-
-# add survey data to firebase by year
-@admin_bp.route('/alumni/survey/edit', methods=['POST'])
-def edit_alumni_survey():
-    # this api need education year (2561, 2562), table header as a list and google sheet url
-    data = request.get_json()
-
-    year = data['year']
-    table_header = data['table_header']
-    sheet_url = data['sheet_url']
-
-    update = {
-        "educationYear": year,
-        "tableHeader": table_header,
-        "sheetUrl": sheet_url
-    }
-
-    firebase = FirebaseModule()
-    result = firebase.alumni_update_survey(year, update)
-
-    return api_helper.return_response(result)
 
 
 @admin_bp.route('/student/tracking', methods=['GET'])

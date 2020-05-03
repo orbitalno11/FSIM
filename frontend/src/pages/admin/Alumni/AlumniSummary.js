@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 
 import axios from 'axios'
 
@@ -17,7 +17,7 @@ import {
 import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
-import {Bar} from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 
 class AlumniSummary extends Component {
@@ -28,7 +28,8 @@ class AlumniSummary extends Component {
         year = year.getFullYear() + 543
         this.state = {
             branch: null,
-            year: year - 3,
+            yearList: [2559, 2560, 2561], // this list should fecth from database
+            year: 2560,
             salaryBranch: null,
             salaryData: null,
             salarySelect: null,
@@ -59,13 +60,21 @@ class AlumniSummary extends Component {
     }
 
     fetchWorkData = () => {
-        let {year} = this.state
+        let { year } = this.state
 
         axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data
-
-                if (recieved_data['count_by_branch'] == null) return
+                if (recieved_data['count_by_branch'] == null) {
+                    this.setState({
+                        branchStudentChart: null,
+                        workChart: null,
+                        trainingChart: null,
+                        gpaChart: null,
+                        salaryData: null,
+                        salaryChart: null
+                    })
+                }
                 let branchData = recieved_data['count_by_branch']
                 let workStatus = recieved_data['count_by_status']
                 let trainingData = recieved_data['count_by_training']
@@ -97,11 +106,19 @@ class AlumniSummary extends Component {
             })
             .catch(err => {
                 console.error(err)
+                this.setState({
+                    branchStudentChart: null,
+                    workChart: null,
+                    trainingChart: null,
+                    gpaChart: null,
+                    salaryData: null,
+                    salaryChart: null
+                })
             })
     }
 
     setupBranchSelect = () => {
-        let {branch} = this.state
+        let { branch } = this.state
         let options = []
         let first = {
             key: "0all",
@@ -120,9 +137,18 @@ class AlumniSummary extends Component {
         return options.sort()
     }
 
+    handleYearSelect = event => {
+        let value = event.target.value
+        let n_year = parseInt(value)
+
+        this.setState(
+            { year: n_year },
+            () => this.fetchWorkData())
+    }
+
     handleSalarySelect = event => {
         let value = event.target.value
-        let {salaryData} = this.state
+        let { salaryData } = this.state
         this.setState({
             salaryChart: setupStackBarChart(this.reorderSalary(salaryData[value]['salary_all_branch_training']))
         })
@@ -139,23 +165,30 @@ class AlumniSummary extends Component {
 
     render() {
 
-        let {branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart} = this.state
+        let { branch, year, yearList, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
 
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" align='center'>
-                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}
-                        <Dropdown
+                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
+                        <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
+                            {
+                                yearList !== null && yearList.map((item, index) => (
+                                    <option key={index} value={item}>{item}</option>
+                                ))
+                            }
+                        </select>
+                        {/* <Dropdown
                             options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
+                                { key: "2560", value: "2560", text: "2560" },
+                                { key: "2561", value: "2561", text: "2561" }
                             ]}
                             placeholder="Select"
                             selection
-                        />
+                        /> */}
                     </Header>
-                    <Divider/>
+                    <Divider />
                     <Grid>
                         <Grid.Row>
                             <Card fluid={true}>
@@ -169,7 +202,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        {branchStudentChart !== null && <GraphPie data={branchStudentChart}/>}
+                                        {branchStudentChart !== null && <GraphPie data={branchStudentChart} />}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -180,18 +213,18 @@ class AlumniSummary extends Component {
                                             กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                         <Card.Content>
-                                            {workChart !== null && <GraphPie data={workChart}/>}
+                                            {workChart !== null && <GraphPie data={workChart} />}
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
-                                <br/>
+                                <br />
                                 <Grid.Column>
                                     <Card className="card-twin-modal">
                                         <Card.Header as="h3">
                                             กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                         <Card.Content>
-                                            {trainingChart !== null && <GraphPie data={trainingChart}/>}
+                                            {trainingChart !== null && <GraphPie data={trainingChart} />}
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -204,7 +237,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
-                                        {gpaChart !== null && <GraphBar data={gpaChart} legend={{display: false}}/>}
+                                        {gpaChart !== null && <GraphBar data={gpaChart} legend={{ display: false }} />}
                                     </Card.Content>
 
                                 </Card>
@@ -224,7 +257,7 @@ class AlumniSummary extends Component {
                                                 branch !== null && (
                                                     branch.map((item, index) => (
                                                         <option key={index}
-                                                                value={item['branch_id']}>{item['branch_name']}</option>
+                                                            value={item['branch_id']}>{item['branch_name']}</option>
                                                     ))
                                                 )
                                             }
@@ -233,7 +266,7 @@ class AlumniSummary extends Component {
 
                                     <Card.Content>
 
-                                        {salaryChart !== null && <Bar data={salaryChart} legend={{display: true}}/>}
+                                        {salaryChart !== null && <Bar data={salaryChart} legend={{ display: true }} />}
                                     </Card.Content>
 
                                 </Card>
@@ -255,7 +288,7 @@ class AlumniSummary extends Component {
                                     </Card.Header>
 
                                     <Card.Content>
-                                        <GraphPie/>
+                                        <GraphPie />
                                     </Card.Content>
 
                                 </Card>
@@ -277,7 +310,7 @@ class AlumniSummary extends Component {
                                     </Card.Header>
 
                                     <Card.Content>
-                                        <GraphPie/>
+                                        <GraphPie />
                                     </Card.Content>
 
                                 </Card>

@@ -9,10 +9,13 @@ class AlumniAddSurvey extends Component {
 
     constructor(props) {
         super(props)
+        let editData = props.editData
         this.state = {
-            sheetUrl: null,
-            tableHeader: null,
-            headerSelect: []
+            key: editData != null ? editData['id'] : null,
+            educationYear: editData != null ? editData['educationYear'] : null,
+            sheetUrl: editData != null ? editData['sheetUrl'] : null,
+            tableHeader: editData != null ? editData['tableHeader'] : null,
+            headerSelect: editData != null ? editData['tableHeader'] : []
         }
 
         this.urlRef = React.createRef()
@@ -20,6 +23,9 @@ class AlumniAddSurvey extends Component {
 
     handleVerifyUrl = () => {
         let url = this.urlRef.current.value
+        this.setState({
+            tableHeader: null
+        })
         axios.get(`/admin/readsheet?header=true&sheet_url=${url}`)
             .then(res => {
                 let data = res.data.data
@@ -63,31 +69,55 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl
         }
 
-        axios.post('/admin/alumni/survey/add', data)
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => {
-            console.error(err)
-        })
+        axios.post('/admin/alumni/survey', data)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
 
+    handleEdit = event => {
+        event.preventDefault()
+        let elements = event.target.elements
+
+        const sheetUrl = elements.sheetUrl.value
+        const educationYear = elements.educationYear.value
+        const tableHeader = this.state.headerSelect
+
+        const data = {
+            key: this.state.key,
+            year: parseInt(educationYear),
+            table_header: tableHeader,
+            sheet_url: sheetUrl
+        }
+
+        axios.put(`/admin/alumni/survey`, data)
+            .then(res => {
+                let message = res.data.message
+                console.log(message)
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
     render() {
-        let { tableHeader } = this.state
+        let { tableHeader, sheetUrl, headerSelect, educationYear } = this.state
         return (
             <Fragment>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
                     <Form.Group>
                         <Form.Label>ปีการศึกษา</Form.Label>
                         <InputGroup>
-                            <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" />
+                            <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" defaultValue={educationYear} />
                         </InputGroup>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>ลิงก์ Google Sheet</Form.Label>
                         <InputGroup>
-                            <Form.Control id="sheetUrl" type="text" placeholder="วางลิงก์ Google Sheet" ref={this.urlRef} />
+                            <Form.Control id="sheetUrl" type="text" placeholder="วางลิงก์ Google Sheet" ref={this.urlRef} defaultValue={sheetUrl} />
                             <InputGroup.Append>
                                 <Button onClick={this.handleVerifyUrl}>ตรวจสอบ</Button>
                             </InputGroup.Append>
@@ -104,6 +134,7 @@ class AlumniAddSurvey extends Component {
                                         id={index}
                                         label={item}
                                         key={index}
+                                        defaultChecked={headerSelect.includes(item)}
                                     />
                                 ))
                             }
