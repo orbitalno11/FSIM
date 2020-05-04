@@ -21,6 +21,7 @@ import { Bar } from 'react-chartjs-2';
 
 // redux
 import { connect } from 'react-redux'
+import { startLoading, stopLoading } from '../../../redux/action/generalAction'
 import { setSelectedYear } from '../../../redux/action/adminAlumniAction'
 
 
@@ -44,7 +45,7 @@ class AlumniSummary extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.alumni.loading) {
+        if (this.props.website.loading) {
             this.fetchWorkData()
         }
     }
@@ -69,7 +70,7 @@ class AlumniSummary extends Component {
     fetchWorkData = () => {
         let { selectedYear } = this.props.alumni
 
-        if (this.props.alumni.loading) return
+        if (this.props.website.loading) return
 
         axios.get(`/alumni/analyze/work?year=${selectedYear}`)
             .then(res => {
@@ -152,6 +153,7 @@ class AlumniSummary extends Component {
 
         await this.props.setSelectedYear(n_year)
         this.fetchWorkData()
+
     }
 
     handleSalarySelect = event => {
@@ -175,7 +177,7 @@ class AlumniSummary extends Component {
 
         let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
 
-        let { alumni } = this.props
+        let { alumni, website } = this.props
 
         return (
             <Fragment>
@@ -183,7 +185,7 @@ class AlumniSummary extends Component {
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
                         {
-                            !alumni.loading && (
+                            !website.loading && (
                                 <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (
@@ -331,13 +333,16 @@ class AlumniSummary extends Component {
 
 const mapStateToProps = state => (
     {
+        website: state.website,
         alumni: state.admin_alumni
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
-        setSelectedYear: (year) => dispatch(setSelectedYear(year))
+        setSelectedYear: (year) => dispatch(setSelectedYear(year)),
+        startLoading: () => dispatch(startLoading()),
+        stopLoading: () => dispatch(stopLoading())
     }
 )
 

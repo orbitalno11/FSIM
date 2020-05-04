@@ -18,9 +18,8 @@ const initialState = {
     selectedYear: null,
     yearList: [],
     surveyList: [],
-    addSurveyStatus: false,
-    error: null,
-    loading: false
+    surveyActionStatus: null,
+    error: null
 }
 
 export default (state = initialState, action) => {
@@ -33,21 +32,18 @@ export default (state = initialState, action) => {
 
         case LOAD_SURVEY_YEAR_START:
             return {
-                ...state,
-                loading: true
+                ...state
             }
 
         case LOAD_SURVEY_YEAR_SUCCESS:
             return {
                 ...state,
-                loading: false,
                 yearList: action.yearList
             }
 
         case LOAD_SURVEY_YEAR_FAILED:
             return {
                 ...state,
-                loading: false,
                 yearList: action.yearList,
                 error: action.error
             }
@@ -55,21 +51,36 @@ export default (state = initialState, action) => {
         case LOAD_SURVEY_LIST_START:
             return {
                 ...state,
-                loading: true
             }
 
         case LOAD_SURVEY_LIST_SUCCESS:
             return {
                 ...state,
-                loading: false,
                 surveyList: action.surveyList
             }
 
         case LOAD_SURVEY_LIST_FAILED:
             return {
                 ...state,
-                loading: false,
                 surveyList: action.surveyList,
+                error: action.error
+            }
+
+        case ADD_SURVEY_START:
+            return {
+                ...state,
+            }
+
+        case ADD_SURVEY_SUCCESS:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus
+            }
+
+        case ADD_SURVEY_FAILED:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus,
                 error: action.error
             }
 

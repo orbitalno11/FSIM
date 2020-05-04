@@ -59,7 +59,7 @@ class AlumniAddSurvey extends Component {
         })
     }
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault()
         let elements = event.target.elements
 
@@ -73,7 +73,9 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl
         }
 
-        this.props.addSurvey(data)
+        await this.props.addSurvey(data)
+
+        console.log(this.props.alumni.addSurvey)
 
         // axios.post('/admin/alumni/survey', data)
         //     .then(res => {
@@ -111,6 +113,7 @@ class AlumniAddSurvey extends Component {
 
     render() {
         let { tableHeader, sheetUrl, headerSelect, educationYear } = this.state
+
         return (
             <Fragment>
                 <Form onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
@@ -165,4 +168,4 @@ const mapDispatchToProps = dispatch => (
     }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps) (AlumniAddSurvey)
+export default connect(mapStateToProps, mapDispatchToProps)(AlumniAddSurvey)

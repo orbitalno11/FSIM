@@ -9,8 +9,11 @@ import AlumniSummary from "./AlumniSummary";
 import AlumniSurvey from "./AlumniSurvey";
 import AlumniAddSurvey from './AlumniAddSurvey'
 
+import LoadingDialog from '../../../components/LoadingComponent'
+
 import { connect } from 'react-redux'
 import { getAllAlumniYear } from '../../../redux/action/adminAlumniAction'
+import LoadingComponent from '../../../components/LoadingComponent';
 
 
 class Alumni extends Component {
@@ -22,14 +25,12 @@ class Alumni extends Component {
     render() {
         let tabName = ["สรุปข้อมูลศิษย์เก่า", "สรุปข้อมูลแบบสอบถาม", "จัดการรายการแบบสอบถาม", "เพิ่มข้อมูลแบบสอบถาม"]
         let paneTab = [<AlumniSummary />, <AlumniSurvey />, <AlumniManage />, <AlumniAddSurvey />]
-        let { loading } = this.props.alumni
+        let { loading } = this.props.website
         return (
             <Fragment>
                 {
                     loading && (
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
+                        <LoadingComponent />
                     )
                 }
                 <TabDialog
@@ -45,6 +46,7 @@ class Alumni extends Component {
 
 const mapStateToProps = state => (
     {
+        website: state.website,
         alumni: state.admin_alumni
     }
 )

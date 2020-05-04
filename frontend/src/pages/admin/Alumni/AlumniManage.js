@@ -149,6 +149,7 @@ class AlumniManage extends Component {
 
 const mapStateToProps = state => (
     {
+        website: state.website,
         alumni: state.admin_alumni
     }
 )

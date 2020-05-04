@@ -48,7 +48,7 @@ class AlumniSurvey extends Component {
     fetchSurveyData = () => {
         let { selectedYear } = this.props.alumni
 
-        if (this.props.alumni.loading) return
+        if (this.props.website.loading) return
 
         axios.get(`/alumni/survey?year=${selectedYear}`)
             .then(res => {
@@ -118,7 +118,7 @@ class AlumniSurvey extends Component {
 
         let { analyzeData } = this.state
 
-        let { alumni } = this.props
+        let { alumni, website } = this.props
 
         return (
             <Fragment>
@@ -126,7 +126,7 @@ class AlumniSurvey extends Component {
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
                         {
-                            !alumni.loading && (
+                            !website.loading && (
                                 <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (
@@ -494,6 +494,7 @@ class AlumniSurvey extends Component {
 
 const mapStateToProps = state => (
     {
+        website: state.website,
         alumni: state.admin_alumni
     }
 )
