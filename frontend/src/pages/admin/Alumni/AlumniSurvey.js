@@ -14,6 +14,10 @@ import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
+// redux
+import { connect } from 'react-redux'
+import { setSelectedYear } from '../../../redux/action/adminAlumniAction'
+
 
 class AlumniSurvey extends Component {
 
@@ -21,36 +25,38 @@ class AlumniSurvey extends Component {
         super(props)
 
         this.state = {
-            year: 2560,
-            yearList: [2559, 2560, 2561],
             surveyDetail: null,
             analyzeData: null
         }
     }
 
-    componentDidMount() {
-        this.fetchSurveyData()
+    componentDidUpdate() {
+        if (this.props.alumni.loading) {
+            this.fetchSurveyData()
+        }
     }
 
-    handleYearSelect = event => {
+    handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        this.setState(
-            { year: n_year },
-            () => this.fetchSurveyData())
+        await this.props.setSelectedYear(n_year)
+
+        this.fetchSurveyData()
     }
 
     fetchSurveyData = () => {
-        let { year } = this.state
+        let { selectedYear } = this.props.alumni
 
-        axios.get(`/alumni/survey?year=${year}`)
+        if (this.props.alumni.loading) return
+
+        axios.get(`/alumni/survey?year=${selectedYear}`)
             .then(res => {
                 let data = res.data.data[0]
                 let key = Object.keys(data)
 
                 if (key.length > 1 || key.length < 1) {
-                    alert("Check alumni survey list for year" + year)
+                    alert("Check alumni survey list for year" + setSelectedYear)
                     this.setState({
                         surveyDetail: null,
                         analyzeData: null
@@ -110,20 +116,26 @@ class AlumniSurvey extends Component {
 
     render() {
 
-        let { year, yearList, analyzeData } = this.state
+        let { analyzeData } = this.state
+
+        let { alumni } = this.props
 
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
-                        <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
-                            {
-                                yearList !== null && yearList.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
-                                ))
-                            }
-                        </select>
+                        {
+                            !alumni.loading && (
+                                <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                    {
+                                        alumni.yearList !== null && alumni.yearList.map((item, index) => (
+                                            <option key={index} value={item}>{item}</option>
+                                        ))
+                                    }
+                                </select>
+                            )
+                        }
                     </Header>
                     <Divider />
                     <Grid>
@@ -479,4 +491,17 @@ class AlumniSurvey extends Component {
         )
     }
 }
-export default AlumniSurvey
+
+const mapStateToProps = state => (
+    {
+        alumni: state.admin_alumni
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        setSelectedYear: (year) => dispatch(setSelectedYear(year))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AlumniSurvey)

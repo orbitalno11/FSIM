@@ -6,12 +6,15 @@ import { Table, Button, Modal } from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
 
+//redux 
+import { connect } from 'react-redux'
+import { getSurveyList } from '../../../redux/action/adminAlumniAction'
+
 class AlumniManage extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            surveyList: null,
             showDelete: false,
             deleteItem: null,
             showEdit: false,
@@ -20,28 +23,7 @@ class AlumniManage extends Component {
     }
 
     componentDidMount() {
-        axios.get('/alumni/survey')
-            .then(res => {
-                let data = res.data.data[0]
-                let surList = []
-                let surveyKeys = Object.keys(data)
-
-                surveyKeys.forEach(item => {
-                    let surData = {
-                        ...data[item],
-                        id: item
-                    }
-                    surList.push(surData)
-                })
-
-                this.setState({
-                    surveyList: surList
-                })
-
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        this.props.loadSurveyList()
     }
 
     onDeleteClick = item => {
@@ -88,7 +70,9 @@ class AlumniManage extends Component {
     }
 
     render() {
-        let { surveyList, deleteItem, showDelete, showEdit, editData } = this.state
+        let { deleteItem, showDelete, showEdit, editData } = this.state
+
+        let { surveyList } = this.props.alumni
 
         return (
             <Fragment>
@@ -163,4 +147,16 @@ class AlumniManage extends Component {
     }
 }
 
-export default AlumniManage
+const mapStateToProps = state => (
+    {
+        alumni: state.admin_alumni
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        loadSurveyList: () => dispatch(getSurveyList())
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps) (AlumniManage)

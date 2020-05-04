@@ -4,6 +4,10 @@ import { Form, Button, InputGroup } from 'react-bootstrap'
 
 import axios from 'axios'
 
+// redux
+import { connect } from 'react-redux'
+import { addSurvey } from '../../../redux/action/adminAlumniAction'
+
 
 class AlumniAddSurvey extends Component {
 
@@ -69,13 +73,15 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl
         }
 
-        axios.post('/admin/alumni/survey', data)
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        this.props.addSurvey(data)
+
+        // axios.post('/admin/alumni/survey', data)
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //     })
     }
 
     handleEdit = event => {
@@ -147,4 +153,16 @@ class AlumniAddSurvey extends Component {
     }
 }
 
-export default AlumniAddSurvey
+const mapStateToProps = state => (
+    {
+        alumni: state.admin_alumni
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        addSurvey: (data) => dispatch(addSurvey(data))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps) (AlumniAddSurvey)

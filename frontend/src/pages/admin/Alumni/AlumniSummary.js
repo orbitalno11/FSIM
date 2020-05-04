@@ -19,6 +19,10 @@ import GraphBar from "../../../components/Graph/Bar";
 
 import { Bar } from 'react-chartjs-2';
 
+// redux
+import { connect } from 'react-redux'
+import { setSelectedYear } from '../../../redux/action/adminAlumniAction'
+
 
 class AlumniSummary extends Component {
 
@@ -28,8 +32,6 @@ class AlumniSummary extends Component {
         year = year.getFullYear() + 543
         this.state = {
             branch: null,
-            yearList: [2559, 2560, 2561], // this list should fecth from database
-            year: 2560,
             salaryBranch: null,
             salaryData: null,
             salarySelect: null,
@@ -41,9 +43,14 @@ class AlumniSummary extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.props.alumni.loading) {
+            this.fetchWorkData()
+        }
+    }
+
     componentDidMount() {
         this.fetchBranch()
-        this.fetchWorkData()
     }
 
     fetchBranch = () => {
@@ -60,9 +67,11 @@ class AlumniSummary extends Component {
     }
 
     fetchWorkData = () => {
-        let { year } = this.state
+        let { selectedYear } = this.props.alumni
 
-        axios.get(`/alumni/analyze/work?year=${year}`)
+        if (this.props.alumni.loading) return
+
+        axios.get(`/alumni/analyze/work?year=${selectedYear}`)
             .then(res => {
                 let recieved_data = res.data.data
                 if (recieved_data['count_by_branch'] == null) {
@@ -137,13 +146,12 @@ class AlumniSummary extends Component {
         return options.sort()
     }
 
-    handleYearSelect = event => {
+    handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        this.setState(
-            { year: n_year },
-            () => this.fetchWorkData())
+        await this.props.setSelectedYear(n_year)
+        this.fetchWorkData()
     }
 
     handleSalarySelect = event => {
@@ -165,28 +173,26 @@ class AlumniSummary extends Component {
 
     render() {
 
-        let { branch, year, yearList, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
+        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
+
+        let { alumni } = this.props
 
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
-                        <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
-                            {
-                                yearList !== null && yearList.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
-                                ))
-                            }
-                        </select>
-                        {/* <Dropdown
-                            options={[
-                                { key: "2560", value: "2560", text: "2560" },
-                                { key: "2561", value: "2561", text: "2561" }
-                            ]}
-                            placeholder="Select"
-                            selection
-                        /> */}
+                        {
+                            !alumni.loading && (
+                                <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                    {
+                                        alumni.yearList !== null && alumni.yearList.map((item, index) => (
+                                            <option key={index} value={item}>{item}</option>
+                                        ))
+                                    }
+                                </select>
+                            )
+                        }
                     </Header>
                     <Divider />
                     <Grid>
@@ -323,4 +329,16 @@ class AlumniSummary extends Component {
     }
 }
 
-export default AlumniSummary
+const mapStateToProps = state => (
+    {
+        alumni: state.admin_alumni
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        setSelectedYear: (year) => dispatch(setSelectedYear(year))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AlumniSummary)
