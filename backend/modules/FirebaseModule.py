@@ -53,13 +53,14 @@ class FirebaseModule:
         return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
 
     # add data for alumni survey
-    def alumni_add_survey(self, year: int = None, url: str = None, table_header: list = None):
+    def alumni_add_survey(self, year: int = None, url: str = None, table_header: list = None, personal_header: list = None):
         year = int(year)
 
         data = {
             "educationYear": year,
             "tableHeader": table_header,
-            "sheetUrl": url
+            "sheetUrl": url,
+            "personalHeader": personal_header
         }
 
         db_ref = db.reference('alumni_survey')

@@ -1,68 +1,62 @@
 from backend.helpers.database_helper import DatabaseHelper
+# import inner response
 import backend.Constant as Constant
-
-print(Constant.DATABASE_NAME)
 
 import pandas as pd
 
-db = DatabaseHelper.get_instance()
-received = db.get_department_student_data("mth")
+file_location = "../../uploads/student/new_student_file_template.xlsx"
 
-data = received['value']
-df = pd.DataFrame(data)
+df = pd.read_excel(file_location, converters={'STUDENT_CODE': str, 'APPLICATION_NO': str, 'INSTITUTE_CODE': str})
 
-branch_count = df.groupby('branch_id')['student_id'].count()
-status_branch_count = df.groupby(['branch_id', 'status_id'])['student_id'].count()
-status_year_count = df.groupby(['education_year', 'status_id'])['student_id'].count()
+df.rename(columns={
+    'STUDENT_CODE': 'student_id',
+    'APPLICATION_NO': 'application_no',
+    'FIRSTNAME_TH': 'firstname',
+    'LASTNAME_TH': 'lastname',
+    'SEX_NAME': 'gender',
+    'PROGRAM_PROJECT_NAME_TH': 'branch_name',
+    'INSTITUTE_CODE': 'school_id',
+    'OLDGPA': 'old_gpa'},
+    inplace=True)
 
-# count branch
-branch = []
-for i in range(branch_count.size):
-    index = branch_count.index[i]
-    # print(branch_count[index])
-    data = {
-        'branch_id': index,
-        'branch_student': str(branch_count[index])
-    }
-    branch.append(data)
+# change gender from full text to M or F
+df.loc[df['gender'] == 'ชาย', ['gender']] = 'M'
+df.loc[df['gender'] == 'หญิง', ['gender']] = 'F'
 
-status_branch = []
-for i in range(status_branch_count.size):
-    index = status_branch_count.index[i]
-    if i == 0:
-        prev_branch = None
-    else:
-        prev_branch = status_branch_count.index[i-1][0]
+# get branch data
+db = DatabaseHelper()
+branch = db.get_branch()
+branch = branch['value']
 
-    if prev_branch != index[0]:
-        data = {'branch_id': index[0], str(index[1]): str(status_branch_count[index])}
-    else:
-        data[str(index[1])] = str(status_branch_count[index])
+# change branch name to branch id
+for i in branch:
+    branch_name = i['branch_name']
+    if df.loc[df['branch_name'].str.contains(branch_name.split()[0]), ['branch_name']].shape[0] > 0:
+        df.loc[df['branch_name'].str.contains(branch_name.split()[0]), ['branch_name']] = str(i['branch_id'])
 
-    if prev_branch != index[0]:
-        status_branch.append(data)
+# data frame for student table
+student = df.loc[:, ['student_id', 'firstname', 'lastname', 'gender']]
 
-status_year = []
-for i in range(status_year_count.size):
-    index = status_year_count.index[i]
-    if i == 0:
-        prev_branch = None
-    else:
-        prev_branch = status_year_count.index[i-1][0]
+# data frame for entrance table
+entrance = df.loc[:, ['student_id', 'application_no']]
 
-    if prev_branch != index[0]:
-        data = {'education_year': index[0], str(index[1]): str(status_year_count[index])}
-    else:
-        data[str(index[1])] = str(status_year_count[index])
+# data frame for graduated
+graduated = df.loc[:, ['student_id', 'school_id', 'old_gpa']]
+graduated.rename(columns={'old_gpa': 'gpax'}, inplace=True)
 
-    if prev_branch != index[0]:
-        status_year.append(data)
+# data frame for has status table
+has_status = df.loc[:, ['student_id']]
+has_status['status_id'] = 1
+
+# data frame for study in
+study_in = df.loc[:, ['student_id', 'branch_name']]
+study_in.rename(columns={'branch_name': 'branch_id'}, inplace=True)
 
 out_function_data = {
-    'branch': branch,
-    'by_year': status_year,
-    'by_branch': branch
+    'student': student.to_json(orient='index'),
+    'entrance': entrance.to_json(orient='index'),
+    'graduated': graduated.to_json(orient='index'),
+    'has_status': has_status.to_json(orient='index'),
+    'study_in': study_in.to_json(orient='index')
 }
-
-print(out_function_data)
 

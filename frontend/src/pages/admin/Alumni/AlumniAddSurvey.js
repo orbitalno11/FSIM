@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react'
 
-import { Form, Button, InputGroup } from 'react-bootstrap'
+import { Form, Button, InputGroup, Col } from 'react-bootstrap'
 
 import axios from 'axios'
 
@@ -19,7 +19,8 @@ class AlumniAddSurvey extends Component {
             educationYear: editData != null ? editData['educationYear'] : null,
             sheetUrl: editData != null ? editData['sheetUrl'] : null,
             tableHeader: editData != null ? editData['tableHeader'] : null,
-            headerSelect: editData != null ? editData['tableHeader'] : []
+            headerSelect: editData != null ? editData['tableHeader'] : [],
+            personalHeader: editData != null ? editData['tableHeader'] : []
         }
 
         this.urlRef = React.createRef()
@@ -59,6 +60,23 @@ class AlumniAddSurvey extends Component {
         })
     }
 
+    handlePersonalSelect = event => {
+        let value = event.target.value
+        let { personalHeader } = this.state
+        let arr = personalHeader
+
+        if (arr.includes(value)) {
+            const index = arr.indexOf(value)
+            if (index > -1) arr.splice(index, 1)
+        } else {
+            arr.push(value)
+        }
+
+        this.setState({
+            personalHeader: arr
+        })
+    }
+
     handleSubmit = async event => {
         event.preventDefault()
         let elements = event.target.elements
@@ -66,24 +84,16 @@ class AlumniAddSurvey extends Component {
         const sheetUrl = elements.sheetUrl.value
         const educationYear = elements.educationYear.value
         const tableHeader = this.state.headerSelect
+        const personalHeader = this.state.personalHeader
 
         const data = {
             year: parseInt(educationYear),
             table_header: tableHeader,
-            sheet_url: sheetUrl
+            sheet_url: sheetUrl,
+            personal_header: personalHeader
         }
 
         await this.props.addSurvey(data)
-
-        console.log(this.props.alumni.addSurvey)
-
-        // axios.post('/admin/alumni/survey', data)
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //     })
     }
 
     handleEdit = event => {
@@ -93,12 +103,14 @@ class AlumniAddSurvey extends Component {
         const sheetUrl = elements.sheetUrl.value
         const educationYear = elements.educationYear.value
         const tableHeader = this.state.headerSelect
+        const personalHeader = this.state.personalHeader
 
         const data = {
             key: this.state.key,
             year: parseInt(educationYear),
             table_header: tableHeader,
-            sheet_url: sheetUrl
+            sheet_url: sheetUrl,
+            personal_header: personalHeader
         }
 
         axios.put(`/admin/alumni/survey`, data)
@@ -112,7 +124,7 @@ class AlumniAddSurvey extends Component {
     }
 
     render() {
-        let { tableHeader, sheetUrl, headerSelect, educationYear } = this.state
+        let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader } = this.state
 
         return (
             <Fragment>
@@ -132,23 +144,46 @@ class AlumniAddSurvey extends Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>เลือกหัวข้อที่ต้องการ</Form.Label>
-                        <div onChange={this.handleHeaderSelect}>
-                            {
-                                tableHeader !== null && tableHeader.map((item, index) => (
-                                    <Form.Check
-                                        type='checkbox'
-                                        value={item}
-                                        id={index}
-                                        label={item}
-                                        key={index}
-                                        defaultChecked={headerSelect.includes(item)}
-                                    />
-                                ))
-                            }
-                        </div>
-                    </Form.Group>
+                    <Form.Row>
+                        <Col xs={12} md={6}>
+                            <Form.Group>
+                                <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>
+                                <div onChange={this.handlePersonalSelect}>
+                                    {
+                                        tableHeader !== null && tableHeader.map((item, index) => (
+                                            <Form.Check
+                                                type='checkbox'
+                                                value={item}
+                                                id={"p-" + index}
+                                                label={item}
+                                                key={index}
+                                                defaultChecked={headerSelect.includes(item)}
+                                            />
+                                        ))
+                                    }
+                                </div>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <Form.Group>
+                                <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>
+                                <div onChange={this.handleHeaderSelect}>
+                                    {
+                                        tableHeader !== null && tableHeader.map((item, index) => (
+                                            <Form.Check
+                                                type='checkbox'
+                                                value={item}
+                                                id={"h-" + index}
+                                                label={item}
+                                                key={index}
+                                                defaultChecked={personalHeader.includes(item)}
+                                            />
+                                        ))
+                                    }
+                                </div>
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
                     <Button variant="success" type="submit">ยืนยันข้อมูล</Button>
                 </Form>
             </Fragment>

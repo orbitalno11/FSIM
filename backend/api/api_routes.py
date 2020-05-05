@@ -18,6 +18,27 @@ from backend.modules.FirebaseModule import FirebaseModule
 api_bp = Blueprint('api_bp', __name__, url_prefix='/api/v1')
 
 
+# activity route
+@api_bp.route('/activity/analyze/notar', methods=['GET'])
+def get_analyze_activity_noar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity()
+    data = db.analyze_publicize(year)
+
+    return api_helper.return_response(data)
+
+
+@api_bp.route('/activity/analyze/ar', methods=['GET'])
+def get_analyze_activity_ar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity()
+    data = db.analyze_ar(year)
+
+    return api_helper.return_response(data)
+
+
 # get analyze admission student
 @api_bp.route('/admission/analyze', methods=['GET'])
 def get_admission_admission():
@@ -47,26 +68,6 @@ def get_admission_by_dept_year(department, year):
     # this api required department id and year
     db = DatabaseHelper()
     data = db.get_admission_data_by_dept(department, year)
-
-    return api_helper.return_response(data)
-
-
-@api_bp.route('/activity/analyze/notar', methods=['GET'])
-def get_analyze_activity_noar():
-    year = request.args.get('year')
-
-    db = AnalyzeActivity()
-    data = db.analyze_publicize(year)
-
-    return api_helper.return_response(data)
-
-
-@api_bp.route('/activity/analyze/ar', methods=['GET'])
-def get_analyze_activity_ar():
-    year = request.args.get('year')
-
-    db = AnalyzeActivity()
-    data = db.analyze_ar(year)
 
     return api_helper.return_response(data)
 

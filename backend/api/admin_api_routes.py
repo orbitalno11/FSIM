@@ -125,9 +125,11 @@ def add_alumni_survey():
     year = data['year']
     table_header = data['table_header']
     sheet_url = data['sheet_url']
+    personal_header = data['personal_header']
 
     firebase = FirebaseModule()
-    result = firebase.alumni_add_survey(year, sheet_url, table_header)
+    result = firebase.alumni_add_survey(year, sheet_url, table_header, personal_header)
+    read = read_sheet.read_sheet_data_by_column(sheet_url, personal_header)
 
     return api_helper.return_response(result)
 
@@ -154,11 +156,13 @@ def edit_alumni_survey():
     year = data['year']
     table_header = data['table_header']
     sheet_url = data['sheet_url']
+    personal_header = data['personal_header']
 
     update = {
         "educationYear": year,
         "tableHeader": table_header,
-        "sheetUrl": sheet_url
+        "sheetUrl": sheet_url,
+        "personalHeader": personal_header
     }
 
     firebase = FirebaseModule()
@@ -203,7 +207,34 @@ def read_google_sheet():
         'header': header
     }
 
-    return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False, data=value)
+    return api_helper.create_response(response_code=500, message="Read error, One of these Null", response=False,
+                                      data=value)
+
+
+@admin_bp.route('/student', methods=['POST'])
+def add_student_data():
+
+    try:
+        file = request.files['upload']
+        if file and Constant.allowed_academic_file(file.filename):
+            destination = upload_helper.upload_file(store_folder=Constant.STUDENT_FOLDER, file=file)
+        else:
+            return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
+    except Exception as e:
+        print(e)
+        return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+
+    if destination['response']:
+        data_helper = DataHelper()
+        insert_value = data_helper.read_new_student_file(destination['value'])
+        if insert_value['response']:
+            db = DatabaseHelper()
+            insert = db.insert_new_student_data(insert_value['value'])
+        else:
+            return api_helper.return_response(insert_value)
+    else:
+        return api_helper.return_response(destination)
+    return api_helper.return_response(insert)
 
 
 @admin_bp.route('/student/tracking', methods=['GET'])

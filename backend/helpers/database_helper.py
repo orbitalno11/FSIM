@@ -188,6 +188,50 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
+    # insert new student
+    def insert_new_student_data(self, data):
+        # prepare receive data
+        student_table = data['student']
+        student_table = json.loads(student_table)
+        student_table = list(student_table.values())
+
+        entrance_table = data['entrance']
+        entrance_table = json.loads(entrance_table)
+        entrance_table = list(entrance_table.values())
+
+        graduated_table = data['graduated']
+        graduated_table = json.loads(graduated_table)
+        graduated_table = list(graduated_table.values())
+
+        has_status_table = data['has_status']
+        has_status_table = json.loads(has_status_table)
+        has_status_table = list(has_status_table.values())
+
+        study_in_table = data['study_in']
+        study_in_table = json.loads(study_in_table)
+        study_in_table = list(study_in_table.values())
+
+        try:
+            self.__multiple_insert(table="student",
+                                   column=['student_id', 'firstname', 'lastname', 'gender'],
+                                   data=student_table)
+            self.__multiple_insert(table="entrance", column=['student_id', 'application_no'],
+                                   data=entrance_table)
+            self.__multiple_insert(table="graduated",
+                                   column=['student_id', 'school_id', 'gpax'],
+                                   data=graduated_table)
+            self.__multiple_insert(table="has_status",
+                                   column=['student_id', 'status_id'],
+                                   data=has_status_table)
+            self.__multiple_insert(table="study_in",
+                                   column=['student_id', 'branch_id'],
+                                   data=study_in_table)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
     # get all student data (pueng)
     def get_all_student(self, dept_id=None):
         if dept_id is not None:
