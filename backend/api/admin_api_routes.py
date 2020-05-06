@@ -237,6 +237,16 @@ def add_student_data():
     return api_helper.return_response(insert)
 
 
+@admin_bp.route('/student', methods=['DELETE'])
+def delete_student_data():
+
+    year = request.args.get('year')
+    database = DatabaseHelper()
+    result = database.delete_student_by_year(year)
+
+    return api_helper.return_response(result)
+
+
 @admin_bp.route('/student/tracking', methods=['GET'])
 def get_student_tracking():
     id_student = request.args.get('id_student')

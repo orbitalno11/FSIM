@@ -86,6 +86,11 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
+    # execute delete function
+    def __execute_delete(self, sql_command):
+        self.__cursor.execute(sql_command)
+        self.__db_connection.commit()
+
     # TODO() get user for authentication
     # get user
     def get_user(self, username: str = None):
@@ -105,20 +110,24 @@ class DatabaseHelper:
     # get user for auth (have password)
     def get_user_for_auth(self, username: str = None):
         if username is None:
-            return inner_res_helper.make_inner_response(response=False, message="No username input.", value="No username input")
+            return inner_res_helper.make_inner_response(response=False, message="No username input.",
+                                                        value="No username input")
 
         sql_command = "select staff_id, level_id, firstname, lastname, password from staff where staff_id like '%s'" % username
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
-            return inner_res_helper.make_inner_response(response=False, message="User not found", value="User not found")
+            return inner_res_helper.make_inner_response(response=False, message="User not found",
+                                                        value="User not found")
 
         return execute
 
     # create user
-    def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None, hashed_pass: str = None, staff_level: int = -1,):
+    def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None, hashed_pass: str = None,
+                    staff_level: int = -1, ):
         if staff_id is None or first_name is None or last_name is None or hashed_pass is None:
-            return inner_res_helper.make_inner_response(response=False, message="Some argument is None", value="Some argument is None")
+            return inner_res_helper.make_inner_response(response=False, message="Some argument is None",
+                                                        value="Some argument is None")
 
         try:
             self.__insert_into(table="staff", column=["staff_id", "level_id", "firstname", "lastname", "password"],
@@ -168,7 +177,7 @@ class DatabaseHelper:
     def insert_academic_record(self, academic_data):
         try:
             self.__insert_multiple_into(table="academic_record",
-                                        column=['student_id', 'subject_code', 'grade', 'semester', 'year'],
+                                        column=['student_id', 'subject_code', 'semester', 'year', 'grade'],
                                         data=academic_data)
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
@@ -232,6 +241,39 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
+    # delete all student by year
+    def delete_student_by_year(self, year: str):
+        year = str(year)
+
+        if year is None:
+            return inner_res_helper.make_inner_response(response=False,
+                                                        message="No delete year input.",
+                                                        value="No delete year input")
+
+        year = year[2:]
+
+        sql_command_study_in = "delete from study_in where student_id like '{}%'".format(year)
+        sql_command_has_status = "delete from has_status where student_id like '{}%'".format(year)
+        sql_command_entrance = "delete from entrance where student_id like '{}%'".format(year)
+        sql_command_graduated = "delete from graduated where student_id like '{}%'".format(year)
+        sql_command_gpa_record = "delete from gpa_record where student_id like '{}%'".format(year)
+        sql_command_academic_record = "delete from academic_record where student_id like '{}%'".format(year)
+        sql_command_student = "delete from student where student_id like '{}%'".format(year)
+
+        try:
+            self.__execute_delete(sql_command_study_in)
+            self.__execute_delete(sql_command_has_status)
+            self.__execute_delete(sql_command_entrance)
+            self.__execute_delete(sql_command_graduated)
+            self.__execute_delete(sql_command_gpa_record)
+            self.__execute_delete(sql_command_academic_record)
+            self.__execute_delete(sql_command_student)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
     # get all student data (pueng)
     def get_all_student(self, dept_id=None):
         if dept_id is not None:
@@ -244,7 +286,6 @@ class DatabaseHelper:
             return execute
 
         out_function_data = []
-        
 
         for data in execute['value']:
             year = data[0]
@@ -265,6 +306,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
         # get all student data (pueng)
+
     def get_student_tracking(self, id_student):
 
         sql_command = "SELECT gpa, semester, current_gpax, education_year FROM `gpa_record` NATURAL JOIN student where student_id='%s'" % id_student
@@ -278,17 +320,15 @@ class DatabaseHelper:
             data = {
                 'gpa': data[0],
                 'semester': data[1],
-                'current_gpax':data[2],
-                'education_year':data[3]
+                'current_gpax': data[2],
+                'education_year': data[3]
             }
             out_function_data.append(data)
 
-
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-
     # get all student academic record (pueng)
-    def get_all_academic_record(self, dept_id=None,year=None):
+    def get_all_academic_record(self, dept_id=None, year=None):
         if dept_id is None and year is None:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
         elif dept_id is not None and year is None:
@@ -296,7 +336,8 @@ class DatabaseHelper:
         elif year is not None and dept_id is None:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s'" % year
         else:
-            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (year,dept_id)
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (
+            year, dept_id)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -311,7 +352,7 @@ class DatabaseHelper:
                 'education_year': data[3],
                 'grade': data[4],
                 'education_status': data[5],
-                'branch_id' : data[6]
+                'branch_id': data[6]
             }
             out_function_data.append(data)
 
@@ -322,7 +363,8 @@ class DatabaseHelper:
         if graduated_year is None:
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
         else:
-            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%s'" % (graduated_year)
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%s'" % (
+                graduated_year)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -348,12 +390,14 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-         # get all admission data (pueng)
-    def get_all_admission(self, year= None):
+        # get all admission data (pueng)
+
+    def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied where admission_year like '%s' or admission_year like '%s' " % (year,int(year)-1)
+            sql_command = "select channel_name , admission_year ,branch_id,school_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied where admission_year like '%s' or admission_year like '%s' " % (
+            year, int(year) - 1)
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied " 
+            sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied "
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -365,17 +409,17 @@ class DatabaseHelper:
                 'admission_year': data[1],
                 'branch_id': data[2],
                 'school_id': data[3],
-                
+
             }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-
     # get all activity NOT ActivityActiveRecruitment (pueng)
-    def get_admission_publicize(self, year= None):
+    def get_admission_publicize(self, year=None):
         if year is not None:
-            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (year,int(year)-1)
+            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (
+            year, int(year) - 1)
         else:
             sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar"
 
@@ -386,19 +430,20 @@ class DatabaseHelper:
         out_function_data = []
         for data in execute['value']:
             data = {
-                'activity_id'       : data[0],
-                'activity_year'     : data[1],
-                'activity_budget'   : data[2],
-                'student_id'        : data[3]
+                'activity_id': data[0],
+                'activity_year': data[1],
+                'activity_budget': data[2],
+                'student_id': data[3]
             }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all activity  ActivityActiveRecruitment (pueng)
-    def get_admission_ar(self, year= None):
+    def get_admission_ar(self, year=None):
         if year is not None:
-            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity where activity_year like '%s' " % (year)
+            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity where activity_year like '%s' " % (
+                year)
         else:
             sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity"
 
@@ -409,16 +454,15 @@ class DatabaseHelper:
         out_function_data = []
         for data in execute['value']:
             data = {
-                'activity_id'       : data[0],
-                'school_name'       : data[1],
-                'branch_name'       : data[2],
-                'gpax'              : data[3],
-                'activity_year'     : data[4]
+                'activity_id': data[0],
+                'school_name': data[1],
+                'branch_name': data[2],
+                'gpax': data[3],
+                'activity_year': data[4]
             }
             out_function_data.append(data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
-
 
     # TODO() # # # # general path # # # # #
 
@@ -597,7 +641,7 @@ class DatabaseHelper:
 
         out_function_data = []
         for data in execute['value']:
-            temp ={
+            temp = {
                 'status_id': data[0],
                 'status_title': data[1]
             }
@@ -624,6 +668,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
         # get working school list data
+
     def get_working_school_list(self):
         sql_command = "SELECT * FROM school"
         execute = self.__execute_query(sql_command)
@@ -640,7 +685,6 @@ class DatabaseHelper:
             out_function_data.append(temp)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
-   
 
     # get apprentice status list data
     def get_apprentice_status_list(self):
@@ -660,8 +704,7 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-   
-   # get apprentice status list data
+    # get apprentice status list data
     def get_activity_list(self):
         sql_command = "SELECT activity_id,activity_name,activity_type_id,activity_year,activity_budget FROM activity"
         execute = self.__execute_query(sql_command)
@@ -672,14 +715,12 @@ class DatabaseHelper:
         out_function_data = []
         for data in execute['value']:
             temp = {
-                'activity_id'       : data[0],
-                'activity_name'     : data[1],
-                'activity_type_id'  : data[2],
-                'activity_year'     : data[3],
-                'activity_budget'   : data[4],
+                'activity_id': data[0],
+                'activity_name': data[1],
+                'activity_type_id': data[2],
+                'activity_year': data[3],
+                'activity_budget': data[4],
             }
             out_function_data.append(temp)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
-
-   
