@@ -4,9 +4,21 @@ import { Form, Button, InputGroup, Col } from 'react-bootstrap'
 
 import axios from 'axios'
 
+import {MessageError,MessageSuccess} from '../../../components/MessageAlert'
+
 // redux
 import { connect } from 'react-redux'
 import { addSurvey } from '../../../redux/action/adminAlumniAction'
+
+const initialState = {
+   
+    educationYear: null,
+    sheetUrl: null,
+    tableHeader: null,
+    headerSelect: [],
+    personalHeader: []
+};
+
 
 
 class AlumniAddSurvey extends Component {
@@ -20,11 +32,23 @@ class AlumniAddSurvey extends Component {
             sheetUrl: editData != null ? editData['sheetUrl'] : null,
             tableHeader: editData != null ? editData['tableHeader'] : null,
             headerSelect: editData != null ? editData['tableHeader'] : [],
-            personalHeader: editData != null ? editData['tableHeader'] : []
+            personalHeader: editData != null ? editData['personalHeader'] : []
         }
-
+        
         this.urlRef = React.createRef()
     }
+
+   
+    componentWillReceiveProps(nextProps){
+       if(nextProps.status){
+            this.setState({
+                ...initialState
+            })
+            document.getElementById("addData").reset();
+       }
+    }
+      
+ 
 
     handleVerifyUrl = () => {
         let url = this.urlRef.current.value
@@ -123,12 +147,32 @@ class AlumniAddSurvey extends Component {
             })
     }
 
+    messageAlert = () => {
+        if (this.props.status == false) {
+            return (
+                <MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
+            )
+        }else if(this.props.status == true) {
+          
+            return (
+                <MessageSuccess header='บันทึกสำเร็จ' body=''  />
+            )
+        }
+    }
+   
+   
+    
+
     render() {
         let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader } = this.state
+        let {editData} = this.props
 
+     
         return (
             <Fragment>
-                <Form onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
+                {this.messageAlert()}
+               
+                <Form id="addData" onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
                     <Form.Group>
                         <Form.Label>ปีการศึกษา</Form.Label>
                         <InputGroup>
@@ -138,19 +182,42 @@ class AlumniAddSurvey extends Component {
                     <Form.Group>
                         <Form.Label>ลิงก์ Google Sheet</Form.Label>
                         <InputGroup>
-                            <Form.Control id="sheetUrl" type="text" placeholder="วางลิงก์ Google Sheet" ref={this.urlRef} defaultValue={sheetUrl} />
-                            <InputGroup.Append>
-                                <Button onClick={this.handleVerifyUrl}>ตรวจสอบ</Button>
+                            <Form.Control 
+                                id="sheetUrl" 
+                                type="text" 
+                                placeholder="วางลิงก์ Google Sheet" 
+                                ref={this.urlRef} 
+                                defaultValue={sheetUrl} 
+                                readOnly={!editData ? false:true} 
+                                />
+                            <InputGroup.Append   >
+                                <Button onClick={this.handleVerifyUrl } disabled={!editData ? false:true} >ตรวจสอบ</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
+                    {editData ? 
+                        <p style={{color:'red'}}>หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
+                        :null}
                     <Form.Row>
                         <Col xs={12} md={6}>
                             <Form.Group>
                                 <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>
                                 <div onChange={this.handlePersonalSelect}>
                                     {
-                                        tableHeader !== null && tableHeader.map((item, index) => (
+                                        !editData ?
+                                        (tableHeader !== null && tableHeader.map((item, index) => (
+                                            <Form.Check
+                                                type='checkbox'
+                                                value={item}
+                                                id={"p-" + index}
+                                                label={item}
+                                                key={index}
+                                                defaultChecked={headerSelect.includes(item)
+                                                }
+                                            />
+                                        )))
+                                        :
+                                        (personalHeader !== null && personalHeader.map((item, index) => (
                                             <Form.Check
                                                 type='checkbox'
                                                 value={item}
@@ -159,8 +226,9 @@ class AlumniAddSurvey extends Component {
                                                 key={index}
                                                 defaultChecked={headerSelect.includes(item)}
                                             />
-                                        ))
+                                        )))
                                     }
+
                                 </div>
                             </Form.Group>
                         </Col>
@@ -169,6 +237,7 @@ class AlumniAddSurvey extends Component {
                                 <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>
                                 <div onChange={this.handleHeaderSelect}>
                                     {
+                                        
                                         tableHeader !== null && tableHeader.map((item, index) => (
                                             <Form.Check
                                                 type='checkbox'
@@ -193,13 +262,15 @@ class AlumniAddSurvey extends Component {
 
 const mapStateToProps = state => (
     {
-        alumni: state.admin_alumni
+        alumni: state.admin_alumni,
+        status: state.admin_alumni.surveyActionStatus
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
-        addSurvey: (data) => dispatch(addSurvey(data))
+        addSurvey: (data) => dispatch(addSurvey(data)),
+        
     }
 )
 
