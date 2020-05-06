@@ -91,6 +91,12 @@ class DatabaseHelper:
         self.__cursor.execute(sql_command)
         self.__db_connection.commit()
 
+    # execute delete multiple function
+    def __execute_delete_multiple(self, table, column, data):
+        sql_command = "delete from %s where %s like %s" % (table, column, '%s')
+        self.__cursor.executemany(sql_command, data)
+        self.__db_connection.commit()
+
     # TODO() get user for authentication
     # get user
     def get_user(self, username: str = None):
@@ -337,7 +343,7 @@ class DatabaseHelper:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s'" % year
         else:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (
-            year, dept_id)
+                year, dept_id)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -395,7 +401,7 @@ class DatabaseHelper:
     def get_all_admission(self, year=None):
         if year is not None:
             sql_command = "select channel_name , admission_year ,branch_id,school_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied where admission_year like '%s' or admission_year like '%s' " % (
-            year, int(year) - 1)
+                year, int(year) - 1)
         else:
             sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied "
         execute = self.__execute_query(sql_command)
@@ -419,7 +425,7 @@ class DatabaseHelper:
     def get_admission_publicize(self, year=None):
         if year is not None:
             sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (
-            year, int(year) - 1)
+                year, int(year) - 1)
         else:
             sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar"
 
@@ -724,3 +730,31 @@ class DatabaseHelper:
             out_function_data.append(temp)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # TODO() alumni
+    # delete alumni
+    def delete_alumni_by_year(self, year: int):
+        # search student ID from graduated year
+        year = int(year)
+        sql_command = "select alumni_id from alumni where graduated_year = %d" % year
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        data = execute['value']
+        data = list(data)
+
+        student_id_list = []
+        for student_id in data:
+            student_id_list.append(student_id[0])
+
+        try:
+            self.__execute_delete_multiple("alumni_graduated", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("working", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("alumni", "alumni_id", student_id_list)
+        except pymysql as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(response=True, message="Delete alumni data sucessful.", value="Delete alumni data sucessful.")

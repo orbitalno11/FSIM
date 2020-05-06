@@ -139,6 +139,13 @@ def add_alumni_survey():
 def delete_alumni_survey():
     # this api need education year (2561, 2562), table header as a list and google sheet url
     key = request.args.get('key')
+    year = request.args.get('year')
+
+    db = DatabaseHelper()
+    result = db.delete_alumni_by_year(year)
+
+    if not result['response']:
+        return api_helper.return_response(result)
 
     firebase = FirebaseModule()
     result = firebase.alumni_delete_survey(key)
@@ -254,3 +261,5 @@ def get_student_tracking():
     data = db.student_tracking(id_student)
 
     return api_helper.return_response(data)
+
+

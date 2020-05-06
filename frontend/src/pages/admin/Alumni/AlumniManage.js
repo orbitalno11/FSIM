@@ -27,7 +27,6 @@ class AlumniManage extends Component {
     }
 
     onDeleteClick = item => {
-        console.log(item)
         this.setState({
             showDelete: true,
             deleteItem: item
@@ -35,9 +34,9 @@ class AlumniManage extends Component {
     }
 
     handleDelete = () => {
-        let { id } = this.state.deleteItem
+        let { id, educationYear } = this.state.deleteItem
 
-        axios.delete(`/admin/alumni/survey?key=${id}`)
+        axios.delete(`/admin/alumni/survey?key=${id}&year=${educationYear}`)
             .then(res => {
                 let message = res.data.message
                 console.log(message)
