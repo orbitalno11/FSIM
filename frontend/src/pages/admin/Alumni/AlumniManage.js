@@ -54,7 +54,6 @@ class AlumniManage extends Component {
     }
 
     onEditClick = data => {
-        console.log(data)
         this.setState({
             showEdit: true,
             editData: data
@@ -72,7 +71,6 @@ class AlumniManage extends Component {
         let { deleteItem, showDelete, showEdit, editData } = this.state
 
         let { surveyList } = this.props.alumni
-
         return (
             <Fragment>
                 {
@@ -125,12 +123,13 @@ class AlumniManage extends Component {
                     </thead>
                     <tbody>
                         {
+                            
                             surveyList !== null && (
                                 surveyList.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{item['educationYear']}</td>
-                                        <td>{item['tableHeader']}</td>
+                                        <td>{item.tableHeader}</td>
                                         <td>
                                             <Button onClick={() => this.onEditClick(item)}>แก้ไข</Button>
                                             <Button onClick={() => this.onDeleteClick(item)}>ลบ</Button>

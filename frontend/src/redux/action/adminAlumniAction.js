@@ -99,7 +99,7 @@ const addSurveyFailed = (error) => (
         type: ADD_SURVEY_FAILED,
         surveyActionStatus: false,
         error: error
-
+        
     }
 )
 
@@ -173,7 +173,6 @@ export const getSurveyList = () => dispatch => {
             let data = res.data.data[0]
             let surList = []
             let surveyKeys = Object.keys(data)
-
             surveyKeys.forEach(item => {
                 let surData = {
                     ...data[item],
