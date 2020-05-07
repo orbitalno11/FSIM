@@ -15,6 +15,17 @@ from backend.modules.old_DatabaseConnection import DatabaseConnection
 from backend.api import api_routes
 from backend.api import admin_api_routes
 
+from backend.api.activity.admin import admin_activity
+from backend.api.activity.user import user_activity
+from backend.api.admission.admin import admin_admission
+from backend.api.admission.user import user_admission
+from backend.api.alumni.admin import admin_alumni
+from backend.api.alumni.user import user_alumni
+from backend.api.student.admin import admin_student
+from backend.api.student.user import user_student
+from backend.api.department.admin import admin_department
+from backend.api.department.user import user_department
+
 # import Constant
 import backend.Constant as constant
 
@@ -31,8 +42,21 @@ app.config['JSON_AS_ASCII'] = False
 app.config['SECRET_KEY'] = constant.SECRET_KEY
 
 # setup blueprint
-app.register_blueprint(api_routes.api_bp)
-app.register_blueprint(admin_api_routes.admin_bp)
+# user
+app.register_blueprint(api_routes.api_bp, url_prefix='/api/v1')
+app.register_blueprint(user_activity, url_prefix='/api/v1/activity')
+app.register_blueprint(user_admission, url_prefix='/api/v1/admission')
+app.register_blueprint(user_alumni, url_prefix='/api/v1/alumni')
+app.register_blueprint(user_department, url_prefix='/api/v1/department')
+app.register_blueprint(user_student, url_prefix='/api/v1/student')
+
+# admin
+app.register_blueprint(admin_api_routes.admin_bp, url_prefix='/api/v1/admin')
+app.register_blueprint(admin_activity, url_prefix='/api/v1/admin/activity')
+app.register_blueprint(admin_admission, url_prefix='/api/v1/admin/admission')
+app.register_blueprint(admin_alumni, url_prefix='/api/v1/admin/alumni')
+app.register_blueprint(admin_department, url_prefix='/api/v1/admin/department')
+app.register_blueprint(admin_student, url_prefix='/api/v1/admin/student')
 
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
 CORS(app)

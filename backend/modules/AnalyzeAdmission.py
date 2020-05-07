@@ -30,7 +30,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 class AnalyzeAdmission:
 
     def analyze_admission(self,branch_id=None,year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
 
@@ -111,7 +111,7 @@ class AnalyzeAdmission:
 
 
     def analyze_admission_admin(self,year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
         if data['value']:
