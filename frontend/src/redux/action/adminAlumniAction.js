@@ -12,7 +12,8 @@ import {
     LOAD_SURVEY_LIST_START,
     LOAD_SURVEY_LIST_SUCCESS,
     LOAD_SURVEY_LIST_FAILED,
-    RESET_SURVEY_ACTION_STATUS
+    RESET_SURVEY_ACTION_STATUS,
+
 } from '../types'
 
 import axios from 'axios'
@@ -113,14 +114,14 @@ const deleteSurveyStart = () => (
 const deleteSurveySuccess = () => (
     {
         type: DELETE_SURVEY_SUCCESS,
-        surveyActionStatus: true
+        surveyDeleteStatus: true
     }
 )
 
 const deleteSurveyFailed = (error) => (
     {
         type: DELETE_SURVEY_FAILED,
-        surveyActionStatus: false,
+        surveyDeleteStatus: false,
         error: error
 
     }
@@ -214,4 +215,25 @@ export const addSurvey = data => dispatch => {
             dispatch(addSurveyFailed(err))
             dispatch(stopLoading())
         })
+}
+
+export const deleteItem = data => dispatch => {
+    dispatch(deleteSurveyStart)
+    dispatch(startLoading())
+    axios.delete(`/admin/alumni/survey?key=${data.id}&year=${data.educationYear}`)
+        .then(res => {
+            let data = res.data
+                if (data['response']){
+                    dispatch(deleteSurveySuccess())
+                    dispatch(getSurveyList())
+                }else{
+                    dispatch(deleteSurveyFailed("Response Error"))
+                }
+
+                dispatch(stopLoading())
+        })
+        .catch(err => {
+            console.error(err)
+        })
+
 }

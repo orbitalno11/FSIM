@@ -8,7 +8,10 @@ import {
     SET_SURVEY_SELECTED_YEAR,
     LOAD_SURVEY_LIST_START,
     LOAD_SURVEY_LIST_SUCCESS,
-    LOAD_SURVEY_LIST_FAILED
+    LOAD_SURVEY_LIST_FAILED,
+    DELETE_SURVEY_START,
+    DELETE_SURVEY_SUCCESS,
+    DELETE_SURVEY_FAILED
 } from '../types'
 
 let year = new Date()
@@ -78,6 +81,23 @@ export default (state = initialState, action) => {
             }
 
         case ADD_SURVEY_FAILED:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus,
+                error: action.error
+            }
+        case DELETE_SURVEY_START:
+            return {
+                ...state,
+            }
+
+        case DELETE_SURVEY_SUCCESS:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus
+            }
+
+        case DELETE_SURVEY_FAILED:
             return {
                 ...state,
                 surveyActionStatus: action.surveyActionStatus,
