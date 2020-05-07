@@ -17,3 +17,10 @@ import backend.modules.AuthenticationModule as auth
 
 admin_department = Blueprint('admin_department', __name__)
 
+
+# get all department data
+@admin_department.route('/', methods=['GET'])
+def get_all_department_data():
+    dept_id = request.args.get('year')
+
+    return api_helper.create_response(message="DEV", response=True, response_code=200, data="DEV")

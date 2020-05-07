@@ -14,7 +14,7 @@ class Activity extends Component {
 
     render() {
         let tabName = ["ข้อมูลกิจกรรมประชาสัมพันธ์", "ข้อมูล Active Recruitment", "จัดการข้อมูลกิจกรรม", "เพิ่มข้อมูล"]
-        let pane = [<ActivitySummary/>, null , null, <AddActivity />]
+        let pane = [<ActivitySummary/>, <ActivityActiveRecruitment /> , null, <AddActivity />]
         return (
             <Fragment>
                 <TabDialog

@@ -2,17 +2,9 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 
-//
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
-// 
-// import TabDialog from '../../../components/TabDialog'
 import ARDetail from "./ARDetail";
 import AMSci from "./AMSci";
-
-// 
-
 
 
 class ActivityActiveRecruitment extends Component {
@@ -27,13 +19,10 @@ class ActivityActiveRecruitment extends Component {
   
 
     render() {
-        // let { location, match } = this.props
         let { tabKey } = this.state
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
-                    {/* <h1 className="admin-page-header">ข้อมูลภาควิชา</h1>
-                    <hr className="yellow-hr" /> */}
                     <Container fluid>
                         <Tab.Container defaultActiveKey={tabKey}>
                             <Row>
@@ -45,17 +34,10 @@ class ActivityActiveRecruitment extends Component {
                                         <Nav.Item>
                                             <Nav.Link eventKey="2" className="sub-nav">I AM SCI</Nav.Link>
                                         </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"></Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"> </Nav.Link>
-                                        </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col lg={9}>
                                     <Tab.Content>
-                                        
                                         <Tab.Pane eventKey="1">
                                             <ARDetail />
                                         </Tab.Pane>
