@@ -53,7 +53,6 @@ class AlumniAddSurvey extends Component {
     }
       
  
-
     handleVerifyUrl = async() => {
         await this.props.startLoading()
         let url = this.urlRef.current.value

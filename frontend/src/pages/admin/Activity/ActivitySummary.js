@@ -1,5 +1,5 @@
-import React, {Component, Fragment} from "react";
-import { Link } from 'react-router-dom'
+import React, { Component, Fragment } from "react";
+
 import {
     Header,
     Dropdown,
@@ -7,13 +7,8 @@ import {
     Grid,
     Card,
     Container,
-    Button,
-    Table,
-    Image
+    Table
 } from "semantic-ui-react";
-
-// redux
-import {connect} from 'react-redux'
 
 
 import GraphBar from "../../../components/Graph/Bar";
@@ -21,28 +16,37 @@ import GraphBar from "../../../components/Graph/Bar";
 
 class ActivitySummary extends Component {
 
- 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            year: 2560,
+            yearList: [2560, 2561]
+        }
+    }
 
     render() {
-        let {branch_list} = this.props
+        let { year, yearList } = this.state
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" textAlign="center">
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา{" "}
-                       
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
+                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
+
+                        {
+                            <select id="selectYear" defaultValue={year}>
+                                {
+                                    yearList !== null && yearList.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        }
+
                     </Header>
-                    <Divider/>
+                    <Divider />
                     <Grid>
-                        
+
                         <Grid.Row>
                             <Grid.Column width={8}>
                                 <Card className="card-default">
@@ -50,7 +54,7 @@ class ActivitySummary extends Component {
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -60,7 +64,7 @@ class ActivitySummary extends Component {
                                         กราฟแสดงจำนวนนักศึกษาที่เคยเข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -72,23 +76,23 @@ class ActivitySummary extends Component {
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                         <Dropdown className="year-select"
                                             options={[
-                                                {key: "2560", value: "2560", text: "2560"},
-                                                {key: "2561", value: "2561", text: "2561"}
+                                                { key: "2560", value: "2560", text: "2560" },
+                                                { key: "2561", value: "2561", text: "2561" }
                                             ]}
                                             placeholder="Select"
                                             selection
                                         />
-                                         <Dropdown className="year-select"
+                                        <Dropdown className="year-select"
                                             options={[
-                                                {key: "2560", value: "2560", text: "2560"},
-                                                {key: "2561", value: "2561", text: "2561"}
+                                                { key: "2560", value: "2560", text: "2560" },
+                                                { key: "2561", value: "2561", text: "2561" }
                                             ]}
                                             placeholder="Select"
                                             selection
                                         />
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -98,30 +102,30 @@ class ActivitySummary extends Component {
                                         กราฟแสดงเปรียบเทียบจำนวนนักศึกษาที่เคยเข้าร่วมกิจกรรมในโครงการต่างๆ
                                         <Dropdown className="year-select"
                                             options={[
-                                                {key: "2560", value: "2560", text: "2560"},
-                                                {key: "2561", value: "2561", text: "2561"}
+                                                { key: "2560", value: "2560", text: "2560" },
+                                                { key: "2561", value: "2561", text: "2561" }
                                             ]}
                                             placeholder="Select"
                                             selection
                                         />
-                                         <Dropdown className="year-select"
+                                        <Dropdown className="year-select"
                                             options={[
-                                                {key: "2560", value: "2560", text: "2560"},
-                                                {key: "2561", value: "2561", text: "2561"}
+                                                { key: "2560", value: "2560", text: "2560" },
+                                                { key: "2561", value: "2561", text: "2561" }
                                             ]}
                                             placeholder="Select"
                                             selection
                                         />
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-                        <Divider/>
+                        <Divider />
                         <Grid.Row>
-                             <Header as="h3" align = 'center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
+                            <Header as="h3" align='center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
                         </Grid.Row>
                         <Grid.Row>
                             <Table celled structured>
@@ -141,19 +145,19 @@ class ActivitySummary extends Component {
 
                                 <Table.Body>
                                     <Table.Row>
-                                        <Table.Cell  textAlign="center">
-                                           2560
+                                        <Table.Cell textAlign="center">
+                                            2560
                                         </Table.Cell>
                                         <Table.Cell textAlign="center">KMUTT TOUR</Table.Cell>
                                         <Table.Cell textAlign="center">30000</Table.Cell>
-                                        
+
                                     </Table.Row>
-                                   
+
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
                     </Grid>
-                   
+
                 </Container>
             </Fragment>
         )
