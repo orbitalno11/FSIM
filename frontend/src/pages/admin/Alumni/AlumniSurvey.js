@@ -56,7 +56,7 @@ class AlumniSurvey extends Component {
                 let key = Object.keys(data)
 
                 if (key.length > 1 || key.length < 1) {
-                    alert("Check alumni survey list for year" + setSelectedYear)
+                    // alert("Check alumni survey list for year" + setSelectedYear)
                     this.setState({
                         surveyDetail: null,
                         analyzeData: null

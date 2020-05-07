@@ -178,6 +178,30 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
+        # insert activity project record
+        # def insert_activity_project(self, data):
+        #     try:
+        #         self.__insert_multiple_into(table="academic_record",
+        #                                     column=['student_id', 'subject_code', 'semester', 'year', 'grade'],
+        #                                     data=academic_data)
+        #     except pymysql.Error as e:
+        #         print("Error %d: %s" % (e.args[0], e.args[1]))
+        #         return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        #
+        #     return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
+        # insert gpa record
+        def insert_gpa_record(self, gpa_data):
+            try:
+                self.__insert_multiple_into(table="gpa_record",
+                                            column=['student_id', 'gpa', 'semester', 'year'],
+                                            data=gpa_data)
+            except Exception as e:
+                print("Error %d: %s" % (e.args[0], e.args[1]))
+                return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+            return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
     # academic part
     # insert academic record
     def insert_academic_record(self, academic_data):
@@ -404,6 +428,7 @@ class DatabaseHelper:
                 year, int(year) - 1)
         else:
             sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied "
+
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
