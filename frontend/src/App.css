@@ -429,3 +429,12 @@
 .bg-page {
   background-color: #F2F2F2;
 }
+
+.list-stat{
+  margin-top: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+.listStyle{
+  list-style-type: square !important;
+}

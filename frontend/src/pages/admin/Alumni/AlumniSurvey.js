@@ -146,7 +146,7 @@ class AlumniSurvey extends Component {
                                 ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน
                                 </Header>
                             <Divider />
-                            <Table celled structured>
+                           <Table celled structured>
                                 <Table.Header>
                                     <Table.Row active>
                                         <Table.HeaderCell width={12} textAlign="center">
@@ -157,7 +157,7 @@ class AlumniSurvey extends Component {
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             ส่วนเบี่ยงเบนมาตรฐาน
-                                        </Table.HeaderCell>
+                                        </Table .HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
 
