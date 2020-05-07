@@ -464,7 +464,7 @@ class DatabaseHelper:
                 past_dept.append(dept[0])
                 out_data.append(detail)
 
-        return inner_res_helper.make_inner_response(True, "DEV", out_data)
+        return inner_res_helper.make_inner_response(True, "Query success", out_data)
 
     def get_branch(self, branch_id=None):
         if branch_id is None:
@@ -489,8 +489,21 @@ class DatabaseHelper:
             }
             out_function_data.append(data)
 
-        return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data) \
+        return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
 
+    # get course and subject in course
+    def get_course(self, course_id: str = None):
+        if course_id is None:
+            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
+        else:
+            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject WHERE course_id like '{}'".format(course_id)
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        return inner_res_helper.make_inner_response(True, "DEV", "Dev")
 
     # get working school list data
     def get_working_school_list(self):

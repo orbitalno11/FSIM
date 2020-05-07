@@ -25,6 +25,8 @@ from backend.api.student.admin import admin_student
 from backend.api.student.user import user_student
 from backend.api.department.admin import admin_department
 from backend.api.department.user import user_department
+from backend.api.information.admin import admin_information
+from backend.api.information.user import user_information
 
 # import Constant
 import backend.Constant as constant
@@ -49,6 +51,7 @@ app.register_blueprint(user_admission, url_prefix='/api/v1/admission')
 app.register_blueprint(user_alumni, url_prefix='/api/v1/alumni')
 app.register_blueprint(user_department, url_prefix='/api/v1/department')
 app.register_blueprint(user_student, url_prefix='/api/v1/student')
+app.register_blueprint(user_information, url_prefix='/api/v1/information')
 
 # admin
 app.register_blueprint(admin_api_routes.admin_bp, url_prefix='/api/v1/admin')
@@ -57,6 +60,7 @@ app.register_blueprint(admin_admission, url_prefix='/api/v1/admin/admission')
 app.register_blueprint(admin_alumni, url_prefix='/api/v1/admin/alumni')
 app.register_blueprint(admin_department, url_prefix='/api/v1/admin/department')
 app.register_blueprint(admin_student, url_prefix='/api/v1/admin/student')
+app.register_blueprint(admin_information, url_prefix='/api/v1/admin/information')
 
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
 CORS(app)
