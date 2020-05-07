@@ -21,6 +21,9 @@ admin_department = Blueprint('admin_department', __name__)
 # get all department data
 @admin_department.route('/', methods=['GET'])
 def get_all_department_data():
-    dept_id = request.args.get('year')
+    dept_id = request.args.get('dept_id')
 
-    return api_helper.create_response(message="DEV", response=True, response_code=200, data="DEV")
+    db = DatabaseHelper()
+    result = db.get_department_detail(dept_id)
+
+    return api_helper.return_response(result)

@@ -430,6 +430,42 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
+    # get department detail that include branch and course
+    def get_department_detail(self, dept_id: str = None):
+        if dept_id is None:
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course"
+        else:
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course WHERE dept_id like '{}'".format(dept_id)
+
+        execute = self.__execute_query(sql_command)
+
+        data = execute['value']
+        out_data = []
+        cur_dept = None
+        past_dept = []
+        for dept in data:
+            if cur_dept != dept[0] and not dept[0] in past_dept:
+                cur_dept = dept[0]
+                detail = {'dept_id': dept[0], 'dept_name': dept[3], 'branch': {}, 'course': {}}
+                cur_branch = None
+                for dept2 in data:
+                    if cur_branch != dept2[1] and dept[0] == dept2[0]:
+                        cur_branch = dept2[1]
+                        detail['branch'][dept2[1]] = dept2[4]
+                cur_course = None
+                for dept3 in data:
+                    if cur_course != dept3[2] and dept[0] == dept3[0]:
+                        cur_course = dept3[2]
+                        course = {
+                            'course_name': dept3[5],
+                            'course_year': dept3[6]
+                        }
+                        detail['course'][dept3[2]] = course
+                past_dept.append(dept[0])
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "DEV", out_data)
+
     def get_branch(self, branch_id=None):
         if branch_id is None:
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
