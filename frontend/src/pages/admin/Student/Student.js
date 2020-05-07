@@ -2,8 +2,8 @@ import React, {Component, Fragment} from "react";
 import { Form, FormControl, InputGroup } from 'react-bootstrap'
 import { Table, Button } from 'semantic-ui-react'
 
-import SearchActivity from "../../../components/SearchActivity";
-import AddActivity from "../../../components/AddActivity";
+// import SearchActivity from "../../../components/SearchActivity";
+// import AddActivity from "../../../components/AddActivity";
 import TabDialog from '../../../components/TabDialog'
 import StudentSummary from "./StudentSummary";
 import StudentTracking from "./StudentTracking";

@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react'
 
 import { Grid, Container, GridRow, Menu } from 'semantic-ui-react'
 
-import Piechart from '../components/Graph/Pie'
+// import Piechart from '../components/Graph/Pie'
 import Barchart from '../components/Graph/Bar'
-import BarHorizontal from '../components/Graph/BarHorizontal'
+// import BarHorizontal from '../components/Graph/BarHorizontal'
 
 // 
 import AmountBox from '../components/AmountBox'
@@ -83,7 +83,7 @@ class DepartmentDetail extends Component {
     }
 
     render() {
-        let { activeItem, department_id, department_name, branch } = this.state
+        let { activeItem,  department_name, branch } = this.state
 
         console.log(branch)
 
