@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap'
+import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
 
 //
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../../components/TabDialog'
-import ARDetail from "./ARDetail";
-import AMSci from "./AMSci";
+// import TabDialog from '../../../components/TabDialog'
+// import ARDetail from "./ARDetail";
+// import AMSci from "./AMSci";
 
 // 
-import LineChart from '../../../components/Graph/Line'
+// import LineChart from '../../../components/Graph/Line'
 
 const AddTab = () => (
     <Fragment>

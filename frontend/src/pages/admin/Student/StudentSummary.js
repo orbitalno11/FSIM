@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup } from 'react-bootstrap'
+import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 
 
 //
@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
 // 
-import TabDialog from '../../../components/TabDialog';
+// import TabDialog from '../../../components/TabDialog';
 import StudentData from "./StudentData";
 
 
 // 
-import LineChart from '../../../components/Graph/Line'
+// import LineChart from '../../../components/Graph/Line'
 
 
 
@@ -29,7 +29,7 @@ class StudentSummary extends Component {
    
 
     render() {
-        let { location, match } = this.props
+        // let { location, match } = this.props
         let { tabKey } = this.state
         return (
             <Fragment>

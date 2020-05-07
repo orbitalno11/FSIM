@@ -70,7 +70,7 @@ class AlumniSummary extends Component {
     fetchWorkData = () => {
         let { selectedYear } = this.props.alumni
 
-        if (this.props.website.loading) return
+        if (selectedYear === null) return
 
         axios.get(`/alumni/analyze/work?year=${selectedYear}`)
             .then(res => {

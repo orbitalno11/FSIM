@@ -24,7 +24,7 @@ class Alumni extends Component {
 
     render() {
         let tabName = ["สรุปข้อมูลศิษย์เก่า", "สรุปข้อมูลแบบสอบถาม", "จัดการรายการแบบสอบถาม", "เพิ่มข้อมูลแบบสอบถาม"]
-        let paneTab = [<AlumniSummary />, <AlumniSurvey />, <AlumniManage />, <AlumniAddSurvey />]
+        let paneTab = [<AlumniSummary />, <AlumniSurvey />, <AlumniManage />, <AlumniAddSurvey/>]
         let { loading } = this.props.website
         return (
             <Fragment>

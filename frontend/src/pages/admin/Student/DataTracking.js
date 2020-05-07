@@ -3,23 +3,18 @@ import React, {Component, Fragment} from "react";
 import {
     Dropdown,
     Divider,
-    Grid,
     Header,
     Container,
-    Card,
-    Table,
-    Button,
-    Icon, Modal,
-    Image
+    Table
 } from "semantic-ui-react";
 
 // redux
-import {connect} from 'react-redux'
+// import {connect} from 'react-redux'
 
 // import bgyel from "../img/bg-head3.png";
-import GraphPie from "../../../components/Graph/Pie";
+// import GraphPie from "../../../components/Graph/Pie";
 import DataTable from "../../../components/DataTable";
-import AlumniTypePanel from "../../../components/AlumniTypePanel";
+// import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
 class SummarySurvey extends Component {

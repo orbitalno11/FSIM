@@ -30,7 +30,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 class AnalyzeActivity:
 
     def analyze_publicize(self,year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_admission_publicize(year)
         if data['value']:
             data        =   pd.DataFrame(data['value'])
@@ -107,7 +107,7 @@ class AnalyzeActivity:
         return inner_res_helper.make_inner_response(response="response", message="message", value=value)
 
     def analyze_ar(self,year=None):
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data    = connect.get_admission_ar(year)
         if data['value']:
             data            =   pd.DataFrame(data['value'])

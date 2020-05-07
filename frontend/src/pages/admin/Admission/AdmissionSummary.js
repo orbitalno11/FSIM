@@ -6,25 +6,23 @@ import {
     Grid,
     Header,
     Container,
-    Card,
-    Table,
-    Image
+    Table
 } from "semantic-ui-react";
 
-// redux
-import {connect} from 'react-redux'
+// // redux
+// import {connect} from 'react-redux'
 
 
-import GraphPie from "../../../components/Graph/Pie";
-import GraphBar from "../../../components/Graph/Bar";
-import AlumniTypePanel from "../../../components/AlumniTypePanel";
+// import GraphPie from "../../../components/Graph/Pie";
+// import GraphBar from "../../../components/Graph/Bar";
+// import AlumniTypePanel from "../../../components/AlumniTypePanel";
 
 
 class AdmissionSummary extends Component {
     
   
     render() {
-        let {branch_list} = this.props
+        // let {branch_list} = this.props
         return (
             <Fragment>
                  <Container>
