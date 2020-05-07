@@ -136,29 +136,31 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl,
             personal_header: personalHeader
         }
-
+       
         axios.put(`/admin/alumni/survey`, data)
             .then(res => {
                 let message = res.data.message
                 console.log(message)
+                this.props.checkStatus("edit",true)
             })
             .catch(err => {
                 console.error(err)
+                this.props.checkStatus("edit",false)
             })
+        
     }
 
     messageAlert = () => {
+        let set_alert=null
         if (this.props.status == false) {
-            return (
-                <MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
-            )
+            set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
+            
         }else if(this.props.status == true) {
-          
-            return (
-                <MessageSuccess header='บันทึกสำเร็จ' body=''  />
-            )
+            set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
         }
+        return set_alert
     }
+
    
    
     

@@ -9,6 +9,8 @@ import AlumniAddSurvey from './AlumniAddSurvey'
 //redux 
 import { connect } from 'react-redux'
 import { getSurveyList } from '../../../redux/action/adminAlumniAction'
+import {MessageError,MessageSuccess} from '../../../components/MessageAlert'
+import { deleteItem } from '../../../redux/action/adminAlumniAction'
 
 class AlumniManage extends Component {
 
@@ -18,7 +20,14 @@ class AlumniManage extends Component {
             showDelete: false,
             deleteItem: null,
             showEdit: false,
-            editData: null
+            editData: null,
+            messageSuccessAlert : false,
+            messageErrorAlert : false,
+            index : null,
+            alert : {
+                header : '',
+                body : '',
+            }
         }
     }
 
@@ -26,24 +35,28 @@ class AlumniManage extends Component {
         this.props.loadSurveyList()
     }
 
-    onDeleteClick = item => {
+    onDeleteClick = (item,index) => {
         this.setState({
             showDelete: true,
-            deleteItem: item
+            deleteItem: item,
+            index:index
         })
+
     }
 
-    handleDelete = () => {
+    handleDelete = async event => {
         let { id, educationYear } = this.state.deleteItem
+        const data = {
+            index:this.state.index,
+            id: id,
+            educationYear: educationYear,
+        }
+        this.setState({
+            showDelete: false,
+            deleteItem: null
+        })
 
-        axios.delete(`/admin/alumni/survey?key=${id}&year=${educationYear}`)
-            .then(res => {
-                let message = res.data.message
-                console.log(message)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        await this.props.deleteItem(data)
     }
 
     handleDeleteClose = () => {
@@ -58,6 +71,7 @@ class AlumniManage extends Component {
             showEdit: true,
             editData: data
         })
+
     }
 
     handleEditClose = () => {
@@ -67,12 +81,53 @@ class AlumniManage extends Component {
         })
     }
 
+    checkStatus=(type,status)=>{
+        this.setState({
+            showEdit: false,
+        })
+
+        if(status){
+            this.setState({
+                messageSuccessAlert:true,
+                alert:{
+                    header:"แก้ไขสำเร็จ"
+                }
+            })
+        }else{
+            this.setState({
+                messageErrorAlert:true,
+                alert:{
+                    header:"แก้ไขล้มเหลว",
+                    body:"กรุณาลองใหม่อีกครั้ง"
+                }
+            })
+        }
+        
+    }
+
+    messageAlert = () => {
+        let set_alert=null
+        if (this.props.status == false) {
+            set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
+            
+        }else if(this.props.status == true) {
+            set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
+        }
+        return set_alert
+    }
+
+ 
     render() {
-        let { deleteItem, showDelete, showEdit, editData } = this.state
+        let { deleteItem, showDelete, showEdit, editData, messageSuccessAlert,messageErrorAlert } = this.state
 
         let { surveyList } = this.props.alumni
+        
         return (
             <Fragment>
+              {this.messageAlert()}
+                
+                
+                 
                 {
                     deleteItem !== null && (
                         <Modal
@@ -104,7 +159,7 @@ class AlumniManage extends Component {
                                 <h1>แก้ไขข้อมูลแบบสอบถาม ปีการศึกษา {editData['educationYear']}</h1>
                             </Modal.Header>
                             <Modal.Body>
-                                <AlumniAddSurvey editData={editData} />
+                                <AlumniAddSurvey  checkStatus={this.checkStatus}  editData={editData} />
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="danger" onClick={this.handleEditClose}>ยกเลิก</Button>
@@ -132,7 +187,7 @@ class AlumniManage extends Component {
                                         <td>{item.tableHeader}</td>
                                         <td>
                                             <Button onClick={() => this.onEditClick(item)}>แก้ไข</Button>
-                                            <Button onClick={() => this.onDeleteClick(item)}>ลบ</Button>
+                                            <Button onClick={() => this.onDeleteClick(item,index)}>ลบ</Button>
                                         </td>
                                     </tr>
                                 ))
@@ -148,13 +203,15 @@ class AlumniManage extends Component {
 const mapStateToProps = state => (
     {
         website: state.website,
-        alumni: state.admin_alumni
+        alumni: state.admin_alumni,
+        status: state.admin_alumni.surveyDeleteStatus
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
-        loadSurveyList: () => dispatch(getSurveyList())
+        loadSurveyList: () => dispatch(getSurveyList()),
+        deleteItem: (data) => dispatch(deleteItem(data))
     }
 )
 
