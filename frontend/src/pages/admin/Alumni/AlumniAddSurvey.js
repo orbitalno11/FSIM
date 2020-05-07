@@ -10,13 +10,16 @@ import {MessageError,MessageSuccess} from '../../../components/MessageAlert'
 import { connect } from 'react-redux'
 import { addSurvey } from '../../../redux/action/adminAlumniAction'
 
+import { startLoading ,stopLoading} from '../../../redux/action/generalAction'
+
 const initialState = {
    
     educationYear: null,
     sheetUrl: null,
     tableHeader: null,
     headerSelect: [],
-    personalHeader: []
+    personalHeader: [],
+
 };
 
 
@@ -32,7 +35,8 @@ class AlumniAddSurvey extends Component {
             sheetUrl: editData != null ? editData['sheetUrl'] : null,
             tableHeader: editData != null ? editData['tableHeader'] : null,
             headerSelect: editData != null ? editData['tableHeader'] : [],
-            personalHeader: editData != null ? editData['personalHeader'] : []
+            personalHeader: editData != null ? editData['personalHeader'] : [],
+            editVerify: editData != null ? true : false,
         }
         
         this.urlRef = React.createRef()
@@ -50,55 +54,65 @@ class AlumniAddSurvey extends Component {
       
  
 
-    handleVerifyUrl = () => {
+    handleVerifyUrl = async() => {
+        await this.props.startLoading()
         let url = this.urlRef.current.value
         this.setState({
             tableHeader: null
         })
+       
         axios.get(`/admin/readsheet?header=true&sheet_url=${url}`)
             .then(res => {
                 let data = res.data.data
                 this.setState({
-                    tableHeader: data
+                    tableHeader: data,
+                    editVerify:false
                 })
+                this.props.stopLoading()
             })
             .catch(err => {
                 console.error(err)
+                this.props.stopLoading()
             })
+
+        
     }
 
     handleHeaderSelect = event => {
         let value = event.target.value
-        let { headerSelect } = this.state
+        let { headerSelect,editVerify } = this.state
         let arr = headerSelect
-
-        if (arr.includes(value)) {
-            const index = arr.indexOf(value)
-            if (index > -1) arr.splice(index, 1)
-        } else {
-            arr.push(value)
+        if(!editVerify){
+            if (arr.includes(value)) {
+                const index = arr.indexOf(value)
+                if (index > -1) arr.splice(index, 1)
+            } else {
+                arr.push(value)
+            }
+    
+            this.setState({
+                headerSelect: arr
+            })
         }
-
-        this.setState({
-            headerSelect: arr
-        })
     }
 
     handlePersonalSelect = event => {
         let value = event.target.value
-        let { personalHeader } = this.state
+        let { personalHeader,editVerify } = this.state
         let arr = personalHeader
 
-        if (arr.includes(value)) {
-            const index = arr.indexOf(value)
-            if (index > -1) arr.splice(index, 1)
-        } else {
-            arr.push(value)
-        }
+        if(!editVerify){
+            if (arr.includes(value)) {
+                const index = arr.indexOf(value)
+                if (index > -1) arr.splice(index, 1)
+            } else {
+                arr.push(value)
+            }
 
-        this.setState({
-            personalHeader: arr
-        })
+            this.setState({
+                personalHeader: arr
+            })
+        }
     }
 
     handleSubmit = async event => {
@@ -141,11 +155,11 @@ class AlumniAddSurvey extends Component {
             .then(res => {
                 let message = res.data.message
                 console.log(message)
-                this.props.checkStatus("edit",true)
+                this.props.checkStatus(true)
             })
             .catch(err => {
                 console.error(err)
-                this.props.checkStatus("edit",false)
+                this.props.checkStatus(false)
             })
         
     }
@@ -166,14 +180,13 @@ class AlumniAddSurvey extends Component {
     
 
     render() {
-        let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader } = this.state
+        let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader,editVerify } = this.state
         let {editData} = this.props
 
-     
+       
         return (
             <Fragment>
-                {this.messageAlert()}
-               
+               {this.messageAlert()}
                 <Form id="addData" onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
                     <Form.Group>
                         <Form.Label>ปีการศึกษา</Form.Label>
@@ -193,42 +206,31 @@ class AlumniAddSurvey extends Component {
                                 readOnly={!editData ? false:true} 
                                 />
                             <InputGroup.Append   >
-                                <Button onClick={this.handleVerifyUrl } disabled={!editData ? false:true} >ตรวจสอบ</Button>
+                                <Button onClick={this.handleVerifyUrl } >ตรวจสอบ</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
                     {editData ? 
                         <p style={{color:'red'}}>หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
                         :null}
-                    <Form.Row>
+                    <Form.Row >
                         <Col xs={12} md={6}>
                             <Form.Group>
                                 <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>
                                 <div onChange={this.handlePersonalSelect}>
                                     {
-                                        !editData ?
-                                        (tableHeader !== null && tableHeader.map((item, index) => (
+                                        ((!editVerify ? tableHeader: personalHeader) !== null && (!editVerify ? tableHeader: personalHeader).map((item, index) => (
                                             <Form.Check
                                                 type='checkbox'
                                                 value={item}
                                                 id={"p-" + index}
                                                 label={item}
                                                 key={index}
-                                                defaultChecked={headerSelect.includes(item)
+                                                defaultChecked={personalHeader.includes(item)
                                                 }
                                             />
                                         )))
-                                        :
-                                        (personalHeader !== null && personalHeader.map((item, index) => (
-                                            <Form.Check
-                                                type='checkbox'
-                                                value={item}
-                                                id={"p-" + index}
-                                                label={item}
-                                                key={index}
-                                                defaultChecked={headerSelect.includes(item)}
-                                            />
-                                        )))
+                                     
                                     }
 
                                 </div>
@@ -247,7 +249,7 @@ class AlumniAddSurvey extends Component {
                                                 id={"h-" + index}
                                                 label={item}
                                                 key={index}
-                                                defaultChecked={personalHeader.includes(item)}
+                                                defaultChecked={headerSelect.includes(item)}
                                             />
                                         ))
                                     }
@@ -272,6 +274,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         addSurvey: (data) => dispatch(addSurvey(data)),
+        startLoading: () => dispatch(startLoading()),
+        stopLoading:()=>dispatch(stopLoading())
         
     }
 )

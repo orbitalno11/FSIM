@@ -94,13 +94,13 @@ export default (state = initialState, action) => {
         case DELETE_SURVEY_SUCCESS:
             return {
                 ...state,
-                surveyActionStatus: action.surveyActionStatus
+                surveyDeleteStatus: action.surveyDeleteStatus
             }
 
         case DELETE_SURVEY_FAILED:
             return {
                 ...state,
-                surveyActionStatus: action.surveyActionStatus,
+                surveyDeleteStatus: action.surveyDeleteStatus,
                 error: action.error
             }
 

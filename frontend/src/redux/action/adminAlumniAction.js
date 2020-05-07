@@ -114,7 +114,7 @@ const deleteSurveyStart = () => (
 const deleteSurveySuccess = () => (
     {
         type: DELETE_SURVEY_SUCCESS,
-        surveyDeleteStatus: true
+        surveyDeleteStatus: true,
     }
 )
 
@@ -237,3 +237,5 @@ export const deleteItem = data => dispatch => {
         })
 
 }
+
+ 

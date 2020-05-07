@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import axios from 'axios'
 
-import { Table, Button, Modal } from 'react-bootstrap'
+import { Table, Button, Modal ,ButtonGroup} from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
 
@@ -23,11 +23,8 @@ class AlumniManage extends Component {
             editData: null,
             messageSuccessAlert : false,
             messageErrorAlert : false,
-            index : null,
-            alert : {
-                header : '',
-                body : '',
-            }
+            statusEdit:null
+           
         }
     }
 
@@ -35,11 +32,10 @@ class AlumniManage extends Component {
         this.props.loadSurveyList()
     }
 
-    onDeleteClick = (item,index) => {
+    onDeleteClick = (item) => {
         this.setState({
             showDelete: true,
-            deleteItem: item,
-            index:index
+            deleteItem: item
         })
 
     }
@@ -81,36 +77,22 @@ class AlumniManage extends Component {
         })
     }
 
-    checkStatus=(type,status)=>{
+    checkStatus=(status)=>{
         this.setState({
             showEdit: false,
+            statusEdit:status
         })
 
-        if(status){
-            this.setState({
-                messageSuccessAlert:true,
-                alert:{
-                    header:"แก้ไขสำเร็จ"
-                }
-            })
-        }else{
-            this.setState({
-                messageErrorAlert:true,
-                alert:{
-                    header:"แก้ไขล้มเหลว",
-                    body:"กรุณาลองใหม่อีกครั้ง"
-                }
-            })
-        }
-        
+     
     }
 
     messageAlert = () => {
         let set_alert=null
-        if (this.props.status == false) {
+        const {statusEdit}=this.state
+        if (this.props.status == false || statusEdit==false) {
             set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
             
-        }else if(this.props.status == true) {
+        }else if(this.props.status == true || statusEdit) {
             set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
         }
         return set_alert
@@ -121,13 +103,11 @@ class AlumniManage extends Component {
         let { deleteItem, showDelete, showEdit, editData, messageSuccessAlert,messageErrorAlert } = this.state
 
         let { surveyList } = this.props.alumni
-        
+        console.log(this.props.status)
         return (
             <Fragment>
               {this.messageAlert()}
                 
-                
-                 
                 {
                     deleteItem !== null && (
                         <Modal
@@ -136,8 +116,11 @@ class AlumniManage extends Component {
                             show={showDelete}
                             onHide={this.handleDeleteClose}
                         >
+                            <Modal.Header closeButton>
+                                <h2>ต้องการลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']}</h2>
+                            </Modal.Header>
                             <Modal.Body>
-                                <h1>ต้องการลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']}</h1>
+                                หากลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']} แล้วจะไม่สามารถยกเลิกได้ 
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="danger" onClick={this.handleDelete}>ลบ</Button>
@@ -156,7 +139,7 @@ class AlumniManage extends Component {
                             onHide={this.handleEditClose}
                         >
                             <Modal.Header closeButton>
-                                <h1>แก้ไขข้อมูลแบบสอบถาม ปีการศึกษา {editData['educationYear']}</h1>
+                                <h2>แก้ไขข้อมูลแบบสอบถาม ปีการศึกษา {editData['educationYear']}</h2>
                             </Modal.Header>
                             <Modal.Body>
                                 <AlumniAddSurvey  checkStatus={this.checkStatus}  editData={editData} />
@@ -167,12 +150,12 @@ class AlumniManage extends Component {
                         </Modal>
                     )
                 }
-                <Table>
+                <Table >
                     <thead>
                         <tr className="text-center">
-                            <th>ลำดับ</th>
+                            <th >ลำดับ</th>
                             <th>ปีการศึกษา</th>
-                            <th>ตารางที่เลือก</th>
+                            <th style={{width:'60%'}}>ตารางที่เลือก</th>
                             <th>ดำเนินการ</th>
                         </tr>
                     </thead>
@@ -180,14 +163,25 @@ class AlumniManage extends Component {
                         {
                             
                             surveyList !== null && (
-                                surveyList.map((item, index) => (
+                                surveyList.slice(0).reverse().map((item, index) => (
+                                   
                                     <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{item['educationYear']}</td>
-                                        <td>{item.tableHeader}</td>
+                                        <td style={{textAlign:'center'}}>{index + 1}</td>
+                                        <td style={{textAlign:'center'}}>{item['educationYear']}</td>
                                         <td>
-                                            <Button onClick={() => this.onEditClick(item)}>แก้ไข</Button>
-                                            <Button onClick={() => this.onDeleteClick(item,index)}>ลบ</Button>
+                                        
+                                            <ul>
+                                                { item['tableHeader'] !== null && item['tableHeader'].map((item,index)=>
+                                                <li key={index}>{item}</li>)}
+                                            </ul>
+                                        </td>
+
+                                        <td style={{textAlign:'center'}}>
+                                            <ButtonGroup aria-label="Basic example" style={{width:'80%'}}>
+
+                                            <Button size="lg"  variant="warning" onClick={() => this.onEditClick(item)} >แก้ไข</Button>
+                                            <Button size="lg"  variant="danger"  onClick={() => this.onDeleteClick(item)} >ลบ</Button>
+                                            </ButtonGroup>
                                         </td>
                                     </tr>
                                 ))
