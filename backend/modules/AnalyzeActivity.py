@@ -73,7 +73,6 @@ class AnalyzeActivity:
                 student_joined_compare = analyze_helper.check_list(activityNoAr.index, student_joined)
                 student_joined_compare = analyze_helper.check_list_column(year_select, student_joined_compare)
                 student_joined_compare = analyze_helper.set_fullname_index(activity_dict, student_joined_compare)
-                # print(student_joined_compare)
 
 
             else:

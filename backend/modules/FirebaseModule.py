@@ -26,13 +26,12 @@ class FirebaseModule:
 
     # read data for alumni survey by year
     def alumni_get_survey_by_year(self, year: int):
-        year = int(year)
-
+        year = int(year) 
         db_ref = db.reference('alumni_survey')
-        print(year)
-        print(type(year))
         try:
+        
             snapshot = db_ref.order_by_child("educationYear").equal_to(year).get()
+            
         except Exception as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))

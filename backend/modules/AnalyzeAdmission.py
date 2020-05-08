@@ -38,7 +38,6 @@ class AnalyzeAdmission:
 
             df = pd.DataFrame(data['value'])
             # real data  
-            print(df)
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
             channel_data    =   analyze_helper.set_fullname(connect.get_admission_channel())
@@ -116,7 +115,6 @@ class AnalyzeAdmission:
         value = {}
         if data['value']:
             df = pd.DataFrame(data['value'])
-            print(df)
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
             branch_dict     =   analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
