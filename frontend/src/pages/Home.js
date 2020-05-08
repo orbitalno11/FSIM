@@ -9,9 +9,8 @@ import {
   Icon,
   Tab,
   Label,
-  Header
+  Header,
 } from "semantic-ui-react";
-
 
 import bgyel from "../img/bg-head.png";
 
@@ -25,20 +24,24 @@ import Logophy from "../img/phy.png";
 import Logochm from "../img/chm.png";
 import { Link } from "react-router-dom";
 
-
-
-const ButtonStudent = ({ id, name, image}) => (
+const ButtonStudent = ({ id, name, image }) => (
   <Fragment>
     <Grid.Column>
       <Button
+        animated
+        size="massive"
         id={id}
         type="button"
         as={Link}
         to={`/student/${id}`}
         className="btn btn-light btn-circle btn-xl"
       >
-        
-        <Image className="logo-branch" src={image} />
+        <Button.Content visible>
+          <Image className="logo-branch" src={image} />
+        </Button.Content>
+        <Button.Content hidden>
+          <Icon name="arrow right" />
+        </Button.Content>
       </Button>
       <Header textalign="center" size="small">
         {name}
@@ -66,67 +69,58 @@ const pageStudent = [
     name: "Mathematics",
     id_modal: "mth",
     Image: Logomth,
-    header_modal: "ภาควิชาคณิตศาสตร์"
+    header_modal: "ภาควิชาคณิตศาสตร์",
   },
   {
     name: "Physic",
     id_modal: "phy",
     Image: Logophy,
-    header_modal: "ภาควิชาฟิสิกส์"
+    header_modal: "ภาควิชาฟิสิกส์",
   },
   {
     name: "Microbiology",
     id_modal: "mic",
     Image: Logomic,
-    header_modal: "ภาควิชาจุลชีววิทยา"
+    header_modal: "ภาควิชาจุลชีววิทยา",
   },
   {
     name: "Chemical",
     id_modal: "chm",
     Image: Logochm,
-    header_modal: "ภาควิชาเคมี"
-  }
+    header_modal: "ภาควิชาเคมี",
+  },
 ];
 
 const buttonNewStudent = [
   {
-    name: "การรับเข้า",
+    name: "ActiveRecruitement",
     color: "yellow",
-    url: "/admission"
+    url: "/active",
   },
   {
-    name: "โครงการรับเข้า",
+    name: "กิจกรรมประชาสัมพันธ์",
     color: "yellow",
-    url: "/active"
+    url: "/activity",
   },
+];
+
+const buttonAdmission = [
   {
-    name: "ประชาสัมพันธ์",
+    name: "Admission",
     color: "yellow",
-    url: "/activity"
-  }
-  // {
-  //   name: "จัดการข้อมูลรับเข้า",
-  //   color: "yellow",
-  //   url: "/admin/admission"
-  // },
-  // {
-  //   name: "จัดการข้อมูลประชาสัมพันธ์",
-  //   color: "yellow",
-  //   url: "/admin/announcement"
-  // }
+    url: "/admission",
+  },
 ];
 
 class Home extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      pane: []
-    }
+      pane: [],
+    };
   }
 
- 
   componentDidMount() {
     this.setState({
       pane: [
@@ -138,20 +132,49 @@ class Home extends Component {
               direction="กรุณาเลือกภาควิชา"
               content={
                 <Grid.Row columns={4}>
-                  {pageStudent.map(item => (
+                  {pageStudent.map((item) => (
                     <ButtonStudent
                       name={item.header_modal}
                       id={item.id_modal}
                       image={item.Image}
                       key={item.id_modal}
                     />
-                   
                   ))}
-                  
                 </Grid.Row>
               }
             />
-          )
+          ),
+        },
+        {
+          menuItem: "ข้อมูลการรับนักศึกษา",
+          render: () => (
+            <PaneTemplate
+              label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
+              direction="กรุณาเลือกกิจกรรม"
+              content={
+                <Grid.Row>
+                  <Grid.Column textAlign="center">
+                    <Form.Group>
+                      {buttonAdmission.map((item, index) => (
+                        <Button
+                          animated
+                          size="massive"
+                          color={item.color}
+                          href={item.url}
+                          key={index}
+                        >
+                          <Button.Content visible> {item.name}</Button.Content>
+                          <Button.Content hidden>
+                            <Icon name="arrow right" />
+                          </Button.Content>
+                        </Button>
+                      ))}
+                    </Form.Group>
+                  </Grid.Column>
+                </Grid.Row>
+              }
+            />
+          ),
         },
         {
           menuItem: "กิจกรรมประชาสัมพันธ์",
@@ -164,8 +187,17 @@ class Home extends Component {
                   <Grid.Column textAlign="center">
                     <Form.Group>
                       {buttonNewStudent.map((item, index) => (
-                        <Button size="massive" color={item.color} href={item.url} key={index}>
-                          {item.name}
+                        <Button
+                          animated
+                          size="massive"
+                          color={item.color}
+                          href={item.url}
+                          key={index}
+                        >
+                          <Button.Content visible> {item.name}</Button.Content>
+                          <Button.Content hidden>
+                            <Icon name="arrow right" />
+                          </Button.Content>
                         </Button>
                       ))}
                     </Form.Group>
@@ -173,7 +205,7 @@ class Home extends Component {
                 </Grid.Row>
               }
             />
-          )
+          ),
         },
         {
           menuItem: "ข้อมูลศิษย์เก่า",
@@ -182,7 +214,7 @@ class Home extends Component {
               label="แสดงผลการวิเคราะห์หน้าที่การงานของนักศึกษาที่จบการศึกษา"
               content={
                 <Grid.Row>
-                  <Grid.Column>
+                  <Grid.Column textAlign="center">
                     <Button animated size="massive" color="yellow">
                       <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
                       <Button.Content hidden>
@@ -193,15 +225,14 @@ class Home extends Component {
                 </Grid.Row>
               }
             />
-          )
-        }
-      ]
-    })
+          ),
+        },
+      ],
+    });
   }
 
   render() {
-
-    let { pane } = this.state
+    let { pane } = this.state;
 
     return (
       <Fragment>
@@ -243,6 +274,5 @@ class Home extends Component {
     );
   }
 }
-
 
 export default Home;
