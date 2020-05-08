@@ -67,8 +67,10 @@ def get_project_type():
 @admin_activity.route('/list', methods=['GET'])
 def get_activity_list():
 
+    year = request.args.get('year')
+
     db = DatabaseHelper()
-    result = db.get_activity_list()
+    result = db.get_activity_list(year)
 
     return api_helper.return_response(result)
 

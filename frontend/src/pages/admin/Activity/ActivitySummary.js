@@ -10,6 +10,8 @@ import {
     Table
 } from "semantic-ui-react";
 
+import axios from 'axios'
+
 
 import GraphBar from "../../../components/Graph/Bar";
 
@@ -20,13 +22,34 @@ class ActivitySummary extends Component {
         super(props)
 
         this.state = {
-            year: 2560,
-            yearList: [2560, 2561]
+            year: 2561,
+            yearList: [2560, 2561],
+            activityList: null
         }
     }
 
+    componentDidMount() {
+        this.getActivityList()
+    }
+
+    getActivityList = () => {
+        axios.get('/admin/activity/list?year=' + this.state.year)
+            .then(res => {
+                let data = res.data.data
+
+                if (data.length < 1) return
+
+                this.setState({
+                    activityList: data
+                })
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
     render() {
-        let { year, yearList } = this.state
+        let { year, yearList, activityList } = this.state
         return (
             <Fragment>
                 <Container>
@@ -144,15 +167,17 @@ class ActivitySummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell textAlign="center">
-                                            2560
-                                        </Table.Cell>
-                                        <Table.Cell textAlign="center">KMUTT TOUR</Table.Cell>
-                                        <Table.Cell textAlign="center">30000</Table.Cell>
-
-                                    </Table.Row>
-
+                                    {
+                                        activityList !== null && (
+                                            activityList.map((item, index) => (
+                                                <Table.Row key={index}>
+                                                    <Table.Cell textAlign="center">{item['education_year']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['activity_name']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['activity_budget']}</Table.Cell>
+                                                </Table.Row>
+                                            ))
+                                        )
+                                    }
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
