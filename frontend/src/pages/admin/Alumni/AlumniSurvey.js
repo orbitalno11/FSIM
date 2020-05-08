@@ -17,6 +17,8 @@ import AlumniTypePanel from "../../../components/AlumniTypePanel";
 // redux
 import { connect } from 'react-redux'
 import { setSelectedYear } from '../../../redux/action/adminAlumniAction'
+import { startLoading, stopLoading } from '../../../redux/action/generalAction'
+
 
 
 class AlumniSurvey extends Component {
@@ -26,7 +28,8 @@ class AlumniSurvey extends Component {
 
         this.state = {
             surveyDetail: null,
-            analyzeData: null
+            analyzeData: null,
+            fatchDate: false
         }
     }
 
@@ -40,8 +43,15 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        await this.props.setSelectedYear(n_year)
+        this.props.startLoading()
 
+        if (n_year == 0)
+            n_year = null
+        this.setState({
+            analyzeData: null
+        })
+
+        await this.props.setSelectedYear(n_year)
         this.fetchSurveyData()
     }
 
@@ -61,57 +71,66 @@ class AlumniSurvey extends Component {
                         surveyDetail: null,
                         analyzeData: null
                     })
-                    return
+                    // this.props.stopLoading()
+                    // return
+                } else {
+                    let detail = data[key[0]]
+
+                    this.setState({
+                        surveyDetail: detail
+                    })
+
+                    this.fetchAnalyzeSurvey()
                 }
-
-                let detail = data[key[0]]
-
-                this.setState({
-                    surveyDetail: detail
-                })
-
-                this.fetchAnalyzeSurvey()
-
             })
             .catch(err => {
                 console.error(err)
             })
+
+
+
     }
 
     fetchAnalyzeSurvey = () => {
         let { surveyDetail } = this.state
 
-        if (surveyDetail === null) return
+        if (surveyDetail !== null) {
+            let { sheetUrl, tableHeader } = surveyDetail
 
-        let { sheetUrl, tableHeader } = surveyDetail
+            let sendData = {
+                sheet_url: sheetUrl,
+                table_header: tableHeader
+            }
 
-        let sendData = {
-            sheet_url: sheetUrl,
-            table_header: tableHeader
+            axios.post('/alumni/analyze/survey', sendData)
+                .then(res => {
+                    let data = res.data.data[0]
+                    let key = Object.keys(data)
+
+                    let analyze_sur = []
+                    key.forEach(key => {
+                        let result = {
+                            topic: key,
+                            mean: data[key]['mean'],
+                            std: data[key]['std']
+                        }
+                        analyze_sur.push(result)
+                    })
+
+                    this.setState({
+                        analyzeData: analyze_sur
+                    })
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
 
-        axios.post('/alumni/analyze/survey', sendData)
-            .then(res => {
-                let data = res.data.data[0]
-                let key = Object.keys(data)
+        // this.props.stopLoading()
+    }
 
-                let analyze_sur = []
-                key.forEach(key => {
-                    let result = {
-                        topic: key,
-                        mean: data[key]['mean'],
-                        std: data[key]['std']
-                    }
-                    analyze_sur.push(result)
-                })
-
-                this.setState({
-                    analyzeData: analyze_sur
-                })
-            })
-            .catch(err => {
-                console.error(err)
-            })
+    stop=()=>{
+        // this.props.stopLoading()
     }
 
     render() {
@@ -128,6 +147,7 @@ class AlumniSurvey extends Component {
                         {
                             !website.loading && (
                                 <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                    <option value="0">เลือกปีการศึกษา</option>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (
                                             <option key={index} value={item}>{item}</option>
@@ -143,10 +163,10 @@ class AlumniSurvey extends Component {
                         <Grid.Row>
 
                             <Header as="h3">
-                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน
-                                </Header>
+                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {alumni.selectedYear}
+                            </Header>
                             <Divider />
-                           <Table celled structured>
+                            <Table celled structured>
                                 <Table.Header>
                                     <Table.Row active>
                                         <Table.HeaderCell width={12} textAlign="center">
@@ -157,19 +177,21 @@ class AlumniSurvey extends Component {
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             ส่วนเบี่ยงเบนมาตรฐาน
-                                        </Table .HeaderCell>
+                                        </Table.HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
 
                                 <Table.Body>
                                     {
-                                        analyzeData !== null && (analyzeData.length !== 0 && analyzeData.map((item, index) => (
+                                        analyzeData !== null && analyzeData.length !== 0 
+                                        ?  analyzeData.map((item, index) => (
                                             <Table.Row key={index}>
                                                 <Table.Cell style={{ paddingLeft: "4%" }}>{item['topic']}</Table.Cell>
                                                 <Table.Cell textAlign="center">{item['mean']}</Table.Cell>
                                                 <Table.Cell textAlign="center">{item['std']}</Table.Cell>
                                             </Table.Row>
-                                        )))
+                                        )) : null
+                                        
                                     }
                                 </Table.Body>
                             </Table>
@@ -192,7 +214,9 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        setSelectedYear: (year) => dispatch(setSelectedYear(year))
+        setSelectedYear: (year) => dispatch(setSelectedYear(year)),
+        startLoading: () => dispatch(startLoading()),
+        stopLoading: () => dispatch(stopLoading())
     }
 )
 

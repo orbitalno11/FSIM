@@ -153,11 +153,11 @@ class AlumniAddSurvey extends Component {
         axios.put(`/admin/alumni/survey`, data)
             .then(res => {
                 let message = res.data.message
-                console.log(message)
+                // console.log(message)
                 this.props.checkStatus(true)
             })
             .catch(err => {
-                console.error(err)
+                // console.error(err)
                 this.props.checkStatus(false)
             })
         
@@ -218,7 +218,25 @@ class AlumniAddSurvey extends Component {
                                 <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>
                                 <div onChange={this.handlePersonalSelect}>
                                     {
-                                        ((!editVerify ? tableHeader: personalHeader) !== null && (!editVerify ? tableHeader: personalHeader).map((item, index) => (
+                                        !editVerify 
+                                        ?
+
+                                        (
+                                             tableHeader!== null && tableHeader.map((item, index) => (
+                                            <Form.Check
+                                                type='checkbox'
+                                                value={item}
+                                                id={"p-" + index}
+                                                label={item}
+                                                key={index}
+                                                defaultChecked={personalHeader.includes(item)
+                                                }
+                                            />
+                                          
+                                        )
+                                        ))
+                                        :
+                                        ( tableHeader!== null && personalHeader.map((item, index) => (
                                             <Form.Check
                                                 type='checkbox'
                                                 value={item}
@@ -229,7 +247,6 @@ class AlumniAddSurvey extends Component {
                                                 }
                                             />
                                         )))
-                                     
                                     }
 
                                 </div>

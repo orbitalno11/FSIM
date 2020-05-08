@@ -25,6 +25,7 @@ const selectedYear = year => (
         type: SET_SURVEY_SELECTED_YEAR,
         selectedYear: year
     }
+    
 )
 
 const resetSurveyAction = () => (
@@ -127,7 +128,11 @@ const deleteSurveyFailed = (error) => (
     }
 )
 
-export const setSelectedYear = year => dispatch => dispatch(selectedYear(year))
+export const setSelectedYear = year => dispatch => {
+    
+    dispatch(selectedYear(year))
+   
+}
 export const resetSurveyActionStatus = () => dispatch => dispatch(resetSurveyAction())
 
 // load all survey year
@@ -203,6 +208,7 @@ export const addSurvey = data => dispatch => {
             if (data['response']){
                 dispatch(addSurveySuccess())
                 dispatch(getSurveyList())
+                dispatch(getAllAlumniYear())
             }else{
                 dispatch(addSurveyFailed("Response Error"))
             }
