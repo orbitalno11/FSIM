@@ -21,7 +21,7 @@ class Alumni extends Component {
         return (
             <Fragment>
                 <Image size="big" className="head-right" src={bgyel}/>
-                <Container>
+                <Container className="container my-5">
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}
                         <Dropdown

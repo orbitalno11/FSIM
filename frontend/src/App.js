@@ -18,6 +18,10 @@ import ActivityInformation from "./pages/ActivityInformation";
 
 import DepartmentDetail from './pages/DepartmentDetail'
 import DepartmentStudent from './pages/DepartmentStudent'
+import Statcourse from './pages/Statcourse'
+import StatcourseGPA from './pages/StatcourseGPA'
+import Statcoursebranch from './pages/Statcoursebranch'
+
 
 // admin component
 import AdminLayout from './layouts/Admin'
@@ -70,6 +74,9 @@ class App extends Component {
                         <Route exact path="/activity" component={ActivityInformation} />
                         <Route exact path="/student/:id" component={DepartmentStudent} />
                         <Route path="/department/:dept_id" component={DepartmentDetail} />
+                        <Route exact path="/Statcourse" component={Statcourse} />
+                        <Route exact path="/StatcourseGPA" component={StatcourseGPA} />
+                        <Route exact path="/Statcoursebranch" component={Statcoursebranch} />
 
                         {/*    admin    */}
                         <AdminRoute path="/admin" component={AdminLayout} />

@@ -59,6 +59,7 @@ class AnalyzeAlumni:
     def analyze_alumni_work(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_all_alumni(year)
+      
         if data['value']:
             df = pd.DataFrame(data['value'])
             df['graduated_gpax'] = df['graduated_gpax'].astype(int)
@@ -88,7 +89,6 @@ class AnalyzeAlumni:
             salary_branch_trining = []
             list_analze = {}
             salary_all_branch_trining = self.__salary_branch_training(df[['salary','apprentice_id']])
-            # print(df)    
             salary_all_branch_trining_check_index = analyze_helper.check_list_column(status_apprentice.index.values,
                                                                               salary_all_branch_trining)
             salary_all_branch_trining_check_column = analyze_helper.check_list(list_salary.keys(),
@@ -115,7 +115,6 @@ class AnalyzeAlumni:
                     list_analze['dept_name'] = branch_dic[i]
                     list_analze['num_student'] = len(data)
                     list_analze['salary_all_branch_training'] = analyze_salart.to_dict('index')
-                    # print(analyze_salart)
                 else:
                     analyze_salart = pd.DataFrame(0, index=np.arange(len(list_salary)),
                                                   columns= status_apprentice.status_title.tolist())
@@ -129,8 +128,7 @@ class AnalyzeAlumni:
 
             list_branch_traning.insert(0, 'all')
 
-            print(salary_branch_trining)
-            # for
+
             value = {
                 'count_student': len(df.index),
                 'count_by_branch': analyze_helper.set_fullname_index(branch_dic, df_branch_finish).to_dict(),

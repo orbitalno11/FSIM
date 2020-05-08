@@ -8,10 +8,6 @@ class TabDialog extends Component {
         super(props);
         this.state = {
             dialogName: props.dialogName,
-            tab1Name: props.tab1Name,
-            tab2Name: props.tab2Name,
-            tab1Pane: props.tab1Pane,
-            tab2Pane: props.tab2Pane,
             tabList: props.tabList,
             paneList: props.paneList,
             key: "tab1"

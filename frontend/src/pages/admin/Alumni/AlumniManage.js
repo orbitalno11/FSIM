@@ -103,7 +103,7 @@ class AlumniManage extends Component {
         let { deleteItem, showDelete, showEdit, editData, messageSuccessAlert,messageErrorAlert } = this.state
 
         let { surveyList } = this.props.alumni
-        console.log(this.props.status)
+        // console.log(this.props.status)
         return (
             <Fragment>
               {this.messageAlert()}

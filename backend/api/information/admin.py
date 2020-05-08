@@ -15,15 +15,15 @@ from backend.modules.AnalyzeStudent import AnalyzeStudent
 # import authen
 import backend.modules.AuthenticationModule as auth
 
-admin_department = Blueprint('admin_department', __name__)
+admin_information = Blueprint('admin_information', __name__)
 
 
-# get all department data
-@admin_department.route('/', methods=['GET'])
-def get_all_department_data():
-    dept_id = request.args.get('dept_id')
+# get all information data
+@admin_information.route('/', methods=['GET'])
+def get_course():
+    course_id = request.args.get('course_id')
 
     db = DatabaseHelper()
-    result = db.get_department_detail(dept_id)
+    result = db.get_department_detail(course_id)
 
     return api_helper.return_response(result)

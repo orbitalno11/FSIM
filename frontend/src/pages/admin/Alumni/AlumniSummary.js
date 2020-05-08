@@ -40,7 +40,9 @@ class AlumniSummary extends Component {
             workChart: null,
             trainingChart: null,
             gpaChart: null,
-            salaryChart: null
+            salaryChart: null,
+            year:null
+
         }
     }
 
@@ -51,6 +53,9 @@ class AlumniSummary extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            year : this.props.alumni.selectedYear
+        })
         this.fetchBranch()
     }
 
@@ -68,11 +73,10 @@ class AlumniSummary extends Component {
     }
 
     fetchWorkData = () => {
-        let { selectedYear } = this.props.alumni
-
-        if (selectedYear === null) return
-
-        axios.get(`/alumni/analyze/work?year=${selectedYear}`)
+        let { year } = this.state
+        
+        // if (selectedYear === null) return 
+        axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data
                 if (recieved_data['count_by_branch'] == null) {
@@ -92,16 +96,16 @@ class AlumniSummary extends Component {
                 let salaryData = recieved_data['salary_all_branch_training']
                 let salaryChart = salaryData['all']['salary_all_branch_training']
 
-                // let branchKey = Object.keys(branchData)
-                // let branchStudent = []
+                    // let branchKey = Object.keys(branchData)
+                    // let branchStudent = []
 
-                // branchKey.forEach( key => {
-                //     let branch = {
-                //         name: key,
-                //         number: branchData[key]
-                //     }
-                //     branchStudent.push(branch)
-                // })
+                    // branchKey.forEach( key => {
+                    //     let branch = {
+                    //         name: key,
+                    //         number: branchData[key]
+                    //     }
+                    //     branchStudent.push(branch)
+                    // })
 
 
                 this.setState({
@@ -125,6 +129,8 @@ class AlumniSummary extends Component {
                     salaryChart: null
                 })
             })
+
+            // this.props.stopLoading()
     }
 
     setupBranchSelect = () => {
@@ -150,8 +156,15 @@ class AlumniSummary extends Component {
     handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
-
+        // await this.props.startLoading()
+        if(n_year ==0) 
+             n_year=null 
+        
+        this.setState({
+            year:n_year
+        })
         await this.props.setSelectedYear(n_year)
+        
         this.fetchWorkData()
 
     }
@@ -175,7 +188,7 @@ class AlumniSummary extends Component {
 
     render() {
 
-        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
+        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart,year } = this.state
 
         let { alumni, website } = this.props
 
@@ -186,7 +199,8 @@ class AlumniSummary extends Component {
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
                         {
                             !website.loading && (
-                                <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
+                                    <option value="0">แสดงทุกปี</option>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (
                                             <option key={index} value={item}>{item}</option>
@@ -198,25 +212,21 @@ class AlumniSummary extends Component {
                     </Header>
                     <Divider />
                     <Grid>
-                        <Grid.Row>
-                            <Card fluid={true}>
-                                {/* { branchStudent !== null && <AlumniTypePanel data={branchStudent} />} */}
-                            </Card>
-                        </Grid.Row>
-                        <Grid.Row columns={2}>
-                            <Grid.Column>
-                                <Card className="card-circle-modal">
+                       
+                        <Grid.Row columns={2} >
+                            <Grid.Column >
+                                <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
-                                    <Card.Content>
+                                    <Card.Content >
                                         {branchStudentChart !== null && <GraphPie data={branchStudentChart} />}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Row columns={2}>
-                                <Grid.Column>
-                                    <Card className="card-twin-modal">
+
+                            <Grid.Column>
+                                    <Card className="card-default">
                                         <Card.Header as="h3">
                                             กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
@@ -225,22 +235,23 @@ class AlumniSummary extends Component {
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
-                                <br />
-                                <Grid.Column>
-                                    <Card className="card-twin-modal">
+                          
+                        </Grid.Row>
+                        <Grid.Row  >
+                                <Grid.Column >
+                                    <Card className="card-default" >
                                         <Card.Header as="h3">
                                             กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
-                                        <Card.Content>
-                                            {trainingChart !== null && <GraphPie data={trainingChart} />}
+                                        <Card.Content  >
+                                            {trainingChart !== null && <GraphPie data={trainingChart}  />}
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
                             </Grid.Row>
-                        </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
+                            <Grid.Column >
+                                <Card className="card-default" >
                                     <Card.Header as="h3">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
@@ -253,7 +264,7 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="card-default" >
                                     <Card.Header as="h3">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
 

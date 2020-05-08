@@ -21,7 +21,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
-            db = DatabaseHelper.get_instance()
+            db = DatabaseHelper()
             result = db.get_user(data['staff_id'])
 
             if not result['response']:

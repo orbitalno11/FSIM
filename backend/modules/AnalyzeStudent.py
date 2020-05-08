@@ -86,7 +86,6 @@ class AnalyzeStudent:
                 list_branch = branch.index.tolist()
             else:
                 list_branch = branch_data.index.tolist()
-            print()
             group_subject   = df.groupby(['subject_code','grade']).size().unstack(fill_value=0)
             group_subject_F = df_f.groupby(['subject_code','branch_id']).size().unstack(fill_value=0)
             group_subject_F = analyze_helper.check_list_column(list_branch,group_subject_F)
@@ -122,11 +121,9 @@ class AnalyzeStudent:
                 'gpax'  :   df_drop_s.current_gpax.loc[1],
                 'trackking' : df_tracking.to_dict()
             }
-            print(value)
             response = True
             message = "Analyze Subject Successfully"
         else:
-            print("null")
             response= False
             message = "Don't have Data"
         

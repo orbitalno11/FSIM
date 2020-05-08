@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import modalControl from "./modalReducer";
-import authenticate from './AuthReducer'
+import authenticate from './authReducer'
 import adminAlumni from './adminAlumniReducer'
 
 import general from './generalReducer'
