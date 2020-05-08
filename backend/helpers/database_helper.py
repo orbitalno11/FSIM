@@ -197,6 +197,27 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Success", out_data)
 
+    # get activity list
+    def get_activity_list(self):
+        sql_command = "SELECT activity_id, activity_name, type_name, year FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+
+        for data in execute['value']:
+            activity ={
+                'activity_id': data[0],
+                'activity_name': data[1],
+                'project_type': data[2],
+                'education_year': data[3]
+            }
+            out_data.append(activity)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
     # get project type
     def get_project_type(self):
         sql_command = "SELECT project_type, type_name FROM activity_type"

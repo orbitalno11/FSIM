@@ -45,7 +45,7 @@ class DepartmentStudent extends Component {
     }
 
     fetchData = async (dept_id) => {
-        await axios.get(`/department?dept_id=${dept_id}`)
+        await axios.get(`/student/department?dept_id=${dept_id}`)
             .then(res => {
                 let received = res.data
 
@@ -64,7 +64,7 @@ class DepartmentStudent extends Component {
                 }
             })
             .catch(error => {
-                console.log("error")
+                console.log(error)
                 this.setState({
                     loadTime: 1
                 })

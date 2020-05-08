@@ -64,3 +64,12 @@ def get_project_type():
     return api_helper.return_response(result)
 
 
+@admin_activity.route('/list', methods=['GET'])
+def get_activity_list():
+
+    db = DatabaseHelper()
+    result = db.get_activity_list()
+
+    return api_helper.return_response(result)
+
+
