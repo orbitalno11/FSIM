@@ -45,7 +45,7 @@ class DepartmentStudent extends Component {
     }
 
     fetchData = async (dept_id) => {
-        await axios.get(`/department/student?dept_id=${dept_id}`)
+        await axios.get(`/department?dept_id=${dept_id}`)
             .then(res => {
                 let received = res.data
 
