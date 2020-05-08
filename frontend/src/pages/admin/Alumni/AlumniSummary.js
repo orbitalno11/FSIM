@@ -40,7 +40,9 @@ class AlumniSummary extends Component {
             workChart: null,
             trainingChart: null,
             gpaChart: null,
-            salaryChart: null
+            salaryChart: null,
+            year:null
+
         }
     }
 
@@ -51,6 +53,9 @@ class AlumniSummary extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            year : this.props.alumni.selectedYear
+        })
         this.fetchBranch()
     }
 
@@ -68,11 +73,10 @@ class AlumniSummary extends Component {
     }
 
     fetchWorkData = () => {
-        let { selectedYear } = this.props.alumni
-
+        let { year } = this.state
+        
         // if (selectedYear === null) return 
-        let select=null
-        axios.get(`/alumni/analyze/work?year=${selectedYear}`)
+        axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data
                 if (recieved_data['count_by_branch'] == null) {
@@ -156,6 +160,9 @@ class AlumniSummary extends Component {
         if(n_year ==0) 
              n_year=null 
         
+        this.setState({
+            year:n_year
+        })
         await this.props.setSelectedYear(n_year)
         
         this.fetchWorkData()
@@ -181,7 +188,7 @@ class AlumniSummary extends Component {
 
     render() {
 
-        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart } = this.state
+        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart,year } = this.state
 
         let { alumni, website } = this.props
 
@@ -192,7 +199,7 @@ class AlumniSummary extends Component {
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
                         {
                             !website.loading && (
-                                <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
                                     <option value="0">แสดงทุกปี</option>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (

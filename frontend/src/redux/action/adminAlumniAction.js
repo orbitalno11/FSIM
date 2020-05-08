@@ -231,6 +231,7 @@ export const deleteItem = data => dispatch => {
             let data = res.data
                 if (data['response']){
                     dispatch(deleteSurveySuccess())
+                    dispatch(getAllAlumniYear())  
                     dispatch(getSurveyList())
                 }else{
                     dispatch(deleteSurveyFailed("Response Error"))

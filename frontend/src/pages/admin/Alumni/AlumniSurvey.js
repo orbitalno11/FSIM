@@ -29,7 +29,6 @@ class AlumniSurvey extends Component {
         this.state = {
             surveyDetail: null,
             analyzeData: null,
-            fatchDate: false
         }
     }
 
@@ -43,7 +42,7 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        // this.props.startLoading()
+        this.props.startLoading()
 
         if (n_year == 0)
             n_year = null
@@ -53,16 +52,15 @@ class AlumniSurvey extends Component {
 
         await this.props.setSelectedYear(n_year)
         this.fetchSurveyData()
-
         
+
     }
 
     fetchSurveyData = () => {
         let { selectedYear } = this.props.alumni
         
-        if (selectedYear === null) return
-
-        axios.get(`/alumni/survey?year=${selectedYear}`)
+        if (selectedYear !== null) {
+            axios.get(`/alumni/survey?year=${selectedYear}`)
             .then(res => {
                 let data = res.data.data[0]
                 let key = Object.keys(data)
@@ -73,7 +71,7 @@ class AlumniSurvey extends Component {
                         surveyDetail: null,
                         analyzeData: null
                     })
-                    
+                    this.props.stopLoading()
                     // return
                 } else {
                     let detail = data[key[0]]
@@ -81,16 +79,20 @@ class AlumniSurvey extends Component {
                     this.setState({
                         surveyDetail: detail
                     })
-
+                    // alert("ดึงเสร็จ")
                     this.fetchAnalyzeSurvey()
-
+                   
                    
                 }
             })
             .catch(err => {
                 console.error(err)
+                this.props.stopLoading()
                 
             })
+        }
+        // alert("ดึง data")
+        
 
 
            
@@ -106,7 +108,7 @@ class AlumniSurvey extends Component {
                 sheet_url: sheetUrl,
                 table_header: tableHeader
             }
-
+            // alert("วิเคราห์")
             axios.post('/alumni/analyze/survey', sendData)
                 .then(res => {
                     let data = res.data.data[0]
@@ -125,18 +127,18 @@ class AlumniSurvey extends Component {
                     this.setState({
                         analyzeData: analyze_sur
                     })
+                    this.props.stopLoading()
                 })
                 .catch(err => {
                     console.error(err)
+                    this.props.stopLoading()
                 })
         }
-        //  this.props.stopLoading()
+         
         
     }
 
-    stop=()=>{
-        // this.props.stopLoading()
-    }
+  
 
     render() {
         let { analyzeData } = this.state

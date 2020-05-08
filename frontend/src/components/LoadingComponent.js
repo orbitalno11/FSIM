@@ -11,7 +11,7 @@ const LoadingComponent = () => (
 
         // </div>  */}
     
-         <img className="GifLoad" src={LoadingGif} alt="loading..." /> */
+         <img className="GifLoad" src={LoadingGif} alt="loading..." /> 
      </div>
 )
 
