@@ -43,17 +43,20 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        this.props.startLoading()
+      
 
         if (n_year == 0)
             n_year = null
         this.setState({
             analyzeData: null
         })
-
-        await this.props.setSelectedYear(n_year)
-        this.fetchSurveyData()
-        
+        if (n_year!=null){
+            this.props.startLoading()
+            await this.props.setSelectedYear(n_year)
+            this.fetchSurveyData()
+            
+        }
+       
 
     }
 
@@ -94,6 +97,8 @@ class AlumniSurvey extends Component {
                 
             })
         }
+
+        
         // alert("ดึง data")
         
 

@@ -8,7 +8,7 @@ import { MessageError, MessageSuccess } from '../../../components/MessageAlert'
 
 // redux
 import { connect } from 'react-redux'
-import { addSurvey } from '../../../redux/action/adminAlumniAction'
+import { addSurvey,getSurveyList } from '../../../redux/action/adminAlumniAction'
 
 import { startLoading, stopLoading } from '../../../redux/action/generalAction'
 
@@ -84,17 +84,17 @@ class AlumniAddSurvey extends Component {
             personalHeader: editData != null ? editData['personalHeader'] : [],
             editVerify: editData != null ? true : false,
             list_person:{
-                idStudent : null,
-                gpax:null,
-                branch:null,
-                company:null,
-                status:null,
-                position:null,
-                salary:null,
-                nameUniver:null,
-                Adep:null,
-                Abranch:null,
-                typeTraining:null
+                idStudent :  editData != null ? editData['personalHeader'][0] : [],
+                gpax:editData != null ? editData['personalHeader'][1] : [],
+                branch:editData != null ? editData['personalHeader'][2] : [],
+                company:editData != null ? editData['personalHeader'][3] : [],
+                status:editData != null ? editData['personalHeader'][4] : [],
+                position:editData != null ? editData['personalHeader'][5] : [],
+                salary:editData != null ? editData['personalHeader'][6] : [],
+                nameUniver:editData != null ? editData['personalHeader'][7] : [],
+                Adep:editData != null ? editData['personalHeader'][8] : [],
+                Abranch:editData != null ? editData['personalHeader'][9] : [],
+                typeTraining:editData != null ? editData['personalHeader'][10] : [],
             }
            
         }
@@ -127,15 +127,15 @@ class AlumniAddSurvey extends Component {
                     tableHeader: data,
                     editVerify: false
                 })
-                // this.props.stopLoading()
+                
             })
             .catch(err => {
                 console.error(err)
                 // this.props.stopLoading()
             })
-
-
     }
+
+
 
     handleHeaderSelect = event => {
         let value = event.target.value
@@ -181,7 +181,6 @@ class AlumniAddSurvey extends Component {
         const sheetUrl = elements.sheetUrl.value
         const educationYear = elements.educationYear.value
         const tableHeader = this.state.headerSelect
-        const personalHeader = this.state.personalHeader  
         
         let list_p = [list_person.idStudent,
             list_person.gpax,
@@ -202,9 +201,7 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        this.setState({
-            personalHeader:list_p
-        })
+        
 
         await this.props .addSurvey(data)
     }
@@ -212,30 +209,47 @@ class AlumniAddSurvey extends Component {
     handleEdit = event => {
         event.preventDefault()
         let elements = event.target.elements
-
+        const {list_person}=this.state
         const sheetUrl = elements.sheetUrl.value
         const educationYear = elements.educationYear.value
         const tableHeader = this.state.headerSelect
-        const personalHeader = this.state.personalHeader
+
+        let list_p = [list_person.idStudent,
+            list_person.gpax,
+            list_person.branch,
+            list_person.company,
+            list_person.status,
+            list_person.position,
+            list_person.salary,
+            list_person.nameUniver,
+            list_person.Adep,
+            list_person.Abranch,
+            list_person.typeTraining
+        ]
 
         const data = {
             key: this.state.key,
             year: parseInt(educationYear),
             table_header: tableHeader,
             sheet_url: sheetUrl,
-            personal_header: personalHeader
+            personal_header: list_p
         }
+
+        console.log(data)
 
         axios.put(`/admin/alumni/survey`, data)
             .then(res => {
                 let message = res.data.message
                 // console.log(message)
                 this.props.checkStatus(true)
+                this.props.loadSurveyList()
             })
             .catch(err => {
                 // console.error(err)
                 this.props.checkStatus(false)
             })
+
+       
 
     }
 
@@ -252,19 +266,21 @@ class AlumniAddSurvey extends Component {
 
 
     handleFormChange = (e) => {
-        const { name, value ,id} = e.target;
-       
-    
-        let list_p = Object.assign({}, this.state.list_person);
-        list_p[name] = value;
-        this.setState({list_person: list_p});
-       
+        const { name, value } = e.target;
+        const {list_person,personalHeader}=this.state
+      
+            let list_p = Object.assign({}, list_person);
+            list_p[name] = value;
+            this.setState({list_person: list_p});
+        
+
         
     }
 
     render() {
         let { tableHeader, sheetUrl, headerSelect, educationYear, idStudent, personalHeader, editVerify} = this.state
         let { editData } = this.props
+        // console.log(personalHeader)
         return (
             <Fragment>
                 {this.messageAlert()}
@@ -305,14 +321,25 @@ class AlumniAddSurvey extends Component {
                                     tableHeader !== null &&list_personal.map((item, index) => (
                                         <Form.Group
                                             style={{ width: '70%' }}
+                                            key={index}
                                            >
                                             <Form.Label>{item.name_th}</Form.Label>
-                                            <Form.Control  key={index} id={index} name={item.name_en} defaultValue={idStudent} as="select">
-                                                <option value='0'>กรุณาเลือก{item.name_th}</option>
+                                            <Form.Control  id={index} name={item.name_en} defaultValue={editData?personalHeader[index]:this.state.list_person[item.name_en]} as="select">
                                                 {
-                                                     tableHeader !== null && tableHeader.map((item, index) => (
-                                                        <option value={item} key={index}>{item}</option>
-                                                    ))
+                                                    editVerify?
+                                                        <option value={personalHeader[index]}>{personalHeader[index]}</option>
+                                                    :
+                                                    (
+                                                        <option value='0'>กรุณาเลือก{item.name_th}</option>
+                                                    )
+                                                }
+                                                
+                                                {
+                                                     !editVerify?(
+                                                        tableHeader !== null && tableHeader.map((item, index) => (
+                                                            <option value={item} id={index} key={index}>{item}</option>
+                                                        ))
+                                                    ):null
                                                 }
                                             </Form.Control>
                                         </Form.Group>))
@@ -321,40 +348,6 @@ class AlumniAddSurvey extends Component {
 
                                 </div>
 
-                                {
-
-                                    // !editVerify 
-                                    // ?
-
-                                    // (
-                                    //      tableHeader!== null && tableHeader.map((item, index) => (
-                                    //     <Form.Check
-                                    //         type='checkbox'
-                                    //         value={item}
-                                    //         id={"p-" + index}
-                                    //         label={item}
-                                    //         key={index}
-                                    //         defaultChecked={personalHeader.includes(item)
-                                    //         }
-                                    //     />
-
-                                    // )
-                                    // ))
-                                    // :
-                                    // ( tableHeader!== null && personalHeader.map((item, index) => (
-                                    //     <Form.Check
-                                    //         type='checkbox'
-                                    //         value={item}
-                                    //         id={"p-" + index}
-                                    //         label={item}
-                                    //         key={index}
-                                    //         defaultChecked={personalHeader.includes(item)
-                                    //         }
-                                    //     />
-                                    // )))
-                                }
-
-                                {/* </div> */}
                             </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
@@ -396,7 +389,8 @@ const mapDispatchToProps = dispatch => (
     {
         addSurvey: (data) => dispatch(addSurvey(data)),
         startLoading: () => dispatch(startLoading()),
-        stopLoading: () => dispatch(stopLoading())
+        stopLoading: () => dispatch(stopLoading()),
+        loadSurveyList:() => dispatch(getSurveyList())
 
     }
 )
