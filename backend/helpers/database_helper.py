@@ -97,6 +97,8 @@ class DatabaseHelper:
 
     # get all activity NOT ActivityActiveRecruitment (pueng)
     def get_admission_publicize(self, year=None):
+        # TODO() no activity join table
+        # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
         if year is not None:
             sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (
                 year, int(year) - 1)
@@ -122,10 +124,10 @@ class DatabaseHelper:
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_admission_ar(self, year=None):
         if year is not None:
-            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity where activity_year like '%s' " % (
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar NATURAL JOIN activity WHERE year like '%s' " % (
                 year)
         else:
-            sql_command = "SELECT activity_id,school_name,branch_name,gpax,activity_year FROM `activity_ar`NATURAL JOIN activity"
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar NATURAL JOIN activity"
 
         execute = self.__execute_query(sql_command)
 
@@ -142,11 +144,13 @@ class DatabaseHelper:
             }
             out_function_data.append(data)
 
+        print(out_function_data)
+
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get apprentice status list data
     def get_activity_list(self):
-        sql_command = "SELECT activity_id,activity_name,activity_type_id,activity_year,activity_budget FROM activity"
+        sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget FROM activity NATURAL JOIN activity_project"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -165,17 +169,108 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-    # insert activity project record
-    # def insert_activity_project(self, data):
-    #     try:
-    #         self.__insert_multiple_into(table="academic_record",
-    #                                     column=['student_id', 'subject_code', 'semester', 'year', 'grade'],
-    #                                     data=academic_data)
-    #     except pymysql.Error as e:
-    #         print("Error %d: %s" % (e.args[0], e.args[1]))
-    #         return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-    #
-    #     return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+    # get project list
+    def get_project_list(self, project_type: int = None):
+        try:
+            if project_type is None:
+                sql_command = "SELECT project_id, project_name FROM activity_project"
+            else:
+                sql_command = "SELECT project_id, project_name FROM activity_project WHERE project_type = %d" % int(
+                    project_type)
+        except Exception as e:
+            print(e)
+            return inner_res_helper.make_inner_response(False, "Error to write sql command", "SQL command error")
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+
+        for data in execute['value']:
+            project = {
+                'project_id': data[0],
+                'project_name': data[1]
+            }
+            out_data.append(project)
+
+        return inner_res_helper.make_inner_response(True, "Success", out_data)
+
+    # get activity list
+    def get_activity_list(self, education_year: int = None):
+        try:
+            if education_year is None:
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
+            else:
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type WHERE year = %d" % int(
+                    education_year)
+        except Exception as e:
+            print(e)
+            return inner_res_helper.make_inner_response(False, "Error to write sql command", "SQL command error")
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+
+        for data in execute['value']:
+            activity = {
+                'activity_id': data[0],
+                'activity_name': data[1],
+                'project_type': data[2],
+                'education_year': data[3],
+                'activity_budget': data[4]
+            }
+            out_data.append(activity)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # get project type
+    def get_project_type(self):
+        sql_command = "SELECT project_type, type_name FROM activity_type"
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+
+        for data in execute['value']:
+            proj_type = {
+                'project_type': data[0],
+                'type_name': data[1]
+            }
+            out_data.append(proj_type)
+
+        return inner_res_helper.make_inner_response(True, "Query success", out_data)
+
+    # insert activity project
+    def insert_activity_project(self, data):
+        try:
+            self.__insert_into(table="activity_project",
+                               column=['project_id', 'project_type', 'project_name'],
+                               data=data)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
+    # insert activity
+    def insert_activity(self, data):
+        try:
+            self.__insert_into(table="activity",
+                               column=['activity_id', 'project_id', 'activity_name', 'activity_budget', 'year'],
+                               data=data)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ADMISSION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -256,9 +351,9 @@ class DatabaseHelper:
 
     # get admission data by department and year
     def get_admission_data_by_dept(self, department=None, year=None):
-        if department is None or  department == "null":
+        if department is None or department == "null":
             sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN branch"
-        elif year is None or  year == "null":
+        elif year is None or year == "null":
             sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN admission NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s'" % (
                 department)
         else:
@@ -289,15 +384,15 @@ class DatabaseHelper:
 
     # get alumni data (aom request)
     def get_all_alumni(self, graduated_year: int = None):
-       
-        if graduated_year is None or  graduated_year == "null":
+
+        if graduated_year is None or graduated_year == "null":
 
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
         else:
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%s'" % (
                 graduated_year)
         execute = self.__execute_query(sql_command)
-        
+
         if not execute['response']:
             return execute
 
@@ -389,7 +484,7 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # INFORMATION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     def get_department(self, name):
-        if name is None  or  name == "null":
+        if name is None or name == "null":
             sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
         else:
             sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s' GROUP BY branch_id ORDER BY dept_id ASC" % (
@@ -434,10 +529,11 @@ class DatabaseHelper:
 
     # get department detail that include branch and course
     def get_department_detail(self, dept_id: str = None):
-        if dept_id is None or  dept_id == "null":
+        if dept_id is None or dept_id == "null":
             sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course"
         else:
-            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course WHERE dept_id like '{}'".format(dept_id)
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course WHERE dept_id like '{}'".format(
+                dept_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -469,7 +565,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query success", out_data)
 
     def get_branch(self, branch_id=None):
-        if branch_id is None or  branch_id == "null":
+        if branch_id is None or branch_id == "null":
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
         else:
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept where branch_id like '%s'" % (
@@ -495,10 +591,11 @@ class DatabaseHelper:
 
     # get course and subject in course
     def get_course(self, course_id: str = None):
-        if course_id is None or  course_id == "null":
+        if course_id is None or course_id == "null":
             sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
         else:
-            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject WHERE course_id like '{}'".format(course_id)
+            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject WHERE course_id like '{}'".format(
+                course_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -600,7 +697,7 @@ class DatabaseHelper:
     def delete_student_by_year(self, year: str):
         year = str(year)
 
-        if year is None  or  year == "null":
+        if year is None or year == "null":
             return inner_res_helper.make_inner_response(response=False,
                                                         message="No delete year input.",
                                                         value="No delete year input")
@@ -673,11 +770,11 @@ class DatabaseHelper:
 
     # get all student academic record (pueng)
     def get_all_academic_record(self, dept_id=None, year=None):
-        if dept_id is None and year is None or  dept_id == "null"  or  year == "null":
+        if dept_id is None and year is None or dept_id == "null" or year == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
-        elif dept_id is not None and year is None or  year == "null":
+        elif dept_id is not None and year is None or year == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE dept_id like '%s'" % dept_id
-        elif year is not None and dept_id is None or  dept_id == "null":
+        elif year is not None and dept_id is None or dept_id == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s'" % year
         else:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (
@@ -774,7 +871,7 @@ class DatabaseHelper:
 
     # get user
     def get_user(self, username: str = None):
-        if username is None  or  username == "null":
+        if username is None or username == "null":
             return inner_res_helper.make_inner_response(response=False, message="No username input.",
                                                         value="No username input")
 
@@ -789,7 +886,7 @@ class DatabaseHelper:
 
     # get user for auth (have password)
     def get_user_for_auth(self, username: str = None):
-        if username is None  or  username == "null":
+        if username is None or username == "null":
             return inner_res_helper.make_inner_response(response=False, message="No username input.",
                                                         value="No username input")
 

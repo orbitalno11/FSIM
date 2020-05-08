@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 
+import axios from 'axios'
+
 
 import ARDetail from "./ARDetail";
 import AMSci from "./AMSci";
@@ -12,14 +14,30 @@ class ActivityActiveRecruitment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: '1'
+            projectList: null,
+            tabKey: 0
         }
     }
 
-  
+    componentDidMount() {
+        axios.get('/activity/project?project_type=1')
+        .then(res => {
+            let data = res.data.data
+            
+            if (data.length < 1) return
+
+            this.setState({
+                projectList: data
+            })
+
+        })
+        .catch(err =>{
+            console.error(err)
+        })
+    }
 
     render() {
-        let { tabKey } = this.state
+        let { tabKey, projectList } = this.state
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
@@ -28,20 +46,23 @@ class ActivityActiveRecruitment extends Component {
                             <Row>
                                 <Col lg={3}>
                                     <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" paneList={[<ARDetail />]} > RoadShow</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="2" className="sub-nav">I AM SCI</Nav.Link>
-                                        </Nav.Item>
+                                        {
+                                            projectList !== null && (
+                                                projectList.map((item, index) => (
+                                                    <Nav.Item key={index}>
+                                                        <Nav.Link eventKey={index} className="sub-nav">{item['project_name']}</Nav.Link>
+                                                    </Nav.Item>
+                                                ))
+                                            )
+                                        }
                                     </Nav>
                                 </Col>
                                 <Col lg={9}>
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="1">
+                                        <Tab.Pane eventKey="0">
                                             <ARDetail />
                                         </Tab.Pane>
-                                        <Tab.Pane eventKey="2">
+                                        <Tab.Pane eventKey="1">
                                            <AMSci/>
                                         </Tab.Pane>
                                     </Tab.Content>

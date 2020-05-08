@@ -63,7 +63,7 @@ class DepartmentStudent extends Component {
                 }
             })
             .catch(error => {
-                console.log("error")
+                console.log(error)
                 this.setState({
                     loadTime: 1
                 })

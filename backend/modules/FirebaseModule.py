@@ -22,7 +22,10 @@ class FirebaseModule:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
-        return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        if snapshot is not None:
+            return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        else:
+            return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
     # read data for alumni survey by year
     def alumni_get_survey_by_year(self, year: int):
@@ -36,7 +39,10 @@ class FirebaseModule:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
-        return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        if snapshot is not None:
+            return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        else:
+            return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
     # read data for alumni survey by key
     def alumni_get_survey_by_key(self, key: str):
@@ -49,7 +55,10 @@ class FirebaseModule:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
-        return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        if snapshot is not None:
+            return inner_res_helper.make_inner_response(True, "Query successful", [dict(snapshot)])
+        else:
+            return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
     # add data for alumni survey
     def alumni_add_survey(self, year: int = None, url: str = None, table_header: list = None, personal_header: list = None):

@@ -60,7 +60,7 @@ class AlumniSummary extends Component {
     }
 
     fetchBranch = () => {
-        axios.get('/branch')
+        axios.get('/department/branch')
             .then(res => {
                 let data = res.data.data
                 this.setState({
