@@ -162,7 +162,6 @@ class AlumniManage extends Component {
                     </thead>
                     <tbody>
                         {
-                            
                             surveyList !== null && (
                                 surveyList.slice(0).reverse().map((item, index) => (
                                    

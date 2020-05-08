@@ -41,13 +41,14 @@ class AlumniSummary extends Component {
             trainingChart: null,
             gpaChart: null,
             salaryChart: null,
-            year:null
+            year:null,
+            loadTime: 0
 
         }
     }
 
     componentDidUpdate() {
-        if (this.props.website.loading) {
+        if (this.state.loadTime === 0) {
             this.fetchWorkData()
         }
     }
@@ -75,7 +76,7 @@ class AlumniSummary extends Component {
     fetchWorkData = () => {
         let { year } = this.state
         
-        // if (selectedYear === null) return 
+        // if (year === null) return 
         axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data
@@ -114,7 +115,8 @@ class AlumniSummary extends Component {
                     trainingChart: setupPieChart(trainingData),
                     gpaChart: setupNoneStackBarChart(gpaChart),
                     salaryData: salaryData,
-                    salaryChart: setupStackBarChart(this.reorderSalary(salaryChart))
+                    salaryChart: setupStackBarChart(this.reorderSalary(salaryChart)),
+                    loadTime: 1
                 })
 
             })
@@ -284,7 +286,6 @@ class AlumniSummary extends Component {
                                     </Card.Header>
 
                                     <Card.Content>
-
                                         {salaryChart !== null && <Bar data={salaryChart} legend={{ display: true }} />}
                                     </Card.Content>
 

@@ -114,7 +114,7 @@ class AlumniAddSurvey extends Component {
 
 
     handleVerifyUrl = async () => {
-        await this.props.startLoading()
+        // await this.props.startLoading()
         let url = this.urlRef.current.value
         this.setState({
             tableHeader: null
@@ -127,11 +127,11 @@ class AlumniAddSurvey extends Component {
                     tableHeader: data,
                     editVerify: false
                 })
-                this.props.stopLoading()
+                // this.props.stopLoading()
             })
             .catch(err => {
                 console.error(err)
-                this.props.stopLoading()
+                // this.props.stopLoading()
             })
 
 
@@ -261,11 +261,6 @@ class AlumniAddSurvey extends Component {
        
         
     }
-
-
-
-
-
 
     render() {
         let { tableHeader, sheetUrl, headerSelect, educationYear, idStudent, personalHeader, editVerify} = this.state

@@ -29,11 +29,12 @@ class AlumniSurvey extends Component {
         this.state = {
             surveyDetail: null,
             analyzeData: null,
+            loadTime: 0
         }
     }
 
     componentDidUpdate() {
-        if (this.props.website.loading) {
+        if (this.state.loadTime === 0) {
             this.fetchSurveyData()
         }
     }
@@ -69,7 +70,8 @@ class AlumniSurvey extends Component {
                     // alert("Check alumni survey list for year" + setSelectedYear)
                     this.setState({
                         surveyDetail: null,
-                        analyzeData: null
+                        analyzeData: null,
+                        loadTime: 1
                     })
                     this.props.stopLoading()
                     // return
@@ -77,7 +79,8 @@ class AlumniSurvey extends Component {
                     let detail = data[key[0]]
 
                     this.setState({
-                        surveyDetail: detail
+                        surveyDetail: detail,
+                        loadTime: 1
                     })
                     // alert("ดึงเสร็จ")
                     this.fetchAnalyzeSurvey()
