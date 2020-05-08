@@ -45,7 +45,7 @@ class DepartmentStudent extends Component {
     }
 
     fetchData = async (dept_id) => {
-        await axios.get(`/department?dept_id=${dept_id}`)
+        await axios.get(`/student/department?dept_id=${dept_id}`)
             .then(res => {
                 let received = res.data
 
@@ -60,7 +60,6 @@ class DepartmentStudent extends Component {
                         byBranch: data.df_status_by_branch[0],
                         loadTime: 1
                     })
-
                 }
             })
             .catch(error => {
