@@ -256,9 +256,9 @@ class DatabaseHelper:
 
     # get admission data by department and year
     def get_admission_data_by_dept(self, department=None, year=None):
-        if department is None:
+        if department is None or  department == "null":
             sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN branch"
-        elif year is None:
+        elif year is None or  year == "null":
             sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN admission NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s'" % (
                 department)
         else:
@@ -289,13 +289,15 @@ class DatabaseHelper:
 
     # get alumni data (aom request)
     def get_all_alumni(self, graduated_year: int = None):
-        if graduated_year is None:
+       
+        if graduated_year is None or  graduated_year == "null":
+
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
         else:
             sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%s'" % (
                 graduated_year)
         execute = self.__execute_query(sql_command)
-
+        
         if not execute['response']:
             return execute
 
@@ -387,7 +389,7 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # INFORMATION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     def get_department(self, name):
-        if name is None:
+        if name is None  or  name == "null":
             sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
         else:
             sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s' GROUP BY branch_id ORDER BY dept_id ASC" % (
@@ -432,7 +434,7 @@ class DatabaseHelper:
 
     # get department detail that include branch and course
     def get_department_detail(self, dept_id: str = None):
-        if dept_id is None:
+        if dept_id is None or  dept_id == "null":
             sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course"
         else:
             sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course WHERE dept_id like '{}'".format(dept_id)
@@ -467,7 +469,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query success", out_data)
 
     def get_branch(self, branch_id=None):
-        if branch_id is None:
+        if branch_id is None or  branch_id == "null":
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
         else:
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept where branch_id like '%s'" % (
@@ -493,7 +495,7 @@ class DatabaseHelper:
 
     # get course and subject in course
     def get_course(self, course_id: str = None):
-        if course_id is None:
+        if course_id is None or  course_id == "null":
             sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
         else:
             sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject WHERE course_id like '{}'".format(course_id)
@@ -598,7 +600,7 @@ class DatabaseHelper:
     def delete_student_by_year(self, year: str):
         year = str(year)
 
-        if year is None:
+        if year is None  or  year == "null":
             return inner_res_helper.make_inner_response(response=False,
                                                         message="No delete year input.",
                                                         value="No delete year input")
@@ -671,11 +673,11 @@ class DatabaseHelper:
 
     # get all student academic record (pueng)
     def get_all_academic_record(self, dept_id=None, year=None):
-        if dept_id is None and year is None:
+        if dept_id is None and year is None or  dept_id == "null"  or  year == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
-        elif dept_id is not None and year is None:
+        elif dept_id is not None and year is None or  year == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE dept_id like '%s'" % dept_id
-        elif year is not None and dept_id is None:
+        elif year is not None and dept_id is None or  dept_id == "null":
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s'" % year
         else:
             sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (
@@ -772,7 +774,7 @@ class DatabaseHelper:
 
     # get user
     def get_user(self, username: str = None):
-        if username is None:
+        if username is None  or  username == "null":
             return inner_res_helper.make_inner_response(response=False, message="No username input.",
                                                         value="No username input")
 
@@ -787,7 +789,7 @@ class DatabaseHelper:
 
     # get user for auth (have password)
     def get_user_for_auth(self, username: str = None):
-        if username is None:
+        if username is None  or  username == "null":
             return inner_res_helper.make_inner_response(response=False, message="No username input.",
                                                         value="No username input")
 
@@ -803,7 +805,7 @@ class DatabaseHelper:
     # create user
     def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None, hashed_pass: str = None,
                     staff_level: int = -1, ):
-        if staff_id is None or first_name is None or last_name is None or hashed_pass is None:
+        if staff_id is None or first_name is None or last_name is None or hashed_pass is None or staff_id == "null" or first_name == "null" or last_name == "null" or hashed_pass == "null":
             return inner_res_helper.make_inner_response(response=False, message="Some argument is None",
                                                         value="Some argument is None")
 
