@@ -69,3 +69,11 @@ def get_analyze_admission_channel():
     data = db.analyze_admission_admin(year)
 
     return api_helper.return_response(data)
+
+
+# get admission data list
+@admin_admission.route('/list', methods=['GET'])
+def get_admission_list():
+    db = DatabaseHelper()
+    result = db.get_admission_list()
+    return api_helper.return_response(result)
