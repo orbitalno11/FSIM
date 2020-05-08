@@ -59,6 +59,27 @@ def insert_admission(current_user):
     return api_helper.return_response(insert)
 
 
+# delete admission data
+@admin_admission.route('/', methods=['DELETE'])
+def delete_admission_list():
+    year = request.args.get('year')
+    round_id = request.args.get('round_id')
+    channel_id = request.args.get('channel_id')
+
+    if year == 'null' or round_id == 'null' or channel_id == 'null':
+        return api_helper.create_error_exception("Some data null", "Some data null", 400)
+
+    data = {
+        'year': int(year),
+        'round_id': int(round_id),
+        'channel_id': int(channel_id)
+    }
+
+    db = DatabaseHelper()
+    result = db.delete_admission_data(data)
+    return api_helper.return_response(result)
+
+
 # get analyze admission channel
 @admin_admission.route('/analyze/channel', methods=['GET'])
 def get_analyze_admission_channel():

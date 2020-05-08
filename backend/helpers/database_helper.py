@@ -92,6 +92,11 @@ class DatabaseHelper:
         self.__cursor.executemany(sql_command, data)
         self.__db_connection.commit()
 
+    # execute delete from command
+    def __execute_delete_from_command(self, sql_command):
+        self.__cursor.execute(sql_command)
+        self.__db_connection.commit()
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ACTIVITY # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -352,13 +357,23 @@ class DatabaseHelper:
     # get admission data by department and year
     def get_admission_data_by_dept(self, department=None, year=None):
         if department is None or department == "null":
-            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN branch"
+            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name " \
+                          "from admission_studied NATURAL JOIN admission_from NATURAL JOIN school " \
+                          "NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN branch"
         elif year is None or year == "null":
-            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN admission NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s'" % (
-                department)
+            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  " \
+                          "from admission_studied NATURAL JOIN admission_from NATURAL JOIN school" \
+                          " NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch " \
+                          "NATURAL JOIN admission NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch WHERE dept_id like '%s'" % (department)
         else:
-            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  from admission_studied NATURAL JOIN admission_from NATURAL JOIN school NATURAL JOIN admission_channel NATURAL JOIN admission_in_branch NATURAL JOIN admission NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE admission_year = %d and dept_id like '%s'" % (
-                year, department)
+            sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name  " \
+                          "from admission_studied NATURAL JOIN admission_from " \
+                          "NATURAL JOIN school NATURAL JOIN admission_channel " \
+                          "NATURAL JOIN admission_in_branch NATURAL JOIN admission " \
+                          "NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch WHERE admission_year = %d and dept_id like '%s'" \
+                          % (year, department)
 
         execute = self.__execute_query(sql_command)
 
@@ -381,7 +396,10 @@ class DatabaseHelper:
 
     # get admission data list
     def get_admission_list(self):
-        sql_command = "SELECT admission_year, round_name, channel_name, round_id, channel_id FROM admission NATURAL JOIN admission_from NATURAL JOIN admission_channel NATURAL JOIN has_round NATURAL JOIN admission_round GROUP BY channel_id, admission_year ORDER BY admission_year DESC"
+        sql_command = "SELECT admission_year, round_name, channel_name, round_id, channel_id " \
+                      "FROM admission NATURAL JOIN admission_from NATURAL JOIN admission_channel " \
+                      "NATURAL JOIN has_round NATURAL JOIN admission_round " \
+                      "GROUP BY channel_id, admission_year ORDER BY admission_year DESC"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -400,6 +418,37 @@ class DatabaseHelper:
             out_data.append(detail)
 
         return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # delete admission
+    def delete_admission_data(self, data=None):
+        get_application_no_command = "SELECT application_no FROM admission NATURAL JOIN admission_from " \
+                                     "NATURAL JOIN admission_channel NATURAL JOIN has_round " \
+                                     "NATURAL JOIN admission_round WHERE admission_year = {} " \
+                                     "AND round_id = {} AND channel_id = {}" \
+            .format(data['year'], data['round_id'], data['channel_id'])
+        execute = self.__execute_query(get_application_no_command)
+
+        if not execute['response']:
+            return execute
+
+        data = execute['value']
+        data = list(data)
+
+        student_id_list = []
+        for student_id in data:
+            student_id_list.append(student_id[0])
+
+        try:
+            self.__execute_delete("admission_studied", "application_no", student_id_list)
+            self.__execute_delete("admission_in_branch", "application_no", student_id_list)
+            self.__execute_delete("admission_from", "application_no", student_id_list)
+            self.__execute_delete("admission", "application_no", student_id_list)
+        except pymysql as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(response=True, message="Delete admission data successful.",
+                                                    value="Delete admission data successful.")
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ALUMNI # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
