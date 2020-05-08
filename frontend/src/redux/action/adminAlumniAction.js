@@ -53,7 +53,7 @@ const loadYearFailed = (error) => {
     // stopLoading()
     return {
         type: LOAD_SURVEY_YEAR_FAILED,
-        yearList: ["ไม่พบข้อมูล"],
+        yearList: null,
         error: error
 
     }
@@ -76,7 +76,7 @@ const loadListSuccess = (data) => {
 const loadListFailed = (error) => {
     return {
         type: LOAD_SURVEY_LIST_FAILED,
-        surveyList: ["ไม่พบข้อมูล"],
+        surveyList: null,
         error: error
 
     }

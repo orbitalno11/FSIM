@@ -33,11 +33,12 @@ class AnalyzeAdmission:
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
-
+       
         if data['value']:
 
             df = pd.DataFrame(data['value'])
             # real data  
+            print()
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
             channel_data    =   analyze_helper.set_fullname(connect.get_admission_channel())

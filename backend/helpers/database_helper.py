@@ -316,7 +316,7 @@ class DatabaseHelper:
             sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied "
 
         execute = self.__execute_query(sql_command)
-
+        print(sql_command)
         if not execute['response']:
             return execute
         out_function_data = []

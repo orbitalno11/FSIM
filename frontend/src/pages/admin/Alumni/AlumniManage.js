@@ -100,10 +100,9 @@ class AlumniManage extends Component {
 
  
     render() {
-        let { deleteItem, showDelete, showEdit, editData, messageSuccessAlert,messageErrorAlert } = this.state
+        let { deleteItem, showDelete, showEdit, editData } = this.state
 
         let { surveyList } = this.props.alumni
-        // console.log(this.props.status)
         return (
             <Fragment>
               {this.messageAlert()}
@@ -150,6 +149,8 @@ class AlumniManage extends Component {
                         </Modal>
                     )
                 }
+
+                
                 <Table >
                     <thead>
                         <tr className="text-center">
