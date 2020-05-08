@@ -43,7 +43,7 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        this.props.startLoading()
+        // this.props.startLoading()
 
         if (n_year == 0)
             n_year = null
@@ -53,11 +53,13 @@ class AlumniSurvey extends Component {
 
         await this.props.setSelectedYear(n_year)
         this.fetchSurveyData()
+
+        
     }
 
     fetchSurveyData = () => {
         let { selectedYear } = this.props.alumni
-
+        
         if (selectedYear === null) return
 
         axios.get(`/alumni/survey?year=${selectedYear}`)
@@ -71,7 +73,7 @@ class AlumniSurvey extends Component {
                         surveyDetail: null,
                         analyzeData: null
                     })
-                    // this.props.stopLoading()
+                    
                     // return
                 } else {
                     let detail = data[key[0]]
@@ -81,19 +83,22 @@ class AlumniSurvey extends Component {
                     })
 
                     this.fetchAnalyzeSurvey()
+
+                   
                 }
             })
             .catch(err => {
                 console.error(err)
+                
             })
 
 
-
+           
     }
 
     fetchAnalyzeSurvey = () => {
         let { surveyDetail } = this.state
-
+        
         if (surveyDetail !== null) {
             let { sheetUrl, tableHeader } = surveyDetail
 
@@ -125,8 +130,8 @@ class AlumniSurvey extends Component {
                     console.error(err)
                 })
         }
-
-        // this.props.stopLoading()
+        //  this.props.stopLoading()
+        
     }
 
     stop=()=>{
@@ -134,7 +139,6 @@ class AlumniSurvey extends Component {
     }
 
     render() {
-
         let { analyzeData } = this.state
 
         let { alumni, website } = this.props
@@ -163,7 +167,7 @@ class AlumniSurvey extends Component {
                         <Grid.Row>
 
                             <Header as="h3">
-                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {alumni.selectedYear}
+                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน 
                             </Header>
                             <Divider />
                             <Table celled structured>
@@ -191,8 +195,10 @@ class AlumniSurvey extends Component {
                                                 <Table.Cell textAlign="center">{item['std']}</Table.Cell>
                                             </Table.Row>
                                         )) : null
-                                        
+                                       
                                     }
+
+                                 
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
