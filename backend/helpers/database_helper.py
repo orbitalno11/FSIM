@@ -842,14 +842,21 @@ class DatabaseHelper:
     # get all student academic record (pueng)
     def get_all_academic_record(self, dept_id=None, year=None):
         if dept_id is None and year is None or dept_id == "null" or year == "null":
-            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
         elif dept_id is not None and year is None or year == "null":
-            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE dept_id like '%s'" % dept_id
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE dept_id like '%s'" % dept_id
         elif year is not None and dept_id is None or dept_id == "null":
-            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s'" % year
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE education_year like '%s'" % year
         else:
-            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch WHERE education_year like '%s' and dept_id like '%s'" % (
-                year, dept_id)
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE education_year like '%s' " \
+                          "and dept_id like '%s'" % (year, dept_id)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -872,8 +879,10 @@ class DatabaseHelper:
 
     # get student data by department
     def get_department_student_data(self, dept_id):
-        sql_command = "SELECT student_id, current_gpax, branch_id, status_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id like '%s'" % (
-            str(dept_id))
+        sql_command = "SELECT student_id, current_gpax, branch_id, status_id " \
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch " \
+                      "NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status " \
+                      "WHERE dept_id like '%s'" % (str(dept_id))
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -896,8 +905,10 @@ class DatabaseHelper:
 
     # get student in department by status
     def get_student_status(self, dept_id, status_id):
-        sql_command = "SELECT student_id, firstname, lastname, current_gpax, branch_name, branch_id FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id = %s and status_id = %s" % (
-            str(dept_id), str(status_id))
+        sql_command = "SELECT student_id, firstname, lastname, current_gpax, branch_name, branch_id " \
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch " \
+                      "NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id = %s " \
+                      "and status_id = %s" % (str(dept_id), str(status_id))
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -936,6 +947,68 @@ class DatabaseHelper:
             out_function_data.append(temp)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # get student list by year
+    def get_student_by_year(self, year: str = None):
+        sql_command = "SELECT student_id, firstname, lastname, branch_name, current_gpax, dept_id, dept_name, branch_id " \
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN branch NATURAL JOIN " \
+                      "has_branch NATURAL JOIN department WHERE student_id LIKE '{}%'"\
+            .format(year)
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        data = execute['value']
+        out_data = []
+        cur_dept = None
+        past_dept = []
+        for student in data:
+            if cur_dept != student[5] and not student[5] in past_dept:
+                cur_dept = student[5]
+                detail = {'dept_id': student[5], 'dept_name': student[5]}
+                std_list = []
+                for s_detail in data:
+                    if cur_dept == s_detail[5]:
+                        std_detail = {
+                            'student_id': s_detail[0],
+                            'firstname': s_detail[1],
+                            'lastname': s_detail[2],
+                            'current_gpax': s_detail[4],
+                            'branch_name': s_detail[3]
+                        }
+                        std_list.append(std_detail)
+                detail['student'] = std_list
+                past_dept.append(student[5])
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "Query success", out_data)
+
+    # get education year list
+    def get_education_year_list(self):
+        sql_commad = "SELECT student_id, dept_name, branch_name, dept_id, branch_id " \
+                     "FROM student NATURAL JOIN study_in NATURAL JOIN branch " \
+                     "NATURAL JOIN has_branch NATURAL JOIN department " \
+                     "GROUP BY LEFT(student_id,2), dept_id, branch_id"
+
+        execute = self.__execute_query(sql_commad)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+        for data in execute['value']:
+            year = {
+                'education_year': data[0][:2],
+                'dept_name': data[1],
+                'branch_name': data[2],
+                'dept_id': data[3],
+                'branch_id': data[4]
+            }
+            out_data.append(year)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # USER # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

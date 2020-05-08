@@ -108,6 +108,32 @@ def get_probation_student():
     return api_helper.return_response(data)
 
 
+# get student list by year
+@admin_student.route('/list', methods=['GET'])
+def get_student_list():
+    year = request.args.get('year')
+
+    if year == 'null' or year is None:
+        return api_helper.create_response("Can not found input.", False, "Can not found input.", 400)
+
+    year = year[2:]
+
+    db = DatabaseHelper()
+    result = db.get_student_by_year(year)
+
+    return api_helper.return_response(result)
+
+
+# get education list
+@admin_student.route('/education/list', methods=['GET'])
+def get_education_year_list():
+
+    db = DatabaseHelper()
+    result = db.get_education_year_list()
+
+    return api_helper.return_response(result)
+
+
 @admin_student.route('/tracking', methods=['GET'])
 def get_student_tracking():
     id_student = request.args.get('id_student')
