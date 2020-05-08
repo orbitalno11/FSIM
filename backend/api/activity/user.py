@@ -2,6 +2,7 @@ from flask import Blueprint, request, current_app as app
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
+from backend.helpers.database_helper import DatabaseHelper
 
 # import module
 from backend.modules.AnalyzeActivity import AnalyzeActivity
@@ -28,3 +29,13 @@ def get_analyze_activity_ar():
     data = db.analyze_ar(year)
 
     return api_helper.return_response(data)
+
+
+@user_activity.route('/project', methods=['GET'])
+def get_project_list():
+    project_type = request.args.get('project_type')
+
+    db = DatabaseHelper()
+    result = db.get_project_list(project_type)
+
+    return api_helper.return_response(result)

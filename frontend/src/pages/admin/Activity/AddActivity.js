@@ -1,29 +1,20 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
 
-//
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
-// 
-// import TabDialog from '../../../components/TabDialog'
-// import ARDetail from "./ARDetail";
-// import AMSci from "./AMSci";
-
-// 
-// import LineChart from '../../../components/Graph/Line'
-
-const AddTab = () => (
+const AddActivityData = ({ project_list, submit }) => (
     <Fragment>
-        <Form>
+        <Form onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
+                    <FormControl id="educationYear" as="select" required>
                         <option>กรุณาเลือกปีการศึกษา</option>
+                        <option value="2561">2561</option>
                         {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
                     </FormControl>
                 </InputGroup>
@@ -33,19 +24,30 @@ const AddTab = () => (
                     ประเภทโครงการ
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
+                    <FormControl id="projectId" as="select" required>
                         <option>กรุณาเลือกประเภทโครงการ</option>
+                        {
+                            project_list.map((item, index) => (
+                                <option key={index} value={item['project_id']}>{item['project_name']}</option>
+                            ))
+                        }
                     </FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    โครงการ
+                    รหัสกิจกรรม (ไม่เกิน 10 ตัวอักษร)
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกประเภทโครงการ</option>
-                    </FormControl>
+                    <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="10" required />
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    ชื่อกิจกรรม
+                </Form.Label>
+                <InputGroup>
+                    <Form.Control id="activityName" type="text" placeholder="กรุณาใส่ชื่อกิจกรรม" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -53,7 +55,7 @@ const AddTab = () => (
                     งบประมาณ
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่งบประมาณ"/>
+                    <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -61,25 +63,33 @@ const AddTab = () => (
                     ลิงก์ Google Sheet
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
+                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet" />
                     <Button>ตรวจสอบ</Button>
                 </InputGroup>
             </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
+            <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
+            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
 )
 
-const AddNew = () => (
+const AddProject = ({ project_type, onSubmit }) => (
     <Fragment>
-        <Form>
+        <Form onSubmit={onSubmit}>
+            <Form.Group>
+                <Form.Label>
+                    รหัสโครงการ (ไม่เกิน 8 ตัวอักษร)
+                </Form.Label>
+                <InputGroup>
+                    <Form.Control id="project_id" type="text" placeholder="กรุณาใส่รหัสโครงการ" maxLength="8" required />
+                </InputGroup>
+            </Form.Group>
             <Form.Group>
                 <Form.Label>
                     ชื่อโครงการ
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control type="text" placeholder="กรุณาใส่ชื่อโครงการ"/>
+                    <Form.Control id="project_name" type="text" placeholder="กรุณาใส่ชื่อโครงการ" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -87,22 +97,18 @@ const AddNew = () => (
                     ประเภทโครงการ
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
+                    <FormControl id="project_type" as="select" required>
                         <option>กรุณาเลือกประเภทโครงการ</option>
+                        {
+                            project_type.map((item, index) => (
+                                <option key={index} value={item['project_type']}>{item['type_name']}</option>
+                            ))
+                        }
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ลิงก์ Google Sheet
-                </Form.Label>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet"/>
-                    <Button>ตรวจสอบ</Button>
-                </InputGroup>
-            </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
+            <Button typr="reset" className="btn-EditData interval-1" >RESET</Button>
+            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -112,15 +118,93 @@ class AddActivity extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            project: null,
+            project_type: null,
             tabKey: '1'
         }
     }
 
-  
+    componentDidMount() {
+        this.getProjectType()
+        this.getAllProject()
+    }
+
+    getAllProject = () => {
+        axios.get('/activity/project')
+            .then(res => {
+                let data = res.data.data
+
+                if (data.length < 1) return
+
+                this.setState({
+                    project: data
+                })
+
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
+    getProjectType = () => {
+        axios.get('/admin/activity/project/type')
+            .then(res => {
+                let data = res.data.data
+
+                if (data.length < 1) return
+
+                this.setState({
+                    project_type: data
+                })
+            })
+            .then(err => {
+                console.error(err)
+            })
+    }
+
+    handleProjectSubmit = event => {
+        event.preventDefault()
+        let element = event.target.elements
+
+        let data = {
+            project_id: element.project_id.value,
+            project_name: element.project_name.value,
+            project_type: parseInt(element.project_type.value)
+        }
+
+        axios.post('/admin/activity/project', data)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
+    handleActivitySubmit = event => {
+        event.preventDefault()
+        let element = event.target.elements
+
+        let data = {
+            activity_id: `${element.projectId.value}_${element.activityId.value}`,
+            project_id: element.projectId.value,
+            activity_name: element.activityName.value,
+            activity_budget: parseFloat(element.activityBudget.value),
+            year: parseInt(element.educationYear.value)
+        }
+
+        axios.post('/admin/activity/', data)
+            .then(res => {
+                console.log(res.data.data)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
 
     render() {
-        let { location, match } = this.props
-        let { tabKey } = this.state
+        let { tabKey, project_type, project } = this.state
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
@@ -132,27 +216,28 @@ class AddActivity extends Component {
                                 <Col lg={3}>
                                     <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
                                         <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" >โครงการ</Nav.Link>
+                                            <Nav.Link eventKey="1" className="sub-nav" >กิจกรรม</Nav.Link>
                                         </Nav.Item>
                                         <Nav.Item>
                                             <Nav.Link eventKey="2" className="sub-nav" >โครงการใหม่</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"></Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="" className="sub-nav"> </Nav.Link>
                                         </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col lg={9}>
                                     <Tab.Content>
-                                        
                                         <Tab.Pane eventKey="1">
-                                            <AddTab />
+                                            {
+                                                project !== null && (
+                                                    <AddActivityData project_list={project} submit={this.handleActivitySubmit} />
+                                                )
+                                            }
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="2">
-                                           <AddNew/>
+                                            {
+                                                project_type !== null && (
+                                                    <AddProject project_type={project_type} onSubmit={this.handleProjectSubmit} />
+                                                )
+                                            }
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>
@@ -165,4 +250,4 @@ class AddActivity extends Component {
     }
 }
 
-export default  AddActivity 
+export default AddActivity 
