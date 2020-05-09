@@ -33,22 +33,27 @@ class AnalyzeAdmission:
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
-       
+
         if data['value']:
 
             df = pd.DataFrame(data['value'])
             # real data  
-            print()
+            print(df)
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
+            status_data     =   analyze_helper.set_fullname(connect.get_status_list())
             channel_data    =   analyze_helper.set_fullname(connect.get_admission_channel())
             channel_sample  =   self.split_channel(channel_data)
             school          =   analyze_helper.set_fullname(connect.get_working_school_list())
             branch_dict     =   analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
             school_dict     =   analyze_helper.set_dict(school.index, school.school_title)
+            status_dic      =   analyze_helper.set_dict(status_data.index, status_data.status_title)
             data_split      =   self.split_channel(df)
             data_split_now  =   data_split.copy()
             data_not_year   =   data_split.copy()
+
+            
+            
             if year :
                 data_split_now  =   data_split.loc[data_split['admission_year']==int(year)]
                 
@@ -70,6 +75,11 @@ class AnalyzeAdmission:
             count_school                    = data_split_now.school_id.value_counts()
             sort_count_school               = count_school.sort_values(ascending=False).head()
             sort_count_school_fullname      = analyze_helper.set_fullname_index(school_dict,sort_count_school)
+
+            count_by_status                 = data_split_now.groupby(['channel_name','status_id']).size().unstack(fill_value=0)
+            count_by_status_check_status    = analyze_helper.check_list_column(status_data.index,count_by_status)
+            count_by_status_check_channel   = analyze_helper.check_list(channel_sample.channel_name,count_by_status_check_status)
+            count_by_status_fullname        = analyze_helper.set_fullname_column(status_dic,count_by_status_check_channel)
 
            
             #used year and branch but used year and year-1
@@ -99,7 +109,8 @@ class AnalyzeAdmission:
                 'count_channel'   : count_channel_check_channel.to_dict(),
                 'count_by_branch' : [count_by_branch_fullname.to_dict('index')],
                 'count_by_school' : [sort_count_school_fullname.to_dict()],
-                'compare_year'    : [compare_year_success.to_dict('index')]
+                'compare_year'    : [compare_year_success.to_dict('index')],
+                'count_by_status' : [count_by_status_fullname.to_dict('index')]
             }
 
             response = True
@@ -110,6 +121,8 @@ class AnalyzeAdmission:
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
 
+
+    #admin
     def analyze_admission_admin(self,year=None):
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
@@ -155,6 +168,22 @@ class AnalyzeAdmission:
             response = False
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
+
+    #admin
+    def analyze_student_status(self,year=None):
+        connect = DatabaseHelper()
+        data = connect.get_all_admission(year)
+        value = {}
+        
+        if data['value']:
+            print(pd.DataFrame(data['value']))
+        else:
+            value={}
+            response = False
+            message = "Don't have Data"
+        return inner_res_helper.make_inner_response(response=response, message=message, value=value)
+
+
 
 
 
