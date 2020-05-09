@@ -6,6 +6,7 @@ import backend.Constant as Constant
 # import api helper
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
+from backend.helpers.data_helper import DataHelper
 import backend.helpers.read_google_sheet as read_sheet
 
 # import module
@@ -34,7 +35,11 @@ def add_alumni_survey():
     # result = firebase.alumni_add_survey(year, sheet_url, table_header, personal_header)
     read = read_sheet.read_sheet_data_by_column(sheet_url, personal_header)
 
+    if not read['response']:
+        return api_helper.return_response(read)
 
+    data_helper = DataHelper()
+    result = data_helper.read_alumni_personal_data(read['value'])
 
     return api_helper.create_response("DEV", True, "DEV", 200)
 

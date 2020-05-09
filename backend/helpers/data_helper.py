@@ -194,3 +194,8 @@ class DataHelper:
         return inner_res_helper.make_inner_response(True,
                                                     "Data for insert in to database",
                                                     out_function_data)
+
+    # read alumni survey data
+    def read_alumni_personal_data(self, data: pd.DataFrame):
+        print(data.head(5))
+        return inner_res_helper.make_inner_response(True, "DEV", "DEV")
