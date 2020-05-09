@@ -315,10 +315,10 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied where admission_year like '%s' or admission_year like '%s' " % (
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance NATURAL JOIN has_status  where admission_year like '%s' or admission_year like '%s' " % (
                 year, int(year) - 1)
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied "
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance NATURAL JOIN has_status "
 
         execute = self.__execute_query(sql_command)
         print(sql_command)
@@ -331,6 +331,7 @@ class DatabaseHelper:
                 'admission_year': data[1],
                 'branch_id': data[2],
                 'school_id': data[3],
+                'status_id':data[4]
 
             }
             out_function_data.append(data)
