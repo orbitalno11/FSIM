@@ -91,9 +91,10 @@ class AlumniManage extends Component {
         const {statusEdit}=this.state
         if (this.props.status == false || statusEdit==false) {
             set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
-            
+           
         }else if(this.props.status == true || statusEdit) {
             set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
+          
         }
         return set_alert
     }
@@ -171,8 +172,8 @@ class AlumniManage extends Component {
                                         <td>
                                         
                                             <ul>
-                                                { item['tableHeader'] !== null && item['tableHeader'].map((item,index)=>
-                                                <li key={index}>{item}</li>)}
+                                                { item['tableHeader'] == null ? null:(item['tableHeader'].map((item,index)=>
+                                                <li key={index}>{item}</li>))}
                                             </ul>
                                         </td>
 
