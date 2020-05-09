@@ -34,7 +34,8 @@ class DatabaseHelper:
         output_list = []
         for data in load:
             temp = list(data.values())
-            temp = list(map(str, temp))
+            # TODO() if some insert error please determine the line under this comment
+            # temp = list(map(str, temp))
             output_list.append(tuple(temp))
         return output_list
 
@@ -105,10 +106,11 @@ class DatabaseHelper:
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
         if year is not None:
-            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar where activity_year like '%s' or activity_year like '%s' " % (
-                year, int(year) - 1)
+            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project " \
+                          "WHERE project_type = 0 WHERE year = {}".format(year)
         else:
-            sql_command = "SELECT activity_id,activity_year,activity_budget,student_id FROM `activity_notar` NATURAL JOIN activity NATURAL LEFT JOIN joined_notar"
+            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project " \
+                          "WHERE project_type = 0"
 
         execute = self.__execute_query(sql_command)
 
@@ -129,10 +131,12 @@ class DatabaseHelper:
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_admission_ar(self, year=None):
         if year is not None:
-            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar NATURAL JOIN activity WHERE year like '%s' " % (
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
+                          "NATURAL JOIN activity WHERE year like '%s' " % (
                 year)
         else:
-            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar NATURAL JOIN activity"
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
+                          "NATURAL JOIN activity"
 
         execute = self.__execute_query(sql_command)
 
@@ -155,7 +159,8 @@ class DatabaseHelper:
 
     # get apprentice status list data
     def get_activity_list(self):
-        sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget FROM activity NATURAL JOIN activity_project"
+        sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget " \
+                      "FROM activity NATURAL JOIN activity_project"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -206,10 +211,12 @@ class DatabaseHelper:
     def get_activity_list(self, education_year: int = None):
         try:
             if education_year is None:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget " \
+                              "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
             else:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type WHERE year = %d" % int(
-                    education_year)
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget " \
+                              "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type " \
+                              "WHERE year = %d" % int(education_year)
         except Exception as e:
             print(e)
             return inner_res_helper.make_inner_response(False, "Error to write sql command", "SQL command error")
@@ -315,10 +322,16 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance NATURAL JOIN has_status  where admission_year like '%s' or admission_year like '%s' " % (
-                year, int(year) - 1)
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id " \
+                          "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
+                          "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
+                          "NATURAL JOIN entrance NATURAL JOIN has_status  where admission_year " \
+                          "like '%s' or admission_year like '%s' " % (year, int(year) - 1)
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance NATURAL JOIN has_status "
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  " \
+                          "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
+                          "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance " \
+                          "NATURAL JOIN has_status "
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -330,7 +343,7 @@ class DatabaseHelper:
                 'admission_year': data[1],
                 'branch_id': data[2],
                 'school_id': data[3],
-                'status_id':data[4]
+                'status_id': data[4]
 
             }
             out_function_data.append(data)
@@ -478,10 +491,18 @@ class DatabaseHelper:
 
         if graduated_year is None or graduated_year == "null":
 
-            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department"
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, " \
+                          "status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni " \
+                          "NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch " \
+                          "NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice " \
+                          "NATURAL JOIN apprentice_status NATURAL JOIN department"
         else:
-            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice NATURAL JOIN apprentice_status NATURAL JOIN department WHERE graduated_year = '%s'" % (
-                graduated_year)
+            sql_command = "SELECT alumni_id as student_id, branch_id, branch_name, gpax, graduated_year, status_id, " \
+                          "status_title, salary, apprentice_id, apprentice_title, dept_id, dept_name " \
+                          "FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch " \
+                          "NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice " \
+                          "NATURAL JOIN apprentice_status NATURAL JOIN department " \
+                          "WHERE graduated_year = '%s'" % ( graduated_year)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -571,15 +592,55 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
+    # add alumni data to database
+    def insert_alumni_data(self, data):
+        # prepare receive data
+        alumni_table = data['alumni']
+        alumni_table = json.loads(alumni_table)
+        alumni_table = list(alumni_table.values())
+        alumni_graduated = data['alumni_graduated']
+        alumni_graduated = json.loads(alumni_graduated)
+        alumni_graduated = list(alumni_graduated.values())
+        alumni_working = data['working_table']
+        alumni_working = json.loads(alumni_working)
+        alumni_working = list(alumni_working.values())
+        alumni_apprentice = data['apprentice_table']
+        alumni_apprentice = json.loads(alumni_apprentice)
+        alumni_apprentice = list(alumni_apprentice.values())
+
+        try:
+            self.__multiple_insert(table="alumni",
+                                   column=['alumni_id', 'gpax', 'graduated_year'],
+                                   data=alumni_table)
+            self.__multiple_insert(table="alumni_graduated",
+                                   column=['alumni_id', 'branch_id'],
+                                   data=alumni_graduated)
+            self.__multiple_insert(table="working",
+                                   column=['alumni_id', 'status_id', 'company', 'institution',
+                                           'job_description', 'faculty', 'branch', 'salary'],
+                                   data=alumni_working)
+            self.__multiple_insert(table="apprentice",
+                                   column=['alumni_id', 'apprentice_id'],
+                                   data=alumni_apprentice)
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # INFORMATION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     def get_department(self, name):
         if name is None or name == "null":
-            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
+            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name " \
+                          "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
         else:
-            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department NATURAL JOIN branch WHERE dept_id like '%s' GROUP BY branch_id ORDER BY dept_id ASC" % (
-                name)
+            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name " \
+                          "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch WHERE dept_id like '%s' GROUP BY branch_id " \
+                          "ORDER BY dept_id ASC" % (name)
 
         execute = self.__execute_query(sql_command)
 
@@ -621,10 +682,13 @@ class DatabaseHelper:
     # get department detail that include branch and course
     def get_department_detail(self, dept_id: str = None):
         if dept_id is None or dept_id == "null":
-            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course"
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year " \
+                          "FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course " \
+                          "NATURAL JOIN course"
         else:
-            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course NATURAL JOIN course WHERE dept_id like '{}'".format(
-                dept_id)
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year " \
+                          "FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course " \
+                          "NATURAL JOIN course WHERE dept_id like '{}'".format(dept_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -657,10 +721,12 @@ class DatabaseHelper:
 
     def get_branch(self, branch_id=None):
         if branch_id is None or branch_id == "null":
-            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept"
+            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, " \
+                          "has_branch_id from branch natural join has_branch natural join department as dept"
         else:
-            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, has_branch_id from branch natural join has_branch natural join department as dept where branch_id like '%s'" % (
-                branch_id)
+            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, " \
+                          "has_branch_id from branch natural join has_branch natural join department as dept " \
+                          "where branch_id like '%s'" % ( branch_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -683,10 +749,13 @@ class DatabaseHelper:
     # get course and subject in course
     def get_course(self, course_id: str = None):
         if course_id is None or course_id == "null":
-            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
+            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject " \
+                          "NATURAL JOIN subject"
         else:
-            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject NATURAL JOIN subject WHERE course_id like '{}'".format(
-                course_id)
+            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject " \
+                          "NATURAL JOIN subject WHERE course_id like '{}'".format(course_id)
 
         execute = self.__execute_query(sql_command)
 
@@ -811,9 +880,13 @@ class DatabaseHelper:
     # get all student data (pueng)
     def get_all_student(self, dept_id=None):
         if dept_id is not None:
-            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status where dept_id like '%s'" % dept_id
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id " \
+                          "from student natural join study_in natural join has_branch natural join branch " \
+                          "natural join department NATURAL JOIN has_status where dept_id like '%s'" % dept_id
         else:
-            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id from student natural join study_in natural join has_branch natural join branch natural join department NATURAL JOIN has_status"
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id " \
+                          "from student natural join study_in natural join has_branch natural join branch " \
+                          "natural join department NATURAL JOIN has_status"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -841,7 +914,8 @@ class DatabaseHelper:
 
     # get all student data (pueng)
     def get_student_tracking(self, id_student):
-        sql_command = "SELECT gpa, semester, current_gpax, education_year FROM `gpa_record` NATURAL JOIN student where student_id='%s'" % id_student
+        sql_command = "SELECT gpa, semester, current_gpax, education_year " \
+                      "FROM `gpa_record` NATURAL JOIN student where student_id='%s'" % id_student
         execute = self.__execute_query(sql_command)
         print(sql_command)
         if not execute['response']:
@@ -972,7 +1046,7 @@ class DatabaseHelper:
     def get_student_by_year(self, year: str = None):
         sql_command = "SELECT student_id, firstname, lastname, branch_name, current_gpax, dept_id, dept_name, branch_id " \
                       "FROM student NATURAL JOIN study_in NATURAL JOIN branch NATURAL JOIN " \
-                      "has_branch NATURAL JOIN department WHERE student_id LIKE '{}%'"\
+                      "has_branch NATURAL JOIN department WHERE student_id LIKE '{}%'" \
             .format(year)
 
         execute = self.__execute_query(sql_command)
@@ -1054,7 +1128,8 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(response=False, message="No username input.",
                                                         value="No username input")
 
-        sql_command = "select staff_id, level_id, firstname, lastname, password from staff where staff_id like '%s'" % username
+        sql_command = "select staff_id, level_id, firstname, lastname, password " \
+                      "from staff where staff_id like '%s'" % username
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -1066,7 +1141,8 @@ class DatabaseHelper:
     # create user
     def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None, hashed_pass: str = None,
                     staff_level: int = -1, ):
-        if staff_id is None or first_name is None or last_name is None or hashed_pass is None or staff_id == "null" or first_name == "null" or last_name == "null" or hashed_pass == "null":
+        if staff_id is None or first_name is None or last_name is None or hashed_pass is None or staff_id == "null" \
+                or first_name == "null" or last_name == "null" or hashed_pass == "null":
             return inner_res_helper.make_inner_response(response=False, message="Some argument is None",
                                                         value="Some argument is None")
 

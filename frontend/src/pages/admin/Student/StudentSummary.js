@@ -52,6 +52,9 @@ class StudentSummary extends Component {
                                         <Nav.Item>
                                             <Nav.Link eventKey="phy" className="sub-nav"><FontAwesomeIcon icon={faAtom} /> ภาควิชาฟิสิกส์</Nav.Link>
                                         </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="course" className="sub-nav"><FontAwesomeIcon icon={faAtom} /> สถิติรายวิชา</Nav.Link>
+                                        </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col lg={9}>
@@ -68,6 +71,9 @@ class StudentSummary extends Component {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="phy">
                                             <StudentData/>
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="course">
+                                            <Statcourse/>
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

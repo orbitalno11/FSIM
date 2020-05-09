@@ -55,9 +55,17 @@ def read_sheet_data_by_column(sheet_url: str, header: list):
         count += 1
 
     df = pd.DataFrame()
+    count = 0
+    max_row = len(worksheet.col_values(1))
     for index in column_index:
         read = worksheet.col_values(index)
-        df[str(index)] = read
+
+        if len(read) < max_row:
+            for i in range(0, (max_row - len(read))):
+                read.append("")
+
+        df[count] = read
+        count += 1
 
     df.columns = df.iloc[0]
     df = df[1:]
