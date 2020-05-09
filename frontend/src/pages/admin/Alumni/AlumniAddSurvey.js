@@ -54,6 +54,10 @@ const  list_personal= [{
     name_en: 'nameUniver'
 },
 {
+    name_th: 'คณะวิชา(ที่ศึกษาต่อ)',
+    name_en: 'Adep'
+},
+{
     name_th: 'สาขาวิชา(ที่ศึกษาต่อ)',
     name_en: 'Abranch'
 },
@@ -63,7 +67,7 @@ const  list_personal= [{
 },
 {
     name_th: 'คณะวิชา(ที่ศึกษาต่อ)',
-    name_en: 'Adep'
+    name_en: 'typeTraining'
 }
 ]
 
