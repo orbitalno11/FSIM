@@ -352,19 +352,20 @@ class DatabaseHelper:
 
     def get_all_status_admission(self, year=None):
         if year is not None:
-            sql_command = "SELECT student_id,status_id FROM `admission` NATURAL JOIN entrance NATURAL JOIN has_status where (status_id=2 or status_id=3) and admission_year like '%s' " % (year)
+            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status where admission_year like '%s' " % (year)
         else:
-            sql_command = "SELECT student_id,status_id FROM `admission` NATURAL JOIN entrance NATURAL JOIN has_status where status_id=2 or status_id=3"
+            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status "
 
         execute = self.__execute_query(sql_command)
-        print(sql_command)
+
         if not execute['response']:
             return execute
         out_function_data = []
         for data in execute['value']:
             data = {
-                'student_id': data[0],
-                'status_id': data[1]
+                
+                'status_id': data[0],
+                'channel_id': data[1]
             }
             out_function_data.append(data)
 

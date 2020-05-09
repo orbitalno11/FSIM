@@ -11,7 +11,7 @@ import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/fre
 // import TabDialog from '../../../components/TabDialog';
 import StudentData from "./StudentData";
 
-
+import Statcourse from '../../Statcourse'
 // 
 // import LineChart from '../../../components/Graph/Line'
 

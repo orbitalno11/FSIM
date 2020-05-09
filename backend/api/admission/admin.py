@@ -91,6 +91,17 @@ def get_analyze_admission_channel():
 
     return api_helper.return_response(data)
 
+# get analyze admission channel
+@admin_admission.route('/analyze/status', methods=['GET'])
+def get_analyze_admission_status():
+    # get admission_year
+    year = request.args.get('year')
+
+    db = AnalyzeAdmission()
+    data = db.analyze_student_status(year)
+
+    return api_helper.return_response(data)
+
 
 # get admission data list
 @admin_admission.route('/list', methods=['GET'])

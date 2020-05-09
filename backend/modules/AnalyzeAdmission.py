@@ -172,11 +172,42 @@ class AnalyzeAdmission:
     #admin
     def analyze_student_status(self,year=None):
         connect = DatabaseHelper()
-        data = connect.get_all_admission(year)
+        data = connect.get_all_status_admission(year)
         value = {}
-        
         if data['value']:
-            print(pd.DataFrame(data['value']))
+            df = pd.DataFrame(data['value'])
+            status_data     = analyze_helper.set_fullname(connect.get_status_list())
+            status_dic      = analyze_helper.set_dict(status_data.index, status_data.status_title)
+            channel_data    = analyze_helper.set_fullname(connect.get_admission_channel())
+            channel_dict     =   analyze_helper.set_dict(channel_data.index, channel_data.channel_name)
+
+            all_student     = len(df)
+            channel_count   = df.channel_id.value_counts()
+
+            group       = df[(df['status_id']==2)|(df['status_id']==3)]
+            group       = group.groupby(['channel_id','status_id']).size().unstack(fill_value=0)
+            group       = analyze_helper.set_fullname_column(status_dic,group)
+
+            list_name   = group.columns.tolist()
+            group       = pd.merge(channel_count ,group, left_index=True, right_index=True, how='inner')
+            group.rename(columns={group.columns[0]: "all"} , inplace=True)
+            for name in list_name:
+                group['per_Type_'+name] = group.apply(lambda row: (row[name]/row['all'])*100, axis = 1) 
+                group['per_Stu_'+name] = group.apply(lambda row: (row[name]/all_student)*100, axis = 1) 
+
+            group = group.round(2).sort_index()
+            group_check_index  = analyze_helper.check_list(channel_data.index,group)
+            group_fullname     = analyze_helper.set_fullname_index(channel_dict,group_check_index)
+
+            value ={
+                'all_student' : all_student,
+                'table' : group_fullname.to_dict('index')
+            }
+
+
+
+            response = True
+            message = "Don't have Data"
         else:
             value={}
             response = False
