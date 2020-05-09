@@ -15,7 +15,7 @@ SECRET_KEY = "FSIM2020"
 RESPONSE_HEADERS = {"Content-type": "application/json"}
 
 # read google sheet part
-google_credentials = "../../google_credentials.json"
+google_credentials = "google_credentials.json"
 google_sheet_scope = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
 # firebase
