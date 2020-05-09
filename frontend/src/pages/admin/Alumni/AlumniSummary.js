@@ -76,7 +76,7 @@ class AlumniSummary extends Component {
     fetchWorkData = () => {
         let { year } = this.state
         
-        // if (year === null) return 
+        if (year === null) return 
         axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data

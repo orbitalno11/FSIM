@@ -39,17 +39,27 @@ class AnalyzeStudent:
         value = {}
         connect = DatabaseHelper()
         data = connect.get_all_student(dept)
-
+        # print(data)
         if data['value']:
             df = pd.DataFrame(data['value'])
             df_branch = df[['branch_id', 'branch']]
             get_branch=connect.get_department(dept)
-            branch_data = analyze_helper.set_branch(get_branch['value'][0]['branch'])
+            if dept:
+                branch_data = analyze_helper.set_branch(get_branch['value'][0]['branch'])
+            else :
+                branch=[]
+                for i in get_branch['value']: 
+                    for index in range(len(i['branch'])):
+                        branch.append(i['branch'][index])
+                branch_data = analyze_helper.set_branch(branch)
+               
+          
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             branch_dic = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             status_by_branch = self.__status_by_branch(df, list(branch_data.index.values),
                                                        list(status_data.index.values))
+
             status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
             status_by_branch_finist = analyze_helper.set_fullname_column(status_dic, status_by_branch_index)
             status_by_year = self.__count_status(df[['student_year', 'education_status']],
@@ -60,6 +70,7 @@ class AnalyzeStudent:
             value['branch'] = [analyze_helper.set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()]
             value['status_by_year'] = [status_by_year_finist.to_dict('index')]
             value['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
+
             response = True
             message = "Analyze Student Successfully"
         else:
@@ -144,6 +155,7 @@ class AnalyzeStudent:
 
     def __status_by_branch(self, df, list_sample, status):
         grouped = df.groupby(['branch_id', 'education_status']).size().unstack(fill_value=0)
+        
         list_branch = self.__check_list(list_sample, list(grouped.index.values))
         list_status = self.__check_list(status, list(grouped.columns.values))
         for col in list_branch:
