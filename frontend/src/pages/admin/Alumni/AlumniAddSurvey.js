@@ -64,11 +64,8 @@ const  list_personal= [{
 {
     name_th: 'รูปแบบการฝึกงาน',
     name_en: 'typeTraining'
-},
-{
-    name_th: 'คณะวิชา(ที่ศึกษาต่อ)',
-    name_en: 'typeTraining'
 }
+
 ]
 
 
