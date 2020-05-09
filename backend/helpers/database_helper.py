@@ -102,7 +102,7 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # # ACTIVITY # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # get all activity NOT ActivityActiveRecruitment (pueng)
-    def get_admission_publicize(self, year=None):
+    def get_activity_publicize(self, year=None):
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
         if year is not None:
@@ -129,7 +129,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all activity  ActivityActiveRecruitment (pueng)
-    def get_admission_ar(self, year=None):
+    def get_activity_ar(self, year=None):
         if year is not None:
             sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
                           "NATURAL JOIN activity WHERE year like '%s' " % (
@@ -157,6 +157,32 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
+    # get all activity  ActivityActiveRecruitment (pueng)
+    def get_project_ar(self, year=None):
+        if year is not None:
+            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
+                          "JOIN activity_project where project_type=1 and year like '%s' " % (year)
+        else:
+            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL "\
+                          "JOIN activity_project where project_type=1"
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'project_id': data[0],
+                'grade': data[1],
+                'branch_name' : data[2]
+            }
+            out_function_data.append(data)
+
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+
     # get apprentice status list data
     def get_activity_list(self):
         sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget " \
@@ -183,9 +209,9 @@ class DatabaseHelper:
     def get_project_list(self, project_type: int = None):
         try:
             if project_type is None:
-                sql_command = "SELECT project_id, project_name FROM activity_project"
+                sql_command = "SELECT project_id, project_name,project_type FROM activity_project"
             else:
-                sql_command = "SELECT project_id, project_name FROM activity_project WHERE project_type = %d" % int(
+                sql_command = "SELECT project_id, project_name,project_type FROM activity_project WHERE project_type = %d" % int(
                     project_type)
         except Exception as e:
             print(e)
@@ -201,7 +227,8 @@ class DatabaseHelper:
         for data in execute['value']:
             project = {
                 'project_id': data[0],
-                'project_name': data[1]
+                'project_name': data[1],
+                'project_type': data[2]
             }
             out_data.append(project)
 
@@ -211,10 +238,10 @@ class DatabaseHelper:
     def get_activity_list(self, education_year: int = None):
         try:
             if education_year is None:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget " \
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget,project_type " \
                               "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
             else:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget " \
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget,project_type " \
                               "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type " \
                               "WHERE year = %d" % int(education_year)
         except Exception as e:
@@ -234,7 +261,8 @@ class DatabaseHelper:
                 'activity_name': data[1],
                 'project_type': data[2],
                 'education_year': data[3],
-                'activity_budget': data[4]
+                'activity_budget': data[4],
+                'project_type': data[5]
             }
             out_data.append(activity)
 

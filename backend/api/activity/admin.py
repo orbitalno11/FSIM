@@ -64,6 +64,16 @@ def get_project_type():
     return api_helper.return_response(result)
 
 
+@user_activity.route('/analyze/project/ar', methods=['GET'])
+def get_analyze_project_ar():
+    year = request.args.get('year')
+
+    db = AnalyzeActivity()
+    data = db.analyze_project_ar(year)
+
+    return api_helper.return_response(data)
+
+
 @admin_activity.route('/list', methods=['GET'])
 def get_activity_list():
 
