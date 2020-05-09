@@ -30,11 +30,13 @@ def add_alumni_survey():
 
     print(personal_header)
 
-    firebase = FirebaseModule()
-    result = firebase.alumni_add_survey(year, sheet_url, table_header, personal_header)
-    # read = read_sheet.read_sheet_data_by_column(sheet_url, personal_header)
+    # firebase = FirebaseModule()
+    # result = firebase.alumni_add_survey(year, sheet_url, table_header, personal_header)
+    read = read_sheet.read_sheet_data_by_column(sheet_url, personal_header)
 
-    return api_helper.return_response(result)
+
+
+    return api_helper.create_response("DEV", True, "DEV", 200)
 
 
 # add survey data to firebase by year

@@ -41,6 +41,7 @@ def read_sheet_data_by_column(sheet_url: str, header: list):
     worksheet = sheet.get_worksheet(0)
 
     sheet_header = read_table_header(sheet_url)
+    print(len(sheet_header))
 
     if not sheet_header['response']:
         return header
@@ -55,9 +56,14 @@ def read_sheet_data_by_column(sheet_url: str, header: list):
         count += 1
 
     df = pd.DataFrame()
+    count = 1
     for index in column_index:
         read = worksheet.col_values(index)
-        df[str(index)] = read
+        # print(read)
+        df[count] = read
+        count += 1
+
+    print(df.dtypes)
 
     df.columns = df.iloc[0]
     df = df[1:]
