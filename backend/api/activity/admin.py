@@ -64,7 +64,7 @@ def get_project_type():
     return api_helper.return_response(result)
 
 
-@user_activity.route('/analyze/project/ar', methods=['GET'])
+@admin_activity.route('/analyze/project/ar', methods=['GET'])
 def get_analyze_project_ar():
     year = request.args.get('year')
 
