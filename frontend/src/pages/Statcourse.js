@@ -41,20 +41,6 @@ class Statcourse extends Component {
                                 <List.Item> <Link to="/Statcoursebrancht" style={{color: 'black'}} > ภาคเรียนที่ 1 ปีการศึกษา 2560</Link></List.Item>
                             </List>
 
-                            {/* <List bulleted>
-                                <Link to="/Statcoursebranch" style={{color: 'black'}} > ภาคเรียนที่ 2 ปีการศึกษา 2561</Link>          
-                            </List>
-                            <List bulleted>
-                                <Link to="/Statcoursebranch" style={{color: 'black'}} > ภาคเรียนที่ 1 ปีการศึกษา 2561</Link>          
-                            </List>
-                            <List bulleted>
-                                <Link to="/Statcoursebranch" style={{color: 'black'}} > ภาคเรียนที่ 2 ปีการศึกษา 2560</Link>          
-                            </List>
-                            <List bulleted>
-                                <Link to="/Statcoursebrancht" style={{color: 'black'}} > ภาคเรียนที่ 1 ปีการศึกษา 2560</Link>          
-                            </List>
-                        */}
-
                 </Container>
             </Fragment>
         )
