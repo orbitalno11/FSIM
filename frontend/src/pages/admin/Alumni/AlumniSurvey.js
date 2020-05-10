@@ -62,7 +62,7 @@ class AlumniSurvey extends Component {
 
     fetchSurveyData = () => {
         let { selectedYear } = this.props.alumni
-        
+
         if (selectedYear !== null) {
             axios.get(`/alumni/survey?year=${selectedYear}`)
             .then(res => {
@@ -77,7 +77,7 @@ class AlumniSurvey extends Component {
                         loadTime: 1
                     })
                     this.props.stopLoading()
-                    // return
+                    return
                 } else {
                     let detail = data[key[0]]
 

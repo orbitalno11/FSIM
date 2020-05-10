@@ -85,17 +85,17 @@ class AlumniAddSurvey extends Component {
             personalHeader: editData != null ? editData['personalHeader'] : [],
             editVerify: editData != null ? true : false,
             list_person:{
-                idStudent :  editData != null ? editData['personalHeader'][0] : [],
-                gpax:editData != null ? editData['personalHeader'][1] : [],
-                branch:editData != null ? editData['personalHeader'][2] : [],
-                company:editData != null ? editData['personalHeader'][3] : [],
-                status:editData != null ? editData['personalHeader'][4] : [],
-                position:editData != null ? editData['personalHeader'][5] : [],
-                salary:editData != null ? editData['personalHeader'][6] : [],
-                nameUniver:editData != null ? editData['personalHeader'][7] : [],
-                Adep:editData != null ? editData['personalHeader'][8] : [],
-                Abranch:editData != null ? editData['personalHeader'][9] : [],
-                typeTraining:editData != null ? editData['personalHeader'][10] : [],
+                idStudent :  editData != null ? editData['personalHeader'][0] : null,
+                gpax:editData != null ? editData['personalHeader'][1] : null,
+                branch:editData != null ? editData['personalHeader'][2] : null,
+                company:editData != null ? editData['personalHeader'][3] :null,
+                status:editData != null ? editData['personalHeader'][4] : null,
+                position:editData != null ? editData['personalHeader'][5] : null,
+                salary:editData != null ? editData['personalHeader'][6] : null,
+                nameUniver:editData != null ? editData['personalHeader'][7] : null,
+                Adep:editData != null ? editData['personalHeader'][8] : null,
+                Abranch:editData != null ? editData['personalHeader'][9] : null,
+                typeTraining:editData != null ? editData['personalHeader'][10] : null
             }
            
         }
@@ -202,7 +202,7 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        
+        console.log(data)
 
         await this.props .addSurvey(data)
     }
@@ -279,7 +279,7 @@ class AlumniAddSurvey extends Component {
     }
 
     render() {
-        let { tableHeader, sheetUrl, headerSelect, educationYear, idStudent, personalHeader, editVerify} = this.state
+        let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader, editVerify,list_person} = this.state
         let { editData } = this.props
         // console.log(personalHeader)
         return (
@@ -325,7 +325,7 @@ class AlumniAddSurvey extends Component {
                                             key={index}
                                            >
                                             <Form.Label>{item.name_th}</Form.Label>
-                                            <Form.Control  id={index} name={item.name_en} defaultValue={editData?personalHeader[index]:this.state.list_person[item.name_en]} as="select">
+                                            <Form.Control  id={index} name={item.name_en} defaultValue={editData?personalHeader[index]:list_person[item.name_en]} as="select">
                                                 {
                                                     editVerify?
                                                         <option value={personalHeader[index]}>{personalHeader[index]}</option>
