@@ -12,7 +12,7 @@ import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/fre
 import StudentData from "./StudentData";
 import Statcourse from "../../../pages/Statcourse"
 
-import Statcourse from '../../Statcourse'
+    // import Statcourse from '../../Statcourse'
 // 
 // import LineChart from '../../../components/Graph/Line'
 
