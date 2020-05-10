@@ -63,7 +63,6 @@ class AnalyzeAlumni:
         if data['value']:
             df = pd.DataFrame(data['value'])
             df['graduated_gpax'] = df['graduated_gpax'].astype(int)
-            df['salary'] = df['salary'].astype(int)
             branch = connect.get_branch()
             branch_data = analyze_helper.set_branch(branch['value'])
             status_working = analyze_helper.set_fullname(connect.get_working_status_list())
@@ -81,14 +80,19 @@ class AnalyzeAlumni:
             count_by_training = df.groupby('apprentice_id').size()
             count_by_training_finish = analyze_helper.check_list(status_apprentice.index.values, count_by_training)
 
-            gpax_by_branch = df.groupby('branch_id')['graduated_gpax'].mean()
+
+            df_gpax = df[df['graduated_gpax']!=-1]
+            gpax_by_branch = df_gpax.groupby('branch_id')['graduated_gpax'].mean()
             gpax_by_branch_2decimal = gpax_by_branch.round(2)
             gpax_by_branch_finish = analyze_helper.check_list(branch_data.index.values, gpax_by_branch_2decimal)
 
             list_salary = {1: 'น้อยกว่า 10,000', 2: '10,000-19,999', 3: '20,000-30,000', 4: 'มากกว่า 30,000'}
             salary_branch_trining = []
             list_analze = {}
-            salary_all_branch_trining = self.__salary_branch_training(df[['salary','apprentice_id']])
+            df_salary   = df[df['salary'].notna()]
+            df_salary['salary'] = df_salary['salary'].astype(int)
+
+            salary_all_branch_trining = self.__salary_branch_training(df_salary[['salary','apprentice_id']])
             salary_all_branch_trining_check_index = analyze_helper.check_list_column(status_apprentice.index.values,
                                                                               salary_all_branch_trining)
             salary_all_branch_trining_check_column = analyze_helper.check_list(list_salary.keys(),
@@ -139,6 +143,7 @@ class AnalyzeAlumni:
                 'salary_all_branch_training': dict(zip(list_branch_traning, salary_branch_trining)),
                 'gpax_by_branch': analyze_helper.set_fullname_index(branch_dic, gpax_by_branch_finish).to_dict(),
             }
+            
 
             response = True
             message = "Analyze Successfully"
