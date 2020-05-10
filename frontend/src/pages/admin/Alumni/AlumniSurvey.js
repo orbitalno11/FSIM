@@ -29,11 +29,13 @@ class AlumniSurvey extends Component {
         this.state = {
             surveyDetail: null,
             analyzeData: null,
-            loadTime: 0
+            loadTime: 0,
+            year : null
         }
     }
 
     componentDidUpdate() {
+      
         if (this.state.loadTime === 0) {
             this.fetchSurveyData()
         }
@@ -43,17 +45,19 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-      
-
         if (n_year == 0)
             n_year = null
-        this.setState({
-            analyzeData: null
-        })
+            this.setState({
+                analyzeData: null
+                
+            })
         if (n_year!=null){
             this.props.startLoading()
             await this.props.setSelectedYear(n_year)
             this.fetchSurveyData()
+            this.setState({
+                year:n_year
+            })
             
         }
        
@@ -62,41 +66,43 @@ class AlumniSurvey extends Component {
 
     fetchSurveyData = () => {
         let { selectedYear } = this.props.alumni
+        
+        // if (selectedYear !== null) {
 
-        if (selectedYear !== null) {
-            axios.get(`/alumni/survey?year=${selectedYear}`)
-            .then(res => {
-                let data = res.data.data[0]
-                let key = Object.keys(data)
-
-                if (key.length > 1 || key.length < 1) {
-                    // alert("Check alumni survey list for year" + setSelectedYear)
-                    this.setState({
-                        surveyDetail: null,
-                        analyzeData: null,
-                        loadTime: 1
-                    })
-                    this.props.stopLoading()
-                    return
-                } else {
-                    let detail = data[key[0]]
-
-                    this.setState({
-                        surveyDetail: detail,
-                        loadTime: 1
-                    })
-                    // alert("ดึงเสร็จ")
-                    this.fetchAnalyzeSurvey()
-                   
-                   
-                }
-            })
-            .catch(err => {
-                console.error(err)
+        axios.get(`/alumni/survey?year=${selectedYear}`)
+        .then(res => {
+            let data = res.data.data[0]
+            let key = Object.keys(data)
+            if (key.length > 1 || key.length < 1) {
+                // alert("Check alumni survey list for year" + setSelectedYear)
+                this.setState({
+                    surveyDetail: null,
+                    analyzeData: null,
+                    loadTime: 1,
+                    year : selectedYear
+                })
                 this.props.stopLoading()
+                return
+            } else {
+                let detail = data[key[0]]
+                console.log(detail)
+                this.setState({
+                    surveyDetail: detail,
+                    loadTime: 1,
+                    year : detail.educationYear
+                })
+                // alert("ดึงเสร็จ")
+                this.fetchAnalyzeSurvey()
                 
-            })
-        }
+                
+            }
+        })
+        .catch(err => {
+            console.error(err)
+            this.props.stopLoading()
+            
+        })
+        // }
 
         
         // alert("ดึง data")
@@ -109,7 +115,6 @@ class AlumniSurvey extends Component {
     fetchAnalyzeSurvey = () => {
         let { surveyDetail } = this.state
         
-        if (surveyDetail !== null) {
             let { sheetUrl, tableHeader } = surveyDetail
 
             let sendData = {
@@ -121,6 +126,7 @@ class AlumniSurvey extends Component {
                 .then(res => {
                     let data = res.data.data[0]
                     let key = Object.keys(data)
+                    
 
                     let analyze_sur = []
                     key.forEach(key => {
@@ -141,7 +147,7 @@ class AlumniSurvey extends Component {
                     console.error(err)
                     this.props.stopLoading()
                 })
-        }
+        
          
         
     }
@@ -149,7 +155,7 @@ class AlumniSurvey extends Component {
   
 
     render() {
-        let { analyzeData } = this.state
+        let { analyzeData ,year} = this.state
 
         let { alumni, website } = this.props
 
@@ -160,7 +166,7 @@ class AlumniSurvey extends Component {
                         ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
                         {
                             !website.loading && (
-                                <select id="selectYear" defaultValue={alumni.selectedYear} onChange={this.handleYearSelect}>
+                                <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
                                     <option value="0">เลือกปีการศึกษา</option>
                                     {
                                         alumni.yearList !== null && alumni.yearList.map((item, index) => (
@@ -177,7 +183,7 @@ class AlumniSurvey extends Component {
                         <Grid.Row>
 
                             <Header as="h3">
-                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน 
+                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {year}
                             </Header>
                             <Divider />
                             <Table celled structured>
