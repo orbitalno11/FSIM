@@ -105,24 +105,26 @@ class DatabaseHelper:
     def get_activity_publicize(self, year=None):
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
-        if year is not None:
-            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project " \
-                          "WHERE project_type = 0 WHERE year = {}".format(year)
+        if year is not None or year =="null":
+            year = int(year)
+            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
+                          "WHERE project_type = 0 AND (year = '%s' or year = '%s')"%(int(year),int(year-1))
         else:
-            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project " \
+            sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
                           "WHERE project_type = 0"
 
-        execute = self.__execute_query(sql_command)
 
+        execute = self.__execute_query(sql_command)
+        print(sql_command)
         if not execute['response']:
             return execute
+            
         out_function_data = []
         for data in execute['value']:
             data = {
                 'activity_id': data[0],
                 'activity_year': data[1],
                 'activity_budget': data[2],
-                'student_id': data[3]
             }
             out_function_data.append(data)
 
