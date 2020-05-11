@@ -59,12 +59,15 @@ class UserNavbar extends Component {
                                 </LinkContainer>
                             </Nav.Item>
                             <Nav.Item>
+                                <LinkContainer to={"/admission"} className="navHover" activeClassName="navActive">
+                                    <NavLink exact to={"/admission"} className="nav-link" activeClassName="active">ข้อมูลการรับนักศึกษา</NavLink>
+                                </LinkContainer>
+                            </Nav.Item>
+                            <Nav.Item>
                                 <LinkContainer to={"/page"} className="navHover" activeClassName="navActive">
-                                    <NavDropdown title="กิจกรรมประชาสัมพันธ์">
-                                        <NavDropdown.Item as={NavLink} exact to={"/admission"} className="nav-link" activeClassName="active">โครงการรับเข้า</NavDropdown.Item>
+                                    <NavDropdown title="ข้อมูลกิจกรรมประชาสัมพันธ์">
                                         <NavDropdown.Item as={NavLink} exact to={"/active"} className="nav-link" activeClassName="active">ActiveRecruitement</NavDropdown.Item>
                                         <NavDropdown.Item as={NavLink} exact to={"/activity"} className="nav-link" activeClassName="active">กิจกรรมประชาสัมพันธ์</NavDropdown.Item>
-                                      
                                     </NavDropdown>
                                 </LinkContainer>
                             </Nav.Item>
