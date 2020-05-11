@@ -25,7 +25,7 @@ class ActiveRecruitment extends Component {
 
     render(){
 
-        let { project_id, project_name } = this.props.data
+        let { project_id, project_name } = this.state
 
         return(
             <Fragment>
