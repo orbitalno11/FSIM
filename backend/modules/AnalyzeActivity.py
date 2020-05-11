@@ -177,8 +177,6 @@ class AnalyzeActivity:
 
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
-
-
     def analyze_project_ar(self,year=None):
         connect = DatabaseHelper()
         data = connect.get_project_ar(year)

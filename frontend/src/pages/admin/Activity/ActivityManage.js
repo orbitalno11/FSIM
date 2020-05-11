@@ -19,6 +19,8 @@ class ActivityManage extends Component {
             .then(res => {
                 let data = res.data.data
 
+                console.log(data)
+
                 if (data.length < 1) return
 
                 this.setState({
@@ -28,6 +30,16 @@ class ActivityManage extends Component {
             .catch(error => {
                 console.error(error)
             })
+    }
+
+    handleDeleteActivity = (act_id, project_type) => {
+        // axios.delete(`/admin/activity?act_id=${act_id}&project_type=${project_type}`)
+        // .then(res => {
+        //     console.log(res)
+        // })
+        // .catch(err => {
+        //     console.error(err)
+        // })
     }
 
     render() {
@@ -41,7 +53,6 @@ class ActivityManage extends Component {
                             <Table.HeaderCell> ปีการศึกษา </Table.HeaderCell>
                             <Table.HeaderCell>ประเภทโครงการ</Table.HeaderCell>
                             <Table.HeaderCell> ชื่อกิจกรรม </Table.HeaderCell>
-                            <Table.HeaderCell>ลิงก์ Google Sheet</Table.HeaderCell>
                             <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -52,12 +63,10 @@ class ActivityManage extends Component {
                                     <Table.Row textAlign="center" key={index}>
                                         <Table.Cell>{index + 1}</Table.Cell>
                                         <Table.Cell>{item['education_year']}</Table.Cell>
-                                        <Table.Cell>{item['project_type']}</Table.Cell>
+                                        <Table.Cell>{item['project_type_name']}</Table.Cell>
                                         <Table.Cell>{item['activity_name']}</Table.Cell>
-                                        <Table.Cell>ลิงก์ Google Sheet</Table.Cell>
                                         <Table.Cell>
-                                            <Button>แก้ไข</Button>
-                                            <Button>ลบ</Button>
+                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'], item['project_type'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))

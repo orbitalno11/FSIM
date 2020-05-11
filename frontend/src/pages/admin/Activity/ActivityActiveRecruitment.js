@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 
+import { Header } from 'semantic-ui-react'
+
 import axios from 'axios'
 
 
@@ -14,11 +16,20 @@ class ActivityActiveRecruitment extends Component {
         super(props)
         this.state = {
             projectList: null,
+            projectDataBranch: null,
+            projectDataGPAX: null,
+            year: 2563,
+            yearList: [2560, 2561, 2562, 2563],
             tabKey: 2
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.getProjectList()
+        this.getProjectData()
+    }
+
+    getProjectList = () => {
         axios.get('/activity/project?project_type=1')
         .then(res => {
             let data = res.data.data
@@ -28,19 +39,45 @@ class ActivityActiveRecruitment extends Component {
             this.setState({
                 projectList: data
             })
-
         })
         .catch(err =>{
             console.error(err)
         })
     }
 
+    getProjectData = () => {
+        let { year } = this.state
+
+        axios.get(`/admin/activity/analyze/project/ar?year=${year}`)
+        .then(res => {
+            let data = res.data.data
+
+            let activityByBranch = data['activity_by_branch_count'][0]
+            let activityByGPAX = data['activity_by_branch_gpax'][0]
+
+            this.setState({
+                projectDataBranch: activityByBranch,
+                projectDataGPAX: activityByGPAX
+            })
+            
+
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
     render() {
-        let { tabKey, projectList } = this.state
+        let { tabKey, projectList, projectDataBranch, projectDataGPAX } = this.state
         return (
             <Fragment>
+                
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
+                    <Header as="h4" align='center'>
+                        ค้นหาข้อมูล Active Recruitment ของปีการศึกษา
+                        
+                    </Header>
                         <Tab.Container defaultActiveKey={tabKey}>
                             <Row>
                                 <Col lg={3}>
@@ -59,10 +96,10 @@ class ActivityActiveRecruitment extends Component {
                                 <Col lg={9}>
                                     <Tab.Content>
                                         {
-                                            projectList !== null && (
+                                            projectList !== null && projectDataGPAX !== null && projectDataBranch !== null && (
                                                 projectList.map((item, index) => (
                                                     <Tab.Pane key={index} eventKey={item['project_id']}>
-                                                        <ActiveRecruitmentDetail data={item} />
+                                                        <ActiveRecruitmentDetail data={item} dataByBranch={projectDataBranch[item['project_name']]} dataByGPAX={projectDataGPAX[item['project_name']]} />
                                                     </Tab.Pane>
                                                 ))
                                             )

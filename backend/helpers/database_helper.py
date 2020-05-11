@@ -161,10 +161,10 @@ class DatabaseHelper:
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_project_ar(self, year=None):
         if year is not None:
-            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
-                          "JOIN activity_project where project_type=1 and year like '%s' " % (year)
+            sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
+                          "JOIN activity_project where project_type=1 and year = %d " % (int(year))
         else:
-            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
+            sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1"
 
         execute = self.__execute_query(sql_command)
@@ -182,27 +182,28 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-    # get apprentice status list data
-    def get_activity_list(self):
-        sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget " \
-                      "FROM activity NATURAL JOIN activity_project"
-        execute = self.__execute_query(sql_command)
-
-        if not execute['response']:
-            return execute
-
-        out_function_data = []
-        for data in execute['value']:
-            temp = {
-                'activity_id': data[0],
-                'activity_name': data[1],
-                'activity_type_id': data[2],
-                'activity_year': data[3],
-                'activity_budget': data[4],
-            }
-            out_function_data.append(temp)
-
-        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+    # get activity list
+    # def get_activity_list(self):
+    #     sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget, type_name " \
+    #                   "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
+    #     execute = self.__execute_query(sql_command)
+    #
+    #     if not execute['response']:
+    #         return execute
+    #
+    #     out_function_data = []
+    #     for data in execute['value']:
+    #         temp = {
+    #             'activity_id': data[0],
+    #             'activity_name': data[1],
+    #             'activity_type_id': data[2],
+    #             'activity_year': data[3],
+    #             'activity_budget': data[4],
+    #             'activity_type_name': [5]
+    #         }
+    #         out_function_data.append(temp)
+    #
+    #     return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get project list
     def get_project_list(self, project_type: int = None):
@@ -237,10 +238,10 @@ class DatabaseHelper:
     def get_activity_list(self, education_year: int = None):
         try:
             if education_year is None:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget,project_type " \
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget, project_type " \
                               "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
             else:
-                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget,project_type " \
+                sql_command = "SELECT activity_id, activity_name, type_name, year, activity_budget, project_type " \
                               "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type " \
                               "WHERE year = %d" % int(education_year)
         except Exception as e:
@@ -258,7 +259,7 @@ class DatabaseHelper:
             activity = {
                 'activity_id': data[0],
                 'activity_name': data[1],
-                'project_type': data[2],
+                'project_type_name': data[2],
                 'education_year': data[3],
                 'activity_budget': data[4],
                 'project_type': data[5]
@@ -310,6 +311,18 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
+    # delete activity
+    def delete_activity(self, act_id: str = None, project_type: int = None):
+        try:
+            self.__execute_delete("activity_no_ar", "activity_id", act_id)
+            self.__execute_delete("activity_ar", "activity_id", act_id)
+            self.__execute_delete("activity", "activity_id", act_id)
+        except pymysql.err as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "DEV", "DEV")
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ADMISSION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
