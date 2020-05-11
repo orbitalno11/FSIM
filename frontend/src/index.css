@@ -23,7 +23,7 @@
 }
 
 * {
-  font-family: OpenSans-Quark, Helvetica, sans-serif;
+  font-family: OpenSans-Quark, Helvetica, sans-serif !important;
 }
 
 body {

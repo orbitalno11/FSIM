@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Grid,
     Card,
@@ -63,7 +62,6 @@ class ActivitySummary extends Component {
 
                 let joinByActivity = data['activity_count']
                 let compareByPreviousYear = data['activity_year_compare']
-                console.log(data)
 
                 this.setState({
                     joinByActivity: setupPieChart(joinByActivity),

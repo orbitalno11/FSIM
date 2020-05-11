@@ -26,7 +26,7 @@ def get_analyze_activity_ar():
     year = request.args.get('year')
 
     db = AnalyzeActivity()
-    data = db.analyze_ar(year)
+    data = db.analyze_project_ar(year)
 
     return api_helper.return_response(data)
 
