@@ -13,26 +13,51 @@ import {
 // redux
 import {connect} from 'react-redux'
 
+
+import { setupPieChart, setupStackBarChart } from '../components/Graph/GraphController';
+import { Bar, Pie } from "react-chartjs-2";
+
 import bgyel from "../img/bg-head3.png";
 import GraphLine from "../components/Graph/Line";
 import GraphBar from "../components/Graph/Bar";
 import AdmissionTypePanel from "../components/AddmissionTypePanel";
+import Axios from "axios";
 
 class Admission extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            branch: props.branch_list
+            year: 2563,
+            yearList: [2560, 2561],
+            branch: props.branch_list,
+            countChannel: null
         }
     }
 
     componentDidMount() {
-        this.fetchBranch()
+        // this.fetchBranch()
+        this.getCountChannel()
     }
 
     fetchBranch = () => {
 
+    }
+    getCountChannel = () => {
+        let { year } = this.state
+        Axios.get(`/admission/analyze?year=${year}`)
+            .then(res => {
+                let data = res.data.data
+
+                let countChannel = data['count_channel']
+
+                this.setState({
+                    countChannel: setupStackBarChart(countChannel)
+                })
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
     setUpDropDown = branch => {
@@ -49,26 +74,23 @@ class Admission extends Component {
     }
 
     render() {
-        let {branch_list} = this.props
+        let {year, yearList, branch_list, countChannel} = this.props
         return (
             <Fragment>
                 <Image size="big" className="head-right" src={bgyel}/>
                 <Container>
-                    <Header as="h5">
-                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}
-                        <Dropdown
-                            options={this.setUpDropDown(branch_list)}
-                            placeholder="สาขาวิชา"
-                            selection
-                        />
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
+                    <Header as="h5" textAlign="center">
+                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
+{/*                       
+                        {
+                            <select id="selectYear" defaultValue={year}>
+                                {
+                                    yearList !== null && yearList.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        } */}
                     </Header>
                     <Divider/>
                     <Grid>
@@ -85,7 +107,7 @@ class Admission extends Component {
                                         2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <Bar data={countChannel}/>
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>

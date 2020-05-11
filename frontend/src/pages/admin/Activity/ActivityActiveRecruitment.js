@@ -6,7 +6,6 @@ import { Header } from 'semantic-ui-react'
 
 import axios from 'axios'
 
-
 import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 
 
@@ -59,8 +58,6 @@ class ActivityActiveRecruitment extends Component {
                 projectDataBranch: activityByBranch,
                 projectDataGPAX: activityByGPAX
             })
-            
-
         })
         .catch(err => {
             console.error(err)
