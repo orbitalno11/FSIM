@@ -105,20 +105,19 @@ class DatabaseHelper:
     def get_activity_publicize(self, year=None):
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
-        if year is not None or year =="null":
-            year = int(year)
+        if year is not None or year != "null":
+            current = int(year)
+            previous = current - 1
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
-                          "WHERE project_type = 0 AND (year = '%s' or year = '%s')"%(int(year),int(year-1))
+                          "WHERE project_type = 0 AND year BETWEEN %d AND %d" % (previous, current)
         else:
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
                           "WHERE project_type = 0"
 
-
         execute = self.__execute_query(sql_command)
-        print(sql_command)
         if not execute['response']:
             return execute
-            
+
         out_function_data = []
         for data in execute['value']:
             data = {
@@ -132,18 +131,18 @@ class DatabaseHelper:
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_activity_ar(self, year=None):
-        if year is not None:
-            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
-                          "NATURAL JOIN activity WHERE year like '%s' " % (
-                year)
+        if year is not None and year != "null":
+            sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
+                          "NATURAL JOIN activity WHERE year = {} ".format(int(year))
         else:
-            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
+            sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
                           "NATURAL JOIN activity"
 
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
             return execute
+
         out_function_data = []
         for data in execute['value']:
             data = {
@@ -165,7 +164,7 @@ class DatabaseHelper:
             sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1 and year like '%s' " % (year)
         else:
-            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL "\
+            sql_command = "SELECT project_id, grade,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1"
 
         execute = self.__execute_query(sql_command)
@@ -177,13 +176,11 @@ class DatabaseHelper:
             data = {
                 'project_id': data[0],
                 'grade': data[1],
-                'branch_name' : data[2]
+                'branch_name': data[2]
             }
             out_function_data.append(data)
 
-
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
-
 
     # get apprentice status list data
     def get_activity_list(self):
@@ -382,7 +379,8 @@ class DatabaseHelper:
 
     def get_all_status_admission(self, year=None):
         if year is not None:
-            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status where admission_year like '%s' " % (year)
+            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status where admission_year like '%s' " % (
+                year)
         else:
             sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status "
 
@@ -393,7 +391,7 @@ class DatabaseHelper:
         out_function_data = []
         for data in execute['value']:
             data = {
-                
+
                 'status_id': data[0],
                 'channel_id': data[1]
             }
@@ -533,7 +531,7 @@ class DatabaseHelper:
                           "FROM alumni NATURAL JOIN alumni_graduated NATURAL JOIN has_branch NATURAL JOIN branch " \
                           "NATURAL JOIN working NATURAL JOIN work_status NATURAL JOIN apprentice " \
                           "NATURAL JOIN apprentice_status NATURAL JOIN department " \
-                          "WHERE graduated_year = '%s'" % ( graduated_year)
+                          "WHERE graduated_year = '%s'" % (graduated_year)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -757,7 +755,7 @@ class DatabaseHelper:
         else:
             sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, " \
                           "has_branch_id from branch natural join has_branch natural join department as dept " \
-                          "where branch_id like '%s'" % ( branch_id)
+                          "where branch_id like '%s'" % (branch_id)
 
         execute = self.__execute_query(sql_command)
 
