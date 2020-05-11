@@ -365,8 +365,8 @@ class DatabaseHelper:
             sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
-                          "NATURAL JOIN entrance NATURAL JOIN has_status  where admission_year " \
-                          "like '%s' or admission_year like '%s' " % (year, int(year) - 1)
+                          "NATURAL JOIN entrance NATURAL JOIN has_status where admission_year " \
+                          "BETWEEN {} AND {}".format(int(year)-1, int(year))
         else:
             sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
