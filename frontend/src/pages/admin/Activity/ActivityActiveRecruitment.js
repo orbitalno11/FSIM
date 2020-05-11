@@ -5,8 +5,7 @@ import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 import axios from 'axios'
 
 
-import ARDetail from "./ARDetail";
-import AMSci from "./AMSci";
+import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 
 
 class ActivityActiveRecruitment extends Component {
@@ -15,7 +14,7 @@ class ActivityActiveRecruitment extends Component {
         super(props)
         this.state = {
             projectList: null,
-            tabKey: 0
+            tabKey: 2
         }
     }
 
@@ -50,7 +49,7 @@ class ActivityActiveRecruitment extends Component {
                                             projectList !== null && (
                                                 projectList.map((item, index) => (
                                                     <Nav.Item key={index}>
-                                                        <Nav.Link eventKey={index} className="sub-nav">{item['project_name']}</Nav.Link>
+                                                        <Nav.Link eventKey={item['project_id']} className="sub-nav">{item['project_name']}</Nav.Link>
                                                     </Nav.Item>
                                                 ))
                                             )
@@ -59,12 +58,15 @@ class ActivityActiveRecruitment extends Component {
                                 </Col>
                                 <Col lg={9}>
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="0">
-                                            <ARDetail />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="1">
-                                           <AMSci/>
-                                        </Tab.Pane>
+                                        {
+                                            projectList !== null && (
+                                                projectList.map((item, index) => (
+                                                    <Tab.Pane key={index} eventKey={item['project_id']}>
+                                                        <ActiveRecruitmentDetail data={item} />
+                                                    </Tab.Pane>
+                                                ))
+                                            )
+                                        }
                                     </Tab.Content>
                                 </Col>
                             </Row>

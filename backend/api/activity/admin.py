@@ -3,6 +3,7 @@ from flask import Blueprint, request, current_app as app
 # import api helper
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
+from backend.modules.AnalyzeActivity import AnalyzeActivity
 
 admin_activity = Blueprint('admin_activity', __name__)
 

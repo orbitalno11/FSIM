@@ -15,6 +15,9 @@ import axios from 'axios'
 
 import GraphBar from "../../../components/Graph/Bar";
 
+import { setupPieChart, setupStackBarChart } from '../../../components/Graph/GraphController'
+import { Bar, Pie } from "react-chartjs-2";
+
 
 class ActivitySummary extends Component {
 
@@ -22,14 +25,17 @@ class ActivitySummary extends Component {
         super(props)
 
         this.state = {
-            year: 2561,
+            year: 2563,
             yearList: [2560, 2561],
-            activityList: null
+            activityList: null,
+            joinByActivity: null,
+            compareByPreviousYear: null
         }
     }
 
     componentDidMount() {
         this.getActivityList()
+        this.getJoinNumberByYear()
     }
 
     getActivityList = () => {
@@ -48,8 +54,29 @@ class ActivitySummary extends Component {
             })
     }
 
+    getJoinNumberByYear = () => {
+        let { year } = this.state
+
+        axios.get(`/activity/analyze/activity?year=${year}`)
+            .then(res => {
+                let data = res.data.data
+
+                let joinByActivity = data['activity_count']
+                let compareByPreviousYear = data['activity_year_compare']
+                console.log(data)
+
+                this.setState({
+                    joinByActivity: setupPieChart(joinByActivity),
+                    compareByPreviousYear: setupStackBarChart(compareByPreviousYear)
+                })
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+
     render() {
-        let { year, yearList, activityList } = this.state
+        let { year, yearList, activityList, joinByActivity, compareByPreviousYear } = this.state
         return (
             <Fragment>
                 <Container>
@@ -77,70 +104,25 @@ class ActivitySummary extends Component {
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar />
+                                        {
+                                            joinByActivity !== null && (
+                                                <Pie data={joinByActivity} />
+                                            )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่เคยเข้าร่วมกิจกรรมในโครงการต่างๆ
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar />
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
                             <Grid.Column width={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
-                                        <Dropdown className="year-select"
-                                            options={[
-                                                { key: "2560", value: "2560", text: "2560" },
-                                                { key: "2561", value: "2561", text: "2561" }
-                                            ]}
-                                            placeholder="Select"
-                                            selection
-                                        />
-                                        <Dropdown className="year-select"
-                                            options={[
-                                                { key: "2560", value: "2560", text: "2560" },
-                                                { key: "2561", value: "2561", text: "2561" }
-                                            ]}
-                                            placeholder="Select"
-                                            selection
-                                        />
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar />
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงเปรียบเทียบจำนวนนักศึกษาที่เคยเข้าร่วมกิจกรรมในโครงการต่างๆ
-                                        <Dropdown className="year-select"
-                                            options={[
-                                                { key: "2560", value: "2560", text: "2560" },
-                                                { key: "2561", value: "2561", text: "2561" }
-                                            ]}
-                                            placeholder="Select"
-                                            selection
-                                        />
-                                        <Dropdown className="year-select"
-                                            options={[
-                                                { key: "2560", value: "2560", text: "2560" },
-                                                { key: "2561", value: "2561", text: "2561" }
-                                            ]}
-                                            placeholder="Select"
-                                            selection
-                                        />
-                                    </Card.Header>
-                                    <Card.Content>
+                                        {
+                                            compareByPreviousYear !== null && (
+                                                <Bar data={compareByPreviousYear} />
+                                            )
+                                        }
                                         <GraphBar />
                                     </Card.Content>
                                 </Card>
