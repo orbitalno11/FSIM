@@ -35,6 +35,10 @@ class AnalyzeActivity:
         if data['value']:
             data = pd.DataFrame(data['value'])
             activity = analyze_helper.set_fullname(connect.get_activity_list())
+            if year:
+                year_s=int(year)
+                activity = activity.loc[(activity['education_year'] ==year_s) | (activity['education_year'] ==year_s-1)]
+
             dupli_activity = activity.activity_name.duplicated(keep=False)
             activity.loc[dupli_activity, 'activity_name'] = activity.loc[dupli_activity, 'activity_name'] + ' (' + \
                                                             activity['education_year'].astype(str) + ')'
@@ -90,14 +94,16 @@ class AnalyzeActivity:
                 compare_year_data.set_index('activity_name', inplace=True)
                 # student_joined_compare = compare_year_data.copy()
 
-            print(data_year)
             activity_group = data_year.groupby('activity_id').size()
             activity_count_check = analyze_helper.check_list(activityNoAr.index, activity_group)
             activity_count = analyze_helper.set_fullname_index(activity_dict, activity_count_check)
 
-            # student_join = data_student_join.groupby('activity_id').size()
-            # student_join_check = analyze_helper.check_list(activityNoAr.index, student_join)
-            # student_join_count = analyze_helper.set_fullname_index(activity_dict, student_join_check)
+            student_join = data_student_join.groupby('activity_id').size()
+            student_join_check = analyze_helper.check_list(activityNoAr.index, student_join)
+            student_join_count = analyze_helper.set_fullname_index(activity_dict, student_join_check)
+
+            budget =  activity.loc[(activity['education_year'] ==year) ]
+
             value = {
                 'activity_count': activity_count.to_dict(),
                 # 'student_join_count': student_join_count.to_dict(),
@@ -120,6 +126,7 @@ class AnalyzeActivity:
     def analyze_ar(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_activity_ar(year)
+
         if data['value']:
             data = pd.DataFrame(data['value'])
             activity = analyze_helper.set_fullname(connect.get_activity_list())
@@ -139,6 +146,7 @@ class AnalyzeActivity:
                     branch.append(i['branch'][index])
             branch_data = analyze_helper.set_branch(branch)
             branch_data.drop(columns=['amount_student'],inplace=True)
+            branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
             # activity_data keep data activity such as activity_year and activity_budget
             # activity_dict keep data activity such as activity_year and activity_budget in syntex dic
@@ -152,13 +160,15 @@ class AnalyzeActivity:
             analyze_by_activity = data.groupby(['activity_id', 'branch_name']).size().unstack(fill_value=0)
             analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
             analyze_by_activity = analyze_helper.check_list_column(branch_data.index, analyze_by_activity)
-
-            analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
+            analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
+            # analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
 
             analyze_by_activity_gpax = data.groupby(['activity_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
             analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
             analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.index, analyze_by_activity_gpax)
-            analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
+            # analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
+            analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
+
             analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
             value = {
@@ -196,8 +206,6 @@ class AnalyzeActivity:
             branch_data.drop(columns=['amount_student'],inplace=True)
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
-            # print(branch_data.index.tolist())
-
             list_project = project.index.tolist()
             project_set={}
             for pindex in list_project:
@@ -216,8 +224,8 @@ class AnalyzeActivity:
                         'analyze_by_activity' : analyze_by_activity.to_dict(),
                         'analyze_by_activity_gpax' : analyze_by_activity_gpax.to_dict()
                     }
-                    name_project = project_dict[pindex]
-                    project_set[name_project] = [list_pr]
+                    # name_project = project_dict[pindex]
+                    project_set[pindex] = [list_pr]
 
                 else : 
                    
