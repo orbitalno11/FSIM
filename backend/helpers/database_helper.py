@@ -386,7 +386,6 @@ class DatabaseHelper:
                 'branch_id': data[2],
                 'school_id': data[3],
                 'status_id': data[4]
-
             }
             out_function_data.append(data)
 
