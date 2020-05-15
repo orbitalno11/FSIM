@@ -106,7 +106,7 @@ class SummarySurvey extends Component {
                             <tbody>
                             {brochure}
                             </tbody>
-                            <DataTable/>
+                            {/* <DataTable/> */}
                     </Table>
                  </Container>  
             </Fragment>  
