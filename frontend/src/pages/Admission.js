@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 
 import {
     Header,
@@ -11,10 +11,9 @@ import {
 } from "semantic-ui-react";
 
 // redux
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
-
-import { setupPieChart, setupStackBarChart } from '../components/Graph/GraphController';
+import { setupPieChart, setupNoneStackBarChart, setupStackBarChart } from '../components/Graph/GraphController';
 import { Bar, Pie } from "react-chartjs-2";
 
 import bgyel from "../img/bg-head3.png";
@@ -28,37 +27,47 @@ class Admission extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            year: 2563,
-            yearList: [2560, 2561],
+            year: 2560,
+            yearList: [2560, 2561, 2562, 2563],
             branch: props.branch_list,
-            countChannel: null
+            countChannel: null,
+            countSchool: null,
+            compareYear: null
         }
     }
 
     componentDidMount() {
-        // this.fetchBranch()
         this.getCountChannel()
     }
 
     fetchBranch = () => {
 
     }
+
     getCountChannel = () => {
         let { year } = this.state
-        Axios.get(`/admission/analyze?year=${year}`)
+        Axios.get(`/admission/analyze`)
             .then(res => {
                 let data = res.data.data
 
                 let countChannel = data['count_channel']
+                let countSchool = data['count_by_school']
+                let compareYear = data['compare_year']
+                // console.log(countChannel)
 
                 this.setState({
-                    countChannel: setupStackBarChart(countChannel)
+                    countChannel: setupNoneStackBarChart(countChannel),
+                    countSchool: setupStackBarChart(countSchool),
+                    compareYear: setupNoneStackBarChart(compareYear)
+
                 })
+                // console.log(this.state.countChannel)
             })
             .catch(error => {
                 console.error(error)
             })
     }
+
 
     setUpDropDown = branch => {
         let options = []
@@ -74,14 +83,13 @@ class Admission extends Component {
     }
 
     render() {
-        let {year, yearList, branch_list, countChannel} = this.props
+        let { year, yearList, branch_list, countChannel, countSchool, compareYear } = this.state
         return (
             <Fragment>
-                <Image size="big" className="head-right" src={bgyel}/>
+                <Image size="big" className="head-right" src={bgyel} />
                 <Container>
                     <Header as="h5" textAlign="center">
                         ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
-{/*                       
                         {
                             <select id="selectYear" defaultValue={year}>
                                 {
@@ -90,34 +98,41 @@ class Admission extends Component {
                                     ))
                                 }
                             </select>
-                        } */}
+                        }
                     </Header>
-                    <Divider/>
+                    <Divider />
                     <Grid>
                         <Grid.Row>
                             <Card fluid={true}>
-                                <AdmissionTypePanel/>
+                                <AdmissionTypePanel />
                             </Card>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
                                         2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <Bar data={countChannel}/>
+                                        {
+                                            countChannel !== null && (
+                                                <Bar data={countChannel} legend={{ display: false }} />
+                                            )
+                                        }
+
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -129,54 +144,54 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงโรงเรียนที่เข้าศึกษา 5 โรงเรียนแรก
                                         ที่เข้าศึกษามากที่สุด
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        10 อันดับโรงเรียนที่เข้าศึกษามากที่สุด
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphLine/>
+                                        {
+                                            countSchool !== null && (
+                                                <Bar data={countSchool} legend={{ display: false }} />
+                                            )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโรงเรียน
                                         ประจำปี 2560 และ 2561
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี
                                         2560 และ 2561
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        {
+                                            compareYear !== null && (
+                                                <Bar data={compareYear} legend={{ display: false }} />
+                                            )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>

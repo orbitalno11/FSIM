@@ -12,7 +12,6 @@ export const setupPieChart = data => {
         dataset.push(data[i])
     }
 
-
     for (let i in labels) {
         background.push(colorSet[i])
         hoverColor.push(colorSet[i] + "75")

@@ -84,11 +84,11 @@ class StudentData extends Component {
         })
     }
 
-    async componentDidMount() {
-        let id=this.props.match.params.id
-        await this.fetchData(id)
-        this.setupGraph()
-    }
+    // async componentDidMount() {
+    //     let id=this.props.match.params.id
+    //     await this.fetchData(id)
+    //     this.setupGraph()
+    // }
 
 
     setBranch = () => {
