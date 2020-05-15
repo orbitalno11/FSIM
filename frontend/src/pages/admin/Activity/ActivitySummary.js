@@ -14,7 +14,7 @@ import axios from 'axios'
 
 import GraphBar from "../../../components/Graph/Bar";
 
-import { setupPieChart, setupStackBarChart } from '../../../components/Graph/GraphController'
+import { setupPieChart, setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar, Pie } from "react-chartjs-2";
 
 
@@ -64,9 +64,11 @@ class ActivitySummary extends Component {
                 let compareByPreviousYear = data['activity_year_compare']
 
                 this.setState({
-                    joinByActivity: setupPieChart(joinByActivity),
+                    joinByActivity: setupNoneStackBarChart(joinByActivity),
                     compareByPreviousYear: setupStackBarChart(compareByPreviousYear)
                 })
+
+                console.log(this.state.joinByActivity)
             })
             .catch(err => {
                 console.error(err)
@@ -104,7 +106,7 @@ class ActivitySummary extends Component {
                                     <Card.Content>
                                         {
                                             joinByActivity !== null && (
-                                                <Pie data={joinByActivity} />
+                                                <Bar data={joinByActivity} />
                                             )
                                         }
                                     </Card.Content>

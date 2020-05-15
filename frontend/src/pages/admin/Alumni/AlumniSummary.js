@@ -118,6 +118,8 @@ class AlumniSummary extends Component {
                     loadTime: 1
                 })
 
+                console.log(this.state.gpaChart)
+
             })
             .catch(err => {
                 console.error(err)

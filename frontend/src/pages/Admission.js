@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 
 import {
     Header,
@@ -11,28 +11,56 @@ import {
 } from "semantic-ui-react";
 
 // redux
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+
+import { setupPieChart, setupNoneStackBarChart } from '../components/Graph/GraphController';
+import { Bar, Pie } from "react-chartjs-2";
 
 import bgyel from "../img/bg-head3.png";
 import GraphLine from "../components/Graph/Line";
 import GraphBar from "../components/Graph/Bar";
 import AdmissionTypePanel from "../components/AddmissionTypePanel";
+import Axios from "axios";
 
 class Admission extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            branch: props.branch_list
+            year: 2560,
+            yearList: [2560, 2561, 2562, 2563],
+            branch: props.branch_list,
+            countChannel: null
         }
     }
 
     componentDidMount() {
-        this.fetchBranch()
+        this.getCountChannel()
     }
 
     fetchBranch = () => {
 
+    }
+
+    getCountChannel = () => {
+        let { year } = this.state
+        Axios.get(`/admission/analyze`)
+            .then(res => {
+                let data = res.data.data
+
+                // get count by channel data
+                let countChannel = data['count_channel']
+                // console.log(countChannel)
+
+                this.setState({
+                    countChannel: setupNoneStackBarChart(countChannel) // transfrom data to data for graph
+
+                })
+                console.log(this.state.countChannel)
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
     setUpDropDown = branch => {
@@ -49,32 +77,33 @@ class Admission extends Component {
     }
 
     render() {
-        let {branch_list} = this.props
+        let { year, yearList, branch_list, countChannel } = this.state
         return (
             <Fragment>
-                <Image size="big" className="head-right" src={bgyel}/>
+                <Image size="big" className="head-right" src={bgyel} />
                 <Container>
-                    <Header as="h5">
-                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา{" "}
-                        <Dropdown
-                            options={this.setUpDropDown(branch_list)}
-                            placeholder="สาขาวิชา"
-                            selection
-                        />
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
+                {
+                                            countChannel !== null && (
+                                                <Bar data={countChannel} />
+                                            )
+                                        }
+                    <Header as="h5" textAlign="center">
+                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
+                        {/* {
+                            <select id="selectYear" defaultValue={year}>
+                                {
+                                    yearList !== null && yearList.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        }  */}
                     </Header>
-                    <Divider/>
+                    <Divider />
                     <Grid>
                         <Grid.Row>
                             <Card fluid={true}>
-                                <AdmissionTypePanel/>
+                                <AdmissionTypePanel />
                             </Card>
                         </Grid.Row>
                         <Grid.Row>
@@ -85,7 +114,8 @@ class Admission extends Component {
                                         2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        
+
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -95,7 +125,7 @@ class Admission extends Component {
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -107,7 +137,7 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -120,7 +150,7 @@ class Admission extends Component {
                                         ที่เข้าศึกษามากที่สุด
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        <GraphBar />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -130,7 +160,7 @@ class Admission extends Component {
                                         10 อันดับโรงเรียนที่เข้าศึกษามากที่สุด
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -143,7 +173,7 @@ class Admission extends Component {
                                         ประจำปี 2560 และ 2561
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -154,7 +184,7 @@ class Admission extends Component {
                                         2560 และ 2561
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine/>
+                                        <GraphLine />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
