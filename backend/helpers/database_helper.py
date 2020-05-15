@@ -105,14 +105,16 @@ class DatabaseHelper:
     def get_activity_publicize(self, year=None):
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
-        if year is not None or year != "null":
+        if not year is  None or year == "null":
             current = int(year)
             previous = current - 1
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
-                          "WHERE project_type = 0 AND year BETWEEN %d AND %d" % (previous, current)
+                          "WHERE project_type = 0 AND year BETWEEN %d AND %d" % (int(previous), int(year))
         else:
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
                           "WHERE project_type = 0"
+
+         
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -131,11 +133,11 @@ class DatabaseHelper:
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_activity_ar(self, year=None):
-        if year is not None and year != "null":
-            sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
+        if not year is  None and year != "null":
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
                           "NATURAL JOIN activity WHERE year = {} ".format(int(year))
         else:
-            sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
+            sql_command = "SELECT activity_id, school_name, branch_name, grade, year FROM activity_ar " \
                           "NATURAL JOIN activity"
 
         execute = self.__execute_query(sql_command)
@@ -154,19 +156,19 @@ class DatabaseHelper:
             }
             out_function_data.append(data)
 
-        print(out_function_data)
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_project_ar(self, year=None):
         if year is not None:
-            sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
+            sql_command = "SELECT project_id, grade ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1 and year = %d " % (int(year))
         else:
-            sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
+            sql_command = "SELECT project_id, grade ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1"
 
+        print(sql_command)
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
