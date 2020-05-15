@@ -153,36 +153,6 @@ class Admission extends Component {
                             <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟแสดงโรงเรียนที่เข้าศึกษา 5 โรงเรียนแรก
-                                        ที่เข้าศึกษามากที่สุด
-                                    </Card.Header>
-                                    <Card.Content>
-                                        {
-                                            countSchool !== null && (
-                                                <Bar data={countSchool} legend={{ display: false }} />
-                                            )
-                                        }
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโรงเรียน
-                                        ประจำปี 2560 และ 2561
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphLine />
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี
                                         2560 และ 2561
                                     </Card.Header>

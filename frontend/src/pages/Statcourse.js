@@ -2,17 +2,15 @@ import React, {Component, Fragment} from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Grid,
-    Card,
     Container,
     List,
     Image
 } from "semantic-ui-react";
 
 // redux
-import {connect} from 'react-redux'
+
 import { Link } from "react-router-dom";
 
 import bgyel from "../img/bg-head3.png";
