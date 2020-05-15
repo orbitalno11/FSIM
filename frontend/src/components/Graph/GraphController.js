@@ -33,6 +33,7 @@ export const setupPieChart = data => {
 
 export const setupNoneStackBarChart = (receivedData) => {
     // require data is a json key as a label and value is data for the label
+    if (receivedData === null || receivedData === undefined) return
     let label = Object.keys(receivedData)
     let dataset = []
 
@@ -58,6 +59,7 @@ export const setupNoneStackBarChart = (receivedData) => {
 
 export const setupStackBarChart = (receivedData) => {
     // require data is a json key as a label and value is data for the label
+    if (receivedData === null || receivedData === undefined) return
     let label = Object.keys(receivedData)
     let dataset = []
 

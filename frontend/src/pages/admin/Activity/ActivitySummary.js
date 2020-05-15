@@ -68,7 +68,7 @@ class ActivitySummary extends Component {
                     compareByPreviousYear: setupStackBarChart(compareByPreviousYear)
                 })
 
-                console.log(this.state.joinByActivity)
+                // console.log(this.state.joinByActivity)
             })
             .catch(err => {
                 console.error(err)
@@ -106,7 +106,7 @@ class ActivitySummary extends Component {
                                     <Card.Content>
                                         {
                                             joinByActivity !== null && (
-                                                <Bar data={joinByActivity} />
+                                                <Bar data={joinByActivity} legend={{ display: false}} />
                                             )
                                         }
                                     </Card.Content>

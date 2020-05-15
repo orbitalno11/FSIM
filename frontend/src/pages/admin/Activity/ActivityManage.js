@@ -19,7 +19,7 @@ class ActivityManage extends Component {
             .then(res => {
                 let data = res.data.data
 
-                console.log(data)
+                // console.log(data)
 
                 if (data.length < 1) return
 
