@@ -39,7 +39,6 @@ class AnalyzeStudent:
         value = {}
         connect = DatabaseHelper()
         data = connect.get_all_student(dept)
-        # print(data)
         if data['value']:
             df = pd.DataFrame(data['value'])
             df_branch = df[['branch_id', 'branch']]

@@ -7,7 +7,8 @@ import {
     Grid,
     Card,
     Container,
-    Image
+    Image,
+    Table
 } from "semantic-ui-react";
 
 import bgyel from "../img/bg-head3.png";
@@ -20,8 +21,9 @@ class ActivityInformation extends Component {
     render() {
         return (
             <Fragment>
-                <Header as="h5">
-                    ค้นหาจำนวนช่องทางการสมัครของนักศึกษาประจำปี{" "}
+                 <Image size="big" className="head-right" src={bgyel} />
+                <Header as="h5" align='center'>
+                    ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา{" "}
                     <Dropdown
                         options={[
                             {key: "2560", value: "2560", text: "2560"},
@@ -31,115 +33,56 @@ class ActivityInformation extends Component {
                         selection
                     />
                 </Header>
-                <Divider/>
-                <Image size="big" className="head-right" src={bgyel}/>
-                <Container>
-                    <Grid>
-                        <Grid.Row stretched>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาในพื้นที่ต่างๆแบ่งตามภาควิชา
+            <Container>
+                <Grid>
+                    <Grid.Row >
+                        <Grid.Column width={16}>
+                            <Card className="card-default">
+                                <Card.Header as="h5">
+                                    กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ  แต่ละสาขา
                                     </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        แผนภูมิเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาจากพื้นที่ต่างๆ
+                                <Card.Content>
+                                    
+                                </Card.Content>
+                            </Card>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row >
+                        <Grid.Column width={16}>
+                            <Card className="card-default">
+                                <Card.Header as="h5">
+                                    กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ  แต่ละสาขา
                                     </Card.Header>
-                                    <Card.Content>
-                                        <GraphPie/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row >
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงพื้นที่ที่นักศึกษามา 5 อันดับแรก
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์
-                                        มจธ.
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
+                                <Card.Content>
+                                
+                                </Card.Content>
+                            </Card>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                        <Grid.Row>
+                            <Header as="h3" align='center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงสัดส่วนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์
-                                        มจธ.
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphPie/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงช่องทางที่นักศึกษารู้จัก มจธ.
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphPie/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
+                            <Table celled structured>
+                                <Table.Header>
+                                    <Table.Row active>
+                                        <Table.HeaderCell width={4} textAlign="center">
+                                            ปีการศึกษา
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={4} textAlign="center">
+                                            ชื่อโครงการ
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={4} textAlign="center">
+                                            งบประมาณที่ใช้
+                                        </Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+                            </Table>
                         </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงเปรียบเทียบจำนวนนักศึกษาที่เข้าศึกษาตามเหตุผลที่เลือกเรียนคณะวิทยาศาสตร์
-                                        มจธ. ตามปีการศึกษา
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                    <Card.Content>
-                                        <AmountStudent/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
-            </Fragment>
+                </Grid>
+            </Container>
+        </Fragment>
         )
     }
 

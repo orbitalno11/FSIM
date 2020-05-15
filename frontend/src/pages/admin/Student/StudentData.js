@@ -12,10 +12,13 @@ import {
 
 
 
-import GraphBar from "../../../components/Graph/Bar";
+// import GraphBar from "../../../components/Graph/Bar";
 import Piechart from "../../../components/Graph/Pie";
 import Barchart from "../../../components/Graph/Bar";
 import Horizontal from "../../../components/Graph/BarHorizontal";
+
+import { setupPieChart, setupStackBarChart } from '../../../components/Graph/GraphController'
+
 
 //  wait other
 import 'chartjs-plugin-datalabels'
@@ -37,15 +40,15 @@ class StudentData extends Component {
             branch: [],
             byYear: [],
             byBranch: [],
-            pieData: [],
-            barData: [],
-            horizontalData: []
+            studentByBranch: [],
+            studentByYear: [],
+            branchByStatus: []
         }
     }
 
 
     fetchData = async (dept_id) => {
-        await axios.get(`/department/student?dept_id=${dept_id}`)
+        await axios.get(`/student/department?dept_id=${dept_id}`)
             .then(res => {
                 let received = res.data
 
@@ -70,6 +73,23 @@ class StudentData extends Component {
                 })
             })
     }
+
+    setupGraph = () => {
+        let { branch, byYear, byBranch } = this.state
+
+        this.setState({
+            studentByBranch: setupPieChart(branch),
+            studentByYear: setupStackBarChart(byYear),
+            branchByStatus: setupStackBarChart(byBranch)
+        })
+    }
+
+    // async componentDidMount() {
+    //     let id=this.props.match.params.id
+    //     await this.fetchData(id)
+    //     this.setupGraph()
+    // }
+
 
     setBranch = () => {
         let { branch } = this.state
@@ -164,11 +184,13 @@ class StudentData extends Component {
 
     }
 
+    
+   
 
 
     render() {
         
-        let { department, pieData, barData, horizontalData } = this.state
+        let { department, studentByBranch, studentByYear, branchByStatus} = this.state
        
         return (
             <Fragment>
@@ -198,7 +220,7 @@ class StudentData extends Component {
                                             <h3>จำนวนนักศึกษาต่อสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Piechart data={pieData} />
+                                            <Piechart data={studentByBranch} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -208,7 +230,7 @@ class StudentData extends Component {
                                             <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                        <Barchart data={barData} />
+                                        <Barchart data={studentByYear} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
@@ -220,12 +242,12 @@ class StudentData extends Component {
                                             <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Horizontal data={horizontalData} />
+                                            <Horizontal data={branchByStatus} />
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
                             </Grid.Row>
-                           
+{/*                            
                             <Grid.Row>
                                 <Grid.Column width={8}>
                                     <Card className="card-default">
@@ -269,7 +291,7 @@ class StudentData extends Component {
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
-                            </Grid.Row>
+                            </Grid.Row> */}
                         </Grid>
                 </Container>
             </Fragment>

@@ -43,9 +43,9 @@ const ButtonStudent = ({ id, name, image }) => (
           <Icon name="arrow right" />
         </Button.Content>
       </Button>
-      <Header textalign="center" size="small">
+      <p textalign="center" className="labelbranch" size="small">
         {name}
-      </Header>
+      </p>
     </Grid.Column>
   </Fragment>
 );
@@ -177,7 +177,7 @@ class Home extends Component {
           ),
         },
         {
-          menuItem: "กิจกรรมประชาสัมพันธ์",
+          menuItem: "ข้อมูลกิจกรรมประชาสัมพันธ์",
           render: () => (
             <PaneTemplate
               label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
