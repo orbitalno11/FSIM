@@ -36,7 +36,7 @@ class ActivitySummary extends Component {
     getData = () => {
         let { selectedYear } = this.props.activity
         this.props.getActivityData(selectedYear)
-        this.props.getActivityList(selectedYear)
+        this.props.getActivityList()
     }
 
     render() {
@@ -118,7 +118,7 @@ class ActivitySummary extends Component {
                                 <Table.Body>
                                     {
                                         activityList !== null ? (
-                                            activityList.map((item, index) => (
+                                            activityList.filter(data => data['education_year'] === parseInt(selectedYear)).map((item, index) => (
                                                 <Table.Row key={index}>
                                                     <Table.Cell textAlign="center">{item['education_year']}</Table.Cell>
                                                     <Table.Cell textAlign="center">{item['activity_name']}</Table.Cell>
@@ -153,7 +153,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         getActivityData: (year) => dispatch(getActivityData(year)),
-        getActivityList: (year) => dispatch(getActivityList(year)),
+        getActivityList: () => dispatch(getActivityList()),
         setYear: (year) => dispatch(selectYear(year))
     }
 )

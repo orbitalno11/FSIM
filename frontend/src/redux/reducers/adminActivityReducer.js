@@ -7,6 +7,7 @@ const initialState = {
     activityData: null,
     arData: null,
     activityList: null,
+    activityListByYear: null,
     projectList: null,
     yearList: [2559, 2560, 2561, 2562, 2563],
     selectedYear: year,
@@ -37,7 +38,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 activityData: null,
-                activityList: null,
                 error: action.error
             }
 
@@ -73,7 +73,6 @@ export default (state = initialState, action) => {
         case types.LOAD_ACTIVITY_LIST_FAILED:
             return {
                 ...state,
-                activityData: null,
                 activityList: null,
                 error: action.error
             }
@@ -89,7 +88,7 @@ export default (state = initialState, action) => {
                 projectList: action.projectList
             }
 
-        case types.LOAD_SURVEY_LIST_FAILED:
+        case types.LOAD_PROJECT_LIST_FAILED:
             return {
                 ...state,
                 arData: null,

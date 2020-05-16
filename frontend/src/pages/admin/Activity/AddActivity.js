@@ -166,14 +166,6 @@ class AddActivity extends Component {
         }
 
         this.props.addActivity(data)
-
-        // axios.post('/admin/activity/', data)
-        //     .then(res => {
-        //         console.log(res.data.data)
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //     })
     }
 
 

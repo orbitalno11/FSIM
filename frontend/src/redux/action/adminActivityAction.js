@@ -143,6 +143,28 @@ const addActivityFalied = (error, result) => (
     }
 )
 
+// delete activity
+const deleteActivityStart = () => (
+    {
+        type: types.DELETE_ACTIVITY_START
+    }
+)
+
+const deleteActivitySuccess = (result) => (
+    {
+        type: types.DELETE_ACTIVITY_SUCCESS,
+        actionResult: result
+    }
+)
+
+const deleteActivityFalied = (error, result) => (
+    {
+        type: types.DELETE_ACTIVITY_FAILED,
+        actionResult: result,
+        error: error
+    }
+)
+
 export const selectYear = year => dispatch => {
     dispatch(setSelectedYear(year))
 }
@@ -213,11 +235,11 @@ export const getARActivityData = year => dispatch => {
         })
 }
 
-export const getActivityList = year => dispatch => {
+export const getActivityList = () => dispatch => {
     dispatch(startLoading())
     dispatch(loadActivityListStart)
 
-    axios.get(`/admin/activity/list?year=${year}`)
+    axios.get(`/admin/activity/list`)
         .then(res => {
             let data = res.data.data
 
@@ -260,7 +282,7 @@ export const getProjectList = () => dispatch => {
         })
 }
 
-export const addProject = data => dispatch =>{
+export const addProject = data => dispatch => {
     dispatch(addProjectStart)
     dispatch(startLoading())
     axios.post('/admin/activity/project', data)
@@ -276,7 +298,7 @@ export const addProject = data => dispatch =>{
         })
 }
 
-export const addActivity = data => (dispatch, getState) =>{
+export const addActivity = data => (dispatch, getState) => {
     dispatch(addActivityStart)
     dispatch(startLoading())
     axios.post('/admin/activity/', data)
@@ -291,6 +313,24 @@ export const addActivity = data => (dispatch, getState) =>{
         .catch(err => {
             console.error(err)
             dispatch(addActivityFalied(err, false))
+            dispatch(stopLoading())
+        })
+}
+
+export const delelteActivity = act_id => (dispatch, getState) => {
+    dispatch(deleteActivityStart())
+    dispatch(startLoading())
+    axios.delete(`/admin/activity?act_id=${act_id}`)
+        .then(res => {
+            dispatch(deleteActivitySuccess(true))
+            dispatch(stopLoading())
+            let year = getState().admin_activity.selectedYear
+            dispatch(getActivityList(year))
+            dispatch(getActivityData(year))
+            dispatch(getARActivityData(year))
+        })
+        .catch(err => {
+            dispatch(deleteActivityFalied(err, false))
             dispatch(stopLoading())
         })
 }

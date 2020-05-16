@@ -62,6 +62,10 @@ export const LOAD_ACTIVITY_LIST_START = "load_activity_list_start"
 export const LOAD_ACTIVITY_LIST_SUCCESS = "load_activity_list_success"
 export const LOAD_ACTIVITY_LIST_FAILED = "load_activity_list_failed"
 
+export const LOAD_ACTIVITY_LIST_BY_YEAR_START = "load_activity_list_by_year_start"
+export const LOAD_ACTIVITY_LIST_BY_YEAR_SUCCESS = "load_activity_list_by_year_success"
+export const LOAD_ACTIVITY_LIST_BY_YEAR_FAILED = "load_activity_list_by_year_failed"
+
 export const LOAD_PROJECT_LIST_START = "load_project_list_start"
 export const LOAD_PROJECT_LIST_SUCCESS = "load_projectlistt_success"
 export const LOAD_PROJECT_LIST_FAILED = "load_project_list_failed"
