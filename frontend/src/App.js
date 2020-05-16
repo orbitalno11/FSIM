@@ -76,7 +76,7 @@ class App extends Component {
                         <Route exact path="/alumni" component={Alumni} />
                         <Route exact path="/activity" component={ActivityInformation} />
                         <Route exact path="/student/:id" component={DepartmentStudent} />
-                        <Route path="/department/:dept_id" component={DepartmentDetail} />
+                        {/* <Route path="/department/:dept_id" component={DepartmentDetail} /> */}
                         <Route exact path="/Statcourse" component={Statcourse} />
                         <Route exact path="/StatcourseGPA" component={StatcourseGPA} />
                         <Route exact path="/Statcoursebranch" component={Statcoursebranch} />

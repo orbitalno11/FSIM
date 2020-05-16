@@ -1,6 +1,7 @@
 import * as types from '../types'
 
 import { startLoading, stopLoading } from './generalAction'
+import { openModal } from './modalAction'
 
 import axios from 'axios'
 
@@ -290,9 +291,12 @@ export const addProject = data => dispatch => {
             dispatch(addProjectSuccess(true))
             dispatch(stopLoading())
             dispatch(getProjectList())
+            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+
         })
         .catch(err => {
             console.error(err)
+            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
             dispatch(addProjectFalied(err, false))
             dispatch(stopLoading())
         })
@@ -309,9 +313,12 @@ export const addActivity = data => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
+            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+
         })
         .catch(err => {
             console.error(err)
+            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
             dispatch(addActivityFalied(err, false))
             dispatch(stopLoading())
         })
@@ -328,8 +335,13 @@ export const delelteActivity = act_id => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
+            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+
+          
+
         })
         .catch(err => {
+            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
             dispatch(deleteActivityFalied(err, false))
             dispatch(stopLoading())
         })

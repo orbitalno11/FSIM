@@ -21,6 +21,8 @@ import { login } from "../redux/action/authAction";
 import bgyel from "../img/bg-head.png";
 import bannerbot from "../img/bottom-left.png";
 
+import ReactModal from "../components/ReactModal"
+
 const getWidth = () => {
   const isSSR = typeof window === "undefined";
 
@@ -41,8 +43,10 @@ class Login extends Component {
 
   render() {
     const { children } = this.props;
+   
     return (
       <Fragment>
+         <ReactModal/>
         <Responsive
           getWidth={getWidth}
           minWidth={Responsive.onlyTablet.minWidth}

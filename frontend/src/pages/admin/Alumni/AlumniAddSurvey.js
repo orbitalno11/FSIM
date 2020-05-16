@@ -4,11 +4,13 @@ import { Form, Button, InputGroup, Col } from 'react-bootstrap'
 
 import axios from 'axios'
 
-import { MessageError, MessageSuccess } from '../../../components/MessageAlert'
+import  ReactModal  from '../../../components/ReactModal'
 
 // redux
 import { connect } from 'react-redux'
 import { addSurvey,getSurveyList } from '../../../redux/action/adminAlumniAction'
+import { openModal } from '../../../redux/action/modalAction'
+
 
 import { startLoading, stopLoading } from '../../../redux/action/generalAction'
 
@@ -156,24 +158,6 @@ class AlumniAddSurvey extends Component {
         }
     }
 
-    // handlePersonalSelect = event => {
-    //     let value = event.target.value
-    //     let { personalHeader, editVerify } = this.state
-    //     let arr = personalHeader
-
-    //     if (!editVerify) {
-    //         if (arr.includes(value)) {
-    //             const index = arr.indexOf(value)
-    //             if (index > -1) arr.splice(index, 1)
-    //         } else {
-    //             arr.push(value)
-    //         }
-
-    //         this.setState({
-    //             personalHeader: arr
-    //         })
-    //     }
-    // }
 
     handleSubmit = async event => {
         event.preventDefault()
@@ -254,16 +238,6 @@ class AlumniAddSurvey extends Component {
 
     }
 
-    messageAlert = () => {
-        let set_alert = null
-        if (this.props.status == false) {
-            set_alert = <MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง' />
-
-        } else if (this.props.status == true) {
-            set_alert = <MessageSuccess header='บันทึกสำเร็จ' body='' />
-        }
-        return set_alert
-    }
 
 
     handleFormChange = (e) => {
@@ -284,7 +258,7 @@ class AlumniAddSurvey extends Component {
         // console.log(personalHeader)
         return (
             <Fragment>
-                {this.messageAlert()}
+                <ReactModal />
                 <Form id="addData" onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
                     <Form.Group>
                         <Form.Label>ปีการศึกษา</Form.Label>
@@ -391,7 +365,7 @@ const mapDispatchToProps = dispatch => (
         addSurvey: (data) => dispatch(addSurvey(data)),
         startLoading: () => dispatch(startLoading()),
         stopLoading: () => dispatch(stopLoading()),
-        loadSurveyList:() => dispatch(getSurveyList())
+        loadSurveyList:() => dispatch(getSurveyList()),
 
     }
 )

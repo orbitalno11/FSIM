@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import  ReactModal  from '../../../components/ReactModal'
 
 import axios from 'axios'
 
@@ -9,6 +10,7 @@ import { addProject, addActivity } from '../../../redux/action/adminActivityActi
 
 const AddActivityData = ({ project_list, submit }) => (
     <Fragment>
+        
         <Form onSubmit={submit}>
             <Form.Group>
                 <Form.Label>ปีการศึกษา</Form.Label>
@@ -175,6 +177,7 @@ class AddActivity extends Component {
         let { projectList } = this.props.activity
         return (
             <Fragment>
+                <ReactModal />
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
                         <Tab.Container defaultActiveKey={tabKey}>

@@ -17,6 +17,7 @@ import {
 } from '../types'
 
 import axios from 'axios'
+import { openModal } from './modalAction'
 
 import { startLoading, stopLoading } from './generalAction'
 
@@ -209,14 +210,19 @@ export const addSurvey = data => dispatch => {
                 dispatch(addSurveySuccess())
                 dispatch(getSurveyList())
                 dispatch(getAllAlumniYear())
+                dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+
             }else{
                 dispatch(addSurveyFailed("Response Error"))
+                dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
+
             }
 
             dispatch(stopLoading())
 
         })
         .catch(err => {
+            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
             console.error(err)
             dispatch(addSurveyFailed(err))
             dispatch(stopLoading())
@@ -233,8 +239,12 @@ export const deleteItem = data => dispatch => {
                     dispatch(deleteSurveySuccess())
                     dispatch(getAllAlumniYear())  
                     dispatch(getSurveyList())
+                    dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+
                 }else{
                     dispatch(deleteSurveyFailed("Response Error"))
+                    dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
+
                 }
 
                 dispatch(stopLoading())

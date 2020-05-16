@@ -8,7 +8,7 @@ import Barchart from '../components/Graph/Bar'
 
 // 
 import AmountBox from '../components/AmountBox'
-import Modal from '../components/Modal'
+import Modal from '../components/ReactModal'
 
 // axios
 import axios from 'axios'

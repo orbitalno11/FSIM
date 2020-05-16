@@ -2,6 +2,10 @@ import * as types from '../types'
 
 import axios from 'axios'
 
+
+import { openModal } from './modalAction'
+
+
 // login
 const loginStart = () => (
     {
@@ -38,6 +42,7 @@ const logout = () => (
     }
 )
 
+
 // login action
 export const login = (loginData, history) => dispatch => {
     dispatch(loginStart())
@@ -45,6 +50,7 @@ export const login = (loginData, history) => dispatch => {
         .then(res => {
             let data = res.data
             if (data['response']) {
+
                 const FSIMIdToken = data['data']['token']
                 const userData = data['data']['userData']
                 localStorage.setItem('FSIMIdToken', FSIMIdToken)
@@ -52,18 +58,19 @@ export const login = (loginData, history) => dispatch => {
                 localStorage.setItem('userType', userData['type'])
                 axios.defaults.headers.common['x-access-token'] = FSIMIdToken
                 // history.push("/admin")
-                window.location.href = "/admin"
+               
                 dispatch(setUserData(userData['name'], userData['type']))
+                window.location.href = "/admin"
                 dispatch(loginSuccess())
-                alert("Login success.")
+                
             } else {
-                alert("Login failed. Please check your username and password")
+                dispatch(openModal(true,'LoginFail'))
                 dispatch(loginFailed(data['message']))
             }
         })
         .catch(err => {
             console.error(err)
-            alert("Login failed. Please check your username and password")
+            dispatch(openModal(true,[{type:false,text:'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบชื่อผู้ใช้งานและรหัสอีกครั้ง',color:'#C0392B'}]))
             dispatch(loginFailed(err))
         })
 }
@@ -80,3 +87,4 @@ export const userLogout = () => dispatch => {
 export const setUser = (userName, userType) => dispatch => {
     dispatch(setUserData(userName, userType))
 }
+
