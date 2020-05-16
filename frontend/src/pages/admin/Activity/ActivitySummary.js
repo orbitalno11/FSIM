@@ -17,74 +17,37 @@ import GraphBar from "../../../components/Graph/Bar";
 import { setupPieChart, setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar, Pie } from "react-chartjs-2";
 
+import { connect } from 'react-redux'
+import { getActivityData, getActivityList, selectYear } from '../../../redux/action/adminActivityAction'
+
 
 class ActivitySummary extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            year: 2563,
-            yearList: [2560, 2561],
-            activityList: null,
-            joinByActivity: null,
-            compareByPreviousYear: null
-        }
-    }
-
     componentDidMount() {
-        this.getActivityList()
-        this.getJoinNumberByYear()
+        this.getData()
     }
 
-    getActivityList = () => {
-        axios.get('/admin/activity/list?year=' + this.state.year)
-            .then(res => {
-                let data = res.data.data
-
-                if (data.length < 1) return
-
-                this.setState({
-                    activityList: data
-                })
-            })
-            .catch(error => {
-                console.error(error)
-            })
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        await this.props.setYear(value)
+        this.getData()
     }
 
-    getJoinNumberByYear = () => {
-        let { year } = this.state
-
-        axios.get(`/activity/analyze/activity?year=${year}`)
-            .then(res => {
-                let data = res.data.data
-
-                if (Object.keys(data) < 1) return
-
-                let joinByActivity = data['activity_count']
-                let compareByPreviousYear = data['activity_year_compare']
-
-                this.setState({
-                    joinByActivity: setupNoneStackBarChart(joinByActivity),
-                    compareByPreviousYear: setupStackBarChart(compareByPreviousYear)
-                })
-            })
-            .catch(err => {
-                console.error(err)
-            })
+    getData = () => {
+        let { selectedYear } = this.props.activity
+        this.props.getActivityData(selectedYear)
+        this.props.getActivityList(selectedYear)
     }
 
     render() {
-        let { year, yearList, activityList, joinByActivity, compareByPreviousYear } = this.state
+        let { activityData, activityList, selectedYear, yearList } = this.props.activity
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" textAlign="center">
                         ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-
                         {
-                            <select id="selectYear" defaultValue={year}>
+                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
                                 {
                                     yearList !== null && yearList.map((item, index) => (
                                         <option key={index} value={item}>{item}</option>
@@ -105,8 +68,8 @@ class ActivitySummary extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            joinByActivity !== null ? (
-                                                <Bar data={joinByActivity} legend={{ display: false }} />
+                                            activityData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(activityData.joinByActivity)} legend={{ display: false }} />
                                             ) : (
                                                     <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                 )
@@ -121,8 +84,8 @@ class ActivitySummary extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            compareByPreviousYear !== null ? (
-                                                <Bar data={compareByPreviousYear} />
+                                            activityData !== null ? (
+                                                <Bar data={setupStackBarChart(activityData.compareByPreviousYear)} legend={{ display: true }} />
                                             ) : (
                                                     <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                 )
@@ -164,7 +127,7 @@ class ActivitySummary extends Component {
                                             ))
                                         ) : (
                                                 <Table.Row>
-                                                    <Table.Cell>
+                                                    <Table.Cell colSpan={3}>
                                                         <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                     </Table.Cell>
                                                 </Table.Row>
@@ -181,5 +144,19 @@ class ActivitySummary extends Component {
     }
 }
 
+const mapStateToProps = state => (
+    {
+        activity: state.admin_activity
+    }
+)
 
-export default ActivitySummary
+const mapDispatchToProps = dispatch => (
+    {
+        getActivityData: (year) => dispatch(getActivityData(year)),
+        getActivityList: (year) => dispatch(getActivityList(year)),
+        setYear: (year) => dispatch(selectYear(year))
+    }
+)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivitySummary)

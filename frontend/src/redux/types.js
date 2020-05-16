@@ -45,3 +45,35 @@ export const DELETE_SURVEY_FAILED = "delete_survey_failed"
 
 export const SET_SURVEY_SELECTED_YEAR = "set_survey_selected_year"
 export const RESET_SURVEY_ACTION_STATUS = "reset_survey_action_status"
+
+
+// admin activity
+export const SET_ACTIVITY_SELECTED_YEAR = "set_ACTIVITY_selected_year"
+
+export const LOAD_ACTIVITY_DATA_START = "load_activity_data_start"
+export const LOAD_ACTIVITY_DATA_SUCCESS = "load_activity_data_success"
+export const LOAD_ACTIVITY_DATA_FAILED = "load_activity_data_failed"
+
+export const LOAD_AR_DATA_START = "load_ar_data_start"
+export const LOAD_AR_DATA_SUCCESS= "load_ar_data_success"
+export const LOAD_AR_DATA_FAILED = "load_ar_data_failed"
+
+export const LOAD_ACTIVITY_LIST_START = "load_activity_list_start"
+export const LOAD_ACTIVITY_LIST_SUCCESS = "load_activity_list_success"
+export const LOAD_ACTIVITY_LIST_FAILED = "load_activity_list_failed"
+
+export const LOAD_PROJECT_LIST_START = "load_project_list_start"
+export const LOAD_PROJECT_LIST_SUCCESS = "load_projectlistt_success"
+export const LOAD_PROJECT_LIST_FAILED = "load_project_list_failed"
+
+export const ADD_ACTIVITY_START = "load_add_activity_start"
+export const ADD_ACTIVITY_SUCCESS = "load_add_activity_success"
+export const ADD_ACTIVITY_FAILED = "load_add_activity_failed"
+
+export const ADD_PROJECT_START = "load_add_project_start"
+export const ADD_PROJECT_SUCCESS = "load_add_project_success"
+export const ADD_PROJECT_FAILED = "load_add_project_failed"
+
+export const DELETE_ACTIVITY_START = "load_delete_activity_start"
+export const DELETE_ACTIVITY_SUCCESS = "load_delete_activity_success"
+export const DELETE_ACTIVITY_FAILED = "load_delete_activity_failed"
