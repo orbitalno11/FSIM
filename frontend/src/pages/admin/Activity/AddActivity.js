@@ -4,19 +4,16 @@ import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } 
 
 import axios from 'axios'
 
+import { connect } from 'react-redux'
+import { addProject, addActivity } from '../../../redux/action/adminActivityAction'
+
 const AddActivityData = ({ project_list, submit }) => (
     <Fragment>
         <Form onSubmit={submit}>
             <Form.Group>
-                <Form.Label>
-                    ปีการศึกษา
-                </Form.Label>
+                <Form.Label>ปีการศึกษา</Form.Label>
                 <InputGroup>
-                    <FormControl id="educationYear" as="select" required>
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        <option value="2561">2561</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
-                    </FormControl>
+                    <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -118,7 +115,6 @@ class AddActivity extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            project: null,
             project_type: null,
             tabKey: '1'
         }
@@ -126,24 +122,6 @@ class AddActivity extends Component {
 
     componentDidMount() {
         this.getProjectType()
-        this.getAllProject()
-    }
-
-    getAllProject = () => {
-        axios.get('/activity/project')
-            .then(res => {
-                let data = res.data.data
-
-                if (data.length < 1) return
-
-                this.setState({
-                    project: data
-                })
-
-            })
-            .catch(err => {
-                console.error(err)
-            })
     }
 
     getProjectType = () => {
@@ -172,13 +150,7 @@ class AddActivity extends Component {
             project_type: parseInt(element.project_type.value)
         }
 
-        axios.post('/admin/activity/project', data)
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        this.props.addProject(data)
     }
 
     handleActivitySubmit = event => {
@@ -193,23 +165,25 @@ class AddActivity extends Component {
             year: parseInt(element.educationYear.value)
         }
 
-        axios.post('/admin/activity/', data)
-            .then(res => {
-                console.log(res.data.data)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        this.props.addActivity(data)
+
+        // axios.post('/admin/activity/', data)
+        //     .then(res => {
+        //         console.log(res.data.data)
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //     })
     }
 
 
     render() {
-        let { tabKey, project_type, project } = this.state
+        let { tabKey, project_type } = this.state
+
+        let { projectList } = this.props.activity
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
-                    {/* <h1 className="admin-page-header">ข้อมูลภาควิชา</h1>
-                    <hr className="yellow-hr" /> */}
                     <Container fluid>
                         <Tab.Container defaultActiveKey={tabKey}>
                             <Row>
@@ -227,8 +201,8 @@ class AddActivity extends Component {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="1">
                                             {
-                                                project !== null && (
-                                                    <AddActivityData project_list={project} submit={this.handleActivitySubmit} />
+                                                projectList !== null && (
+                                                    <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} />
                                                 )
                                             }
                                         </Tab.Pane>
@@ -250,4 +224,17 @@ class AddActivity extends Component {
     }
 }
 
-export default AddActivity 
+const mapStateToProps = state => (
+    {
+        activity: state.admin_activity
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        addProject: (data) => dispatch(addProject(data)),
+        addActivity: (data) => dispatch(addActivity(data))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddActivity) 

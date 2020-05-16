@@ -6,10 +6,12 @@ import { Header } from 'semantic-ui-react'
 
 import axios from 'axios'
 
-import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
-
 import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 import ARSchool from './ActiveRecruitmentSchool'
+
+import { connect } from 'react-redux'
+import { getARActivityData, getProjectList, selectYear } from '../../../redux/action/adminActivityAction'
+import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 
 class ActivityActiveRecruitment extends Component {
@@ -29,66 +31,27 @@ class ActivityActiveRecruitment extends Component {
     }
 
     async componentDidMount() {
-        this.getProjectList()
+        this.getData()
     }
 
-    getProjectList = () => {
-        axios.get('/activity/project?project_type=1')
-            .then(res => {
-                let data = res.data.data
-
-                if (data.length < 1) return
-
-                this.setState({
-                    projectList: data
-                }, this.getProjectData)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+    getData = () => {
+        let { selectedYear } = this.props.activity
+        this.props.getProjectList()
+        this.props.getARData(selectedYear)
     }
 
-    getProjectData = () => {
-        let { year } = this.state
 
-        axios.get(`/admin/activity/analyze/project/ar?year=${year}`)
-            .then(res => {
-                let data = res.data.data
-
-                let activityByBranch = data['activity_by_branch_count'][0]
-                let activityByGPAX = data['activity_by_branch_gpax'][0]
-                let numberBySchool = data['count_school']
-                let gpaBySchool = data['gpax']
-
-                this.setState({
-                    projectDataBranch: activityByBranch,
-                    projectDataGPAX: activityByGPAX,
-                    numberBySchool: setupNoneStackBarChart(numberBySchool),
-                    gpaBySchool: setupNoneStackBarChart(gpaBySchool)
-                })
-
-            })
-            .catch(err => {
-                console.error(err)
-                this.setState({
-                    projectDataBranch: null,
-                    projectDataGPAX: null,
-                    numberBySchool: null,
-                    gpaBySchool: null
-                })
-            })
-    }
-
-    handleYearSelect = event => {
+    handleYearSelect = async event => {
         let value = event.target.value
-
-        this.setState({
-            year: parseInt(value)
-        }, this.getProjectList)
+        await this.props.setYear(value)
+        this.getData()
     }
 
     render() {
-        let { year, yearList, tabKey, projectList, projectDataBranch, projectDataGPAX, numberBySchool, gpaBySchool } = this.state
+        let { tabKey } = this.state
+
+        let { arData, projectList, selectedYear, yearList } = this.props.activity
+
         return (
             <Fragment>
 
@@ -96,7 +59,7 @@ class ActivityActiveRecruitment extends Component {
                     <Container fluid>
                         <Header as="h4" align='center'>
                             ค้นหาข้อมูล Active Recruitment ของปีการศึกษา
-                            <select defaultValue={year} onChange={this.handleYearSelect} >
+                            <select defaultValue={selectedYear} onChange={this.handleYearSelect} >
                                 {
                                     yearList !== null && (
                                         yearList.map(item => (
@@ -113,7 +76,7 @@ class ActivityActiveRecruitment extends Component {
                                         className="flex-column sub-nav">
                                         {
                                             projectList !== null && (
-                                                projectList.map((item, index) => (
+                                                projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
                                                     <Nav.Item key={index}>
                                                         <Nav.Link eventKey={item['project_id']}
                                                             className="sub-nav">{item['project_name']}</Nav.Link>
@@ -133,25 +96,29 @@ class ActivityActiveRecruitment extends Component {
                                 <Col lg={9}>
                                     <Tab.Content>
                                         {
-                                            projectList !== null && projectDataGPAX !== null && projectDataBranch !== null ? (
-                                                projectList.map((item, index) => (
-                                                    <Tab.Pane key={index} eventKey={item['project_id']}>
-                                                        <ActiveRecruitmentDetail data={item}
-                                                            dataByBranch={projectDataBranch[item['project_id']]}
-                                                            dataByGPAX={projectDataGPAX[item['project_id']]} />
-                                                    </Tab.Pane>
-                                                ))
-                                            ): (
-                                                <div className="text-center">
-                                                    <h1>ไม่พบข้อมูล</h1>
-                                                </div>
-                                            )
+                                            projectList !== null && arData !== null ? (
+                                                arData['projectDataBranch'] !== null && arData['projectDataBranch'] !== undefined ? (
+                                                    projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
+                                                        <Tab.Pane key={index} eventKey={item['project_id']}>
+                                                            <ActiveRecruitmentDetail data={item}
+                                                                dataByBranch={arData['projectDataBranch'][item['project_id']]}
+                                                                dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />
+                                                        </Tab.Pane>
+                                                    ))
+                                                ) : (
+                                                        <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                                    )
+                                            ) : (
+                                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                                )
                                         }
                                         {
-                                            numberBySchool !== null && gpaBySchool !== null && (
-                                                <Tab.Pane eventKey={'ar_school'}>
-                                                    <ARSchool number={numberBySchool} gpa={gpaBySchool} />
-                                                </Tab.Pane>
+                                            arData !== null && (
+                                                arData['numberBySchool'] !== null && arData['gpaBySchool'] !== null && (
+                                                    <Tab.Pane eventKey={'ar_school'}>
+                                                        <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />
+                                                    </Tab.Pane>
+                                                )
                                             )
                                         }
                                     </Tab.Content>
@@ -165,4 +132,18 @@ class ActivityActiveRecruitment extends Component {
     }
 }
 
-export default ActivityActiveRecruitment
+const mapStateToProps = state => (
+    {
+        activity: state.admin_activity
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getARData: (year) => dispatch(getARActivityData(year)),
+        getProjectList: () => dispatch(getProjectList()),
+        setYear: (year) => dispatch(selectYear(year))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityActiveRecruitment)

@@ -9,8 +9,6 @@ import AlumniSummary from "./AlumniSummary";
 import AlumniSurvey from "./AlumniSurvey";
 import AlumniAddSurvey from './AlumniAddSurvey'
 
-import LoadingDialog from '../../../components/LoadingComponent'
-
 import { connect } from 'react-redux'
 import { getAllAlumniYear } from '../../../redux/action/adminAlumniAction'
 import LoadingComponent from '../../../components/LoadingComponent';

@@ -87,9 +87,15 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
+    # execute delete function
+    def __execute_delete_data(self, table, column, value):
+        sql_command = "DELETE FROM {} WHERE {} LIKE '{}'".format(table, column, value)
+        self.__cursor.execute(sql_command)
+        self.__db_connection.commit()
+
     # execute delete multiple function
-    def __execute_delete(self, table, column, data):
-        sql_command = "delete from %s where %s like %s" % (table, column, '%s')
+    def __execute_delete_multiple(self, table, column, data):
+        sql_command = "DELETE FROM {} WHERE {} LIKE {}".format(table, column, '%s')
         self.__cursor.executemany(sql_command, data)
         self.__db_connection.commit()
 
@@ -317,9 +323,9 @@ class DatabaseHelper:
     # delete activity
     def delete_activity(self, act_id: str = None, project_type: int = None):
         try:
-            self.__execute_delete("activity_no_ar", "activity_id", act_id)
-            self.__execute_delete("activity_ar", "activity_id", act_id)
-            self.__execute_delete("activity", "activity_id", act_id)
+            self.__execute_delete_data(table="activity_no_ar", column="activity_id", value=act_id)
+            self.__execute_delete_data("activity_ar", "activity_id", act_id)
+            self.__execute_delete_data("activity", "activity_id", act_id)
         except pymysql.err as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -516,10 +522,10 @@ class DatabaseHelper:
             student_id_list.append(student_id[0])
 
         try:
-            self.__execute_delete("admission_studied", "application_no", student_id_list)
-            self.__execute_delete("admission_in_branch", "application_no", student_id_list)
-            self.__execute_delete("admission_from", "application_no", student_id_list)
-            self.__execute_delete("admission", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_studied", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_in_branch", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_from", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission", "application_no", student_id_list)
         except pymysql as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -590,9 +596,9 @@ class DatabaseHelper:
             student_id_list.append(student_id[0])
 
         try:
-            self.__execute_delete("alumni_graduated", "alumni_id", student_id_list)
-            self.__execute_delete("working", "alumni_id", student_id_list)
-            self.__execute_delete("alumni", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("alumni_graduated", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("working", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("alumni", "alumni_id", student_id_list)
         except pymysql as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -907,14 +913,15 @@ class DatabaseHelper:
                                                         value="No delete year input")
 
         year = year[2:]
+        year = "{}%".format(year)
 
         try:
-            self.__execute_delete(table="study_in", column="student_id", data=year)
-            self.__execute_delete(table="entrance", column="student_id", data=year)
-            self.__execute_delete(table="graduated", column="student_id", data=year)
-            self.__execute_delete(table="gpa_record", column="student_id", data=year)
-            self.__execute_delete(table="academic_record", column="student_id", data=year)
-            self.__execute_delete(table="student", column="student_id", data=year)
+            self.__execute_delete_data(table="study_in", column="student_id", value=year)
+            self.__execute_delete_data(table="entrance", column="student_id", value=year)
+            self.__execute_delete_data(table="graduated", column="student_id", value=year)
+            self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
+            self.__execute_delete_data(table="academic_record", column="student_id", value=year)
+            self.__execute_delete_data(table="student", column="student_id", value=year)
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))

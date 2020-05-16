@@ -22,7 +22,6 @@ class ARSchool extends Component {
 
     render() {
         let { numberBySchool, gpaBySchool } = this.state
-        console.log(numberBySchool)
         return (
             <Fragment>
                 <Container>

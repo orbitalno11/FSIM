@@ -45,10 +45,6 @@ def delete_activity():
         return api_helper.create_error_exception(message="Can not get value.", response_code=400,
                                                  value="Can not get value.")
 
-    if act_id is None or act_id == "null" or project_type == "undefined":
-        return api_helper.create_error_exception(message="Can not get value.", response_code=400,
-                                                 value="Can not get value.")
-
     db = DatabaseHelper()
     result = db.delete_activity(act_id, project_type)
 
