@@ -364,16 +364,16 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id " \
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
-                          "NATURAL JOIN entrance NATURAL JOIN has_status where admission_year " \
+                          "NATURAL JOIN entrance JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id and where admission_year " \
                           "BETWEEN {} AND {}".format(int(year)-1, int(year))
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  " \
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id ,student.current_gpax  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance " \
-                          "NATURAL JOIN has_status "
+                          "JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id"
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -385,7 +385,8 @@ class DatabaseHelper:
                 'admission_year': data[1],
                 'branch_id': data[2],
                 'school_id': data[3],
-                'status_id': data[4]
+                'status_id': data[4],
+                'current_gpax': data[5]
             }
             out_function_data.append(data)
 
@@ -1009,6 +1010,31 @@ class DatabaseHelper:
                 'grade': data[4],
                 'education_status': data[5],
                 'branch_id': data[6]
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+
+    def subject_by_branch(self, branch_id, semester,education_year):
+        sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_name_th,subject.subject_weigth ,academic_record.grade " \
+                        "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
+                        "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (branch_id,semester, education_year)
+                       
+        execute = self.__execute_query(sql_command)
+        print(sql_command)
+        if not execute['response']:
+            return execute
+       
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'subject_code': data[0],
+                'subject_name_en': data[1],
+                'subject_name_th': data[2],
+                'subject_weigth': data[3],
+                'grade': data[5],
+               
             }
             out_function_data.append(data)
 

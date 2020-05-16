@@ -57,7 +57,8 @@ class AnalyzeAdmission:
             if year :
                 data_split_now  =   data_split.loc[data_split['admission_year']==int(year)]
                 
-            count_by_branch                 = data_split_now.groupby(['channel_name','branch_id']).size().unstack(fill_value=0)
+            count_by_branch                 = data_split_now.groupby(['channel_name','branch_id'])['current_gpax'].mean().unstack(fill_value=0)
+            count_by_branch                 = count_by_branch.round(2)
             count_by_branch_check_branch    = analyze_helper.check_list_column(branch_data.index,count_by_branch)
             count_by_branch_check_channel   = analyze_helper.check_list(channel_sample.channel_name,count_by_branch_check_branch)
             count_by_branch_fullname        = analyze_helper.set_fullname_column(branch_dict,count_by_branch_check_channel)
