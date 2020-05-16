@@ -92,7 +92,7 @@ class SummarySurvey extends Component {
                         />
                     </Header>
                     <Divider/>
-                    <Table responsive>
+                    <Table>
                             <thead>
                                 <tr >
                                 <th>ลำดับ</th>
@@ -106,7 +106,7 @@ class SummarySurvey extends Component {
                             <tbody>
                             {brochure}
                             </tbody>
-                            <DataTable/>
+                            {/* <DataTable/> */}
                     </Table>
                  </Container>  
             </Fragment>  

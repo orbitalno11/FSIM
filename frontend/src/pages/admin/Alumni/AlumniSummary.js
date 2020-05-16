@@ -293,50 +293,7 @@ class AlumniSummary extends Component {
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
-                                        กราฟแสดงลักษณะงานต่างๆที่นักศึกษาเข้าทำงาน
-
-                                    </Card.Header>
-                                    <Card.Header as="h6" align='right' className='branch'>
-                                        <Dropdown
-                                            options={this.setupBranchSelect()}
-                                            placeholder="สาขาวิชา"
-                                            selection
-                                        />
-                                    </Card.Header>
-
-                                    <Card.Content>
-                                        <GraphPie />
-                                    </Card.Content>
-
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
-                                        กราฟแสดงมหาลัยที่นักศึกษาเลือกศึกษาต่อ
-
-                                    </Card.Header>
-                                    <Card.Header as="h6" align='right' className='branch'>
-                                        <Dropdown
-                                            options={this.setupBranchSelect()}
-                                            placeholder="สาขาวิชา"
-                                            selection
-                                        />
-                                    </Card.Header>
-
-                                    <Card.Content>
-                                        <GraphPie />
-                                    </Card.Content>
-
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
+                        
                     </Grid>
                 </Container>
             </Fragment>
