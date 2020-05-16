@@ -144,7 +144,7 @@ def get_student_tracking():
 
 
 
-@admin_student.route('/subject_by_branch', methods=['GET'])
+@admin_student.route('/analyze/subject/branch', methods=['GET'])
 def subject_by_branch():
     db = AnalyzeStudent()
     branch = request.args.get('branch')
