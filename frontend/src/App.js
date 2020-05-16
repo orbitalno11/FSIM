@@ -31,6 +31,8 @@ import Login from './pages/Login'
 import AuthRoute from './components/AuthRoute'
 import AdminRoute from './components/AdminRoute'
 
+import Loading from './components/LoadingComponent'
+
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from "redux";
 import logger from 'redux-logger'
@@ -43,7 +45,8 @@ import { LOGIN_SUCCESS } from './redux/types'
 import axios from 'axios'
 import AdminMenu from './components/AdminMenu'
 
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
+// logger
 
 const token = localStorage.FSIMIdToken
 if (token){

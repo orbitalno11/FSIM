@@ -55,12 +55,15 @@ export const login = (loginData, history) => dispatch => {
                 window.location.href = "/admin"
                 dispatch(setUserData(userData['name'], userData['type']))
                 dispatch(loginSuccess())
+                alert("Login success.")
             } else {
+                alert("Login failed. Please check your username and password")
                 dispatch(loginFailed(data['message']))
             }
         })
         .catch(err => {
             console.error(err)
+            alert("Login failed. Please check your username and password")
             dispatch(loginFailed(err))
         })
 }

@@ -140,6 +140,33 @@ class AnalyzeStudent:
         return inner_res_helper.make_inner_response(response, message, value)
 
 
+    def subject_by_branch(self,branch_id,semester,education_year):
+        connect = DatabaseHelper()
+        data = connect.subject_by_branch(branch_id,semester,education_year)
+        value = {}
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            list_grade = {'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C' : 2,'D+' : 1.5, 'D' : 1 , 'F' : 0, 'Fe' : 0}
+            df['grade'].replace(list_grade,inplace=True)
+            df = df[df['grade']!='W']
+            df['grade'] =df.grade.astype(int)
+            grouped = df.groupby(["subject_code","subject_name_en","subject_weigth"])["grade"].agg(['size','mean','std'])
+            grouped = grouped.reset_index(level=['subject_name_en','subject_weigth'])
+            grouped = grouped.round(2)
+            value={
+                 'subject' : grouped.to_dict('index'),
+            }
+            response = True
+            message = "Analyze Subject Successfully"
+        else:
+            response= False
+            message = "Don't have Data"
+        
+        return inner_res_helper.make_inner_response(response, message, value)
+
+
+
+
     
     def __count_student_dept(self, df):
         num_student_dept = len(df.index)

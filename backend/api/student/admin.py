@@ -141,3 +141,17 @@ def get_student_tracking():
     data = db.student_tracking(id_student)
 
     return api_helper.return_response(data)
+
+
+
+@admin_student.route('/analyze/subject/branch', methods=['GET'])
+def subject_by_branch():
+    db = AnalyzeStudent()
+    branch = request.args.get('branch')
+    semester = request.args.get('semester')
+    year = request.args.get('year')
+    semester = int(semester)
+    year    = int(year)
+    data = db.subject_by_branch(branch,semester,year)
+
+    return api_helper.return_response(data)

@@ -4,6 +4,9 @@ import { Table, Button } from 'semantic-ui-react'
 
 import axios from 'axios'
 
+import { connect } from 'react-redux'
+import { getActivityList, delelteActivity } from '../../../redux/action/adminActivityAction'
+
 class ActivityManage extends Component {
 
     constructor(props) {
@@ -15,35 +18,23 @@ class ActivityManage extends Component {
     }
 
     componentDidMount() {
-        axios.get('/admin/activity/list')
-            .then(res => {
-                let data = res.data.data
-
-                // console.log(data)
-
-                if (data.length < 1) return
-
-                this.setState({
-                    activityList: data
-                })
-            })
-            .catch(error => {
-                console.error(error)
-            })
+        this.props.getActivityList()
     }
 
-    handleDeleteActivity = (act_id, project_type) => {
-        // axios.delete(`/admin/activity?act_id=${act_id}&project_type=${project_type}`)
-        // .then(res => {
-        //     console.log(res)
-        // })
-        // .catch(err => {
-        //     console.error(err)
-        // })
+    handleDeleteActivity = (act_id) => {
+        this.props.delelteActivity(act_id)
+        // axios.delete(`/admin/activity?act_id=${act_id}`)
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //     })
     }
 
     render() {
-        let { activityList } = this.state
+        // let { activityList } = this.state
+        let { activityList } = this.props.activity
         return (
             <Fragment>
                 <Table>
@@ -66,7 +57,7 @@ class ActivityManage extends Component {
                                         <Table.Cell>{item['project_type_name']}</Table.Cell>
                                         <Table.Cell>{item['activity_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'], item['project_type'])}>ลบ</Button>
+                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
@@ -79,4 +70,17 @@ class ActivityManage extends Component {
     }
 }
 
-export default ActivityManage
+const mapStateTpProps = state => (
+    {
+        activity: state.admin_activity
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getActivityList: () => dispatch(getActivityList()),
+        delelteActivity: (act_id) => dispatch(delelteActivity(act_id))
+    }
+)
+
+export default connect(mapStateTpProps, mapDispatchToProps)(ActivityManage)

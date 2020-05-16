@@ -87,9 +87,15 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
+    # execute delete function
+    def __execute_delete_data(self, table, column, value):
+        sql_command = "DELETE FROM {} WHERE {} LIKE '{}'".format(table, column, value)
+        self.__cursor.execute(sql_command)
+        self.__db_connection.commit()
+
     # execute delete multiple function
-    def __execute_delete(self, table, column, data):
-        sql_command = "delete from %s where %s like %s" % (table, column, '%s')
+    def __execute_delete_multiple(self, table, column, data):
+        sql_command = "DELETE FROM {} WHERE {} LIKE {}".format(table, column, '%s')
         self.__cursor.executemany(sql_command, data)
         self.__db_connection.commit()
 
@@ -317,9 +323,9 @@ class DatabaseHelper:
     # delete activity
     def delete_activity(self, act_id: str = None, project_type: int = None):
         try:
-            self.__execute_delete("activity_no_ar", "activity_id", act_id)
-            self.__execute_delete("activity_ar", "activity_id", act_id)
-            self.__execute_delete("activity", "activity_id", act_id)
+            self.__execute_delete_data(table="activity_no_ar", column="activity_id", value=act_id)
+            self.__execute_delete_data("activity_ar", "activity_id", act_id)
+            self.__execute_delete_data("activity", "activity_id", act_id)
         except pymysql.err as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -364,16 +370,16 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id " \
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
-                          "NATURAL JOIN entrance NATURAL JOIN has_status where admission_year " \
+                          "NATURAL JOIN entrance JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id and where admission_year " \
                           "BETWEEN {} AND {}".format(int(year)-1, int(year))
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id  " \
+            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id ,student.current_gpax  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance " \
-                          "NATURAL JOIN has_status "
+                          "JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id"
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -385,8 +391,8 @@ class DatabaseHelper:
                 'admission_year': data[1],
                 'branch_id': data[2],
                 'school_id': data[3],
-                'status_id': data[4]
-
+                'status_id': data[4],
+                'current_gpax': data[5]
             }
             out_function_data.append(data)
 
@@ -516,10 +522,10 @@ class DatabaseHelper:
             student_id_list.append(student_id[0])
 
         try:
-            self.__execute_delete("admission_studied", "application_no", student_id_list)
-            self.__execute_delete("admission_in_branch", "application_no", student_id_list)
-            self.__execute_delete("admission_from", "application_no", student_id_list)
-            self.__execute_delete("admission", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_studied", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_in_branch", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission_from", "application_no", student_id_list)
+            self.__execute_delete_multiple("admission", "application_no", student_id_list)
         except pymysql as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -590,9 +596,9 @@ class DatabaseHelper:
             student_id_list.append(student_id[0])
 
         try:
-            self.__execute_delete("alumni_graduated", "alumni_id", student_id_list)
-            self.__execute_delete("working", "alumni_id", student_id_list)
-            self.__execute_delete("alumni", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("alumni_graduated", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("working", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("alumni", "alumni_id", student_id_list)
         except pymysql as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -907,14 +913,15 @@ class DatabaseHelper:
                                                         value="No delete year input")
 
         year = year[2:]
+        year = "{}%".format(year)
 
         try:
-            self.__execute_delete(table="study_in", column="student_id", data=year)
-            self.__execute_delete(table="entrance", column="student_id", data=year)
-            self.__execute_delete(table="graduated", column="student_id", data=year)
-            self.__execute_delete(table="gpa_record", column="student_id", data=year)
-            self.__execute_delete(table="academic_record", column="student_id", data=year)
-            self.__execute_delete(table="student", column="student_id", data=year)
+            self.__execute_delete_data(table="study_in", column="student_id", value=year)
+            self.__execute_delete_data(table="entrance", column="student_id", value=year)
+            self.__execute_delete_data(table="graduated", column="student_id", value=year)
+            self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
+            self.__execute_delete_data(table="academic_record", column="student_id", value=year)
+            self.__execute_delete_data(table="student", column="student_id", value=year)
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
@@ -1010,6 +1017,29 @@ class DatabaseHelper:
                 'grade': data[4],
                 'education_status': data[5],
                 'branch_id': data[6]
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+
+    def subject_by_branch(self, branch_id, semester,education_year):
+        sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_weigth ,academic_record.grade " \
+                        "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
+                        "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (branch_id,semester, education_year)
+                       
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+       
+        out_function_data = []
+        for data in execute['value']:
+            data = {
+                'subject_code': data[0],
+                'subject_name_en': data[1],
+                'subject_weigth': data[2],
+                'grade': data[3],
+               
             }
             out_function_data.append(data)
 
