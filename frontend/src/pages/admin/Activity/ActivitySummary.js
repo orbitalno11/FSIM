@@ -60,6 +60,8 @@ class ActivitySummary extends Component {
             .then(res => {
                 let data = res.data.data
 
+                if (Object.keys(data) < 1) return
+
                 let joinByActivity = data['activity_count']
                 let compareByPreviousYear = data['activity_year_compare']
 
@@ -67,8 +69,6 @@ class ActivitySummary extends Component {
                     joinByActivity: setupNoneStackBarChart(joinByActivity),
                     compareByPreviousYear: setupStackBarChart(compareByPreviousYear)
                 })
-
-                // console.log(this.state.joinByActivity)
             })
             .catch(err => {
                 console.error(err)
@@ -105,9 +105,11 @@ class ActivitySummary extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            joinByActivity !== null && (
-                                                <Bar data={joinByActivity} legend={{ display: false}} />
-                                            )
+                                            joinByActivity !== null ? (
+                                                <Bar data={joinByActivity} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
                                         }
                                     </Card.Content>
                                 </Card>
@@ -119,9 +121,11 @@ class ActivitySummary extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            compareByPreviousYear !== null && (
+                                            compareByPreviousYear !== null ? (
                                                 <Bar data={compareByPreviousYear} />
-                                            )
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
                                         }
                                         <GraphBar />
                                     </Card.Content>
@@ -150,7 +154,7 @@ class ActivitySummary extends Component {
 
                                 <Table.Body>
                                     {
-                                        activityList !== null && (
+                                        activityList !== null ? (
                                             activityList.map((item, index) => (
                                                 <Table.Row key={index}>
                                                     <Table.Cell textAlign="center">{item['education_year']}</Table.Cell>
@@ -158,7 +162,13 @@ class ActivitySummary extends Component {
                                                     <Table.Cell textAlign="center">{item['activity_budget']}</Table.Cell>
                                                 </Table.Row>
                                             ))
-                                        )
+                                        ) : (
+                                                <Table.Row>
+                                                    <Table.Cell>
+                                                        <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            )
                                     }
                                 </Table.Body>
                             </Table>

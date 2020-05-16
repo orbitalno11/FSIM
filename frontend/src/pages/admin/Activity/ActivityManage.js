@@ -32,14 +32,14 @@ class ActivityManage extends Component {
             })
     }
 
-    handleDeleteActivity = (act_id, project_type) => {
-        // axios.delete(`/admin/activity?act_id=${act_id}&project_type=${project_type}`)
-        // .then(res => {
-        //     console.log(res)
-        // })
-        // .catch(err => {
-        //     console.error(err)
-        // })
+    handleDeleteActivity = (act_id) => {
+        axios.delete(`/admin/activity?act_id=${act_id}`)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.error(err)
+        })
     }
 
     render() {
@@ -66,7 +66,7 @@ class ActivityManage extends Component {
                                         <Table.Cell>{item['project_type_name']}</Table.Cell>
                                         <Table.Cell>{item['activity_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'], item['project_type'])}>ลบ</Button>
+                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
