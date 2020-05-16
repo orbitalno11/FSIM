@@ -1024,12 +1024,11 @@ class DatabaseHelper:
 
 
     def subject_by_branch(self, branch_id, semester,education_year):
-        sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_name_th,subject.subject_weigth ,academic_record.grade " \
+        sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_weigth ,academic_record.grade " \
                         "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
                         "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (branch_id,semester, education_year)
                        
         execute = self.__execute_query(sql_command)
-        print(sql_command)
         if not execute['response']:
             return execute
        
@@ -1038,9 +1037,8 @@ class DatabaseHelper:
             data = {
                 'subject_code': data[0],
                 'subject_name_en': data[1],
-                'subject_name_th': data[2],
-                'subject_weigth': data[3],
-                'grade': data[5],
+                'subject_weigth': data[2],
+                'grade': data[3],
                
             }
             out_function_data.append(data)
