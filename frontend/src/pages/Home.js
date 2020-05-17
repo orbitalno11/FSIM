@@ -160,7 +160,8 @@ class Home extends Component {
                           animated
                           size="massive"
                           color={item.color}
-                          href={item.url}
+                          as={Link}
+                          to={item.url}
                           key={index}
                         >
                           <Button.Content visible> {item.name}</Button.Content>
@@ -191,7 +192,8 @@ class Home extends Component {
                           animated
                           size="massive"
                           color={item.color}
-                          href={item.url}
+                          as={Link}
+                          to={item.url}
                           key={index}
                         >
                           <Button.Content visible> {item.name}</Button.Content>
@@ -215,7 +217,12 @@ class Home extends Component {
               content={
                 <Grid.Row>
                   <Grid.Column textAlign="center">
-                    <Button animated size="massive" color="yellow">
+                    <Button 
+                    animated 
+                    as={Link}
+                    to='/alumni'
+                    size="massive" 
+                    color="yellow">
                       <Button.Content visible>สรุปแบบสอบถาม</Button.Content>
                       <Button.Content hidden>
                         <Icon name="arrow right" />
