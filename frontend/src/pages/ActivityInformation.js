@@ -2,64 +2,100 @@ import React, {Component, Fragment} from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Grid,
     Card,
     Container,
-    Image,
     Table
 } from "semantic-ui-react";
+import { connect } from 'react-redux'
 
-import bgyel from "../img/bg-head3.png";
-import AmountStudent from "../components/AmountStudent";
-import GraphPie from "../components/Graph/Pie";
+import { Bar} from "react-chartjs-2";
+
 import GraphBar from "../components/Graph/Bar";
+import { setupStackBarChart, setupNoneStackBarChart } from '../components/Graph/GraphController'
+import { getActivityData, getActivityList, selectYear } from '../redux/action/adminActivityAction'
 
 class ActivityInformation extends Component {
 
+    componentDidMount() {
+        this.getData()
+    }
+
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        await this.props.setYear(value)
+        this.getData()
+    }
+
+    getData = () => {
+        let { selectedYear } = this.props.activity
+        this.props.getActivityData(selectedYear)
+        this.props.getActivityList()
+    }
+
+    
+
     render() {
+        let { activityData, activityList, selectedYear, yearList } = this.props.activity
+
+        console.log(this.props.activity)
+
         return (
             <Fragment>
-                 <Image size="big" className="head-right" src={bgyel} />
-                <Header as="h5" align='center'>
-                    ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา{" "}
-                    <Dropdown
-                        options={[
-                            {key: "2560", value: "2560", text: "2560"},
-                            {key: "2561", value: "2561", text: "2561"}
-                        ]}
-                        placeholder="Select"
-                        selection
-                    />
-                </Header>
-            <Container>
-                <Grid>
-                    <Grid.Row >
-                        <Grid.Column width={16}>
-                            <Card className="card-default">
-                                <Card.Header as="h5">
-                                    กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ  แต่ละสาขา
-                                    </Card.Header>
-                                <Card.Content>
-                                    
-                                </Card.Content>
-                            </Card>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row >
-                        <Grid.Column width={16}>
-                            <Card className="card-default">
-                                <Card.Header as="h5">
-                                    กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ  แต่ละสาขา
-                                    </Card.Header>
-                                <Card.Content>
-                                
-                                </Card.Content>
-                            </Card>
-                        </Grid.Column>
-                    </Grid.Row>
+                <Container>
+                    <Header as="h5" textAlign="center">
+                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
+                        {
+                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
+                                {
+                                    yearList !== null && yearList.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        }
+
+                    </Header>
                     <Divider />
+                    <Grid>
+
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            activityData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(activityData.joinByActivity)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            activityData !== null ? (
+                                                <Bar data={setupStackBarChart(activityData.compareByPreviousYear)} legend={{ display: true }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
+                                        <GraphBar />
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Divider />
                         <Grid.Row>
                             <Header as="h3" align='center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
                         </Grid.Row>
@@ -78,14 +114,49 @@ class ActivityInformation extends Component {
                                         </Table.HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
+
+                                <Table.Body>
+                                    {
+                                        activityList !== null ? (
+                                            activityList.filter(data => data['education_year'] === parseInt(selectedYear)).map((item, index) => (
+                                                <Table.Row key={index}>
+                                                    <Table.Cell textAlign="center">{item['education_year']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['activity_name']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['activity_budget']}</Table.Cell>
+                                                </Table.Row>
+                                            ))
+                                        ) : (
+                                                <Table.Row>
+                                                    <Table.Cell colSpan={3}>
+                                                        <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            )
+                                    }
+                                </Table.Body>
                             </Table>
                         </Grid.Row>
-                </Grid>
-            </Container>
-        </Fragment>
+                    </Grid>
+
+                </Container>
+            </Fragment>
         )
     }
 
 }
 
-export default ActivityInformation
+const mapStateToProps = state => (
+    {
+        activity: state.admin_activity
+    }
+)
+
+
+const mapDispatchToProps = dispatch => (
+    {
+        getActivityData: (year) => dispatch(getActivityData(year)),
+        getActivityList: () => dispatch(getActivityList()),
+        setYear: (year) => dispatch(selectYear(year))
+    }
+)
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityInformation)

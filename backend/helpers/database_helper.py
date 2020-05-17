@@ -164,7 +164,7 @@ class DatabaseHelper:
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_project_ar(self, year=None):
-        if year is not None:
+        if not year is  None and year != "null":
             sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1 and year = %d " % (int(year))
         else:

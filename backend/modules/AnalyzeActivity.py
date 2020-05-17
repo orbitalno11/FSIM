@@ -207,9 +207,12 @@ class AnalyzeActivity:
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
             list_project = project.index.tolist()
-            project_set={}
+            project_set=[]
+            i=0
             for pindex in list_project:
                 df = data[data['project_id']==pindex]
+                name_project = project_dict[pindex]
+
                 if not df.empty:
                     analyze_by_activity = df.groupby(['branch_name']).size()
                     analyze_by_activity = analyze_helper.check_list(branch_data.index, analyze_by_activity)
@@ -221,11 +224,12 @@ class AnalyzeActivity:
                     analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
                     list_pr = {
+                        'project_name'      : name_project,
                         'analyze_by_activity' : analyze_by_activity.to_dict(),
                         'analyze_by_activity_gpax' : analyze_by_activity_gpax.to_dict()
                     }
-                    # name_project = project_dict[pindex]
-                    project_set[pindex] = [list_pr]
+            
+                    project_set.append(list_pr)
 
                 else : 
                    
@@ -234,16 +238,17 @@ class AnalyzeActivity:
                     df_empty['value'] = 0
                     df_empty.set_index('branch_name',inplace=True)
                     list_pr = {
+                        'project_name'      : name_project,
                         'analyze_by_activity' : df_empty.value.to_dict(),
                         'analyze_by_activity_gpax' : df_empty.value.to_dict()
                     }
-                    name_project = project_dict[pindex]
-                    project_set[name_project] = [list_pr]
+                    project_set.append(list_pr)
+                i=i+1
 
 
 
             value = {
-                'project_set': [project_set],
+                'project_set': project_set,
             }
 
             response = True
