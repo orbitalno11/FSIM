@@ -296,3 +296,20 @@ class DataHelper:
         except Exception as e:
             print(e)
             return inner_res_helper.make_inner_response(False, "Error", "Having problem when prepare data.")
+
+    def read_activity_participant(self, file_location, activity_id):
+        try:
+            participant_data = pd.read_excel(file_location)
+            participant_data['activity_id'] = activity_id
+            cols = participant_data.columns.tolist()
+            cols = cols[-1:] + cols[:-1]
+            participant_data = participant_data[cols]
+        except Exception as e:
+            print(e)
+            return inner_res_helper.make_inner_response(False, "Error", "Having problem when prepare data.")
+
+        out_data = {
+            'participant_data': participant_data.to_json(orient='index')
+        }
+
+        return inner_res_helper.make_inner_response(True, "Data for insert to database.", out_data)

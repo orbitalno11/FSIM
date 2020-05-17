@@ -38,7 +38,7 @@ def insert_admission(current_user):
 
     try:
         file = request.files['upload']
-        if file and Constant.allowed_admission_file(file.filename):
+        if file and Constant.allowed_file(file.filename):
             destination = upload_helper.upload_file(Constant.ADMISSION_FOLDER, file, year)
         else:
             return api_helper.create_error_exception("Type of file is not match", "file not match", 418)

@@ -111,7 +111,7 @@ class DatabaseHelper:
     def get_activity_publicize(self, year=None):
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
-        if not year is  None or year == "null":
+        if not year is None or year == "null":
             current = int(year)
             previous = current - 1
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
@@ -119,8 +119,6 @@ class DatabaseHelper:
         else:
             sql_command = "SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project NATURAL JOIN activity_no_ar " \
                           "WHERE project_type = 0"
-
-         
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -139,7 +137,7 @@ class DatabaseHelper:
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_activity_ar(self, year=None):
-        if not year is  None and year != "null":
+        if not year is None and year != "null":
             sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
                           "NATURAL JOIN activity WHERE year = {} ".format(int(year))
         else:
@@ -161,7 +159,6 @@ class DatabaseHelper:
                 'activity_year': data[4]
             }
             out_function_data.append(data)
-
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
@@ -309,13 +306,40 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
     # insert activity
-    def insert_activity(self, data):
+    def insert_activity(self, data, participant_data, project_id):
         try:
+            participant_table = participant_data['participant_data']
+            participant_table = json.loads(participant_table)
+            participant_table = list(participant_table.values())
+
+            db = DatabaseHelper()
+            project_list = db.get_project_list()
+            project_list = project_list['value']
+
+            project_type = None
+            for project in project_list:
+                if project['project_id'] == project_id:
+                    project_type = project['project_type']
+                    break
+
             self.__insert_into(table="activity",
                                column=['activity_id', 'project_id', 'activity_name', 'activity_budget', 'year'],
                                data=data)
-        except pymysql.Error as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
+
+            if project_type == 0:
+                self.__multiple_insert(table="activity_no_ar",
+                                       column=['activity_id', 'firstname', 'lastname', 'school_name'],
+                                       data=participant_table)
+            elif project_type == 1:
+                self.__multiple_insert(table="activity_ar",
+                                       column=['activity_id', 'firstname', 'lastname', 'school_name', 'branch_name',
+                                               'gpax'],
+                                       data=participant_table)
+            else:
+                return inner_res_helper.make_inner_response(False, "Error",
+                                                            "Can not insert data for this project type.")
+        except Exception as e:
+            print(e)
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
@@ -374,7 +398,7 @@ class DatabaseHelper:
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
                           "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
                           "NATURAL JOIN entrance JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id and where admission_year " \
-                          "BETWEEN {} AND {}".format(int(year)-1, int(year))
+                          "BETWEEN {} AND {}".format(int(year) - 1, int(year))
         else:
             sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id ,student.current_gpax  " \
                           "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
@@ -1022,16 +1046,16 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-
-    def subject_by_branch(self, branch_id, semester,education_year):
+    def subject_by_branch(self, branch_id, semester, education_year):
         sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_weigth ,academic_record.grade " \
-                        "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
-                        "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (branch_id,semester, education_year)
-                       
+                      "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
+                      "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (
+                      branch_id, semester, education_year)
+
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
-       
+
         out_function_data = []
         for data in execute['value']:
             data = {
@@ -1039,7 +1063,7 @@ class DatabaseHelper:
                 'subject_name_en': data[1],
                 'subject_weigth': data[2],
                 'grade': data[3],
-               
+
             }
             out_function_data.append(data)
 

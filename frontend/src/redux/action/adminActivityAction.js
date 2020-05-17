@@ -305,7 +305,12 @@ export const addProject = data => dispatch => {
 export const addActivity = data => (dispatch, getState) => {
     dispatch(addActivityStart)
     dispatch(startLoading())
-    axios.post('/admin/activity/', data)
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    axios.post('/admin/activity/', data, config)
         .then(res => {
             dispatch(addActivitySuccess(true))
             dispatch(stopLoading())
@@ -314,7 +319,6 @@ export const addActivity = data => (dispatch, getState) => {
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
             dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
-
         })
         .catch(err => {
             console.error(err)
@@ -336,9 +340,6 @@ export const delelteActivity = act_id => (dispatch, getState) => {
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
             dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
-
-          
-
         })
         .catch(err => {
             dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))

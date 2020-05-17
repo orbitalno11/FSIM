@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react'
 
 import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
-import  ReactModal  from '../../../components/ReactModal'
+import ReactModal from '../../../components/ReactModal'
 
 import axios from 'axios'
 
 import { connect } from 'react-redux'
 import { addProject, addActivity } from '../../../redux/action/adminActivityAction'
 
-const AddActivityData = ({ project_list, submit }) => (
-    <Fragment>
-        
+const AddActivityData = ({submit, project_list, selectFile}) => {
+    return (
+        <Fragment>
         <Form onSubmit={submit}>
             <Form.Group>
                 <Form.Label>ปีการศึกษา</Form.Label>
@@ -35,10 +35,10 @@ const AddActivityData = ({ project_list, submit }) => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    รหัสกิจกรรม (ไม่เกิน 10 ตัวอักษร)
+                    รหัสกิจกรรม (ไม่เกิน 5 ตัวอักษร)
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="10" required />
+                    <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="5" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -59,28 +59,29 @@ const AddActivityData = ({ project_list, submit }) => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                    ลิงก์ Google Sheet
+                    ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control type="text" placeholder="วางลิงก์ Google Sheet" />
-                    <Button>ตรวจสอบ</Button>
+                    <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={event => selectFile(event)}>
+                    </FormControl>
                 </InputGroup>
             </Form.Group>
             <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
             <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
-)
+    )
+}
 
 const AddProject = ({ project_type, onSubmit }) => (
     <Fragment>
         <Form onSubmit={onSubmit}>
             <Form.Group>
                 <Form.Label>
-                    รหัสโครงการ (ไม่เกิน 8 ตัวอักษร)
+                    รหัสโครงการ (ไม่เกิน 4 ตัวอักษร)
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control id="project_id" type="text" placeholder="กรุณาใส่รหัสโครงการ" maxLength="8" required />
+                    <Form.Control id="project_id" type="text" placeholder="กรุณาใส่รหัสโครงการ" maxLength="4" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -118,7 +119,8 @@ class AddActivity extends Component {
         super(props)
         this.state = {
             project_type: null,
-            tabKey: '1'
+            tabKey: '1',
+            selectedFile: null
         }
     }
 
@@ -159,15 +161,30 @@ class AddActivity extends Component {
         event.preventDefault()
         let element = event.target.elements
 
-        let data = {
-            activity_id: `${element.projectId.value}_${element.activityId.value}`,
-            project_id: element.projectId.value,
-            activity_name: element.activityName.value,
-            activity_budget: parseFloat(element.activityBudget.value),
-            year: parseInt(element.educationYear.value)
-        }
+        // let data = {
+        //     activity_id: `${element.projectId.value}_${element.activityId.value}`,
+        //     project_id: element.projectId.value,
+        //     activity_name: element.activityName.value,
+        //     activity_budget: parseFloat(element.activityBudget.value),
+        //     year: parseInt(element.educationYear.value)
+        // }
 
-        this.props.addActivity(data)
+        let form = new FormData()
+        form.append('activity_id', `${element.projectId.value}_${element.activityId.value}`)
+        form.append('project_id', element.projectId.value)
+        form.append('activity_name', element.activityName.value)
+        form.append('budget', parseFloat(element.activityBudget.value))
+        form.append('year', parseInt(element.educationYear.value))
+        form.append('upload', this.state.selectedFile)
+
+        this.props.addActivity(form)
+    }
+
+    handleSelectFile = event => {
+        let file = event.target.files[0]
+        this.setState({
+            selectedFile: file
+        })
     }
 
 
@@ -197,7 +214,7 @@ class AddActivity extends Component {
                                         <Tab.Pane eventKey="1">
                                             {
                                                 projectList !== null && (
-                                                    <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} />
+                                                    <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} selectFile={this.handleSelectFile} />
                                                 )
                                             }
                                         </Tab.Pane>
