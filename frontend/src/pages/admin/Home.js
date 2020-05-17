@@ -6,12 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGraduationCap, faUserTie, faFileAlt, faHiking } from '@fortawesome/free-solid-svg-icons'
 
 
+
 // image resource
 import KMUTT from '../../img/slide1.JPG'
 
 // chart
 import PieChart from '../../components/Graph/Pie'
 import Linechart from '../../components/Graph/Line'
+import Bar from '../../components/Graph/Bar'
+
+
+import {setupPieChart,setupStackBarChart} from '../../components/Graph/GraphController'
 
 // axios
 import axios from 'axios'
@@ -30,6 +35,8 @@ class AdminHome extends Component {
         super(props)
         this.state = {
             amountStudent: [],
+            statusStudent : [],
+            alumniWork : [],
             amountStudentStatus: [],
             amountWorkingStatus: [],
             amountAdmissionStudent: [],
@@ -39,12 +46,28 @@ class AdminHome extends Component {
     }
 
     fetchAmountStudent = async () => {
-        await axios.get('/department')
+        await axios.get('/student/department')
             .then(res => {
                 let recieve = res.data
                 if (recieve.response === true) {
                     this.setState({
-                        amountStudent: recieve.data
+                        amountStudent: recieve.data.branch[0],
+                        statusStudent: recieve.data.df_status_by_branch[0]
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    fetchAmountAlumni= async () => {
+        await axios.get('/alumni/analyze/work')
+            .then(res => {
+                let recieve = res.data
+                if (recieve.response === true) {
+                    this.setState({
+                        alumniWork: recieve.data.count_by_status
                     })
                 }
             })
@@ -54,45 +77,52 @@ class AdminHome extends Component {
     }
 
     setUpAmountStudentChart = () => {
-        let { amountStudent } = this.state
-        let label = []
-        let amount = []
-        let background = []
-        let hoverColor = []
-        for (let index in amountStudent) {
-            let b_temp = amountStudent[index]['branch']
-            for (let j in b_temp) {
-                label.push(b_temp[j].branch_name)
-                amount.push(b_temp[j].amount_student)
-            }
-        }
+        let { amountStudent,statusStudent,alumniWork } = this.state
+        // let label = []
+        // let amount = []
+        // let background = []
+        // let hoverColor = []
+        // for (let index in amountStudent) {
+        //     let b_temp = amountStudent[index]['branch']
+        //     for (let j in b_temp) {
+        //         label.push(b_temp[j].branch_name)
+        //         amount.push(b_temp[j].amount_student)
+        //     }
+        // }
 
-        for (let i in label) {
-            background.push(colorSet[i])
-            hoverColor.push(colorSet[i] + "75")
-        }
+        // for (let i in label) {
+        //     background.push(colorSet[i])
+        //     hoverColor.push(colorSet[i] + "75")
+        // }
 
+        // this.setState({
+        //     amountStudentPie: {
+        //         labels: label,
+        //         datasets: [
+        //             {
+        //                 data: amount,
+        //                 backgroundColor: background,
+        //                 hoverBackgroundColor: hoverColor
+        //             }
+        //         ]
+        //     }
+        // })
         this.setState({
-            amountStudentPie: {
-                labels: label,
-                datasets: [
-                    {
-                        data: amount,
-                        backgroundColor: background,
-                        hoverBackgroundColor: hoverColor
-                    }
-                ]
-            }
+            amountStudentPie:setupPieChart(amountStudent),
+            amountStudentStatus:setupStackBarChart(statusStudent),
+            amountWorkingStatus : setupPieChart(alumniWork)
         })
+       
     }
 
     async componentDidMount() {
         await this.fetchAmountStudent()
+        await this.fetchAmountAlumni()
         this.setUpAmountStudentChart()
     }
 
     render() {
-        let { user, amountStudentPie } = this.state
+        let { user, amountStudentPie,amountStudentStatus ,amountWorkingStatus} = this.state
         return (
             <Fragment>
                 <Image src={KMUTT} alt="KMUTT" fluid />
@@ -141,7 +171,7 @@ class AdminHome extends Component {
                                     <strong>จำนวนนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
                                 <PieChart data={amountStudentPie} />
-                                <Button variant="secondary">ดูเพิ่มเติม</Button>
+                                <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
@@ -149,8 +179,8 @@ class AdminHome extends Component {
                                 <Card.Title className="card-header">
                                     <strong>สถานะทางการศึกษาของนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
-                                <PieChart data={amountStudentPie} />
-                                <Button variant="secondary">ดูเพิ่มเติม</Button>
+                                <Bar data={amountStudentStatus} />
+                                <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
@@ -159,7 +189,7 @@ class AdminHome extends Component {
                                     <strong>จำนวนการรับนักศึกษาจากโครงการต่าง ๆ 5 ปีย้อนหลัง</strong>
                                 </Card.Title>
                                 <Linechart />
-                                <Button variant="secondary">ดูเพิ่มเติม</Button>
+                                <Button variant="secondary" to='/admin/admission' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
@@ -167,8 +197,8 @@ class AdminHome extends Component {
                                 <Card.Title className="card-header">
                                     <strong>อัตราการมีงานทำของศิษย์เก่า</strong>
                                 </Card.Title>
-                                <PieChart data={amountStudentPie} />
-                                <Button variant="secondary">ดูเพิ่มเติม</Button>
+                                <PieChart data={amountWorkingStatus} />
+                                <Button variant="secondary"  to='/admin/alumni' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
                     </Row>

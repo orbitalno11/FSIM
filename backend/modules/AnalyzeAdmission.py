@@ -38,7 +38,7 @@ class AnalyzeAdmission:
 
             df = pd.DataFrame(data['value'])
             # real data  
-            print(df)
+            # print(df)
             branch          =   connect.get_branch()
             branch_data     =   analyze_helper.set_branch(branch['value'])
             status_data     =   analyze_helper.set_fullname(connect.get_status_list())
