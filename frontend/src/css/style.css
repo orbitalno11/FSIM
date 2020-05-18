@@ -170,3 +170,10 @@
     padding-bottom: 1em;
     border: 2px solid #FF4612;
 }
+
+.white-background {
+    background-color: #FFFFFF95;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin: 2rem;
+}

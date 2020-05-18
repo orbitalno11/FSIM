@@ -17,7 +17,7 @@ import {
 import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 
 // redux
 import { connect } from 'react-redux'
@@ -42,7 +42,8 @@ class AlumniSummary extends Component {
             gpaChart: null,
             salaryChart: null,
             year:null,
-            loadTime: 0
+            loadTime: 0,
+            testLine: null
 
         }
     }

@@ -110,6 +110,8 @@ def get_analyze_project_ar():
     db = AnalyzeActivity()
     data = db.analyze_ar(year)
 
+    print(data)
+
     return api_helper.return_response(data)
 
 

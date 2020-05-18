@@ -142,7 +142,7 @@ class Department extends Component {
                     <hr className="yellow-hr" />
                     <Container fluid>
                         {
-                            key && (
+                            key ? (
                                 <Tab.Container defaultActiveKey={key}>
                                     <Row>
                                         <Col lg={3}>
@@ -174,7 +174,9 @@ class Department extends Component {
                                         </Col>
                                     </Row>
                                 </Tab.Container>
-                            )
+                            ) : (
+                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                )
                         }
                     </Container>
                 </div>

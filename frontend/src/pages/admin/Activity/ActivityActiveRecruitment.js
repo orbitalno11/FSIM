@@ -17,13 +17,7 @@ class ActivityActiveRecruitment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList: null,
-            projectDataBranch: null,
-            projectDataGPAX: null,
-            numberBySchool: null,
-            gpaBySchool: null,
-            year: 2563,
-            yearList: [2560, 2561, 2562, 2563]
+            tabKey: null
         }
     }
 
@@ -49,6 +43,13 @@ class ActivityActiveRecruitment extends Component {
 
         let { arData, projectList, selectedYear, yearList } = this.props.activity
 
+        let key = false
+
+        if (projectList !== null) {
+            let temp = projectList.filter(data => data['project_type'] !== 0)
+            key = temp[0]['project_id']
+        }
+
         return (
             <Fragment>
 
@@ -66,62 +67,68 @@ class ActivityActiveRecruitment extends Component {
                                 }
                             </select>
                         </Header>
-                        <Tab.Container defaultActiveKey={tabKey}>
-                            <Row>
-                                <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey}
-                                        className="flex-column sub-nav">
-                                        {
-                                            projectList !== null && (
-                                                projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
-                                                    <Nav.Item key={index}>
-                                                        <Nav.Link eventKey={item['project_id']}
-                                                            className="sub-nav">{item['project_name']}</Nav.Link>
-                                                    </Nav.Item>
-                                                ))
-                                            )
-                                        }
-                                        <Nav.Item>
-                                            <hr />
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey={'ar_school'} className="sub-nav">ข้อมูลการโครงการ AR
-                                                ระดับโรงเรียน</Nav.Link>
-                                        </Nav.Item>
-                                    </Nav>
-                                </Col>
-                                <Col lg={9}>
-                                    <Tab.Content>
-                                        {
-                                            projectList !== null && arData !== null ? (
-                                                arData['projectDataBranch'] !== null && arData['projectDataBranch'] !== undefined ? (
-                                                    projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
-                                                        <Tab.Pane key={index} eventKey={item['project_id']}>
-                                                            <ActiveRecruitmentDetail data={item}
-                                                                dataByBranch={arData['projectDataBranch'][item['project_id']]}
-                                                                dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />
-                                                        </Tab.Pane>
-                                                    ))
-                                                ) : (
-                                                        <h1 className="text-center">ไม่พบข้อมูล</h1>
+                        {
+                            key ? (
+                                <Tab.Container defaultActiveKey={key}>
+                                    <Row>
+                                        <Col lg={3}>
+                                            <Nav variant="pills" activeKey={tabKey}
+                                                className="flex-column sub-nav">
+                                                {
+                                                    projectList !== null && (
+                                                        projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
+                                                            <Nav.Item key={index}>
+                                                                <Nav.Link eventKey={item['project_id']}
+                                                                    className="sub-nav">{item['project_name']}</Nav.Link>
+                                                            </Nav.Item>
+                                                        ))
                                                     )
-                                            ) : (
-                                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
-                                                )
-                                        }
-                                        {
-                                            arData !== null && (
-                                                arData['numberBySchool'] !== null && arData['gpaBySchool'] !== null && (
-                                                    <Tab.Pane eventKey={'ar_school'}>
-                                                        <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />
-                                                    </Tab.Pane>
-                                                )
-                                            )
-                                        }
-                                    </Tab.Content>
-                                </Col>
-                            </Row>
-                        </Tab.Container>
+                                                }
+                                                <Nav.Item>
+                                                    <hr />
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey={'ar_school'} className="sub-nav">ข้อมูลการโครงการ AR
+                                                ระดับโรงเรียน</Nav.Link>
+                                                </Nav.Item>
+                                            </Nav>
+                                        </Col>
+                                        <Col lg={9}>
+                                            <Tab.Content>
+                                                {
+                                                    projectList !== null && arData !== null ? (
+                                                        arData['projectDataBranch'] !== null && arData['projectDataBranch'] !== undefined ? (
+                                                            projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
+                                                                <Tab.Pane key={index} eventKey={item['project_id']}>
+                                                                    <ActiveRecruitmentDetail data={item}
+                                                                        dataByBranch={arData['projectDataBranch'][item['project_id']]}
+                                                                        dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />
+                                                                </Tab.Pane>
+                                                            ))
+                                                        ) : (
+                                                                <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                                            )
+                                                    ) : (
+                                                            <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                                        )
+                                                }
+                                                {
+                                                    arData !== null && (
+                                                        arData['numberBySchool'] !== null && arData['gpaBySchool'] !== null && (
+                                                            <Tab.Pane eventKey={'ar_school'}>
+                                                                <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />
+                                                            </Tab.Pane>
+                                                        )
+                                                    )
+                                                }
+                                            </Tab.Content>
+                                        </Col>
+                                    </Row>
+                                </Tab.Container>
+                            ) : (
+                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                )
+                        }
                     </Container>
                 </div>
             </Fragment>

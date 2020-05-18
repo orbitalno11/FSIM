@@ -3,28 +3,22 @@ import axios from 'axios'
 
 import {
     Header,
-    Dropdown,
-    Divider,
     Grid,
     Card,
-    CardContent,
     Container,
     Image
 } from "semantic-ui-react";
 import { connect } from 'react-redux'
 
-import bgyel from "../img/bg-head3.png";
-
 import { Bar } from 'react-chartjs-2';
 
-import { startLoading, stopLoading } from '../redux/action/generalAction'
+import { startLoading, stopLoading } from '../../redux/action/generalAction'
 
-import { setupNoneStackBarChart } from '../components/Graph/GraphController'
+import { setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
-import { getYearList } from '../redux/action/adminActivityAction'
+import { getYearList, selectYear } from '../../redux/action/adminActivityAction'
 
 class ActiveRecruitment extends Component {
-
 
     constructor(props) {
         super(props)
@@ -36,16 +30,13 @@ class ActiveRecruitment extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.getYearList()
-        if (this.state.loadTime === 0) {
-            this.fetchkData()
-        }
+        this.fetchData()
     }
-   
 
-    fetchkData = () => {
-        let { selectedYear } = this.state
+    fetchData = () => {
+        let { selectedYear } = this.props.activity
         axios.get(`/activity/analyze/ar?year=${selectedYear}`)
             .then(res => {
                 let recieved_data = res.data.data
@@ -65,85 +56,73 @@ class ActiveRecruitment extends Component {
             })
     }
 
-
-    handleYearSelect= async event => {
+    handleSeclectYear = async event => {
         let value = event.target.value
         if(value ==0) 
             value=null 
-        this.setState({
-            selectedYear: value
-        }, () => {
-            this.fetchkData()
-        })
-
-       
-       
+        await this.props.setYear(value)
+        this.fetchData()
     }
 
     render() {
-        let { yearList } = this.props.activity
-        let { selectedYear, project_set, project } = this.state
+        let { yearList, selectedYear } = this.props.activity
+        let { project_set } = this.state
+
+        console.log(selectedYear)
 
         return (
             <Fragment>
-                <Image size="big" className="head-right" src={bgyel} />
-                <Header as="h5" align='center'>
-                    ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
+                <Container className="white-background">
+                    <Header as="h5" align='center'>
+                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
                         {
-                        <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                            <option value='0'>แสดงทุกปี</option>
-                            {
-                                yearList !== null && yearList.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
-                                ))
-                            }
-                        </select>
-                    }
-                </Header>
-                <Container>
+                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
+                                {
+                                    yearList !== null && yearList.map((item, index) => (
+                                        <option key={index} value={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        }
+                    </Header>
                     {
-                        project_set.length !== 0?
+                        project_set.length !== 0 ?
                             (project_set.map((item, index) => {
                                 return (
-                                    <Grid key={ item['project_name']} style={{marginTop:'2%'}}>
+                                    <Grid key={item['project_name']} style={{ marginTop: '2%' }}>
                                         <Grid.Row>
                                             <Grid.Column width={8}>
                                                 <Card className="card-default">
                                                     <Card.Header as="h5">
-                                                        กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ { item['project_name']} แต่ละสาขา
+                                                        กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
-                                                      
-                                                        <Bar data={setupNoneStackBarChart(item['analyze_by_activity'])} legend={{ display: false }} /> 
+
+                                                        <Bar data={setupNoneStackBarChart(item['analyze_by_activity'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
                                             </Grid.Column>
-                                       
+
                                             <Grid.Column width={8}>
                                                 <Card className="card-default">
                                                     <Card.Header as="h5">
-                                                        กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{ item['project_name']} แต่ละสาขา
+                                                        กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
-                                                        <Bar data={setupNoneStackBarChart(item['analyze_by_activity_gpax'])} legend={{ display: false }} /> 
+                                                        <Bar data={setupNoneStackBarChart(item['analyze_by_activity_gpax'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
                                             </Grid.Column>
                                         </Grid.Row>
                                     </Grid>
                                 )
-                              
+
 
                             }))
                             : (
-                                <h1 className="text-center" style={{marginTop:'2%'}}>ไม่พบข้อมูล</h1>
+                                <h1 className="text-center" style={{ marginTop: '2%' }}>ไม่พบข้อมูล</h1>
                             )
                     }
-                    {
-
-                    }
-
-
                 </Container>
             </Fragment>
         )
@@ -157,12 +136,12 @@ const mapStateToProps = state => (
     }
 )
 
-
 const mapDispatchToProps = dispatch => (
     {
         startLoading: () => dispatch(startLoading()),
         stopLoading: () => dispatch(stopLoading()),
-        getYearList: () => dispatch(getYearList())
+        getYearList: () => dispatch(getYearList()),
+        setYear: (year) => dispatch(selectYear(year))
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveRecruitment)
