@@ -33,7 +33,8 @@ class Admission extends Component {
             countChannel: null,
             countSchool: null,
             compareYear: null,
-            countStatus: []
+            countStatus: [],
+            countGrade: []
         }
     }
 
@@ -67,6 +68,7 @@ class Admission extends Component {
                 let countSchool = data['count_by_school']
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
+                let countGrade = data['count_by_branch'][0]
 
                
                 // console.log(countChannel)
@@ -75,7 +77,8 @@ class Admission extends Component {
                     countChannel: setupNoneStackBarChart(countChannel),
                     countSchool: setupStackBarChart(countSchool),
                     compareYear: setupNoneStackBarChart(compareYear),
-                    countStatus: setupStackBarChart(countStatus)
+                    countStatus: setupStackBarChart(countStatus),
+                    countGrade: setupStackBarChart(countGrade)
 
                 })
                 console.log(this.state.countChannel)
@@ -113,7 +116,7 @@ class Admission extends Component {
     }
 
     render() {
-        let { year, yearList, branch_list, countChannel, countSchool, compareYear, studentStatus, countStatus } = this.state
+        let { year, yearList, branch_list, countChannel, countSchool, compareYear, studentStatus, countStatus, countGrade } = this.state
         return (
             <Fragment>
                 <Image size="big" className="head-right" src={bgyel} />
@@ -156,7 +159,7 @@ class Admission extends Component {
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            {/* <Grid.Column width={16}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
@@ -165,8 +168,7 @@ class Admission extends Component {
                                         <Barchart data={countStatus} />
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column> */}
-                            <Barchart data={countStatus} />
+                            </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
@@ -209,6 +211,7 @@ class Admission extends Component {
                                                 <Bar data={compareYear} legend={{ display: false }} />
                                             )
                                         }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
