@@ -8,8 +8,7 @@ import {
   Form,
   Icon,
   Tab,
-  Label,
-  Header,
+  Label
 } from "semantic-ui-react";
 
 import bgyel from "../img/bg-head.png";

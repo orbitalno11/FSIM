@@ -39,3 +39,11 @@ def get_project_list():
     result = db.get_project_list(project_type)
 
     return api_helper.return_response(result)
+
+
+@user_activity.route('/year/list', methods=['GET'])
+def get_year_list_of_activity():
+    db = DatabaseHelper()
+    result = db.get_year_list_of_activity()
+
+    return api_helper.return_response(result)

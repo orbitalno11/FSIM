@@ -91,6 +91,7 @@ def get_analyze_admission_channel():
 
     return api_helper.return_response(data)
 
+
 # get analyze admission channel
 @admin_admission.route('/analyze/status', methods=['GET'])
 def get_analyze_admission_status():

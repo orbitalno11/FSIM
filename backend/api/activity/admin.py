@@ -95,7 +95,7 @@ def add_activity_project():
     return api_helper.return_response(result)
 
 
-@admin_activity.route('/project/type')
+@admin_activity.route('/project/type', methods=['GET'])
 def get_project_type():
     db = DatabaseHelper()
     result = db.get_project_type()

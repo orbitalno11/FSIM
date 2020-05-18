@@ -7,9 +7,7 @@ import {
   Form,
   Grid,
   Header,
-  Image,
-  Message,
-  Segment,
+  Image
 } from "semantic-ui-react";
 
 // redux

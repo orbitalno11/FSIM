@@ -100,6 +100,28 @@ const loadProjectListFalied = (error) => (
     }
 )
 
+// activity year list
+const loadActivityYearListStart = () => (
+    {
+        type: types.GET_ACTIVITY_YEAR_LIST_START
+    }
+)
+
+const loadActivityYearListSuccess = (list) => (
+    {
+        type: types.GET_ACTIVITY_YEAR_LIST_SUCCESS,
+        yearList: list
+    }
+)
+
+const loadActivityYearListFalied = (error) => (
+    {
+        type: types.GET_ACTIVITY_YEAR_LIST_FAILED,
+        error: error
+    }
+)
+
+
 // add project
 const addProjectStart = () => (
     {
@@ -173,7 +195,7 @@ export const selectYear = year => dispatch => {
 
 export const getActivityData = year => dispatch => {
     dispatch(startLoading())
-    dispatch(loadActivityStart)
+    dispatch(loadActivityStart())
 
     let activityData = {}
 
@@ -206,7 +228,7 @@ export const getActivityData = year => dispatch => {
 
 export const getARActivityData = year => dispatch => {
     dispatch(startLoading())
-    dispatch(loadActivityARStart)
+    dispatch(loadActivityARStart())
 
     let activityData = {}
 
@@ -238,7 +260,7 @@ export const getARActivityData = year => dispatch => {
 
 export const getActivityList = () => dispatch => {
     dispatch(startLoading())
-    dispatch(loadActivityListStart)
+    dispatch(loadActivityListStart())
 
     axios.get(`/admin/activity/list`)
         .then(res => {
@@ -261,7 +283,7 @@ export const getActivityList = () => dispatch => {
 
 export const getProjectList = () => dispatch => {
     dispatch(startLoading())
-    dispatch(loadProjectListStart)
+    dispatch(loadProjectListStart())
 
     axios.get('/activity/project')
         .then(res => {
@@ -284,26 +306,26 @@ export const getProjectList = () => dispatch => {
 }
 
 export const addProject = data => dispatch => {
-    dispatch(addProjectStart)
+    dispatch(addProjectStart())
     dispatch(startLoading())
     axios.post('/admin/activity/project', data)
         .then(res => {
             dispatch(addProjectSuccess(true))
             dispatch(stopLoading())
             dispatch(getProjectList())
-            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
 
         })
         .catch(err => {
             console.error(err)
-            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
             dispatch(addProjectFalied(err, false))
             dispatch(stopLoading())
         })
 }
 
 export const addActivity = data => (dispatch, getState) => {
-    dispatch(addActivityStart)
+    dispatch(addActivityStart())
     dispatch(startLoading())
     const config = {
         headers: {
@@ -318,11 +340,11 @@ export const addActivity = data => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
-            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
             console.error(err)
-            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
             dispatch(addActivityFalied(err, false))
             dispatch(stopLoading())
         })
@@ -339,11 +361,36 @@ export const delelteActivity = act_id => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
-            dispatch(openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}]))
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
-            dispatch(openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}]))
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
             dispatch(deleteActivityFalied(err, false))
+            dispatch(stopLoading())
+        })
+}
+
+export const getYearList = () => (dispatch) => {
+    dispatch(loadActivityYearListStart())
+    dispatch(startLoading())
+    axios.get('/activity/year/list')
+        .then(res => {
+            let data = res.data.data
+
+            let cur_year = new Date()
+            cur_year = cur_year.getFullYear() + 543
+
+            if (!data.includes(cur_year))
+                data.push(cur_year)
+            
+            data.sort((prev, cur) => (cur - prev))
+
+            dispatch(loadActivityYearListSuccess(data))
+            dispatch(stopLoading())
+        })
+        .catch(err => {
+            console.error(err)
+            dispatch(loadActivityYearListFalied())
             dispatch(stopLoading())
         })
 }

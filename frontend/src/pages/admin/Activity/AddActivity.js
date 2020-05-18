@@ -161,14 +161,6 @@ class AddActivity extends Component {
         event.preventDefault()
         let element = event.target.elements
 
-        // let data = {
-        //     activity_id: `${element.projectId.value}_${element.activityId.value}`,
-        //     project_id: element.projectId.value,
-        //     activity_name: element.activityName.value,
-        //     activity_budget: parseFloat(element.activityBudget.value),
-        //     year: parseInt(element.educationYear.value)
-        // }
-
         let form = new FormData()
         form.append('activity_id', `${element.projectId.value}_${element.activityId.value}`)
         form.append('project_id', element.projectId.value)

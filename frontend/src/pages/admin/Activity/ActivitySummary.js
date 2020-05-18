@@ -9,13 +9,11 @@ import {
     Table
 } from "semantic-ui-react";
 
-import axios from 'axios'
-
 
 import GraphBar from "../../../components/Graph/Bar";
 
-import { setupPieChart, setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
-import { Bar, Pie } from "react-chartjs-2";
+import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
+import { Bar } from "react-chartjs-2";
 
 import { connect } from 'react-redux'
 import { getActivityData, getActivityList, selectYear } from '../../../redux/action/adminActivityAction'

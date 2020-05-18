@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 
 import { Table, Button } from 'semantic-ui-react'
 
-import axios from 'axios'
-
 import { connect } from 'react-redux'
 import { getActivityList, delelteActivity } from '../../../redux/action/adminActivityAction'
 
@@ -23,17 +21,9 @@ class ActivityManage extends Component {
 
     handleDeleteActivity = (act_id) => {
         this.props.delelteActivity(act_id)
-        // axios.delete(`/admin/activity?act_id=${act_id}`)
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //     })
     }
 
     render() {
-        // let { activityList } = this.state
         let { activityList } = this.props.activity
         return (
             <Fragment>

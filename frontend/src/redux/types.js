@@ -81,3 +81,7 @@ export const ADD_PROJECT_FAILED = "load_add_project_failed"
 export const DELETE_ACTIVITY_START = "load_delete_activity_start"
 export const DELETE_ACTIVITY_SUCCESS = "load_delete_activity_success"
 export const DELETE_ACTIVITY_FAILED = "load_delete_activity_failed"
+
+export const GET_ACTIVITY_YEAR_LIST_START = "get_activity_year_list_start"
+export const GET_ACTIVITY_YEAR_LIST_SUCCESS = "get_activity_year_list_success"
+export const GET_ACTIVITY_YEAR_LIST_FAILED = "get_activity_year_list_failed"

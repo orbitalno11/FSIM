@@ -99,7 +99,6 @@ class Department extends Component {
     }
 
     render() {
-        let { location, match } = this.props
         let { tabKey } = this.state
         return (
             <Fragment>

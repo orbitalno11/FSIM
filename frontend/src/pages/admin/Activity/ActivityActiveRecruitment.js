@@ -4,8 +4,6 @@ import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
 
 import { Header } from 'semantic-ui-react'
 
-import axios from 'axios'
-
 import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 import ARSchool from './ActiveRecruitmentSchool'
 

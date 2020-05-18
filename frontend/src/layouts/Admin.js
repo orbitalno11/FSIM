@@ -18,13 +18,7 @@ import Course from '../pages/admin/Information/Course'
 // redux
 import { connect } from 'react-redux'
 
-
-
 class AdminLayout extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

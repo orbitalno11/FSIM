@@ -8,12 +8,13 @@ import AddActivity from "./AddActivity";
 import ActivityManage from './ActivityManage'
 
 import { connect } from 'react-redux'
+import { getYearList } from '../../../redux/action/adminActivityAction'
 import LoadingComponent from '../../../components/LoadingComponent';
 
 class Activity extends Component {
 
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        this.props.getYearList()
     }
 
     render() {
@@ -43,4 +44,10 @@ const mapStateToProps = state => (
     }
 )
 
-export default connect(mapStateToProps)(Activity)
+const mapDispatchToProps = dispatch => (
+    {
+        getYearList: () => dispatch(getYearList())
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Activity)

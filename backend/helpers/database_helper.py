@@ -187,29 +187,6 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
-    # get activity list
-    # def get_activity_list(self):
-    #     sql_command = "SELECT activity_id, activity_name, project_type, year, activity_budget, type_name " \
-    #                   "FROM activity NATURAL JOIN activity_project NATURAL JOIN activity_type"
-    #     execute = self.__execute_query(sql_command)
-    #
-    #     if not execute['response']:
-    #         return execute
-    #
-    #     out_function_data = []
-    #     for data in execute['value']:
-    #         temp = {
-    #             'activity_id': data[0],
-    #             'activity_name': data[1],
-    #             'activity_type_id': data[2],
-    #             'activity_year': data[3],
-    #             'activity_budget': data[4],
-    #             'activity_type_name': [5]
-    #         }
-    #         out_function_data.append(temp)
-    #
-    #     return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
-
     # get project list
     def get_project_list(self, project_type: int = None):
         try:
@@ -354,7 +331,21 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 
-        return inner_res_helper.make_inner_response(True, "DEV", "DEV")
+        return inner_res_helper.make_inner_response(True, "Successful", "Successful")
+
+    # get year list of activity
+    def get_year_list_of_activity(self):
+        sql_command = "SELECT year FROM activity GROUP BY year"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = list()
+        for year in execute['value']:
+            out_data.append(year[0])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ADMISSION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

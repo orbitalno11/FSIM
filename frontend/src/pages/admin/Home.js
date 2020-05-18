@@ -5,24 +5,18 @@ import { Container, Row, Col, Card, Image, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGraduationCap, faUserTie, faFileAlt, faHiking } from '@fortawesome/free-solid-svg-icons'
 
-
-
 // image resource
 import KMUTT from '../../img/slide1.JPG'
 
 // chart
 import PieChart from '../../components/Graph/Pie'
-import Linechart from '../../components/Graph/Line'
 import Bar from '../../components/Graph/Bar'
 
 
-import {setupPieChart,setupStackBarChart} from '../../components/Graph/GraphController'
+import { setupPieChart, setupStackBarChart } from '../../components/Graph/GraphController'
 
 // axios
 import axios from 'axios'
-
-// color
-import { colorSet } from '../../Constant'
 
 // redux
 import { connect } from 'react-redux'
@@ -35,8 +29,8 @@ class AdminHome extends Component {
         super(props)
         this.state = {
             amountStudent: [],
-            statusStudent : [],
-            alumniWork : [],
+            statusStudent: [],
+            alumniWork: [],
             amountStudentStatus: [],
             amountWorkingStatus: [],
             amountAdmissionStudent: [],
@@ -61,7 +55,7 @@ class AdminHome extends Component {
             })
     }
 
-    fetchAmountAlumni= async () => {
+    fetchAmountAlumni = async () => {
         await axios.get('/alumni/analyze/work')
             .then(res => {
                 let recieve = res.data
@@ -77,42 +71,12 @@ class AdminHome extends Component {
     }
 
     setUpAmountStudentChart = () => {
-        let { amountStudent,statusStudent,alumniWork } = this.state
-        // let label = []
-        // let amount = []
-        // let background = []
-        // let hoverColor = []
-        // for (let index in amountStudent) {
-        //     let b_temp = amountStudent[index]['branch']
-        //     for (let j in b_temp) {
-        //         label.push(b_temp[j].branch_name)
-        //         amount.push(b_temp[j].amount_student)
-        //     }
-        // }
-
-        // for (let i in label) {
-        //     background.push(colorSet[i])
-        //     hoverColor.push(colorSet[i] + "75")
-        // }
-
-        // this.setState({
-        //     amountStudentPie: {
-        //         labels: label,
-        //         datasets: [
-        //             {
-        //                 data: amount,
-        //                 backgroundColor: background,
-        //                 hoverBackgroundColor: hoverColor
-        //             }
-        //         ]
-        //     }
-        // })
+        let { amountStudent, statusStudent, alumniWork } = this.state
         this.setState({
-            amountStudentPie:setupPieChart(amountStudent),
-            amountStudentStatus:setupStackBarChart(statusStudent),
-            amountWorkingStatus : setupPieChart(alumniWork)
+            amountStudentPie: setupPieChart(amountStudent),
+            amountStudentStatus: setupStackBarChart(statusStudent),
+            amountWorkingStatus: setupPieChart(alumniWork)
         })
-       
     }
 
     async componentDidMount() {
@@ -122,7 +86,7 @@ class AdminHome extends Component {
     }
 
     render() {
-        let { user, amountStudentPie,amountStudentStatus ,amountWorkingStatus} = this.state
+        let { user, amountStudentPie, amountStudentStatus, amountWorkingStatus } = this.state
         return (
             <Fragment>
                 <Image src={KMUTT} alt="KMUTT" fluid />
@@ -177,28 +141,19 @@ class AdminHome extends Component {
                         <Col sm={12} lg={6} className="my-2">
                             <Card className="admin-home-card">
                                 <Card.Title className="card-header">
+                                    <strong>อัตราการมีงานทำของศิษย์เก่า</strong>
+                                </Card.Title>
+                                <PieChart data={amountWorkingStatus} />
+                                <Button variant="secondary" to='/admin/alumni' as={Link}>ดูเพิ่มเติม</Button>
+                            </Card>
+                        </Col>
+                        <Col sm={12} lg={12} className="my-2">
+                            <Card className="admin-home-card">
+                                <Card.Title className="card-header">
                                     <strong>สถานะทางการศึกษาของนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
                                 <Bar data={amountStudentStatus} />
                                 <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
-                            </Card>
-                        </Col>
-                        <Col sm={12} lg={6} className="my-2">
-                            <Card className="admin-home-card">
-                                <Card.Title className="card-header">
-                                    <strong>จำนวนการรับนักศึกษาจากโครงการต่าง ๆ 5 ปีย้อนหลัง</strong>
-                                </Card.Title>
-                                <Linechart />
-                                <Button variant="secondary" to='/admin/admission' as={Link}>ดูเพิ่มเติม</Button>
-                            </Card>
-                        </Col>
-                        <Col sm={12} lg={6} className="my-2">
-                            <Card className="admin-home-card">
-                                <Card.Title className="card-header">
-                                    <strong>อัตราการมีงานทำของศิษย์เก่า</strong>
-                                </Card.Title>
-                                <PieChart data={amountWorkingStatus} />
-                                <Button variant="secondary"  to='/admin/alumni' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
                     </Row>

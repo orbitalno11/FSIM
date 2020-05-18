@@ -143,7 +143,6 @@ def get_student_tracking():
     return api_helper.return_response(data)
 
 
-
 @admin_student.route('/analyze/subject/branch', methods=['GET'])
 def subject_by_branch():
     db = AnalyzeStudent()

@@ -9,7 +9,7 @@ const initialState = {
     activityList: null,
     activityListByYear: null,
     projectList: null,
-    yearList: [2559, 2560, 2561, 2562, 2563],
+    yearList: null,
     selectedYear: year,
     actionResult: null,
     error: null
@@ -111,6 +111,24 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 actionResult: action.actionResult,
+                error: action.error
+            }
+
+        case types.GET_ACTIVITY_YEAR_LIST_START:
+            return {
+                ...state
+            }
+
+        case types.GET_ACTIVITY_YEAR_LIST_SUCCESS:
+            return {
+                ...state,
+                yearList: action.yearList
+            }
+
+        case types.GET_ACTIVITY_YEAR_LIST_FAILED:
+            return {
+                ...state,
+                yearList: null,
                 error: action.error
             }
 
