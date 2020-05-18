@@ -38,21 +38,16 @@ class ActivityInformation extends Component {
         this.props.getActivityList()
     }
 
-    
-
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
 
-        console.log(this.props.activity)
-
         return (
             <Fragment>
-                <Container>
+                <Container className="white-background">
                     <Header as="h5" textAlign="center">
                         ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
                         {
                             <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                <option value='0'>แสดงทุกปี</option>
                                 {
                                     yearList !== null && yearList.map((item, index) => (
                                         <option key={index} value={item}>{item}</option>
@@ -60,11 +55,9 @@ class ActivityInformation extends Component {
                                 }
                             </select>
                         }
-
                     </Header>
                     <Divider />
                     <Grid>
-
                         <Grid.Row>
                             <Grid.Column width={8}>
                                 <Card className="card-default">
@@ -147,7 +140,6 @@ class ActivityInformation extends Component {
             </Fragment>
         )
     }
-
 }
 
 const mapStateToProps = state => (
@@ -155,7 +147,6 @@ const mapStateToProps = state => (
         activity: state.admin_activity
     }
 )
-
 
 const mapDispatchToProps = dispatch => (
     {

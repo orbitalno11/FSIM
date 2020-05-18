@@ -8,9 +8,6 @@ import {
     Card
 } from "semantic-ui-react";
 
-import bgyel from "../../img/bg-head.png";
-import bannerbot from "../../img/bottom-left.png";
-
 
 import Piechart from "../../components/Graph/Pie";
 import Barchart from "../../components/Graph/Bar";
@@ -18,19 +15,14 @@ import Horizontal from "../../components/Graph/BarHorizontal";
 
 import { setupPieChart, setupStackBarChart } from '../../components/Graph/GraphController'
 
-//  wait other
-import 'chartjs-plugin-datalabels'
-
 import axios from 'axios'
-
-// import color set
-import { colorSet } from '../../Constant'
 
 class DepartmentStudent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            dept_id: null,
             isLoaded: false,
             department: "",
             loadTime: 0,
@@ -51,22 +43,18 @@ class DepartmentStudent extends Component {
 
                 if (received.response === true) {
                     let data = received.data
-                    console.log(data)
 
                     this.setState({
                         department: data.dept_name,
                         branch: data.branch[0],
                         byYear: data.status_by_year[0],
                         byBranch: data.df_status_by_branch[0],
-                        loadTime: 1
+                        dept_id: dept_id
                     })
                 }
             })
             .catch(error => {
                 console.log(error)
-                this.setState({
-                    loadTime: 1
-                })
             })
     }
 
@@ -81,61 +69,67 @@ class DepartmentStudent extends Component {
     }
 
     async componentDidMount() {
-        let id=this.props.match.params.id
+        let id = this.props.match.params.id
         await this.fetchData(id)
         this.setupGraph()
     }
 
+    async componentDidUpdate() {
+        let {dept_id} = this.state
+        let id = this.props.match.params.id
+        if (dept_id !== id) {
+            await this.fetchData(id)
+            this.setupGraph()
+        }
+    }
 
     render() {
-        
+
         let { department, studentByBranch, studentByYear, branchByStatus } = this.state
-       
+
         return (
             <Fragment>
-                <Image size="massive" className="background-yellow" src={bgyel} />
-                <Image size="massive" className="bottom-left" src={bannerbot} />
-                <Container style={{backgroundColor:"#FFFFFF",marginTop:"5%",padding:"5%"}}>
-                    <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
+                <Container className="white-background">
+                    <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
                         จำนวนนักศึกษาทุกชั้นปี {department}
                     </Header>
-                    
+
                     <Grid textAlign={"center"}>
-                            <Grid.Row columns={2}>
-                                <Grid.Column>
-                                    <Card fluid>
-                                        <Card.Header textAlign={"center"}>
-                                            <h3>จำนวนนักศึกษาต่อสาขา</h3>
-                                        </Card.Header>
-                                        <Card.Content>
-                                            <Piechart data={studentByBranch} />
-                                        </Card.Content>
-                                    </Card>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Card fluid>
-                                        <Card.Header textAlign={"center"}>
-                                            <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
-                                        </Card.Header>
-                                        <Card.Content>
+                        <Grid.Row columns={2}>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <Piechart data={studentByBranch} />
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                    </Card.Header>
+                                    <Card.Content>
                                         <Barchart data={studentByYear} />
-                                        </Card.Content>
-                                    </Card>
-                                </Grid.Column>
-                            </Grid.Row>
-                            <Grid.Row>
-                                <Grid.Column>
-                                    <Card fluid>
-                                        <Card.Header textAlign={"center"}>
-                                            <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
-                                        </Card.Header>
-                                        <Card.Content>
-                                            <Horizontal data={branchByStatus} />
-                                        </Card.Content>
-                                    </Card>
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <Horizontal data={branchByStatus} />
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </Container>
             </Fragment>
         )

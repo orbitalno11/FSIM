@@ -17,13 +17,7 @@ class ActivityActiveRecruitment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            projectList: null,
-            projectDataBranch: null,
-            projectDataGPAX: null,
-            numberBySchool: null,
-            gpaBySchool: null,
-            year: 2563,
-            yearList: [2560, 2561, 2562, 2563]
+            tabKey: null
         }
     }
 

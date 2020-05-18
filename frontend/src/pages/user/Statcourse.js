@@ -13,10 +13,6 @@ import {
 
 import { Link } from "react-router-dom";
 
-import bgyel from "../../img/bg-head3.png";
-
-
-
 
 class Statcourse extends Component {
 
@@ -25,7 +21,6 @@ class Statcourse extends Component {
         
         return (
             <Fragment>
-                <Image size="big" className="head-right" src={bgyel}/>
                 <Container  className="container my-5">
                     <Header as="h3"  align='center'>
                         สรุปคะแนนรายวิชา Mean / GPA 

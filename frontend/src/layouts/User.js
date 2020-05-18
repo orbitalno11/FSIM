@@ -14,7 +14,6 @@ import ActiveRecruitment from "../pages/user/ActiveRecruitment";
 import Alumni from "../pages/user/Alumni";
 import ActivityInformation from "../pages/user/ActivityInformation";
 
-import DepartmentDetail from '../pages/user/DepartmentDetail'
 import DepartmentStudent from '../pages/user/DepartmentStudent'
 import Statcourse from '../pages/user/Statcourse'
 import StatcourseGPA from '../pages/user/StatcourseGPA'
@@ -29,7 +28,7 @@ class UserLayout extends Component {
                 <Switch>
                     <Route exact path="/" component={UserHome} />
                     <Route exact path="/admission" component={Admission} />
-                    <Route exact path="/active" component={ActiveRecruitment} />
+                    <Route exact path="/activity/ar" component={ActiveRecruitment} />
                     <Route exact path="/alumni" component={Alumni} />
                     <Route exact path="/activity" component={ActivityInformation} />
                     <Route exact path="/student/:id" component={DepartmentStudent} />

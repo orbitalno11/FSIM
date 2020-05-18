@@ -17,7 +17,6 @@ import Barchart from "../../components/Graph/Bar";
 import { setupPieChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
 import { Bar, Pie } from "react-chartjs-2";
 
-import bgyel from "../../img/bg-head3.png";
 import GraphLine from "../../components/Graph/Line";
 import AdmissionTypePanel from "../../components/AddmissionTypePanel";
 import Axios from "axios";
@@ -116,8 +115,7 @@ class Admission extends Component {
         let { year, yearList, branch_list, countChannel, countSchool, compareYear, studentStatus, countStatus } = this.state
         return (
             <Fragment>
-                <Image size="big" className="head-right" src={bgyel} />
-                <Container>
+                <Container className="white-background">
                     <Header as="h5" textAlign="center">
                         ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
                         {
