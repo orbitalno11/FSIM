@@ -1,5 +1,5 @@
 // import color set
-import {colorSet} from '../../Constant'
+import { colorSet, yellow } from '../../Constant'
 
 export const setupPieChart = data => {
     // require data is a json key as a label and value is data for the label
@@ -106,4 +106,29 @@ export const setupStackBarChart = (receivedData) => {
         labels: label,
         datasets: dataset
     }
+}
+
+export const setupLineChart = (data, title = null, border = yellow, fill = false, lineTension = 0.1,) => {
+    // require data is a json key as a label and value is data for the label
+    let labels = Object.keys(data)
+    let dataset = []
+
+    for (let i in data) {
+        dataset.push(data[i])
+    }
+
+    let chartData = {
+        labels: labels,
+        datasets: [
+            {
+                data: dataset,
+                label: title,
+                lineTension: lineTension,
+                fill: fill,
+                borderColor: border
+            }
+        ]
+    }
+
+    return chartData
 }
