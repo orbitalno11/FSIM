@@ -5,12 +5,14 @@ import axios from 'axios'
 import { Table, Button, Modal ,ButtonGroup} from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
+import  ReactModal  from '../../../components/ReactModal'
 
 //redux 
 import { connect } from 'react-redux'
 import { getSurveyList } from '../../../redux/action/adminAlumniAction'
 import {MessageError,MessageSuccess} from '../../../components/MessageAlert'
 import { deleteItem } from '../../../redux/action/adminAlumniAction'
+import { openModal } from '../../../redux/action/modalAction'
 
 class AlumniManage extends Component {
 
@@ -86,18 +88,29 @@ class AlumniManage extends Component {
      
     }
 
-    messageAlert = () => {
-        let set_alert=null
+    componentDidUpdate(){
         const {statusEdit}=this.state
         if (this.props.status == false || statusEdit==false) {
-            set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
-           
+            this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
         }else if(this.props.status == true || statusEdit) {
-            set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
-          
+            this.props.openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}])
         }
-        return set_alert
     }
+
+    // messageAlert = () => {
+    //     let set_alert=null
+    //     const {statusEdit}=this.state
+    //     if (this.props.status == false || statusEdit==false) {
+    //         // set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
+    //         this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
+           
+    //     }else if(this.props.status == true || statusEdit) {
+    //         set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
+    //         this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
+          
+    //     }
+    //     return set_alert
+    // }
 
  
     render() {
@@ -106,8 +119,8 @@ class AlumniManage extends Component {
         let { surveyList } = this.props.alumni
         return (
             <Fragment>
-              {this.messageAlert()}
-                
+              {/* {this.messageAlert()} */}
+              <ReactModal />
                 {
                     deleteItem !== null && (
                         <Modal
@@ -206,7 +219,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         loadSurveyList: () => dispatch(getSurveyList()),
-        deleteItem: (data) => dispatch(deleteItem(data))
+        deleteItem: (data) => dispatch(deleteItem(data)),
+        openModal:(bool,data) =>dispatch(openModal(bool,data)),
     }
 )
 

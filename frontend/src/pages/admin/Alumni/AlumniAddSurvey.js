@@ -284,7 +284,8 @@ class AlumniAddSurvey extends Component {
                         </InputGroup>
                     </Form.Group>
                     {editData ?
-                        <p style={{ color: 'red' }}>หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
+                       <div style={{marginTop:'2%',marginBottom:'2%'}}><p style={{ color: 'red' }}>*หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
+                        <p style={{ color: 'red' }}>**หากต้องการแก้ไขหัวข้อสำหรับการคำนวนความพึงพอใจ กรุณากดตรวจสอบก่อน</p></div>
                         : null}
                     <Form.Row >
                         <Col xs={12} md={6}>
@@ -339,6 +340,7 @@ class AlumniAddSurvey extends Component {
                                                 label={item}
                                                 key={index}
                                                 defaultChecked={headerSelect.includes(item)}
+                                                disabled={!editVerify ? false : true}
                                             />
                                         ))
                                     }
