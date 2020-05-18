@@ -15,15 +15,19 @@ import { Bar} from "react-chartjs-2";
 import GraphBar from "../components/Graph/Bar";
 import { setupStackBarChart, setupNoneStackBarChart } from '../components/Graph/GraphController'
 import { getActivityData, getActivityList, selectYear } from '../redux/action/adminActivityAction'
+import { getYearList } from '../redux/action/adminActivityAction'
 
 class ActivityInformation extends Component {
 
     componentDidMount() {
+        this.props.getYearList()
         this.getData()
     }
 
     handleSeclectYear = async event => {
         let value = event.target.value
+        if(value ==0) 
+            value=null 
         await this.props.setYear(value)
         this.getData()
     }
@@ -48,6 +52,7 @@ class ActivityInformation extends Component {
                         ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
                         {
                             <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
+                                <option value='0'>แสดงทุกปี</option>
                                 {
                                     yearList !== null && yearList.map((item, index) => (
                                         <option key={index} value={item}>{item}</option>
@@ -156,7 +161,8 @@ const mapDispatchToProps = dispatch => (
     {
         getActivityData: (year) => dispatch(getActivityData(year)),
         getActivityList: () => dispatch(getActivityList()),
-        setYear: (year) => dispatch(selectYear(year))
+        setYear: (year) => dispatch(selectYear(year)),
+        getYearList: () => dispatch(getYearList())
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityInformation)

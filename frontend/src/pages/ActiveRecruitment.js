@@ -21,6 +21,7 @@ import { startLoading, stopLoading } from '../redux/action/generalAction'
 
 import { setupNoneStackBarChart } from '../components/Graph/GraphController'
 
+import { getYearList } from '../redux/action/adminActivityAction'
 
 class ActiveRecruitment extends Component {
 
@@ -36,6 +37,7 @@ class ActiveRecruitment extends Component {
     }
 
     componentDidMount() {
+        this.props.getYearList()
         if (this.state.loadTime === 0) {
             this.fetchkData()
         }
@@ -66,7 +68,8 @@ class ActiveRecruitment extends Component {
 
     handleYearSelect= async event => {
         let value = event.target.value
-       
+        if(value ==0) 
+            value=null 
         this.setState({
             selectedYear: value
         }, () => {
@@ -158,7 +161,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         startLoading: () => dispatch(startLoading()),
-        stopLoading: () => dispatch(stopLoading())
+        stopLoading: () => dispatch(stopLoading()),
+        getYearList: () => dispatch(getYearList())
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveRecruitment)
