@@ -15,7 +15,7 @@ import {
 import {connect} from 'react-redux'
 import { Link } from "react-router-dom";
 
-import bgyel from "../img/bg-head3.png";
+import bgyel from "../../img/bg-head3.png";
 
 
 

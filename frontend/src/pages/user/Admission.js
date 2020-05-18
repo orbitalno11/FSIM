@@ -13,13 +13,13 @@ import {
 // redux
 import { connect } from 'react-redux'
 
-import Barchart from "../components/Graph/Bar";
-import { setupPieChart, setupNoneStackBarChart, setupStackBarChart } from '../components/Graph/GraphController';
+import Barchart from "../../components/Graph/Bar";
+import { setupPieChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
 import { Bar, Pie } from "react-chartjs-2";
 
-import bgyel from "../img/bg-head3.png";
-import GraphLine from "../components/Graph/Line";
-import AdmissionTypePanel from "../components/AddmissionTypePanel";
+import bgyel from "../../img/bg-head3.png";
+import GraphLine from "../../components/Graph/Line";
+import AdmissionTypePanel from "../../components/AddmissionTypePanel";
 import Axios from "axios";
 
 class Admission extends Component {

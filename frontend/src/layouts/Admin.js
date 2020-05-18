@@ -2,12 +2,12 @@ import React, { Component, Fragment } from "react";
 import { Route, Switch } from 'react-router-dom'
 
 // page component
-import AdminHome from "../pages/admin/Home";
+import AdminHome from "../pages/admin";
 import Alumni from "../pages/admin/Alumni";
 import Activity from "../pages/admin/Activity";
 import Admission from "../pages/admin/Admission/AdmissionManage";
 import Student from "../pages/admin/Student/Student";
-import Statcourse from '../pages/Statcourse'
+import Statcourse from '../pages/user/Statcourse'
 
 // information
 import Information from "../pages/admin/Information/Information";

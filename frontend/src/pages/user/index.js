@@ -11,16 +11,13 @@ import {
   Label
 } from "semantic-ui-react";
 
-import bgyel from "../img/bg-head.png";
-
-import banner3 from "../img/mockup2.png";
-import bannerbot from "../img/bottom-left.png";
+import banner3 from "../../img/mockup2.png";
 
 // logo
-import Logomth from "../img/mth.png";
-import Logomic from "../img/mic.png";
-import Logophy from "../img/phy.png";
-import Logochm from "../img/chm.png";
+import Logomth from "../../img/mth.png";
+import Logomic from "../../img/mic.png";
+import Logophy from "../../img/phy.png";
+import Logochm from "../../img/chm.png";
 import { Link } from "react-router-dom";
 
 const ButtonStudent = ({ id, name, image }) => (
@@ -242,8 +239,6 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <Image size="massive" className="background-yellow" src={bgyel} />
-        <Image size="massive" className="bottom-left" src={bannerbot} />
         <Container>
           <Grid columns={2}>
             <Grid.Row>

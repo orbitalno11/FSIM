@@ -8,15 +8,15 @@ import {
     Card
 } from "semantic-ui-react";
 
-import bgyel from "../img/bg-head.png";
-import bannerbot from "../img/bottom-left.png";
+import bgyel from "../../img/bg-head.png";
+import bannerbot from "../../img/bottom-left.png";
 
 
-import Piechart from "../components/Graph/Pie";
-import Barchart from "../components/Graph/Bar";
-import Horizontal from "../components/Graph/BarHorizontal";
+import Piechart from "../../components/Graph/Pie";
+import Barchart from "../../components/Graph/Bar";
+import Horizontal from "../../components/Graph/BarHorizontal";
 
-import { setupPieChart, setupStackBarChart } from '../components/Graph/GraphController'
+import { setupPieChart, setupStackBarChart } from '../../components/Graph/GraphController'
 
 //  wait other
 import 'chartjs-plugin-datalabels'
@@ -24,7 +24,7 @@ import 'chartjs-plugin-datalabels'
 import axios from 'axios'
 
 // import color set
-import { colorSet } from '../Constant'
+import { colorSet } from '../../Constant'
 
 class DepartmentStudent extends Component {
 

@@ -13,15 +13,15 @@ import {
 } from "semantic-ui-react";
 import { connect } from 'react-redux'
 
-import bgyel from "../img/bg-head3.png";
+import bgyel from "../../img/bg-head3.png";
 
 import { Bar } from 'react-chartjs-2';
 
-import { startLoading, stopLoading } from '../redux/action/generalAction'
+import { startLoading, stopLoading } from '../../redux/action/generalAction'
 
-import { setupNoneStackBarChart } from '../components/Graph/GraphController'
+import { setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
-import { getYearList } from '../redux/action/adminActivityAction'
+import { getYearList } from '../../redux/action/adminActivityAction'
 
 class ActiveRecruitment extends Component {
 

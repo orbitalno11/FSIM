@@ -8,26 +8,29 @@ import jwtDecode from 'jwt-decode'
 
 // general component
 import Navbar from './components/Menu'
-import Home from './pages/Home'
+// import Home from './pages/user/Home'
+
+// import user layout
+import UserLayout from './layouts/User'
 
 // user component
-import Admission from "./pages/Admission";
-import ActiveRecruitment from "./pages/ActiveRecruitment";
-import Alumni from "./pages/Alumni";
-import ActivityInformation from "./pages/ActivityInformation";
+import Admission from "./pages/user/Admission";
+import ActiveRecruitment from "./pages/user/ActiveRecruitment";
+import Alumni from "./pages/user/Alumni";
+import ActivityInformation from "./pages/user/ActivityInformation";
 
-import DepartmentDetail from './pages/DepartmentDetail'
-import DepartmentStudent from './pages/DepartmentStudent'
-import Statcourse from './pages/Statcourse'
-import StatcourseGPA from './pages/StatcourseGPA'
-import Statcoursebranch from './pages/Statcoursebranch'
+import DepartmentDetail from './pages/user/DepartmentDetail'
+import DepartmentStudent from './pages/user/DepartmentStudent'
+import Statcourse from './pages/user/Statcourse'
+import StatcourseGPA from './pages/user/StatcourseGPA'
+import Statcoursebranch from './pages/user/Statcoursebranch'
 
 
 // admin component
 import AdminLayout from './layouts/Admin'
 
 // authen
-import Login from './pages/Login'
+import Login from './pages/user/Login'
 import AuthRoute from './components/AuthRoute'
 import AdminRoute from './components/AdminRoute'
 
@@ -70,21 +73,24 @@ class App extends Component {
                 <div className="App">
                     { store.getState().auth.authenticated ? <AdminMenu /> : <Navbar />}
                     <Switch>
-                        <Route exact path="/" component={Home} />
+                        {/* <Route exact path="/" component={Home} />
                         <Route exact path="/admission" component={Admission} />
                         <Route exact path="/active" component={ActiveRecruitment} />
                         <Route exact path="/alumni" component={Alumni} />
                         <Route exact path="/activity" component={ActivityInformation} />
-                        <Route exact path="/student/:id" component={DepartmentStudent} />
+                        <Route exact path="/student/:id" component={DepartmentStudent} /> */}
                         {/* <Route path="/department/:dept_id" component={DepartmentDetail} /> */}
-                        <Route exact path="/Statcourse" component={Statcourse} />
+                        {/* <Route exact path="/Statcourse" component={Statcourse} />
                         <Route exact path="/StatcourseGPA" component={StatcourseGPA} />
-                        <Route exact path="/Statcoursebranch" component={Statcoursebranch} />
+                        <Route exact path="/Statcoursebranch" component={Statcoursebranch} /> */}
 
                         {/*    admin    */}
                         <AdminRoute path="/admin" component={AdminLayout} />
 
                         <AuthRoute exact path="/login" component={Login} />
+
+                        {/*     user    */}
+                        <Route path="/" component={UserLayout} />
                     </Switch>
                 </div>
             </Provider>

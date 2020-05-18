@@ -13,18 +13,18 @@ import {
     Image
 } from "semantic-ui-react";
 
-import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../components/Graph/GraphController'
+import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
 import { Bar } from 'react-chartjs-2';
-import bgyel from "../img/bg-head3.png";
-import GraphPie from "../components/Graph/Pie";
-import GraphBar from "../components/Graph/Bar";
+import bgyel from "../../img/bg-head3.png";
+import GraphPie from "../../components/Graph/Pie";
+import GraphBar from "../../components/Graph/Bar";
 
 import { connect } from 'react-redux'
 
-import {getAllAlumniYear} from '../redux/action/adminAlumniAction'
-import { startLoading, stopLoading } from '../redux/action/generalAction'
-import { setSelectedYear } from '../redux/action/adminAlumniAction'
+import {getAllAlumniYear} from '../../redux/action/adminAlumniAction'
+import { startLoading, stopLoading } from '../../redux/action/generalAction'
+import { setSelectedYear } from '../../redux/action/adminAlumniAction'
 
 class Alumni extends Component {
 

@@ -12,10 +12,10 @@ import { connect } from 'react-redux'
 
 import { Bar} from "react-chartjs-2";
 
-import GraphBar from "../components/Graph/Bar";
-import { setupStackBarChart, setupNoneStackBarChart } from '../components/Graph/GraphController'
-import { getActivityData, getActivityList, selectYear } from '../redux/action/adminActivityAction'
-import { getYearList } from '../redux/action/adminActivityAction'
+import GraphBar from "../../components/Graph/Bar";
+import { setupStackBarChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
+import { getActivityData, getActivityList, selectYear } from '../../redux/action/adminActivityAction'
+import { getYearList } from '../../redux/action/adminActivityAction'
 
 class ActivityInformation extends Component {
 
