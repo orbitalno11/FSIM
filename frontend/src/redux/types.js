@@ -85,3 +85,12 @@ export const DELETE_ACTIVITY_FAILED = "load_delete_activity_failed"
 export const GET_ACTIVITY_YEAR_LIST_START = "get_activity_year_list_start"
 export const GET_ACTIVITY_YEAR_LIST_SUCCESS = "get_activity_year_list_success"
 export const GET_ACTIVITY_YEAR_LIST_FAILED = "get_activity_year_list_failed"
+
+//  admin information
+export const GET_COURSE_LIST_START = "get_couse_list_start"
+export const GET_COURSE_LIST_SUCCESS = "get_couse_list_success"
+export const GET_COURSE_LIST_FAILED = "get_couse_list_failed"
+
+export const GET_COURSE_DATA_START = "get_couse_data_start"
+export const GET_COURSE_DATA_SUCCESS = "get_couse_data_success"
+export const GET_COURSE_DATA_FAILED = "get_couse_data_failed"

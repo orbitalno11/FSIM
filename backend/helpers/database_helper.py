@@ -164,7 +164,7 @@ class DatabaseHelper:
 
     # get all activity  ActivityActiveRecruitment (pueng)
     def get_project_ar(self, year=None):
-        if not year is  None and year != "null":
+        if not year is None and year != "null":
             sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1 and year = %d " % (int(year))
         else:
@@ -385,16 +385,25 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax  " \
-                          "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
-                          "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
-                          "NATURAL JOIN entrance JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id and where admission_year " \
-                          "BETWEEN {} AND {}".format(int(year) - 1, int(year))
+            sql_command = "SELECT channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax " \
+                          "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
+                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
+                          "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id" \
+                          "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
         else:
-            sql_command = "select channel_name , admission_year ,branch_id,school_id,status_id ,student.current_gpax  " \
-                          "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch  " \
-                          "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  NATURAL JOIN entrance " \
-                          "JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id"
+            sql_command = "SELECT channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax " \
+                          "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
+                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
+                          "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id"
+
+
+
+        # old query
+        # "select channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax  " \
+        # "from admission  NATURAL JOIN admission_from  NATURAL JOIN admission_in_branch " \
+        # "NATURAL JOIN admission_channel NATURAL JOIN admission_studied  " \
+        # "NATURAL JOIN entrance JOIN student NATURAL JOIN has_status where entrance.student_id=student.student_id and where admission_year " \
+        # "BETWEEN {} AND {}".format(int(year) - 1, int(year))
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -764,21 +773,28 @@ class DatabaseHelper:
         for dept in data:
             if cur_dept != dept[0] and not dept[0] in past_dept:
                 cur_dept = dept[0]
-                detail = {'dept_id': dept[0], 'dept_name': dept[3], 'branch': {}, 'course': {}}
+                detail = {'dept_id': dept[0], 'dept_name': dept[3], 'branch': list(), 'course': list()}
                 cur_branch = None
                 for dept2 in data:
                     if cur_branch != dept2[1] and dept[0] == dept2[0]:
                         cur_branch = dept2[1]
-                        detail['branch'][dept2[1]] = dept2[4]
+                        branch = {
+                            'branch_id': dept2[1],
+                            'branch_name': dept2[4]
+                        }
+                        detail['branch'].append(branch)
+                        # detail['branch'][dept2[1]] = dept2[4]
                 cur_course = None
                 for dept3 in data:
                     if cur_course != dept3[2] and dept[0] == dept3[0]:
                         cur_course = dept3[2]
                         course = {
+                            'course_id': dept3[2],
                             'course_name': dept3[5],
                             'course_year': dept3[6]
                         }
-                        detail['course'][dept3[2]] = course
+                        detail['course'].append(course)
+                        # detail['course'][dept3[2]] = course
                 past_dept.append(dept[0])
                 out_data.append(detail)
 
@@ -814,20 +830,61 @@ class DatabaseHelper:
     # get course and subject in course
     def get_course(self, course_id: str = None):
         if course_id is None or course_id == "null":
-            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, " \
-                          "subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject " \
-                          "NATURAL JOIN subject"
+            sql_command = "SELECT course_id, course_name, course_year, subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
         else:
-            sql_command = "SELECT course_id, course_name,subject_code, subject_name_th, subject_name_en, " \
-                          "subject_weigth, semester, education_year FROM course NATURAL JOIN has_subject " \
-                          "NATURAL JOIN subject WHERE course_id like '{}'".format(course_id)
+            sql_command = "SELECT course_id, course_name, course_year, subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth FROM course NATURAL JOIN has_subject NATURAL JOIN subject" \
+                          " WHERE course_id like {}".format( course_id)
 
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
             return execute
 
-        return inner_res_helper.make_inner_response(True, "DEV", "Dev")
+        data = execute['value']
+        out_data = list()
+        cur_course = None
+
+        for data_row in data:
+            if cur_course != data_row[0]:
+                cur_course = data_row[0]
+                detail = {
+                    'course_id': data_row[0], 'course_name': data_row[1], 'course_year': data_row[2], 'subject': list()
+                }
+                cur_subject = None
+                for subject in data:
+                    if cur_subject != subject[3] and cur_course == subject[0]:
+                        cur_subject = subject[3]
+                        subject_data = {
+                            'subject_code': subject[3],
+                            'subject_name_th': subject[4],
+                            'subject_name_en': subject[5],
+                            'subject_weight': subject[6]
+                        }
+                        detail['subject'].append(subject_data)
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # get course list
+    def get_course_list(self):
+        sql_command = "SELECT course_id, course_name, course_year FROM course"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = list()
+        for data in execute['value']:
+            course = {
+                'course_id': data[0],
+                'course_name': data[1],
+                'course_year': data[2]
+            }
+            out_data.append(course)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
 
     # get working school list data
     def get_working_school_list(self):
@@ -1041,7 +1098,7 @@ class DatabaseHelper:
         sql_command = "SELECT subject.subject_code,subject.subject_name_en,subject.subject_weigth ,academic_record.grade " \
                       "FROM study_in NATURAL JOIN `academic_record`join subject where branch_id='%s' and academic_record.semester=%s " \
                       "and academic_record.education_year=%s and academic_record.subject_code=subject.subject_code" % (
-                      branch_id, semester, education_year)
+                          branch_id, semester, education_year)
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:

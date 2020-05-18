@@ -23,8 +23,7 @@ class ActivityActiveRecruitment extends Component {
             numberBySchool: null,
             gpaBySchool: null,
             year: 2563,
-            yearList: [2560, 2561, 2562, 2563],
-            tabKey: 2
+            yearList: [2560, 2561, 2562, 2563]
         }
     }
 
@@ -70,7 +69,7 @@ class ActivityActiveRecruitment extends Component {
                         <Tab.Container defaultActiveKey={tabKey}>
                             <Row>
                                 <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect}
+                                    <Nav variant="pills" activeKey={tabKey}
                                         className="flex-column sub-nav">
                                         {
                                             projectList !== null && (

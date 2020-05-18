@@ -19,11 +19,28 @@ admin_information = Blueprint('admin_information', __name__)
 
 
 # get all information data
-@admin_information.route('/', methods=['GET'])
-def get_course():
-    course_id = request.args.get('course_id')
+@admin_information.route('', methods=['GET'])
+def get_dept_information():
+    dept_id = request.args.get('dept_id')
 
     db = DatabaseHelper()
-    result = db.get_department_detail(course_id)
+    result = db.get_department_detail(dept_id)
+
+    return api_helper.return_response(result)
+
+
+@admin_information.route('/course', methods=['GET'])
+def get_course():
+    course_id = request.args.get('course_id')
+    db = DatabaseHelper()
+    result = db.get_course(course_id)
+
+    return api_helper.return_response(result)
+
+
+@admin_information.route('/course/list', methods=['GET'])
+def get_course_list():
+    db = DatabaseHelper()
+    result = db.get_course_list()
 
     return api_helper.return_response(result)
