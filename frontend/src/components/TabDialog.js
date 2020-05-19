@@ -8,10 +8,6 @@ class TabDialog extends Component {
         super(props);
         this.state = {
             dialogName: props.dialogName,
-            tab1Name: props.tab1Name,
-            tab2Name: props.tab2Name,
-            tab1Pane: props.tab1Pane,
-            tab2Pane: props.tab2Pane,
             tabList: props.tabList,
             paneList: props.paneList,
             key: "tab1"
@@ -22,6 +18,7 @@ class TabDialog extends Component {
         this.setState({
             key: selectTab
         })
+        
     }
 
     render() {
@@ -37,7 +34,7 @@ class TabDialog extends Component {
                             {tabList !== undefined && tabList.map((item, index) => (
                                 <NavItem key={index} className={key === index ? null : "Tab2"}>
                                     <NavLink eventKey={index} className={key === index ? "Tab2-text" : null}>
-                                        {item}
+                                        {item }
                                     </NavLink>
                                 </NavItem>
                             ))}
@@ -45,7 +42,7 @@ class TabDialog extends Component {
                         <TabContent className="mt-4">
                             {paneList !== undefined && paneList.map((item, index) => (
                                 <TabPane eventKey={index} key={index}>
-                                    {item}
+                                    {item }
                                 </TabPane>
                             ))}
                         </TabContent>

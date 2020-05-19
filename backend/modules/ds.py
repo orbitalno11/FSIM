@@ -1,68 +1,23 @@
 from backend.helpers.database_helper import DatabaseHelper
 import backend.Constant as Constant
 
-print(Constant.DATABASE_NAME)
-
 import pandas as pd
 
-db = DatabaseHelper.get_instance()
-received = db.get_department_student_data("mth")
+file_path = '../../uploads/activity/activity/not_ar_activity.xlsx'
+education_year = 2562
+project_id = "redux"
+activity_id = "redux_back"
+activity_name = "redux_add_not_ar"
+budget = 500
 
-data = received['value']
-df = pd.DataFrame(data)
-
-branch_count = df.groupby('branch_id')['student_id'].count()
-status_branch_count = df.groupby(['branch_id', 'status_id'])['student_id'].count()
-status_year_count = df.groupby(['education_year', 'status_id'])['student_id'].count()
-
-# count branch
-branch = []
-for i in range(branch_count.size):
-    index = branch_count.index[i]
-    # print(branch_count[index])
-    data = {
-        'branch_id': index,
-        'branch_student': str(branch_count[index])
-    }
-    branch.append(data)
-
-status_branch = []
-for i in range(status_branch_count.size):
-    index = status_branch_count.index[i]
-    if i == 0:
-        prev_branch = None
-    else:
-        prev_branch = status_branch_count.index[i-1][0]
-
-    if prev_branch != index[0]:
-        data = {'branch_id': index[0], str(index[1]): str(status_branch_count[index])}
-    else:
-        data[str(index[1])] = str(status_branch_count[index])
-
-    if prev_branch != index[0]:
-        status_branch.append(data)
-
-status_year = []
-for i in range(status_year_count.size):
-    index = status_year_count.index[i]
-    if i == 0:
-        prev_branch = None
-    else:
-        prev_branch = status_year_count.index[i-1][0]
-
-    if prev_branch != index[0]:
-        data = {'education_year': index[0], str(index[1]): str(status_year_count[index])}
-    else:
-        data[str(index[1])] = str(status_year_count[index])
-
-    if prev_branch != index[0]:
-        status_year.append(data)
-
-out_function_data = {
-    'branch': branch,
-    'by_year': status_year,
-    'by_branch': branch
-}
-
-print(out_function_data)
-
+# participant_data = pd.read_excel(file_path)
+#
+# activity_no_ar_table = participant_data.copy()
+# activity_no_ar_table['activity_id'] = activity_id
+# cols = activity_no_ar_table.columns.tolist()
+# cols = cols[-1:] + cols[:-1]
+# activity_no_ar_table = activity_no_ar_table[cols]
+#
+# out_data = {
+#     'activity_no_ar': activity_no_ar_table.to_json(orient='index')
+# }

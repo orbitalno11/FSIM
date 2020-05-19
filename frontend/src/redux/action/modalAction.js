@@ -1,9 +1,9 @@
 import {OPEN_MODAL, CLOSE_MODAL} from '../types'
 
-export const openModal = (modalOpen= true, modalID = "None") => ({
+export const openModal = (modalOpen= true, modalProps) => ({
     type: OPEN_MODAL,
     modalOpen,
-    modalID
+    modalProps
 })
 
 export const closeModal = (modalOpen = false) => ({

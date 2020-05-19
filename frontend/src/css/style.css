@@ -109,12 +109,71 @@
     font-size: 1.5rem;
 }
 
-.branch{
-    margin-top:-3rem;
+.year-select{
+    font-size: 0.75rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+
 }
 
-.topicsurvey{
-    margin-left:27rem;
-    font-size: 1.75em;
-    margin-top:1rem;
+.Dialog {
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+.loading{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    margin: auto;
+    z-index: 1;
+    background-color: rgb(237, 237, 237);
+    /* Fallback color */
+    background-color: rgba(237, 237, 237, 0.4);
+    
+}
+
+.GifLoad{
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    margin: auto;
+}
+
+.alertDialog {
+    margin: auto;
+    background-color: white;
+    width: 30%;
+    border-radius: 0.5em;
+    padding-bottom: 1em;
+    border: 2px solid #FF4612;
+}
+
+.white-background {
+    background-color: #FFFFFF95;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin: 2rem;
 }

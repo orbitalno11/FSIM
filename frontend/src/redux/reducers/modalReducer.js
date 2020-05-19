@@ -1,25 +1,30 @@
 import { OPEN_MODAL, CLOSE_MODAL } from '../types'
 
 const initialState = {
-    modalOpen: null,
-    modalID: null
+    modalOpen: false,
+    // modalID: null
+    modalProps :[]
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case OPEN_MODAL: {
             return {
-                ...state,
+                // ...state,
                 modalOpen: action.modalOpen,
-                modalID: action.modalID
+                // modalID: action.modalID
+                modalProps : action.modalProps
             }
         }
 
         case CLOSE_MODAL: {
             return {
-                ...state,
+                // ...state,
                 modalOpen: action.modalOpen,
-                modalID: null
+                modalProps : []
+                // // modalID: null
+                // modalType
+                // initialState
             }
         }
 

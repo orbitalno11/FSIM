@@ -8,20 +8,6 @@ import numpy as np
 
 class SummarizeData:
 
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if SummarizeData.__instance is None:
-            SummarizeData()
-        return SummarizeData.__instance
-
-    def __init__(self):
-        if SummarizeData.__instance is not None:
-            raise Exception("This class is a singleton! summarize")
-        else:
-            SummarizeData.__instance = self
-
     # general part
     # summarize overview department (home modal)
     def summarize_overview_dept_home(self, dept_id):

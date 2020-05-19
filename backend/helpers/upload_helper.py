@@ -6,11 +6,15 @@ from datetime import datetime
 import backend.helpers.inner_response_helper as inner_res_helper
 
 
-def upload_file(store_folder, file, year):
+def upload_file(store_folder, file, year=None):
     if not os.path.isdir(store_folder):
         os.makedirs(store_folder)
 
-    name = str(year) + "_" + str(datetime.now().strftime("%d-%m-%Y")) + "_" + file.filename
+    if year is not None:
+        name = str(year) + "_" + str(datetime.now().strftime("%d-%m-%Y")) + "_" + file.filename
+    else:
+        name = str(datetime.now().strftime("%d-%m-%Y")) + "_" + file.filename
+
     filename = secure_filename(name)
     destination = "/".join([store_folder, filename])
 

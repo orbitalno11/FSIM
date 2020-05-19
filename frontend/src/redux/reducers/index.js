@@ -1,12 +1,17 @@
 import { combineReducers } from "redux";
 import modalControl from "./modalReducer";
-import branch from "./BranchReducer";
-import department from './DeptReducer'
-import authenticate from './AuthReducer'
+import authenticate from './authReducer'
+import adminAlumni from './adminAlumniReducer'
+import adminActivity from './adminActivityReducer'
+import adminInformation from './adminInformationReducer'
+
+import general from './generalReducer'
 
 export default combineReducers({
+    website: general,
     modal: modalControl,
-    branch: branch,
-    department: department,
-    auth: authenticate
+    auth: authenticate,
+    admin_alumni: adminAlumni,
+    admin_activity: adminActivity,
+    admin_information: adminInformation
 })
