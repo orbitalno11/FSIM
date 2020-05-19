@@ -613,8 +613,9 @@ class DatabaseHelper:
         try:
             self.__execute_delete_multiple("alumni_graduated", "alumni_id", student_id_list)
             self.__execute_delete_multiple("working", "alumni_id", student_id_list)
+            self.__execute_delete_multiple("apprentice", "alumni_id", student_id_list)
             self.__execute_delete_multiple("alumni", "alumni_id", student_id_list)
-        except pymysql as e:
+        except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
 

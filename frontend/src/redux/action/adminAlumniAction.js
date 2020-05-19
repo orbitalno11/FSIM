@@ -323,6 +323,7 @@ export const deleteItem = data => dispatch => {
                 dispatch(deleteSurveySuccess())
                 dispatch(getAllAlumniYear())
                 dispatch(getSurveyList())
+                dispatch(loadWorkData())
                 dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
 
             } else {
@@ -338,7 +339,7 @@ export const deleteItem = data => dispatch => {
         })
 }
 
-export const loadWorkData = year => dispatch => {
+export const loadWorkData = (year = null) => dispatch => {
     dispatch(startLoading())
     dispatch(loadWorkDataStart())
 

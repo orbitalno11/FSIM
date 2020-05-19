@@ -92,7 +92,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
                                     <Card.Content >
-                                        {workData !== null && <GraphPie data={setupPieChart(workData.branchStudentChart)} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.branchStudentChart)} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -102,7 +102,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                     <Card.Content>
-                                        {workData !== null && <GraphPie data={setupPieChart(workData.workChart)} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.workChart)} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -114,7 +114,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                     <Card.Content  >
-                                        {workData !== null && <GraphPie data={setupPieChart(workData.trainingChart)} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.trainingChart)} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -126,7 +126,7 @@ class AlumniSummary extends Component {
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
-                                        {workData !== null && <GraphBar data={setupNoneStackBarChart(workData.gpaChart)} legend={{ display: false }} />}
+                                        {workData !== null ? <GraphBar data={setupNoneStackBarChart(workData.gpaChart)} legend={{ display: false }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -151,7 +151,7 @@ class AlumniSummary extends Component {
                                         </select>
                                     </Card.Header>
                                     <Card.Content>
-                                        {workData !== null && <Bar data={setupStackBarChart(this.reorderSalary(workData.salaryChart))} legend={{ display: true }} />}
+                                        {workData !== null ? <Bar data={setupStackBarChart(this.reorderSalary(workData.salaryChart))} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>

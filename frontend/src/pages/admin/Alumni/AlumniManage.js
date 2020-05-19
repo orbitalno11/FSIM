@@ -174,7 +174,7 @@ class AlumniManage extends Component {
                     </thead>
                     <tbody>
                         {
-                            surveyList !== null && (
+                            surveyList !== null ? (
                                 surveyList.slice(0).reverse().map((item, index) => (
                                    
                                     <tr key={index}>
@@ -197,6 +197,10 @@ class AlumniManage extends Component {
                                         </td>
                                     </tr>
                                 ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center"><h2>ไม่พบข้อมูล</h2></td>
+                                </tr>
                             )
                         }
                     </tbody>
