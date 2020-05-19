@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import { Spinner } from 'react-bootstrap'
+import React from 'react'
 import LoadingGif from '../assets/gif/Loading.gif'
 const LoadingComponent = () => (
     <div className="loading">

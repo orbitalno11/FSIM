@@ -46,6 +46,19 @@ export const DELETE_SURVEY_FAILED = "delete_survey_failed"
 export const SET_SURVEY_SELECTED_YEAR = "set_survey_selected_year"
 export const RESET_SURVEY_ACTION_STATUS = "reset_survey_action_status"
 
+export const LOAD_ALUMNI_WORK_DATA_START = "load_alumnui_work_data_start"
+export const LOAD_ALUMNI_WORK_DATA_SUCCESS = "load_alumnui_work_data_success"
+export const LOAD_ALUMNI_WORK_DATA_FAILED = "load_alumnui_work_data_failed"
+
+export const LOAD_ALUMNI_SURVEY_DATA_START = "load_alumnui_survey_data_start"
+export const LOAD_ALUMNI_SURVEY_DATA_SUCCESS = "load_alumnui_survey_data_success"
+export const LOAD_ALUMNI_SURVEY_DATA_FAILED = "load_alumnui_survey_data_failed"
+
+export const LOAD_ALUMNI_SURVEY_ANALYZE_DATA_START = "load_alumnui_survey_annalyze_data_start"
+export const LOAD_ALUMNI_SURVEY_ANALYZE_DATA_SUCCESS = "load_alumnui_survey_annalyze_data_success"
+export const LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED = "load_alumnui_survey_annalyze_data_failed"
+
+export const SET_SALARY_CHART = "set_salary_chart"
 
 // admin activity
 export const SET_ACTIVITY_SELECTED_YEAR = "set_ACTIVITY_selected_year"

@@ -8,37 +8,15 @@ import {
     Table
 } from "semantic-ui-react";
 
-import axios from 'axios'
-
-import GraphPie from "../../../components/Graph/Pie";
-import GraphBar from "../../../components/Graph/Bar";
-import AlumniTypePanel from "../../../components/AlumniTypePanel";
-
 // redux
 import { connect } from 'react-redux'
-import { setSelectedYear } from '../../../redux/action/adminAlumniAction'
-import { startLoading, stopLoading } from '../../../redux/action/generalAction'
-
+import { setSelectedYear, loadSurveyData } from '../../../redux/action/adminAlumniAction'
 
 
 class AlumniSurvey extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            surveyDetail: null,
-            analyzeData: null,
-            loadTime: 0,
-            year : null
-        }
-    }
-
-    componentDidUpdate() {
-      
-        if (this.state.loadTime === 0) {
-            this.fetchSurveyData()
-        }
+    componentDidMount() {
+        this.fetchSurveyData()
     }
 
     handleYearSelect = async event => {
@@ -47,117 +25,20 @@ class AlumniSurvey extends Component {
 
         if (n_year == 0)
             n_year = null
-            this.setState({
-                analyzeData: null
-                
-            })
-        if (n_year!=null){
-            this.props.startLoading()
+
+        if (n_year != null) {
             await this.props.setSelectedYear(n_year)
             this.fetchSurveyData()
-            this.setState({
-                year:n_year
-            })
-            
         }
-       
-
     }
 
-    fetchSurveyData = () => {
+    fetchSurveyData = async () => {
         let { selectedYear } = this.props.alumni
-        
-        // if (selectedYear !== null) {
-
-        axios.get(`/alumni/survey?year=${selectedYear}`)
-        .then(res => {
-            let data = res.data.data[0]
-            let key = Object.keys(data)
-            if (key.length > 1 || key.length < 1) {
-                // alert("Check alumni survey list for year" + setSelectedYear)
-                this.setState({
-                    surveyDetail: null,
-                    analyzeData: null,
-                    loadTime: 1,
-                    year : selectedYear
-                })
-                this.props.stopLoading()
-                return
-            } else {
-                let detail = data[key[0]]
-                console.log(detail)
-                this.setState({
-                    surveyDetail: detail,
-                    loadTime: 1,
-                    year : detail.educationYear
-                })
-                // alert("ดึงเสร็จ")
-                this.fetchAnalyzeSurvey()
-                
-                
-            }
-        })
-        .catch(err => {
-            console.error(err)
-            this.props.stopLoading()
-            
-        })
-        // }
-
-        
-        // alert("ดึง data")
-        
-
-
-           
+        this.props.loadSurveyData(selectedYear)
     }
-
-    fetchAnalyzeSurvey = () => {
-        let { surveyDetail } = this.state
-        
-            let { sheetUrl, tableHeader } = surveyDetail
-
-            let sendData = {
-                sheet_url: sheetUrl,
-                table_header: tableHeader
-            }
-            // alert("วิเคราห์")
-            axios.post('/alumni/analyze/survey', sendData)
-                .then(res => {
-                    let data = res.data.data[0]
-                    let key = Object.keys(data)
-                    
-
-                    let analyze_sur = []
-                    key.forEach(key => {
-                        let result = {
-                            topic: key,
-                            mean: data[key]['mean'],
-                            std: data[key]['std']
-                        }
-                        analyze_sur.push(result)
-                    })
-
-                    this.setState({
-                        analyzeData: analyze_sur
-                    })
-                    this.props.stopLoading()
-                })
-                .catch(err => {
-                    console.error(err)
-                    this.props.stopLoading()
-                })
-        
-         
-        
-    }
-
-  
 
     render() {
-        let { analyzeData ,year} = this.state
-
-        let { alumni, website } = this.props
+        let { selectedYear, yearList, surveyAnalyze } = this.props.alumni
 
         return (
             <Fragment>
@@ -165,11 +46,11 @@ class AlumniSurvey extends Component {
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
                         {
-                            !website.loading && (
-                                <select id="selectYear" defaultValue={year} onChange={this.handleYearSelect}>
+                            yearList !== null && (
+                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
                                     <option value="0">เลือกปีการศึกษา</option>
                                     {
-                                        alumni.yearList !== null && alumni.yearList.map((item, index) => (
+                                        yearList !== null && yearList.map((item, index) => (
                                             <option key={index} value={item}>{item}</option>
                                         ))
                                     }
@@ -179,11 +60,9 @@ class AlumniSurvey extends Component {
                     </Header>
                     <Divider />
                     <Grid>
-
                         <Grid.Row>
-
                             <Header as="h3">
-                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {year}
+                                ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {selectedYear}
                             </Header>
                             <Divider />
                             <Table celled structured>
@@ -203,18 +82,19 @@ class AlumniSurvey extends Component {
 
                                 <Table.Body>
                                     {
-                                        analyzeData !== null && analyzeData.length !== 0 
-                                        ?  analyzeData.map((item, index) => (
-                                            <Table.Row key={index}>
-                                                <Table.Cell style={{ paddingLeft: "4%" }}>{item['topic']}</Table.Cell>
-                                                <Table.Cell textAlign="center">{item['mean']}</Table.Cell>
-                                                <Table.Cell textAlign="center">{item['std']}</Table.Cell>
-                                            </Table.Row>
-                                        )) : null
-                                       
+                                        surveyAnalyze !== null && surveyAnalyze.length !== 0
+                                            ? surveyAnalyze.map((item, index) => (
+                                                <Table.Row key={index}>
+                                                    <Table.Cell style={{ paddingLeft: "4%" }}>{item['topic']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['mean']}</Table.Cell>
+                                                    <Table.Cell textAlign="center">{item['std']}</Table.Cell>
+                                                </Table.Row>
+                                            )) : (
+                                                <Table.Row>
+                                                    <Table.Cell colSpan={3}><h2 className="text-center">ไม่พบข้อมูล</h2></Table.Cell>
+                                                </Table.Row>
+                                            )
                                     }
-
-                                 
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
@@ -237,8 +117,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         setSelectedYear: (year) => dispatch(setSelectedYear(year)),
-        startLoading: () => dispatch(startLoading()),
-        stopLoading: () => dispatch(stopLoading())
+        loadSurveyData: (year) => dispatch(loadSurveyData(year))
     }
 )
 

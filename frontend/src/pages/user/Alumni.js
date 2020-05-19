@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 
 import axios from 'axios'
 
@@ -7,20 +7,18 @@ import {
     Grid,
     Header,
     Container,
-    Card,
-    Image
+    Card
 } from "semantic-ui-react";
 
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
 import { Bar } from 'react-chartjs-2';
-import bgyel from "../../img/bg-head3.png";
 import GraphPie from "../../components/Graph/Pie";
 import GraphBar from "../../components/Graph/Bar";
 
 import { connect } from 'react-redux'
 
-import {getAllAlumniYear} from '../../redux/action/adminAlumniAction'
+import { getAllAlumniYear } from '../../redux/action/adminAlumniAction'
 import { startLoading, stopLoading } from '../../redux/action/generalAction'
 import { setSelectedYear } from '../../redux/action/adminAlumniAction'
 
@@ -28,8 +26,6 @@ class Alumni extends Component {
 
     constructor(props) {
         super(props)
-        let year = new Date()
-        year = year.getFullYear() + 543
         this.state = {
             branch: null,
             salaryBranch: null,
@@ -40,7 +36,7 @@ class Alumni extends Component {
             trainingChart: null,
             gpaChart: null,
             salaryChart: null,
-            year:null,
+            year: null,
             loadTime: 0
 
         }
@@ -56,7 +52,7 @@ class Alumni extends Component {
     componentDidMount() {
         this.props.loadAllYear()
         this.setState({
-            year : this.props.alumni.selectedYear
+            year: this.props.alumni.selectedYear
         })
         this.fetchBranch()
     }
@@ -77,7 +73,7 @@ class Alumni extends Component {
 
     fetchWorkData = () => {
         let { year } = this.state
-        
+
         axios.get(`/alumni/analyze/work?year=${year}`)
             .then(res => {
                 let recieved_data = res.data.data
@@ -120,8 +116,6 @@ class Alumni extends Component {
                     salaryChart: null
                 })
             })
-
-            // this.props.stopLoading()
     }
 
     setupBranchSelect = () => {
@@ -148,14 +142,14 @@ class Alumni extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
         // await this.props.startLoading()
-        if(n_year ==0) 
-             n_year=null 
-        
+        if (n_year === 0)
+            n_year = null
+
         this.setState({
-            year:n_year
+            year: n_year
         })
         await this.props.setSelectedYear(n_year)
-        
+
         this.fetchWorkData()
 
     }
@@ -180,7 +174,7 @@ class Alumni extends Component {
 
 
     render() {
-        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart,year } = this.state
+        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart, year } = this.state
 
         let { alumni } = this.props
 
@@ -190,17 +184,17 @@ class Alumni extends Component {
                     <Header as="h5" align='center'>
                         ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}
                         <select id="selectYear" defaultValue={year}>
-                        <option value="0">แสดงทุกปี</option>
+                            <option value="0">แสดงทุกปี</option>
                             {
                                 alumni.yearList !== null && alumni.yearList.map((item, index) => (
                                     <option key={index} value={item}>{item}</option>
                                 ))
                             }
-                      </select>
+                        </select>
                     </Header>
                     <Divider />
                     <Grid>
-                       
+
                         <Grid.Row columns={2} >
                             <Grid.Column >
                                 <Card className="card-default">
@@ -214,29 +208,29 @@ class Alumni extends Component {
                             </Grid.Column>
 
                             <Grid.Column>
-                                    <Card className="card-default">
-                                        <Card.Header as="h3">
-                                            กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
+                                <Card className="card-default">
+                                    <Card.Header as="h3">
+                                        กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
-                                        <Card.Content>
-                                            {workChart !== null && <GraphPie data={workChart} />}
-                                        </Card.Content>
-                                    </Card>
-                                </Grid.Column>
-                          
+                                    <Card.Content>
+                                        {workChart !== null && <GraphPie data={workChart} />}
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+
                         </Grid.Row>
                         <Grid.Row  >
-                                <Grid.Column >
-                                    <Card className="card-default" >
-                                        <Card.Header as="h3">
-                                            กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
+                            <Grid.Column >
+                                <Card className="card-default" >
+                                    <Card.Header as="h3">
+                                        กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
-                                        <Card.Content  >
-                                            {trainingChart !== null && <GraphPie data={trainingChart}  />}
-                                        </Card.Content>
-                                    </Card>
-                                </Grid.Column>
-                            </Grid.Row>
+                                    <Card.Content  >
+                                        {trainingChart !== null && <GraphPie data={trainingChart} />}
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
                         <Grid.Row>
                             <Grid.Column >
                                 <Card className="card-default" >
@@ -278,7 +272,7 @@ class Alumni extends Component {
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-                        
+
                     </Grid>
                 </Container>
             </Fragment>

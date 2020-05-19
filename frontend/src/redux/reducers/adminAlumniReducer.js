@@ -11,7 +11,16 @@ import {
     LOAD_SURVEY_LIST_FAILED,
     DELETE_SURVEY_START,
     DELETE_SURVEY_SUCCESS,
-    DELETE_SURVEY_FAILED
+    DELETE_SURVEY_FAILED,
+    LOAD_ALUMNI_WORK_DATA_START,
+    LOAD_ALUMNI_WORK_DATA_SUCCESS,
+    LOAD_ALUMNI_WORK_DATA_FAILED,
+    SET_SALARY_CHART,
+    LOAD_ALUMNI_SURVEY_DATA_START,
+    LOAD_ALUMNI_SURVEY_DATA_SUCCESS,
+    LOAD_ALUMNI_SURVEY_ANALYZE_DATA_START,
+    LOAD_ALUMNI_SURVEY_ANALYZE_DATA_SUCCESS,
+    LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED
 } from '../types'
 
 let year = new Date()
@@ -22,6 +31,9 @@ const initialState = {
     yearList: [],
     surveyList: [],
     surveyActionStatus: null,
+    workData: null,
+    surveyData: null,
+    surveyAnalyze: null,
     error: null
 }
 
@@ -86,6 +98,7 @@ export default (state = initialState, action) => {
                 surveyActionStatus: action.surveyActionStatus,
                 error: action.error
             }
+
         case DELETE_SURVEY_START:
             return {
                 ...state,
@@ -101,6 +114,66 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 surveyDeleteStatus: action.surveyDeleteStatus,
+                error: action.error
+            }
+
+        case LOAD_ALUMNI_WORK_DATA_START:
+            return {
+                ...state,
+            }
+
+        case LOAD_ALUMNI_WORK_DATA_SUCCESS:
+            return {
+                ...state,
+                workData: action.workData
+            }
+
+        case LOAD_ALUMNI_WORK_DATA_FAILED:
+            return {
+                ...state,
+                error: action.error
+            }
+
+        case SET_SALARY_CHART:
+            return {
+                ...state,
+                workData: {
+                    ...state.workData,
+                    salaryChart: action.data
+                }
+            }
+
+        case LOAD_ALUMNI_SURVEY_DATA_START:
+            return {
+                ...state,
+            }
+
+        case LOAD_ALUMNI_SURVEY_DATA_SUCCESS:
+            return {
+                ...state,
+                surveyData: action.surveyData
+            }
+
+        case LOAD_SURVEY_YEAR_FAILED:
+            return {
+                ...state,
+                error: action.error
+            }
+
+        case LOAD_ALUMNI_SURVEY_ANALYZE_DATA_START:
+            return {
+                ...state,
+            }
+
+        case LOAD_ALUMNI_SURVEY_ANALYZE_DATA_SUCCESS:
+            return {
+                ...state,
+                surveyAnalyze: action.surveyAnalyze
+            }
+
+        case LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED:
+            return {
+                ...state,
                 error: action.error
             }
 

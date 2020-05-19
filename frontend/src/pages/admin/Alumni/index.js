@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 import { getAllAlumniYear } from '../../../redux/action/adminAlumniAction'
 import LoadingComponent from '../../../components/LoadingComponent';
 
-
 class Alumni extends Component {
 
     componentDidMount() {

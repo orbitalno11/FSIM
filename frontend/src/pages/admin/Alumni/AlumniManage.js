@@ -142,7 +142,6 @@ class AlumniManage extends Component {
                         </Modal>
                     )
                 }
-
                 {
                     editData !== null && (
                         <Modal
@@ -164,7 +163,6 @@ class AlumniManage extends Component {
                     )
                 }
 
-                
                 <Table >
                     <thead>
                         <tr className="text-center">

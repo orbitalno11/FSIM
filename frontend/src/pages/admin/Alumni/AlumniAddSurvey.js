@@ -70,8 +70,6 @@ const  list_personal= [{
 
 ]
 
-
-
 class AlumniAddSurvey extends Component {
 
     constructor(props) {
@@ -105,7 +103,6 @@ class AlumniAddSurvey extends Component {
         this.urlRef = React.createRef()
     }
 
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.status) {
             this.setState({
@@ -114,7 +111,6 @@ class AlumniAddSurvey extends Component {
             document.getElementById("addData").reset();
         }
     }
-
 
     handleVerifyUrl = async () => {
         // await this.props.startLoading()
@@ -138,8 +134,6 @@ class AlumniAddSurvey extends Component {
             })
     }
 
-
-
     handleHeaderSelect = event => {
         let value = event.target.value
         let { headerSelect, editVerify } = this.state
@@ -157,7 +151,6 @@ class AlumniAddSurvey extends Component {
             })
         }
     }
-
 
     handleSubmit = async event => {
         event.preventDefault()
@@ -233,12 +226,7 @@ class AlumniAddSurvey extends Component {
                 // console.error(err)
                 this.props.checkStatus(false)
             })
-
-       
-
     }
-
-
 
     handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -247,9 +235,6 @@ class AlumniAddSurvey extends Component {
             let list_p = Object.assign({}, list_person);
             list_p[name] = value;
             this.setState({list_person: list_p});
-        
-
-        
     }
 
     render() {
@@ -320,10 +305,7 @@ class AlumniAddSurvey extends Component {
                                             </Form.Control>
                                         </Form.Group>))
                                     }
-
-
                                 </div>
-
                             </Form.Group>
                         </Col>
                         <Col xs={12} md={6}>
@@ -331,7 +313,6 @@ class AlumniAddSurvey extends Component {
                                 <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>
                                 <div onChange={this.handleHeaderSelect}>
                                     {
-
                                         tableHeader !== null && tableHeader.map((item, index) => (
                                             <Form.Check
                                                 type='checkbox'

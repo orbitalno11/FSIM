@@ -75,7 +75,7 @@ class DepartmentStudent extends Component {
     }
 
     async componentDidUpdate() {
-        let {dept_id} = this.state
+        let { dept_id } = this.state
         let id = this.props.match.params.id
         if (dept_id !== id) {
             await this.fetchData(id)
@@ -84,7 +84,6 @@ class DepartmentStudent extends Component {
     }
 
     render() {
-
         let { department, studentByBranch, studentByYear, branchByStatus } = this.state
 
         return (
@@ -135,5 +134,5 @@ class DepartmentStudent extends Component {
         )
     }
 }
-export default DepartmentStudent
 
+export default DepartmentStudent
