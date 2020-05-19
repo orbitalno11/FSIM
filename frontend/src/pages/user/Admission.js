@@ -14,8 +14,9 @@ import {
 import { connect } from 'react-redux'
 
 import Barchart from "../../components/Graph/Bar";
-import { setupPieChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import { Bar, Pie } from "react-chartjs-2";
+import Linechart from "../../components/Graph/Line"; 
+import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
+import { Bar, Pie, Line } from "react-chartjs-2";
 
 import GraphLine from "../../components/Graph/Line";
 import AdmissionTypePanel from "../../components/AddmissionTypePanel";
@@ -75,7 +76,7 @@ class Admission extends Component {
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
                     countSchool: setupStackBarChart(countSchool),
-                    compareYear: setupNoneStackBarChart(compareYear),
+                    compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
                     countGrade: setupStackBarChart(countGrade)
 
@@ -175,13 +176,13 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphLine />
+                                        <Barchart data={countGrade} />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดง 5 อันดับโรงเรียน 2560
