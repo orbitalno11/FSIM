@@ -88,14 +88,20 @@ class AlumniManage extends Component {
      
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps, prevState){
         const {statusEdit}=this.state
-        if (this.props.status == false || statusEdit==false) {
-            this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
-        }else if(this.props.status == true || statusEdit) {
-            this.props.openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}])
+        if(prevState.statusEdit!==statusEdit){
+            if (statusEdit==false) {
+                this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
+                this.setState({statusEdit:null})
+            }else if(statusEdit) {
+                this.props.openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}])
+                this.setState({statusEdit:null})
+            }
         }
     }
+
+    
 
     // messageAlert = () => {
     //     let set_alert=null

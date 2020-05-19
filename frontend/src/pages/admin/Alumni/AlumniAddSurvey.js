@@ -103,13 +103,14 @@ class AlumniAddSurvey extends Component {
         this.urlRef = React.createRef()
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.status) {
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevProps.status!==this.props.status)&&(this.props.status==true)) {
             this.setState({
                 ...initialState
             })
             document.getElementById("addData").reset();
         }
+      
     }
 
     handleVerifyUrl = async () => {
