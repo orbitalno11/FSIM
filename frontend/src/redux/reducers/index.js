@@ -16,6 +16,6 @@ export default combineReducers({
     admin_alumni: adminAlumni,
     admin_activity: adminActivity,
     admin_information: adminInformation,
-    admin_student: adminStudent
+    admin_student: adminStudent,
     admin_admission: adminAdmission
 })
