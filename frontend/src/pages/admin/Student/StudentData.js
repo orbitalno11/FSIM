@@ -55,7 +55,7 @@ class StudentData extends Component {
         
         let { studentData , studentList, selectedYear , yearList} = this.props.student
 
-        // console.log(studentList)
+        console.log(studentData)
         return (
             <Fragment>
                 

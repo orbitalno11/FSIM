@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 
 //
@@ -11,7 +12,9 @@ import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/fre
 
 
 import { connect } from 'react-redux'
-import { getStudentData, getDepartmentList, selectYear } from '../../../redux/action/adminStudentAction'
+import { getStudentData, selectYear } from '../../../redux/action/adminStudentAction'
+import { getDepartmentList } from '../../../redux/action/adminInformationAction'
+
 // import TabDialog from '../../../components/TabDialog';
 import StudentData from "./StudentData";
 
@@ -52,11 +55,22 @@ class StudentSummary extends Component {
 
     render() {
         // let { location, match } = this.props
-        let { tabKey } = this.state
+        let { departmentList } = this.props.information
 
-        let { studentData, departmentList, selectedYear, yearList } = this.props.student
+        let key = departmentList !== null && departmentList[0]['dept_id']
 
-        let key = false
+        let tabName = null, tabDetail = []
+
+        if (departmentList !== null) {
+            tabName = convertTabName(departmentList, "dept_id", "dept_name")
+            departmentList.forEach(item => {
+                tabDetail.push(convertDetail(item['dept_id'], <StudentData data={item} />))
+            })
+        }
+
+        let { studentData, selectedYear, yearList } = this.props.student
+
+
 
         // if (departmentList !== null) {
         //     let temp = departmentList.filter(data => data['project_type'] !== 0)
@@ -69,21 +83,20 @@ class StudentSummary extends Component {
                     <Container fluid>
                         <Tab.Container defaultActiveKey={key}>
                             <Row>
-                                <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
+                                <Col lg={16}>
+                                   
                                         {
-                                            departmentList !== null && (
-                                                departmentList.map((item, index) => (
-                                                    <Nav.Item key={index}>
-                                                        <Nav.Link eventKey={item['dept_id']}
-                                                            className="sub-nav">{item['dept_name']}</Nav.Link>
-                                                    </Nav.Item>
-                                                ))
-                                            )
+                                            key ? (
+                                                tabName !== null && (
+                                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
+                                                )
+                                            ) : (
+                                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                                )
                                         }
-                                    </Nav>
+                                   
                                 </Col>
-                                <Col lg={9}>
+                                {/* <Col lg={9}>
                                     <Tab.Content>
 
                                         <Tab.Pane eventKey="mth">
@@ -100,7 +113,7 @@ class StudentSummary extends Component {
                                         </Tab.Pane>
 
                                     </Tab.Content>
-                                </Col>
+                                </Col> */}
                             </Row>
                         </Tab.Container>
 
@@ -114,7 +127,8 @@ class StudentSummary extends Component {
 
 const mapStateToProps = state => (
     {
-        student: state.admin_student
+        student: state.admin_student,
+        information: state.admin_information
     }
 )
 

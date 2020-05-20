@@ -142,19 +142,19 @@ export const getStudentData = dept_id => dispatch => {
                 return
             }
 
-            let department = data['dept_name']
-            let branch = data['branch'][0]
-            let byYear = data['status_by_year'][0]
-            let byBranch = data['df_status_by_branch'][0]
-            let dept_id = dept_id
+            // let department = data['dept_name']
+            // let branch = data['branch'][0]
+            // let byYear = data['status_by_year'][0]
+            // let byBranch = data['df_status_by_branch'][0]
+            // let dept_id = dept_id
 
-            studentData = {
-                department: department,
-                branch: branch,
-                byYear: byYear,
-                byBranch: byBranch,
-                dept_id: dept_id
-            }
+            // studentData = {
+            //     department: department,
+            //     branch: branch,
+            //     byYear: byYear,
+            //     byBranch: byBranch,
+            //     dept_id: dept_id
+            // }
 
             dispatch(loadStudentSuccess(studentData))
             dispatch(stopLoading())
