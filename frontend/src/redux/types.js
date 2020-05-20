@@ -107,3 +107,18 @@ export const GET_COURSE_LIST_FAILED = "get_couse_list_failed"
 export const GET_COURSE_DATA_START = "get_couse_data_start"
 export const GET_COURSE_DATA_SUCCESS = "get_couse_data_success"
 export const GET_COURSE_DATA_FAILED = "get_couse_data_failed"
+
+// admin admission
+export const SET_ADMISSION_SELECTED_YEAR = "set_ADMISSION_selected_year"
+
+export const GET_ADMISSION_LIST_START = "get_admission_list_start"
+export const GET_ADMISSION_LIST_SUCCESS = "get_admission_list_success"
+export const GET_ADMISSION_LIST_FAILED = "get_admission_list_failed"
+
+export const LOAD_ADMISSION_LIST_START = "load_admission_list_start"
+export const LOAD_ADMISSION_LIST_SUCCESS = "load_admission_list_success"
+export const LOAD_ADMISSION_LIST_FAILED = "load_admission_list_failed"
+
+export const GET_ADMISSION_YEAR_LIST_START = "get_admission_year_list_start"
+export const GET_ADMISSION_YEAR_LIST_SUCCESS = "get_admission_year_list_success"
+export const GET_ADMISSION_YEAR_LIST_FAILED = "get_admission_year_list_failed"
