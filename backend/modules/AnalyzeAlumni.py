@@ -90,8 +90,10 @@ class AnalyzeAlumni:
             salary_branch_trining = []
             list_analze = {}
             df_salary   = df[df['salary'].notna()]
+            df_salary = df_salary.copy()
             df_salary['salary'] = df_salary['salary'].astype(int)
-
+            
+            # df_salary.loc[:, ['salary']] =df_salary['salary'].astype(int)
             salary_all_branch_trining = self.__salary_branch_training(df_salary[['salary','apprentice_id']])
             salary_all_branch_trining_check_index = analyze_helper.check_list_column(status_apprentice.index.values,
                                                                               salary_all_branch_trining)

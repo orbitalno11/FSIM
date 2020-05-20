@@ -177,3 +177,7 @@
     padding: 2rem;
     margin: 2rem;
 }
+
+.dropdown-select {
+    width: 100%;
+}
