@@ -6,6 +6,7 @@ year = year.getFullYear() + 543
 const initialState = {
     studentData: null,
     studentList: null,
+    departmentList: null,
     yearList: null,
     selectedYear: 2560,
     actionResult: null,
@@ -47,6 +48,21 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 studentList: null,
+                error: action.error
+            }
+        case types.LOAD_DEPT_LIST_START:
+            return {
+                ...state
+            }
+        case types.LOAD_DEPT_LIST_SUCCESS:
+            return {
+                ...state,
+                departmentList: action.departmentList
+            }
+        case types.LOAD_DEPT_LIST_FAILED:
+            return {
+                ...state,
+                departmentList: null,
                 error: action.error
             }
         case types.ADD_STUDENT_START:

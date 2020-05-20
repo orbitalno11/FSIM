@@ -34,6 +34,8 @@ const loadStudentFailed = (error) => (
     }
 )
 
+
+
 // student List 
 const loadStudentListStart = () => (
     {
@@ -51,6 +53,27 @@ const loadStudentListSuccess = (list) => (
 const loadStudentListFailed = (error) => (
     {
         type: types.LOAD_STUDENT_LIST_FAILED,
+        error: error
+    }
+)
+
+// department list
+const loadDepartmentListStart = () => (
+    {
+        type: types.LOAD_DEPT_LIST_START
+    }
+)
+
+const loadDepartmentListSuccess = (list) => (
+    {
+        type: types.LOAD_DEPT_LIST_SUCCESS,
+        departmentList: list
+    }
+)
+
+const loadDepartmentListFailed = (error) => (
+    {
+        type: types.LOAD_DEPT_LIST_FAILED,
         error: error
     }
 )
@@ -165,6 +188,28 @@ export const getStudentList = year => dispatch => {
         })
 }
 
+export const getDepartmentList = () => dispatch => {
+    dispatch(startLoading())
+    dispatch(loadDepartmentListStart())
+
+    axios.get('/department/branch')
+        .then(res => {
+            let data = res.data.data
+
+            if (data.length < 1) {
+                dispatch(loadDepartmentListFailed("Can not find data"))
+                dispatch(stopLoading())
+                return
+            }
+            dispatch(loadDepartmentListSuccess(data))
+            dispatch(stopLoading())
+        })
+        .catch(err => {
+            console.error(err)
+            dispatch(loadDepartmentListFailed(err))
+            dispatch(stopLoading())
+        })
+}
 
 // export const getYearList = () => (dispatch) => {
 //     dispatch(loadActivityYearListStart())

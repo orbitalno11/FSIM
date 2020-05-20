@@ -119,6 +119,10 @@ export const LOAD_STUDENT_LIST_START = "load_student_data_list_start"
 export const LOAD_STUDENT_LIST_SUCCESS = "load_student_data_list_success"
 export const LOAD_STUDENT_LIST_FAILED = "load_student_data_list_failed"
 
+export const LOAD_DEPT_LIST_START = "load_dept_list_start"
+export const LOAD_DEPT_LIST_SUCCESS = "load_dept_list_success"
+export const LOAD_DEPT_LIST_FAILED = "load_dept_list_failed"
+
 export const ADD_STUDENT_START = "load_add_student_start"
 export const ADD_STUDENT_SUCCESS = "load_add_student_success"
 export const ADD_STUDENT_FAILED = "load_add_student_failed"
