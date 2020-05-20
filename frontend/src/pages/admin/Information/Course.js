@@ -129,12 +129,6 @@ class Course extends Component {
         this.props.getCourseData()
     }
 
-    handleTabSelect = selectedTab => {
-        this.setState({
-            tabKey: selectedTab
-        })
-    }
-
     render() {
         let { courseList, courseData } = this.props.information
 
