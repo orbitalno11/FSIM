@@ -124,29 +124,26 @@ const DepartmentEdit = () => (
 
 class Course extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            tabKey: null
-        }
-    }
-
     componentDidMount() {
         this.props.getCourseList()
         this.props.getCourseData()
     }
 
-    handleTabSelect = selectedTab => {
-        this.setState({
-            tabKey: selectedTab
-        })
-    }
-
     render() {
-        let { tabKey } = this.state
         let { courseList, courseData } = this.props.information
 
         let key = courseList !== null && courseList[0]['course_id']
+
+        let tabName = null, tabDetail = null
+
+        if (courseList !== null && courseData !== null) {
+            tabName = convertTabName(courseList, "course_id", "course_name")
+            tabDetail = []
+
+            courseData.forEach(item => {
+                tabDetail.push(convertDetail(item['course_id'], <CourseDetail data={item} />))
+            })
+        }
 
         return (
             <Fragment>
@@ -156,36 +153,9 @@ class Course extends Component {
                     <Container fluid>
                         {
                             key ? (
-                                <Tab.Container defaultActiveKey={key}>
-                                    <Row>
-                                        <Col lg={3}>
-                                            <Nav variant="pills" activeKey={tabKey} className="flex-column sub-nav">
-                                                {
-                                                    courseList !== null && (
-                                                        courseList.map((item, index) => (
-                                                            <Nav.Item key={index}>
-                                                                <Nav.Link eventKey={item['course_id']} className="sub-nav">{item['course_name']}&nbsp;{item['course_year']}</Nav.Link>
-                                                            </Nav.Item>
-                                                        ))
-                                                    )
-                                                }
-                                            </Nav>
-                                        </Col>
-                                        <Col lg={9}>
-                                            <Tab.Content>
-                                                {
-                                                    courseList !== null && courseData != null && (
-                                                        courseData.map((item, index) => (
-                                                            <Tab.Pane key={index} eventKey={item['course_id']}>
-                                                                <CourseDetail data={item} />
-                                                            </Tab.Pane>
-                                                        ))
-                                                    )
-                                                }
-                                            </Tab.Content>
-                                        </Col>
-                                    </Row>
-                                </Tab.Container>
+                                tabName !== null && (
+                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อหลักสูตร"} />
+                                )
                             ) : (
                                     <h1 className="text-center">ไม่พบข้อมูล</h1>
                                 )

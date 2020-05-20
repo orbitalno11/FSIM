@@ -1,62 +1,85 @@
 import React, { Component, Fragment } from 'react'
 
-import SideTabDialog from '../../../components/SideTabDialog'
+import { Container, Row, Col, FormControl, Form, InputGroup, Button } from 'react-bootstrap'
 
-const TestComponent = ({ name }) => (
-    <Fragment>
-        <h1>{name}</h1>
-    </Fragment>
-)
+import { connect } from 'react-redux'
+import { getDepartmentList } from '../../../redux/action/adminInformationAction'
+
 
 class DepartmentManagement extends Component {
+
+    constructor(props){
+        super(props)
+
+        this.state = {
+            selectedDept: null
+        }
+    }
+
+    componentDidMount() {
+        this.props.getDepartmentList()
+    }
+
+    handleDeptSelect = event => {
+        let value = event.target.value
+        let { departmentList } = this.props.information
+
+        let result = departmentList.find( item => item['dept_id'] === value)
+
+        this.setState({
+            selectedDept: result
+        })
+    }
+
     render() {
-
-        let dropdownTitle = "รายการ"
-
-        let tabName = [
-            {
-                tabId: "1",
-                tabTitle: "Tab 1"
-            },
-            {
-                tabId: "2",
-                tabTitle: "Tab 2"
-            },
-            {
-                tabId: "3",
-                tabTitle: "Tab 3"
-            },
-            {
-                tabId: "4",
-                tabTitle: "Tab 4"
-            }
-        ]
-
-        let tabDetail = [
-            {
-                tabId: "1",
-                tabDetail: <TestComponent name="TAB1" />
-            },
-            {
-                tabId: "2",
-                tabDetail: <TestComponent name="TAB2" />
-            },
-            {
-                tabId: "3",
-                tabDetail: <TestComponent name="TAB3" />
-            },
-            {
-                tabId: "4",
-                tabDetail: <TestComponent name="TAB4" />
-            }
-        ]
-
+        let { departmentList } = this.props.information
+        let { selectedDept } = this.state
         return (
             <Fragment>
-                <SideTabDialog startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={dropdownTitle} />
+                <Container>
+                    <Row>
+                        <Col ex={12}>
+                            <FormControl as="select" custom onChange={this.handleDeptSelect}>
+                                {
+                                    departmentList !== null && (
+                                        departmentList.map((item, index) => (
+                                            <option key={index} value={item['dept_id']}>{item['dept_name']}</option>
+                                        ))
+                                    )
+                                }
+                            </FormControl>
+                        </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                        <Col xs={12}>
+                            <Form>
+                                <h2 className="text-sub-header">ชื่อภาควิชา</h2>
+                                <InputGroup className="w-100">
+                                    <Form.Control type="text" placeholder="ชื่อภาควิชา" required defaultValue={selectedDept !== null ? selectedDept['dept_name'] : null} />
+                                    <InputGroup.Append>
+                                        <Button variant="success">บันทึก</Button>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
             </Fragment>
         )
     }
 }
 
-export default DepartmentManagement
+const mapStateToProps = state => (
+    {
+        information: state.admin_information
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getDepartmentList: () => dispatch(getDepartmentList())
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(DepartmentManagement)
