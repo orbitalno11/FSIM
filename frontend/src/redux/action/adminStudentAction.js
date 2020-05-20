@@ -140,32 +140,32 @@ export const getStudentData = dept_id => dispatch => {
             dispatch(loadStudentFailed(err))
             dispatch(stopLoading())
         })
-    }
+}
 
-    export const getStudentList = year => dispatch => {
-        dispatch(startLoading())
-        dispatch(loadStudentListStart())
+export const getStudentList = year => dispatch => {
+    dispatch(startLoading())
+    dispatch(loadStudentListStart())
 
-        axios.get(`/admin/student/list/year=${year}`)
-            .then(res => {
-                let data = res.data.data
+    axios.get(`/admin/student/list?year=${year}`)
+        .then(res => {
+            let data = res.data.data
 
-                if (Object.keys(data) < 1) {
-                    dispatch(loadStudentListFailed("Can not find data"))
-                    dispatch(stopLoading())
-                    return
-                }
-
-                dispatch(loadStudentListSuccess(data))
+            if (Object.keys(data) < 1) {
+                dispatch(loadStudentListFailed("Can not find data"))
                 dispatch(stopLoading())
-            })
-            .catch(err => {
-                dispatch(loadStudentListFailed(err))
-                dispatch(stopLoading())
-            })
-    }
+                return
+            }
 
-    
+            dispatch(loadStudentListSuccess(data))
+            dispatch(stopLoading())
+        })
+        .catch(err => {
+            dispatch(loadStudentListFailed(err))
+            dispatch(stopLoading())
+        })
+}
+
+
 // export const getYearList = () => (dispatch) => {
 //     dispatch(loadActivityYearListStart())
 //     dispatch(startLoading())
@@ -178,7 +178,7 @@ export const getStudentData = dept_id => dispatch => {
 
 //             if (!data.includes(cur_year))
 //                 data.push(cur_year)
-            
+
 //             data.sort((prev, cur) => (cur - prev))
 
 //             dispatch(loadActivityYearListSuccess(data))
@@ -193,4 +193,4 @@ export const getStudentData = dept_id => dispatch => {
 
 
     // export const deleteStudent = student_id
-    
+

@@ -47,15 +47,13 @@ class StudentData extends Component {
     getData = () => {
         let { selectedYear } = this.props.student
         this.props.getStudentData(selectedYear)
-        this.props.getStudentList()
+        this.props.getStudentList(selectedYear)
     }
-
-
-
 
     render() {
         
         let { studentData , studentList, selectedYear , yearList} = this.props.student
+
         console.log(studentData)
         return (
             <Fragment>
@@ -141,7 +139,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         getStudentData: (year) => dispatch(getStudentData(year)),
-        getStudentList: () => dispatch(getStudentList()),
+        getStudentList: (year) => dispatch(getStudentList(year)),
         setYear: (year) => dispatch(selectYear(year))
     }
 )

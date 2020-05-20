@@ -7,7 +7,7 @@ const initialState = {
     studentData: null,
     studentList: null,
     yearList: null,
-    selectedYear: year,
+    selectedYear: 2560,
     actionResult: null,
     error: null
 }
