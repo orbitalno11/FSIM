@@ -47,8 +47,8 @@ class StudentData extends Component {
     getData = () => {
         let { selectedYear } = this.props.student
         let { dept_id } = this.props.student
-        this.props.getStudentData(dept_id)
-        this.props.getStudentList(selectedYear)
+        // this.props.getStudentData(dept_id)
+        // this.props.getStudentList(selectedYear)
     }
 
     render() {

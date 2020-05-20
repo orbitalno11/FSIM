@@ -71,7 +71,6 @@ class StudentSummary extends Component {
         let { studentData, selectedYear, yearList } = this.props.student
 
 
-
         // if (departmentList !== null) {
         //     let temp = departmentList.filter(data => data['project_type'] !== 0)
         //     key = temp[0]['project_id']
@@ -96,24 +95,6 @@ class StudentSummary extends Component {
                                         }
                                    
                                 </Col>
-                                {/* <Col lg={9}>
-                                    <Tab.Content>
-
-                                        <Tab.Pane eventKey="mth">
-                                            <StudentData />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="chm">
-                                            <StudentData />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="mic">
-                                            <StudentData />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="phy">
-                                            <StudentData />
-                                        </Tab.Pane>
-
-                                    </Tab.Content>
-                                </Col> */}
                             </Row>
                         </Tab.Container>
 

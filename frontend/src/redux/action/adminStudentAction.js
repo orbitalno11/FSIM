@@ -78,6 +78,27 @@ const loadDepartmentListFailed = (error) => (
     }
 )
 
+// load education
+const loadEducationListStart = () => (
+    {
+        type: types.LOAD_EDUCATION_LIST_START
+    }
+)
+
+const loadEducationListSuccess = (list) => (
+    {
+        type: types.LOAD_EDUCATION_LIST_SUCCESS,
+        educationList: list
+    }
+)
+
+const loadEducationListFailed = (error) => (
+    {
+        type: types.LOAD_EDUCATION_LIST_FAILED,
+        error: error
+    }
+)
+
 // add student
 const addStudentStart = () => (
     {
@@ -132,37 +153,37 @@ export const getStudentData = dept_id => dispatch => {
 
     let studentData = {}
 
-    axios.get(`/student/department?dept_id=${dept_id}`)
-        .then(res => {
-            let data = res.data.data
+    // axios.get(`/student/department?dept_id=${dept_id}`)
+    //     .then(res => {
+    //         let data = res.data.data
 
-            if (Object.keys(data) < 1) {
-                dispatch(loadStudentFailed("Can not find data"))
-                dispatch(stopLoading())
-                return
-            }
+    //         if (Object.keys(data) < 1) {
+    //             dispatch(loadStudentFailed("Can not find data"))
+    //             dispatch(stopLoading())
+    //             return
+    //         }
 
-            // let department = data['dept_name']
-            // let branch = data['branch'][0]
-            // let byYear = data['status_by_year'][0]
-            // let byBranch = data['df_status_by_branch'][0]
-            // let dept_id = dept_id
+    //         let department = data['dept_name']
+    //         // let branch = data['branch'][0]
+    //         // let byYear = data['status_by_year'][0]
+    //         // let byBranch = data['df_status_by_branch'][0]
+    //         // let dept_id = dept_id
 
-            // studentData = {
-            //     department: department,
-            //     branch: branch,
-            //     byYear: byYear,
-            //     byBranch: byBranch,
-            //     dept_id: dept_id
-            // }
+    //         studentData = {
+    //             department: department,
+    //             // branch: branch,
+    //             // byYear: byYear,
+    //             // byBranch: byBranch,
+    //             // dept_id: dept_id
+    //         }
 
-            dispatch(loadStudentSuccess(studentData))
-            dispatch(stopLoading())
-        })
-        .catch(err => {
-            dispatch(loadStudentFailed(err))
-            dispatch(stopLoading())
-        })
+    //         dispatch(loadStudentSuccess(studentData))
+    //         dispatch(stopLoading())
+    //     })
+    //     .catch(err => {
+    //         dispatch(loadStudentFailed(err))
+    //         dispatch(stopLoading())
+    //     })
 }
 
 export const getStudentList = year => dispatch => {
@@ -188,29 +209,24 @@ export const getStudentList = year => dispatch => {
         })
 }
 
-export const getDepartmentList = () => dispatch => {
-    dispatch(startLoading())
-    dispatch(loadDepartmentListStart())
 
-    axios.get('/department/branch')
+export const getEducationList = () => dispatch => {
+    dispatch(startLoading())
+    dispatch(loadEducationListStart())
+
+    axios.get('/admin/student/education/list')
         .then(res => {
             let data = res.data.data
 
-            if (data.length < 1) {
-                dispatch(loadDepartmentListFailed("Can not find data"))
-                dispatch(stopLoading())
-                return
-            }
-            dispatch(loadDepartmentListSuccess(data))
+            dispatch(loadEducationListSuccess(data))
             dispatch(stopLoading())
         })
         .catch(err => {
             console.error(err)
-            dispatch(loadDepartmentListFailed(err))
+            dispatch(loadEducationListFailed(err))
             dispatch(stopLoading())
         })
 }
-
 // export const getYearList = () => (dispatch) => {
 //     dispatch(loadActivityYearListStart())
 //     dispatch(startLoading())

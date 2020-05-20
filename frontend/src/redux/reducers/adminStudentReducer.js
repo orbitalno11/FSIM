@@ -7,6 +7,7 @@ const initialState = {
     studentData: null,
     studentList: null,
     departmentList: null,
+    educationList: null,
     yearList: null,
     selectedYear: 2560,
     actionResult: null,
@@ -34,7 +35,7 @@ export default (state = initialState, action) => {
                 ...state,
                 studentData: null,
                 error: action.error
-            }    
+            }
         case types.LOAD_STUDENT_LIST_START:
             return {
                 ...state
@@ -63,6 +64,21 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 departmentList: null,
+                error: action.error
+            }
+        case types.LOAD_EDUCATION_LIST_START:
+            return {
+                ...state
+            }
+        case types.LOAD_EDUCATION_LIST_SUCCESS:
+            return {
+                ...state,
+                educationList: action.educationList
+            }
+        case types.LOAD_EDUCATION_LIST_FAILED:
+            return {
+                ...state,
+                educationList: null,
                 error: action.error
             }
         case types.ADD_STUDENT_START:

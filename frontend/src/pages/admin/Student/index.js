@@ -10,63 +10,11 @@ import { getStudentList } from '../../../redux/action/adminStudentAction'
 
 import TabDialog from '../../../components/TabDialog'
 
-import StudentSummary from "./StudentTab";
+import StudentSummary from "./SummaryTab";
 import StudentTracking from "./StudentTracking";
 import StudentAdd from "./StudentAdd";
+import StudentManage from "./StudentManage";
 
-const ManageTab = () => (
-    <Fragment>
-        <Table>
-            <Table.Header>
-                <Table.Row textAlign="center">
-                    <Table.HeaderCell>
-                        ลำดับ
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                        ปีการศึกษา
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                       ภาควิชา
-                    </Table.HeaderCell>     
-                    <Table.HeaderCell>
-                       สาขา
-                    </Table.HeaderCell> 
-                   
-                    <Table.HeaderCell>
-                        ไฟล์
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                        ดำเนินการ
-                    </Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                <Table.Row textAlign="center" >
-                    <Table.Cell>
-                        1
-                    </Table.Cell>
-                    <Table.Cell>
-                        2560
-                    </Table.Cell>
-                    <Table.Cell>
-                        คณิตศาสตร์
-                    </Table.Cell>
-                    <Table.Cell>
-                        สถิติ
-                    </Table.Cell>
-                
-                    <Table.Cell>
-                        ไฟล์
-                    </Table.Cell>
-                    <Table.Cell>
-                        <Button>แก้ไข</Button>
-                        <Button>ลบ</Button>
-                    </Table.Cell>
-                </Table.Row>
-            </Table.Body>
-        </Table>
-    </Fragment>
-)
 const AddTab = () => (
     <Fragment>
         <Form>
@@ -132,7 +80,7 @@ class Student extends Component {
 
     render() {
         let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
-        let pane = [<StudentSummary/>, <StudentTracking/>,< ManageTab/>, <StudentAdd/>]
+        let pane = [<StudentSummary/>, <StudentTracking/>,< StudentManage/>, <StudentAdd/>]
         let { loading } = this.props.website
 
         return (
