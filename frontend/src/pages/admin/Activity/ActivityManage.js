@@ -25,6 +25,7 @@ class ActivityManage extends Component {
 
     render() {
         let { activityList } = this.props.activity
+
         return (
             <Fragment>
                 <Table>
@@ -39,7 +40,7 @@ class ActivityManage extends Component {
                     </Table.Header>
                     <Table.Body>
                         {
-                            activityList !== null && (
+                            activityList !== null ? (
                                 activityList.map((item, index) => (
                                     <Table.Row textAlign="center" key={index}>
                                         <Table.Cell>{index + 1}</Table.Cell>
@@ -51,7 +52,13 @@ class ActivityManage extends Component {
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
-                            )
+                            ) : (
+                                    <Table.Row>
+                                        <Table.Cell colSpan="5">
+                                            <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                )
                         }
                     </Table.Body>
                 </Table>

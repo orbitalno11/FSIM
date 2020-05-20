@@ -23,7 +23,7 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        if (n_year == 0)
+        if (n_year === 0)
             n_year = null
 
         if (n_year != null) {

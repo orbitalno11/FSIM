@@ -5,7 +5,7 @@ import { Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup } 
 import axios from 'axios'
 
 // 
-import TabDialog from '../../../components/TabDialog'
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 
 const DepartmentDetail = ({ data }) => (
@@ -95,8 +95,9 @@ class Department extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: null,
-            departmentList: null
+            departmentList: null,
+            tabName: null,
+            tabDetail: null
         }
     }
 
@@ -117,8 +118,16 @@ class Department extends Component {
                     return comparison
                 })
 
+                let tabDetail = []
+
+                data.forEach(item => {
+                    tabDetail.push(convertDetail(item['dept_id'], <DepartmentDetail data={item} />))
+                })
+
                 this.setState({
-                    departmentList: data
+                    departmentList: data,
+                    tabName: convertTabName(data, 'dept_id', 'dept_name'),
+                    tabDetail: tabDetail
                 })
             })
             .catch(err => {
@@ -133,8 +142,9 @@ class Department extends Component {
     }
 
     render() {
-        let { tabKey, departmentList } = this.state
+        let { departmentList, tabName, tabDetail } = this.state
         let key = departmentList !== null && departmentList[0]['dept_id']
+
         return (
             <Fragment>
                 <div className="my-3 w-75 mx-auto">
@@ -143,37 +153,9 @@ class Department extends Component {
                     <Container fluid>
                         {
                             key ? (
-                                <Tab.Container defaultActiveKey={key}>
-                                    <Row>
-                                        <Col lg={3}>
-                                            <Nav variant="pills" activeKey={tabKey} className="flex-column sub-nav">
-                                                {
-                                                    departmentList !== null && (
-                                                        departmentList.map((item, index) => (
-                                                            <Nav.Item key={index}>
-                                                                <Nav.Link eventKey={item['dept_id']} className="sub-nav">{item['dept_name']}</Nav.Link>
-                                                            </Nav.Item>
-                                                        ))
-                                                    )
-                                                }
-                                            </Nav>
-                                        </Col>
-                                        <Col lg={9}>
-                                            <Tab.Content>
-                                                {
-                                                    departmentList !== null && (
-                                                        departmentList.map((item, index) => (
-                                                            <Tab.Pane eventKey={item['dept_id']} key={index}>
-                                                                <DepartmentDetail data={item} />
-                                                                {/* <TabDialog tabList={['ข้อมูลภาควิชา', "แก้ไขข้อมูล"]} paneList={[<DepartmentDetail data={item} />, <DepartmentEdit data={item} />]} /> */}
-                                                            </Tab.Pane>
-                                                        ))
-                                                    )
-                                                }
-                                            </Tab.Content>
-                                        </Col>
-                                    </Row>
-                                </Tab.Container>
+                                tabName !== null && (
+                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
+                                )
                             ) : (
                                     <h1 className="text-center">ไม่พบข้อมูล</h1>
                                 )

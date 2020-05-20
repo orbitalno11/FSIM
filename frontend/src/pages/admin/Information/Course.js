@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup, Table } from 'react-bootstrap'
 
-import TabDialog from '../../../components/TabDialog'
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 import { connect } from 'react-redux'
 import { getCourseList, getCourseData } from '../../../redux/action/adminInformationAction'
