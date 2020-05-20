@@ -40,7 +40,7 @@ class StatcourseGPA extends Component {
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             Mean
-                                        </Table .HeaderCell>
+                                        </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             SD
                                         </Table.HeaderCell>

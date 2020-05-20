@@ -14,12 +14,12 @@ import {
 import { connect } from 'react-redux'
 
 import Barchart from "../../components/Graph/Bar";
-import Linechart from "../../components/Graph/Line"; 
+// import Linechart from "../../components/Graph/Line"; 
 import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import { Bar, Pie, Line } from "react-chartjs-2";
+// import { Bar} from "react-chartjs-2";
 
-import GraphLine from "../../components/Graph/Line";
-import AdmissionTypePanel from "../../components/AddmissionTypePanel";
+// import GraphLine from "../../components/Graph/Line";
+// import AdmissionTypePanel from "../../components/AddmissionTypePanel";
 import Axios from "axios";
 
 class Admission extends Component {
@@ -51,17 +51,7 @@ class Admission extends Component {
         let { year } = this.state
         Axios.get(`/admission/analyze`)
             .then(res => {
-                // let received = res.data
-
-                // if (received.response === true) {
-                //     let data = received.data
-                //     console.log(data)
-
-                //     this.setState({
-                //         countStatus: data.count_by_status[0],
-                //         loadTime: 1
-                //     })
-                // }
+               
                 let data = res.data.data
 
                 let countChannel = data['count_channel']
@@ -70,8 +60,6 @@ class Admission extends Component {
                 let countStatus = data['count_by_status'][0]
                 let countGrade = data['count_by_branch'][0]
 
-               
-                // console.log(countChannel)
 
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
@@ -91,32 +79,21 @@ class Admission extends Component {
             })
     }
 
-    // setupGraph = () => {
-    //     let { countStatus } = this.state
-
-    //     this.setState({
-           
-    //         studentStatus: setupStackBarChart(countStatus)
-           
-    //     })
+    // setUpDropDown = branch => {
+    //     let options = []
+    //     for (const item in branch) {
+    //         let b = {
+    //             key: branch[item].branch_id,
+    //             value: branch[item].branch_id,
+    //             text: branch[item].branch_name
+    //         }
+    //         options.push(b)
+    //     }
+    //     return options.sort()
     // }
 
-
-    setUpDropDown = branch => {
-        let options = []
-        for (const item in branch) {
-            let b = {
-                key: branch[item].branch_id,
-                value: branch[item].branch_id,
-                text: branch[item].branch_name
-            }
-            options.push(b)
-        }
-        return options.sort()
-    }
-
     render() {
-        let { year, yearList, branch_list, countChannel, countSchool, compareYear, studentStatus, countStatus, countGrade } = this.state
+        let { year, yearList, countChannel, countSchool, compareYear, countStatus, countGrade } = this.state
         return (
             <Fragment>
                 <Container className="white-background">
@@ -134,11 +111,6 @@ class Admission extends Component {
                     </Header>
                     <Divider />
                     <Grid>
-                        {/* <Grid.Row>
-                            <Card fluid={true}>
-                                <AdmissionTypePanel />
-                            </Card>
-                        </Grid.Row> */}
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="card-default">
@@ -149,7 +121,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             countChannel !== null && (
-                                                <Bar data={countChannel} legend={{ display: false }} />
+                                                <Barchart data={countChannel}  />
                                             )
                                         }
 
@@ -190,7 +162,7 @@ class Admission extends Component {
                                     <Card.Content>
                                     {
                                             countSchool !== null && (
-                                                <Bar data={countSchool} legend={{ display: false }} />
+                                                <Barchart data={countSchool}  />
                                             )
                                         }
                                     </Card.Content>
@@ -207,7 +179,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             compareYear !== null && (
-                                                <Bar data={compareYear} legend={{ display: false }} />
+                                                <Barchart data={compareYear} />
                                             )
                                         }
                                         
