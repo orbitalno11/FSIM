@@ -385,13 +385,13 @@ class DatabaseHelper:
     # get all admission data (pueng)
     def get_all_admission(self, year=None):
         if year is not None:
-            sql_command = "SELECT channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax " \
+            sql_command = "SELECT channel_id ,channel_name, admission_year ,branch_id,school_id,status_id,student.current_gpax " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
                           "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
-                          "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id" \
+                          "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id " \
                           "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
         else:
-            sql_command = "SELECT channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax " \
+            sql_command = "SELECT channel_id,channel_name , admission_year ,branch_id,school_id,status_id,student.current_gpax " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
                           "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
                           "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id"
@@ -402,12 +402,13 @@ class DatabaseHelper:
         out_function_data = []
         for data in execute['value']:
             data = {
-                'channel_name': data[0],
-                'admission_year': data[1],
-                'branch_id': data[2],
-                'school_id': data[3],
-                'status_id': data[4],
-                'current_gpax': data[5]
+                'channel_id': data[0],
+                'admission_year': data[2],
+                'branch_id': data[3],
+                'school_id': data[4],
+                'status_id': data[5],
+                'current_gpax': data[6],
+                'channel_name':data[1],
             }
             out_function_data.append(data)
 
@@ -436,7 +437,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     def get_admission_channel(self):
-        sql_command = "select * from admission_channel"
+        sql_command = "SELECT `channel_id`,`channel_name`,`round_id`,`round_name` FROM `admission_channel` NATURAL JOIN `has_round` NATURAL JOIN `admission_round`"
         execute = self.__execute_query(sql_command)
 
         if not execute['response']:
@@ -446,7 +447,9 @@ class DatabaseHelper:
         for channel in execute['value']:
             data = {
                 'channel_id': channel[0],
-                'channel_name': channel[1]
+                'channel_name': channel[1],
+                'round_id': channel[2],
+                'round_name': channel[3],
             }
             out_function_data.append(data)
 
