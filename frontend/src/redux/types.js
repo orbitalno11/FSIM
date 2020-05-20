@@ -123,6 +123,10 @@ export const ADD_STUDENT_START = "load_add_student_start"
 export const ADD_STUDENT_SUCCESS = "load_add_student_success"
 export const ADD_STUDENT_FAILED = "load_add_student_failed"
 
+export const DELETE_STUDENT_START = "load_delete_student_start"
+export const DELETE_STUDENT_SUCCESS = "load_delete_student_success"
+export const DELETE_STUDENT_FAILED = "load_delete_student_failed"
+
 export const GET_STUDENT_YEAR_LIST_START = "load_student_year_list_start"
 export const GET_STUDENT_YEAR_LIST_SUCCESS = "load_student_year_list_success"
 export const GET_STUDENT_YEAR_LIST_FAILED = "load_student_year_list_failed"

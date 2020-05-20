@@ -5,8 +5,12 @@ import {
     Divider,
     Header,
     Container,
-    Table
+    Table,
+    Button
 } from "semantic-ui-react";
+
+import { connect } from 'react-redux'
+import { getStudentList } from '../../../redux/action/adminStudentAction'
 
 // redux
 // import {connect} from 'react-redux'
@@ -21,28 +25,37 @@ class SummarySurvey extends Component {
     constructor(props) {
         super(props);
     
-        this.replaceModalItem = this.replaceModalItem.bind(this);
+        // this.replaceModalItem = this.replaceModalItem.bind(this);
        
         this.state = {
-          requiredItem: 0,
-          brochure: [
-            {
-              no: "1",
-              ID: "60090500403",
-              name: "Gold",
-              barnch: "สถิติ",
-              GPA: "1.7"
+          studentList: null
+          // requiredItem: 0,
+          // brochure: [
+          //   {
+          //     no: "1",
+          //     ID: "60090500403",
+          //     name: "Gold",
+          //     barnch: "สถิติ",
+          //     GPA: "1.7"
               
-            }, 
-          ]
+          //   }, 
+          // ]
         }
       }
-    
-      replaceModalItem(index) {
-        this.setState({
-          requiredItem: index
-        });
+
+      componentDidMount() {
+        this.props.getStudentList()
       }
+
+      // handleDeleteStudent = (student_id) => {
+      //   this.props.deleteStudent(student_id)
+      // }
+    
+      // replaceModalItem(index) {
+      //   this.setState({
+      //     requiredItem: index
+      //   });
+      // }
     
     //   saveModalDetails(item) {
     //     const requiredItem = this.state.requiredItem;
@@ -58,63 +71,58 @@ class SummarySurvey extends Component {
     //   }
    
         render() {    
-            const brochure = this.state.brochure.map((item, index) => {
-            return (
-                <tr key={index}>
-                <td>{item.no}</td>
-                <td>{item.ID}</td>
-                <td>{item.name}</td>
-                <td>{item.barnch}</td>
-                <td>{item.GPA}</td>
-                <td>
-                    <button className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    onClick={() => this.replaceModalItem(index)}>show</button> {" "}
-                   
-                </td>
-                </tr>
-            )
-            });
-            
-            const requiredItem = this.state.requiredItem;
-            let modalData = this.state.brochure[requiredItem];
-            return (
-            <Fragment>
-                <Container>
-                    <Header as="h5" align = 'center'>
-                        ค้นหาข้อมูลแบบสอบถามของปีการศึกษา{" "}
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
-                    </Header>
-                    <Divider/>
-                    <Table>
-                            <thead>
-                                <tr >
-                                <th>ลำดับ</th>
-                                <th>รหัสนักศึกษา</th>
-                                <th>ชื่อ-นามสกุล</th>
-                                <th>สาขา</th>
-                                <th>GPA</th>
-                                <th>กราฟผลการเรียน</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {brochure}
-                            </tbody>
-                            {/* <DataTable/> */}
-                    </Table>
-                 </Container>  
-            </Fragment>  
-
+          let { studentList } = this.props.student
+            return(
+              <Fragment>
+                <Table>
+                    <Table.Header>
+                        <Table.Row textAlign="center">
+                            <Table.HeaderCell> ลำดับ </Table.HeaderCell>
+                            <Table.HeaderCell> รหัสนักศึกษา </Table.HeaderCell>
+                            <Table.HeaderCell>ชื่อ-นามสกุล</Table.HeaderCell>
+                            <Table.HeaderCell> สาขา </Table.HeaderCell>
+                            <Table.HeaderCell>GPA</Table.HeaderCell>
+                            {/* <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> */}
+                            {/* <Table.HeaderCell>ดำเนินการ</Table.HeaderCell> */}
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {
+                            studentList !== null && (
+                              studentList.map((item, index) => (
+                                    <Table.Row textAlign="center" key={index}>
+                                        <Table.Cell>{index + 1}</Table.Cell>
+                                        <Table.Cell>{item['student_id']}</Table.Cell>
+                                        <Table.Cell>{item['firstname']}</Table.Cell>
+                                        <Table.Cell>{item['branch_name']}</Table.Cell>
+                                        <Table.Cell>{item['current_gpax']}</Table.Cell>
+                                        {/* <Table.Cell>{item['current_gpax']}</Table.Cell> */}
+                                        {/* <Table.Cell>
+                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
+                                        </Table.Cell> */}
+                                    </Table.Row>
+                                ))
+                            )
+                        }
+                    </Table.Body>
+                </Table>
+            </Fragment>
 
         );
     }
   }
 
+  const mapstateTpProps = state => (
+    {
+      student: state.admin_student
+    }
+  )
 
-export default SummarySurvey
+  const mapDispatchProps = dispatch => (
+    {
+      getStudentList: () => dispatch(getStudentList()),
+      // deleteStudent: (student_id) => dispatch(deleteStudent(student_id))
+    }
+  )
+
+export default connect(mapstateTpProps,mapDispatchProps)(SummarySurvey)

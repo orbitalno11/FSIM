@@ -4,8 +4,13 @@ import { Table, Button } from 'semantic-ui-react'
 
 // import SearchActivity from "../../../components/SearchActivity";
 // import AddActivity from "../../../components/AddActivity";
+import { connect } from 'react-redux'
+import LoadingComponent from '../../../components/LoadingComponent'
+import { getStudentList } from '../../../redux/action/adminStudentAction'
+
 import TabDialog from '../../../components/TabDialog'
-import StudentSummary from "./StudentSummary";
+
+import StudentSummary from "./StudentTab";
 import StudentTracking from "./StudentTracking";
 import StudentAdd from "./StudentAdd";
 
@@ -121,11 +126,22 @@ class Student extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.loadAllYear()
+    }
+
     render() {
         let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
         let pane = [<StudentSummary/>, <StudentTracking/>,< ManageTab/>, <StudentAdd/>]
+        let { loading } = this.props.website
+
         return (
             <Fragment>
+                {
+                    loading && (
+                        <LoadingComponent/>
+                    )
+                }
                 <TabDialog
                     dialogName="ข้อมูลนักศึกษาปัจจุบัน"
                     tabList={tabName}
@@ -136,4 +152,19 @@ class Student extends Component {
     }
 }
 
-export default Student
+
+
+const mapStateToProps = state => (
+    {
+        website: state.website,
+        student: state.admin_student
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        loadAllYear: () => dispatch(getStudentList())
+    }
+)
+
+export default connect(mapStateToProps,mapDispatchToProps)(Student)

@@ -23,7 +23,7 @@ const loadStudentstart = () => (
 const loadStudentSuccess = (studentData) => (
     {
         type: types.LOAD_STUDENT_DATA_SUCCESS,
-        studentData: activityData
+        studentData: studentData
     }
 )
 
@@ -114,7 +114,7 @@ export const getStudentData = dept_id => dispatch => {
             let data = res.data.data
 
             if (Object.keys(data) < 1) {
-                dispatch(loadActivityFalied("Can not find data"))
+                dispatch(loadStudentFailed("Can not find data"))
                 dispatch(stopLoading())
                 return
             }
@@ -140,17 +140,18 @@ export const getStudentData = dept_id => dispatch => {
             dispatch(loadStudentFailed(err))
             dispatch(stopLoading())
         })
+    }
 
-    export const getStudentList = () => dispatch => {
+    export const getStudentList = year => dispatch => {
         dispatch(startLoading())
         dispatch(loadStudentListStart())
 
-        axios.get(`/admin/student/list`)
+        axios.get(`/admin/student/list/year=${year}`)
             .then(res => {
                 let data = res.data.data
 
                 if (Object.keys(data) < 1) {
-                    dispatch(loadActivityListFalied("Can not find data"))
+                    dispatch(loadStudentListFailed("Can not find data"))
                     dispatch(stopLoading())
                     return
                 }
@@ -163,5 +164,33 @@ export const getStudentData = dept_id => dispatch => {
                 dispatch(stopLoading())
             })
     }
+
     
-}
+// export const getYearList = () => (dispatch) => {
+//     dispatch(loadActivityYearListStart())
+//     dispatch(startLoading())
+//     axios.get('/activity/year/list')
+//         .then(res => {
+//             let data = res.data.data
+
+//             let cur_year = new Date()
+//             cur_year = cur_year.getFullYear() + 543
+
+//             if (!data.includes(cur_year))
+//                 data.push(cur_year)
+            
+//             data.sort((prev, cur) => (cur - prev))
+
+//             dispatch(loadActivityYearListSuccess(data))
+//             dispatch(stopLoading())
+//         })
+//         .catch(err => {
+//             console.error(err)
+//             dispatch(loadActivityYearListFalied())
+//             dispatch(stopLoading())
+//         })
+// }
+
+
+    // export const deleteStudent = student_id
+    

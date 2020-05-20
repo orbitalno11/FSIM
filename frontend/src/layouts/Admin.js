@@ -6,7 +6,7 @@ import AdminHome from "../pages/admin";
 import Alumni from "../pages/admin/Alumni";
 import Activity from "../pages/admin/Activity";
 import Admission from "../pages/admin/Admission/AdmissionManage";
-import Student from "../pages/admin/Student/Student";
+import Student from "../pages/admin/Student";
 import Statcourse from '../pages/user/Statcourse'
 
 // information

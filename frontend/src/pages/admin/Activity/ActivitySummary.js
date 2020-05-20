@@ -39,6 +39,7 @@ class ActivitySummary extends Component {
 
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
+        console.log(activityData)
         return (
             <Fragment>
                 <Container>

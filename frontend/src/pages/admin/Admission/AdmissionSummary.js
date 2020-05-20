@@ -89,7 +89,7 @@ class AdmissionSummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                {
+                                {/* {
                                     admissionList !== null && (
                                         admissionList.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
@@ -99,7 +99,7 @@ class AdmissionSummary extends Component {
                                             </Table.Row>
                                         ))
                                     )
-                                }
+                                } */}
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
