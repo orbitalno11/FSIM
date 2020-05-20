@@ -5,6 +5,7 @@ import adminAlumni from './adminAlumniReducer'
 import adminActivity from './adminActivityReducer'
 import adminInformation from './adminInformationReducer'
 import adminStudent from './adminStudentReducer'
+import adminAdmission from './adminAdmissionReducer'
 
 import general from './generalReducer'
 
@@ -16,4 +17,5 @@ export default combineReducers({
     admin_activity: adminActivity,
     admin_information: adminInformation,
     admin_student: adminStudent
+    admin_admission: adminAdmission
 })
