@@ -70,22 +70,22 @@ class AnalyzeAdmission:
             count_by_branch_check_channel = analyze_helper.check_list(channel_sample.index,
                                                                       count_by_branch_check_branch)
             round_list=channel_sample['round_id'].unique().tolist()
-            gpa_by_branch = []
+            # gpa_by_branch = []
             
-            for i in round_list: 
-                count_by_branch_by_round=[]
-                gpa_by_channel = []
-                list_channel = channel_sample[channel_sample['round_id']==i]
-                list_channel_channel = list_channel.index.unique().tolist() 
-                for l_channel in list_channel_channel: 
-                    count_by_branch_by_channel={}
-                    check_by_round_channel = count_by_branch_check_channel[count_by_branch_check_channel.index == l_channel]
-                    check_by_round_channel = analyze_helper.set_fullname_column(branch_dict, check_by_round_channel)
-                    check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
-                    count_by_branch_by_channel['fullname']=channel_dic[l_channel]
-                    count_by_branch_by_channel['gpa_by_branch']=check_by_round_channel.to_dict('index')
-                    count_by_branch_by_round.append(count_by_branch_by_channel)
-                gpa_by_branch.append(count_by_branch_by_round)
+            # for i in round_list: 
+            #     count_by_branch_by_round=[]
+            #     gpa_by_channel = []
+            #     list_channel = channel_sample[channel_sample['round_id']==i]
+            #     list_channel_channel = list_channel.index.unique().tolist() 
+            #     for l_channel in list_channel_channel: 
+            #         count_by_branch_by_channel={}
+            #         check_by_round_channel = count_by_branch_check_channel[count_by_branch_check_channel.index == l_channel]
+            #         check_by_round_channel = analyze_helper.set_fullname_column(branch_dict, check_by_round_channel)
+            #         check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
+            #         count_by_branch_by_channel['fullname']=channel_dic[l_channel]
+            #         count_by_branch_by_channel['gpa_by_branch']=check_by_round_channel.to_dict('index')
+            #         count_by_branch_by_round.append(count_by_branch_by_channel)
+            #     gpa_by_branch.append(count_by_branch_by_round)
                 # print(count_by_branch_by_round)
 
             if branch_id:
@@ -136,7 +136,7 @@ class AnalyzeAdmission:
                 
             value = {
                 'count_channel': count_channel_check_channel.to_dict(),
-                'count_by_branch': dict(zip(round_list, gpa_by_branch)),
+                # 'count_by_branch': dict(zip(round_list, gpa_by_branch)),
                 'count_by_school': [sort_count_school_fullname.to_dict()],
                 'compare_year': [compare_year_success.to_dict('index')],
                 'count_by_status': [count_by_status_fullname.to_dict('index')]
