@@ -29,9 +29,11 @@ const AddActivityData = ({ submit, project_list, selectFile }) => {
                         <FormControl id="projectId" as="select" required>
                             <option>กรุณาเลือกประเภทโครงการ</option>
                             {
-                                project_list.map((item, index) => (
-                                    <option key={index} value={item['project_id']}>{item['project_name']}</option>
-                                ))
+                                project_list !== null && (
+                                    project_list.map((item, index) => (
+                                        <option key={index} value={item['project_id']}>{item['project_name']}</option>
+                                    ))
+                                )
                             }
                         </FormControl>
                     </InputGroup>
@@ -184,7 +186,7 @@ class AddActivity extends Component {
 
 
     render() {
-        let { tabKey, project_type } = this.state
+        let { project_type } = this.state
 
         let { projectList } = this.props.activity
 
@@ -201,7 +203,7 @@ class AddActivity extends Component {
             }
         ]
 
-        if (projectList !== null && project_type !== null) {
+        if (project_type !== null) {
             tabDetail = [
                 {
                     tabId: '1',

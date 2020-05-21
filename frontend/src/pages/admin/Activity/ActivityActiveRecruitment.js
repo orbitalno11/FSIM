@@ -39,29 +39,31 @@ class ActivityActiveRecruitment extends Component {
 
         let key = false, tabName = null, tabDetail = []
 
+        console.log(projectList)
+
         if (projectList !== null) {
-            let temp = projectList.filter(data => data['project_type'] !== 0)
-            key = temp[0]['project_id']
+            // let temp = projectList.filter(data => data['project_type'] !== 0)
+            // key = temp[0]['project_id']
 
-            tabName = convertTabName(temp, 'project_id', 'project_name')
+            // tabName = convertTabName(temp, 'project_id', 'project_name')
 
-            let arSchoolTab = {
-                tabId: 'arSchool',
-                tabTitle: "ข้อมูลการโครงการ AR ระดับโรงเรียน"
-            }
+            // let arSchoolTab = {
+            //     tabId: 'arSchool',
+            //     tabTitle: "ข้อมูลการโครงการ AR ระดับโรงเรียน"
+            // }
 
-            tabName.push(arSchoolTab)
+            // tabName.push(arSchoolTab)
 
-            if (projectList !== null && arData !== null) {
-                temp.forEach(item => {
-                    tabDetail.push(convertDetail(item['project_id'],
-                        <ActiveRecruitmentDetail data={item}
-                            dataByBranch={arData['projectDataBranch'][item['project_id']]}
-                            dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />))
-                })
+            // if (projectList !== null && arData !== null) {
+            //     temp.forEach(item => {
+            //         tabDetail.push(convertDetail(item['project_id'],
+            //             <ActiveRecruitmentDetail data={item}
+            //                 dataByBranch={arData['projectDataBranch'][item['project_id']]}
+            //                 dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />))
+            //     })
 
-                tabDetail.push(convertDetail('arSchool', <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />))
-            }
+            //     tabDetail.push(convertDetail('arSchool', <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />))
+            // }
         }
 
         return (

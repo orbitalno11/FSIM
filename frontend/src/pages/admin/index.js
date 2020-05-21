@@ -83,6 +83,16 @@ class AdminHome extends Component {
         await this.fetchAmountStudent()
         await this.fetchAmountAlumni()
         this.setUpAmountStudentChart()
+
+        axios.get('/admin/information')
+        .then(res => {
+            let recieved_data = res.data.data
+
+            console.log(res)
+        })
+        .catch(err => {
+
+        })
     }
 
     render() {
