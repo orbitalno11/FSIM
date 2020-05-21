@@ -983,12 +983,13 @@ class DatabaseHelper:
         year = "{}%".format(year)
 
         try:
-            self.__execute_delete_data(table="study_in", column="student_id", value=year)
-            self.__execute_delete_data(table="entrance", column="student_id", value=year)
-            self.__execute_delete_data(table="graduated", column="student_id", value=year)
-            self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
-            self.__execute_delete_data(table="academic_record", column="student_id", value=year)
-            self.__execute_delete_data(table="student", column="student_id", value=year)
+            print("DELETE HELLO")
+            # self.__execute_delete_data(table="study_in", column="student_id", value=year)
+            # self.__execute_delete_data(table="entrance", column="student_id", value=year)
+            # self.__execute_delete_data(table="graduated", column="student_id", value=year)
+            # self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
+            # self.__execute_delete_data(table="academic_record", column="student_id", value=year)
+            # self.__execute_delete_data(table="student", column="student_id", value=year)
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
