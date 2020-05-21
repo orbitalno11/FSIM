@@ -983,7 +983,7 @@ class DatabaseHelper:
         year = "{}%".format(year)
 
         try:
-            print("DELETE HELLO")
+            print("DELETE HELLO {}".format(year))
             # self.__execute_delete_data(table="study_in", column="student_id", value=year)
             # self.__execute_delete_data(table="entrance", column="student_id", value=year)
             # self.__execute_delete_data(table="graduated", column="student_id", value=year)
