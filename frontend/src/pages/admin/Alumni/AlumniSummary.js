@@ -4,23 +4,18 @@ import React, { Component, Fragment } from "react";
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 import {
-    Divider,
     Grid,
     Header,
     Container,
     Card
 } from "semantic-ui-react";
 
-import { Form, Col, FormControl } from 'react-bootstrap'
-
 import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
 import { Bar } from 'react-chartjs-2';
 
-import MediaQuery from 'react-responsive'
-
-import { minDeviceWidth } from '../../../Constant'
+import YearSelect from '../../../components/YearSelect'
 
 // redux
 import { connect } from 'react-redux'
@@ -74,50 +69,17 @@ class AlumniSummary extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h3" align='center'>
-                        <MediaQuery minWidth={minDeviceWidth}>
-                            <Form.Row>
-                                <Col className="text-right">
-                                    <Form.Label>ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา</Form.Label>
-                                </Col>
-                                <Col className="text-left">
-                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-50">
-                                        <option value="0">แสดงทุกปี</option>
-                                        {
-                                            yearList !== null && (
-                                                yearList.map(item => (
-                                                    <option key={item} value={item}>{item}</option>
-                                                ))
-                                            )
-                                        }
-                                    </FormControl>
-                                </Col>
-                            </Form.Row>
-                        </MediaQuery>
-                        <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
-                            <Form.Row>
-                                <Col xs={12} className="text-center">
-                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
-                                </Col>
-                                <Col xs={12} className="text-left">
-                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-100">
-                                        <option value="0">แสดงทุกปี</option>
-                                        {
-                                            yearList !== null && (
-                                                yearList.map(item => (
-                                                    <option key={item} value={item}>{item}</option>
-                                                ))
-                                            )
-                                        }
-                                    </FormControl>
-                                </Col>
-                            </Form.Row>
-                        </MediaQuery>
-                    </Header>
-                    <hr />
-                    <Grid>
-                        <Grid.Row columns={2} >
-                            <Grid.Column >
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList}
+                                selectedYear={selectedYear}
+                                onSelectYear={this.handleYearSelect}
+                                title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
+                        )
+                    }
+                    <Grid textAlign="center">
+                        <Grid.Row >
+                            <Grid.Column mobile="16" computer="8" className="my-3">
                                 <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
@@ -127,7 +89,7 @@ class AlumniSummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
                                 <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
