@@ -4,8 +4,8 @@ let year = new Date()
 year = year.getFullYear() + 543
 
 const initialState = {
-    activityList: null,
-    activityListByYear: null,
+    admissionList: null,
+    admissionListByYear: null,
     yearList: null,
     selectedYear: year,
     error: null
