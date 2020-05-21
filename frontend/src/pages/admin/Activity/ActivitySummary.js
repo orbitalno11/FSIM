@@ -9,6 +9,11 @@ import {
     Table
 } from "semantic-ui-react";
 
+import { FormControl, Form, Col } from 'react-bootstrap'
+
+import MediaQuery from 'react-responsive'
+
+import { minDeviceWidth } from '../../../Constant'
 
 import GraphBar from "../../../components/Graph/Bar";
 
@@ -39,28 +44,50 @@ class ActivitySummary extends Component {
 
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
-        console.log(activityData)
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" textAlign="center">
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-
+                    <Header as="h3" align='center'>
+                        <MediaQuery minWidth={minDeviceWidth}>
+                            <Form.Row>
+                                <Col className="text-right">
+                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
+                                </Col>
+                                <Col className="text-left">
+                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleSeclectYear} className="w-50">
+                                        {
+                                            yearList !== null && (
+                                                yearList.map(item => (
+                                                    <option key={item} value={item}>{item}</option>
+                                                ))
+                                            )
+                                        }
+                                    </FormControl>
+                                </Col>
+                            </Form.Row>
+                        </MediaQuery>
+                        <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                            <Form.Row>
+                                <Col xs={12} className="text-center">
+                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
+                                </Col>
+                                <Col xs={12} className="text-left">
+                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleSeclectYear} className="w-100">
+                                        {
+                                            yearList !== null && (
+                                                yearList.map(item => (
+                                                    <option key={item} value={item}>{item}</option>
+                                                ))
+                                            )
+                                        }
+                                    </FormControl>
+                                </Col>
+                            </Form.Row>
+                        </MediaQuery>
                     </Header>
-                    <Divider />
-                    <Grid>
-
+                    <Grid textAlign='center'>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
@@ -76,7 +103,7 @@ class ActivitySummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ

@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
+import { Container, FormControl, Form, Col } from 'react-bootstrap'
 
 import { Header } from 'semantic-ui-react'
+
+import MediaQuery from 'react-responsive'
+
+import { minDeviceWidth } from '../../../Constant'
 
 import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 import ARSchool from './ActiveRecruitmentSchool'
@@ -11,17 +15,12 @@ import { connect } from 'react-redux'
 import { getARActivityData, getProjectList, selectYear } from '../../../redux/action/adminActivityAction'
 import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
+
 
 class ActivityActiveRecruitment extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            tabKey: null
-        }
-    }
-
-    async componentDidMount() {
+    componentDidMount() {
         this.getData()
     }
 
@@ -39,15 +38,34 @@ class ActivityActiveRecruitment extends Component {
     }
 
     render() {
-        let { tabKey } = this.state
 
         let { arData, projectList, selectedYear, yearList } = this.props.activity
 
-        let key = false
+        let key = false, tabName = null, tabDetail = []
 
         if (projectList !== null) {
             let temp = projectList.filter(data => data['project_type'] !== 0)
             key = temp[0]['project_id']
+
+            tabName = convertTabName(temp, 'project_id', 'project_name')
+
+            let arSchoolTab = {
+                tabId: 'arSchool',
+                tabTitle: "ข้อมูลการโครงการ AR ระดับโรงเรียน"
+            }
+
+            tabName.push(arSchoolTab)
+
+            if (projectList !== null && arData !== null) {
+                temp.forEach(item => {
+                    tabDetail.push(convertDetail(item['project_id'],
+                        <ActiveRecruitmentDetail data={item}
+                            dataByBranch={arData['projectDataBranch'][item['project_id']]}
+                            dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />))
+                })
+
+                tabDetail.push(convertDetail('arSchool', <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />))
+            }
         }
 
         return (
@@ -55,76 +73,50 @@ class ActivityActiveRecruitment extends Component {
 
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
-                        <Header as="h4" align='center'>
-                            ค้นหาข้อมูล Active Recruitment ของปีการศึกษา
-                            <select defaultValue={selectedYear} onChange={this.handleYearSelect} >
-                                {
-                                    yearList !== null && (
-                                        yearList.map(item => (
-                                            <option key={item} value={item}>{item}</option>
-                                        ))
-                                    )
-                                }
-                            </select>
+                        <Header as="h3" align='center'>
+                            <MediaQuery minWidth={minDeviceWidth}>
+                                <Form.Row>
+                                    <Col className="text-right">
+                                        <Form.Label>ค้นหาข้อมูล Active Recruitment ของปีการศึกษา</Form.Label>
+                                    </Col>
+                                    <Col className="text-left">
+                                        <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-50">
+                                            {
+                                                yearList !== null && (
+                                                    yearList.map(item => (
+                                                        <option key={item} value={item}>{item}</option>
+                                                    ))
+                                                )
+                                            }
+                                        </FormControl>
+                                    </Col>
+                                </Form.Row>
+                            </MediaQuery>
+                            <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                                <Form.Row>
+                                    <Col xs={12} className="text-center">
+                                        <Form.Label>ค้นหาข้อมูล Active Recruitment ของปีการศึกษา</Form.Label>
+                                    </Col>
+                                    <Col xs={12} className="text-left">
+                                        <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-100">
+                                            {
+                                                yearList !== null && (
+                                                    yearList.map(item => (
+                                                        <option key={item} value={item}>{item}</option>
+                                                    ))
+                                                )
+                                            }
+                                        </FormControl>
+                                    </Col>
+                                </Form.Row>
+                            </MediaQuery>
                         </Header>
+                        <hr />
                         {
                             key ? (
-                                <Tab.Container defaultActiveKey={key}>
-                                    <Row>
-                                        <Col lg={3}>
-                                            <Nav variant="pills" activeKey={tabKey}
-                                                className="flex-column sub-nav">
-                                                {
-                                                    projectList !== null && (
-                                                        projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
-                                                            <Nav.Item key={index}>
-                                                                <Nav.Link eventKey={item['project_id']}
-                                                                    className="sub-nav">{item['project_name']}</Nav.Link>
-                                                            </Nav.Item>
-                                                        ))
-                                                    )
-                                                }
-                                                <Nav.Item>
-                                                    <hr />
-                                                </Nav.Item>
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey={'ar_school'} className="sub-nav">ข้อมูลการโครงการ AR
-                                                ระดับโรงเรียน</Nav.Link>
-                                                </Nav.Item>
-                                            </Nav>
-                                        </Col>
-                                        <Col lg={9}>
-                                            <Tab.Content>
-                                                {
-                                                    projectList !== null && arData !== null ? (
-                                                        arData['projectDataBranch'] !== null && arData['projectDataBranch'] !== undefined ? (
-                                                            projectList.filter(data => data['project_type'] !== 0).map((item, index) => (
-                                                                <Tab.Pane key={index} eventKey={item['project_id']}>
-                                                                    <ActiveRecruitmentDetail data={item}
-                                                                        dataByBranch={arData['projectDataBranch'][item['project_id']]}
-                                                                        dataByGPAX={arData['projectDataGPAX'][item['project_id']]} />
-                                                                </Tab.Pane>
-                                                            ))
-                                                        ) : (
-                                                                <h1 className="text-center">ไม่พบข้อมูล</h1>
-                                                            )
-                                                    ) : (
-                                                            <h1 className="text-center">ไม่พบข้อมูล</h1>
-                                                        )
-                                                }
-                                                {
-                                                    arData !== null && (
-                                                        arData['numberBySchool'] !== null && arData['gpaBySchool'] !== null && (
-                                                            <Tab.Pane eventKey={'ar_school'}>
-                                                                <ARSchool number={setupNoneStackBarChart(arData['numberBySchool'])} gpa={setupNoneStackBarChart(arData['gpaBySchool'])} />
-                                                            </Tab.Pane>
-                                                        )
-                                                    )
-                                                }
-                                            </Tab.Content>
-                                        </Col>
-                                    </Row>
-                                </Tab.Container>
+                                tabName !== null && arData !== null && (
+                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                                )
                             ) : (
                                     <h1 className="text-center">ไม่พบข้อมูล</h1>
                                 )

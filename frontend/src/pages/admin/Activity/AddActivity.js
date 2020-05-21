@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
 
 import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
+
 import ReactModal from '../../../components/ReactModal'
 
 import axios from 'axios'
@@ -8,68 +11,68 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { addProject, addActivity } from '../../../redux/action/adminActivityAction'
 
-const AddActivityData = ({submit, project_list, selectFile}) => {
+const AddActivityData = ({ submit, project_list, selectFile }) => {
     return (
         <Fragment>
-        <Form onSubmit={submit}>
-            <Form.Group>
-                <Form.Label>ปีการศึกษา</Form.Label>
-                <InputGroup>
-                    <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required />
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ประเภทโครงการ
+            <Form onSubmit={submit}>
+                <Form.Group>
+                    <Form.Label>ปีการศึกษา</Form.Label>
+                    <InputGroup>
+                        <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required />
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        ประเภทโครงการ
                 </Form.Label>
-                <InputGroup>
-                    <FormControl id="projectId" as="select" required>
-                        <option>กรุณาเลือกประเภทโครงการ</option>
-                        {
-                            project_list.map((item, index) => (
-                                <option key={index} value={item['project_id']}>{item['project_name']}</option>
-                            ))
-                        }
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    รหัสกิจกรรม (ไม่เกิน 5 ตัวอักษร)
+                    <InputGroup>
+                        <FormControl id="projectId" as="select" required>
+                            <option>กรุณาเลือกประเภทโครงการ</option>
+                            {
+                                project_list.map((item, index) => (
+                                    <option key={index} value={item['project_id']}>{item['project_name']}</option>
+                                ))
+                            }
+                        </FormControl>
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        รหัสกิจกรรม (ไม่เกิน 5 ตัวอักษร)
                 </Form.Label>
-                <InputGroup>
-                    <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="5" required />
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ชื่อกิจกรรม
+                    <InputGroup>
+                        <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="5" required />
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        ชื่อกิจกรรม
                 </Form.Label>
-                <InputGroup>
-                    <Form.Control id="activityName" type="text" placeholder="กรุณาใส่ชื่อกิจกรรม" required />
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    งบประมาณ
+                    <InputGroup>
+                        <Form.Control id="activityName" type="text" placeholder="กรุณาใส่ชื่อกิจกรรม" required />
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        งบประมาณ
                 </Form.Label>
-                <InputGroup>
-                    <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
+                    <InputGroup>
+                        <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>
+                        ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
                 </Form.Label>
-                <InputGroup>
-                    <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={event => selectFile(event)}>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
-            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
-        </Form>
-    </Fragment>
+                    <InputGroup>
+                        <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={event => selectFile(event)}>
+                        </FormControl>
+                    </InputGroup>
+                </Form.Group>
+                <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
+                <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+            </Form>
+        </Fragment>
     )
 }
 
@@ -184,43 +187,43 @@ class AddActivity extends Component {
         let { tabKey, project_type } = this.state
 
         let { projectList } = this.props.activity
+
+        let tabDetail = null
+
+        let tabName = [
+            {
+                tabId: '1',
+                tabTitle: 'กิจกรรม'
+            },
+            {
+                tabId: '2',
+                tabTitle: 'โครงการใหม่'
+            }
+        ]
+
+        if (projectList !== null && project_type !== null) {
+            tabDetail = [
+                {
+                    tabId: '1',
+                    tabDetail: <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} selectFile={this.handleSelectFile} />
+                },
+                {
+                    tabId: '2',
+                    tabDetail: <AddProject project_type={project_type} onSubmit={this.handleProjectSubmit} />
+                }
+            ]
+        }
+
         return (
             <Fragment>
                 <ReactModal />
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
-                        <Tab.Container defaultActiveKey={tabKey}>
-                            <Row>
-                                <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" >กิจกรรม</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="2" className="sub-nav" >โครงการใหม่</Nav.Link>
-                                        </Nav.Item>
-                                    </Nav>
-                                </Col>
-                                <Col lg={9}>
-                                    <Tab.Content>
-                                        <Tab.Pane eventKey="1">
-                                            {
-                                                projectList !== null && (
-                                                    <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} selectFile={this.handleSelectFile} />
-                                                )
-                                            }
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="2">
-                                            {
-                                                project_type !== null && (
-                                                    <AddProject project_type={project_type} onSubmit={this.handleProjectSubmit} />
-                                                )
-                                            }
-                                        </Tab.Pane>
-                                    </Tab.Content>
-                                </Col>
-                            </Row>
-                        </Tab.Container>
+                        {
+                            tabDetail !== null && (
+                                <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                            )
+                        }
                     </Container>
                 </div>
             </Fragment>

@@ -181,3 +181,8 @@
 .dropdown-select {
     width: 100%;
 }
+
+.dropdown-toggle,
+.dropdown-menu {
+  width: 100%;
+}

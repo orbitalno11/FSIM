@@ -13,3 +13,5 @@ export const greenpastel = '#92FEBF'
 export const purpastel = '#92A2FE'
 
 export const colorSet = [yellow, purpastel, red, blue, green, pink, purple, redpastel, orangepastel, yellowpastel, greenpastel, grey]
+
+export const minDeviceWidth = 768
