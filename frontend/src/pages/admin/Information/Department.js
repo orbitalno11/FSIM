@@ -82,7 +82,7 @@ class Department extends Component {
                         {
                             key ? (
                                 tabName !== null && (
-                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
+                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
                                 )
                             ) : (
                                     <h1 className="text-center">ไม่พบข้อมูล</h1>

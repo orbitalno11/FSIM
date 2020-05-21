@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 
 import MediaQuery from 'react-responsive'
 
-import { Nav, Tab, Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
+import { Nav, Tab, Row, Col, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap'
+
+import { minDeviceWidth } from '../Constant'
 
 
 export const convertTabName = (data, idIndicator, nameIndicator) => {
@@ -46,6 +48,12 @@ class SideTabDialog extends Component {
         })
     }
 
+    handleChangeText = value => {
+        this.setState({
+            dropdownTitle: value
+        })
+    }
+
     render() {
 
         let { tabKey, tabName, tabDetail, dropdownTitle } = this.state
@@ -55,7 +63,7 @@ class SideTabDialog extends Component {
                 <Tab.Container defaultActiveKey={tabKey} onSelect={this.handleTabSelector}>
                     <Row>
                         <Col xs={12} md={3}>
-                            <MediaQuery minDeviceWidth={769}>
+                            <MediaQuery minDeviceWidth={minDeviceWidth}>
                                 <Nav variant="pills"
                                     activeKey={tabKey}
                                     className="flex-column sub-nav">
@@ -71,11 +79,11 @@ class SideTabDialog extends Component {
                                     }
                                 </Nav>
                             </MediaQuery>
-                            <MediaQuery maxWidth={768}>
-                                <DropdownButton title={dropdownTitle} variant="outline-warning" className="my-3 w-100">
+                            <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                                <DropdownButton title={dropdownTitle} variant="outline-warning" className="my-3">
                                     {
                                         tabName !== null && tabName.map((item, index) => (
-                                            <Dropdown.Item key={index} eventKey={item['tabId']}>{item['tabTitle']}</Dropdown.Item>
+                                            <Dropdown.Item key={index} eventKey={item['tabId']}><div onClick={() => this.handleChangeText(item['tabTitle'])}>{item['tabTitle']}</div></Dropdown.Item>
                                         ))
                                     }
                                 </DropdownButton>

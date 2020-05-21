@@ -34,8 +34,8 @@ class AdminMenu extends Component {
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/information/department"} className="nav-link" activeClassName="active">ข้อมูลภาควิชา</NavDropdown.Item>
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/information/course"} className="nav-link" activeClassName="active">ข้อมูลหลักสูตร</NavDropdown.Item>
                                         <NavDropdown.Item as={NavLink} exact to={"/admin/information/subject"} className="nav-link" activeClassName="active">ข้อมูลรายวิชา</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information"} className="nav-link" activeClassName="active">จัดการข้อมูลพื้นฐาน</NavDropdown.Item>
+                                        {/* <NavDropdown.Divider />
+                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information"} className="nav-link" activeClassName="active">จัดการข้อมูลพื้นฐาน</NavDropdown.Item> */}
                                     </NavDropdown>
                                 </LinkContainer>
                             </Nav.Item>

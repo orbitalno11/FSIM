@@ -9,14 +9,26 @@ import {
     Table
 } from "semantic-ui-react";
 
-
 import GraphBar from "../../../components/Graph/Bar";
+
+import YearSelect from '../../../components/YearSelect'
 
 import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar } from "react-chartjs-2";
 
 import { connect } from 'react-redux'
 import { getActivityData, getActivityList, selectYear } from '../../../redux/action/adminActivityAction'
+
+
+const option = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                display: false
+            }
+        }]
+    }
+}
 
 
 class ActivitySummary extends Component {
@@ -39,28 +51,18 @@ class ActivitySummary extends Component {
 
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
-        console.log(activityData)
+
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" textAlign="center">
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-
-                    </Header>
-                    <Divider />
-                    <Grid>
-
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา"} />
+                        )
+                    }
+                    <Grid textAlign='center'>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
@@ -76,7 +78,7 @@ class ActivitySummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ

@@ -4,7 +4,6 @@ import React, { Component, Fragment } from "react";
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 import {
-    Divider,
     Grid,
     Header,
     Container,
@@ -15,6 +14,8 @@ import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
 import { Bar } from 'react-chartjs-2';
+
+import YearSelect from '../../../components/YearSelect'
 
 // redux
 import { connect } from 'react-redux'
@@ -68,25 +69,17 @@ class AlumniSummary extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
-                        {
-                            yearList !== null && (
-                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                                    <option value="0">แสดงทุกปี</option>
-                                    {
-                                        yearList !== null && yearList.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            )
-                        }
-                    </Header>
-                    <Divider />
-                    <Grid>
-                        <Grid.Row columns={2} >
-                            <Grid.Column >
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList}
+                                selectedYear={selectedYear}
+                                onSelectYear={this.handleYearSelect}
+                                title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
+                        )
+                    }
+                    <Grid textAlign="center">
+                        <Grid.Row >
+                            <Grid.Column mobile="16" computer="8" className="my-3">
                                 <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
@@ -96,7 +89,7 @@ class AlumniSummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
                                 <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
