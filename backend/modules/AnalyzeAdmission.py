@@ -57,19 +57,19 @@ class AnalyzeAdmission:
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             channel_dic = analyze_helper.set_dict(channel_sample_for_dict.index, channel_sample_for_dict.channel_name)
 
-            data_split_now = df.copy()
-            data_not_year = df.copy()
+            # data_split_now = df.copy()
+            # data_not_year = df.copy()
 
-            if year:
-                data_split_now = df.loc[df['admission_year'] == int(year)]
+            # if year:
+            #     data_split_now = df.loc[df['admission_year'] == int(year)]
 
-            count_by_branch = data_split_now.groupby(['channel_id', 'branch_id'])['current_gpax'].mean().unstack(
-                fill_value=0)
-            count_by_branch = count_by_branch.round(2)
-            count_by_branch_check_branch = analyze_helper.check_list_column(branch_data.index, count_by_branch)
-            count_by_branch_check_channel = analyze_helper.check_list(channel_sample.index,
-                                                                      count_by_branch_check_branch)
-            round_list=channel_sample['round_id'].unique().tolist()
+            # count_by_branch = data_split_now.groupby(['channel_id', 'branch_id'])['current_gpax'].mean().unstack(
+            #     fill_value=0)
+            # count_by_branch = count_by_branch.round(2)
+            # count_by_branch_check_branch = analyze_helper.check_list_column(branch_data.index, count_by_branch)
+            # count_by_branch_check_channel = analyze_helper.check_list(channel_sample.index,
+            #                                                           count_by_branch_check_branch)
+            # round_list=channel_sample['round_id'].unique().tolist()
             # gpa_by_branch = []
             
             # for i in round_list: 
@@ -88,58 +88,58 @@ class AnalyzeAdmission:
             #     gpa_by_branch.append(count_by_branch_by_round)
                 # print(count_by_branch_by_round)
 
-            if branch_id:
-                data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
-                data_split_now = data_split_now.loc[data_split_now['branch_id'] == branch_id]
+            # if branch_id:
+            #     data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
+            #     data_split_now = data_split_now.loc[data_split_now['branch_id'] == branch_id]
 
             # not used branch
             # used year
             # used branch and year
-            count_channel = data_split_now.groupby('channel_id').size()
-            count_channel_check_channel = analyze_helper.check_list(channel_sample.index, count_channel)
-            count_channel_check_channel = analyze_helper.set_fullname_index(channel_dic, count_channel_check_channel)
+            # count_channel = data_split_now.groupby('channel_id').size()
+            # count_channel_check_channel = analyze_helper.check_list(channel_sample.index, count_channel)
+            # count_channel_check_channel = analyze_helper.set_fullname_index(channel_dic, count_channel_check_channel)
 
 
-            count_school = data_split_now.school_id.value_counts()
-            sort_count_school = count_school.sort_values(ascending=False).head()
-            sort_count_school_fullname = analyze_helper.set_fullname_index(school_dict, sort_count_school)
+            # count_school = data_split_now.school_id.value_counts()
+            # sort_count_school = count_school.sort_values(ascending=False).head()
+            # sort_count_school_fullname = analyze_helper.set_fullname_index(school_dict, sort_count_school)
 
-            count_by_status = data_split_now.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
-            count_by_status_check_status = analyze_helper.check_list_column(status_data.index, count_by_status)
-            count_by_status_check_channel = analyze_helper.check_list(channel_sample.index,
-                                                                      count_by_status_check_status)
-            count_by_status_fullname = analyze_helper.set_fullname_column(status_dic, count_by_status_check_channel)
-            count_by_status_fullname = analyze_helper.set_fullname_index(channel_dic, count_by_status_fullname)
+            # count_by_status = data_split_now.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
+            # count_by_status_check_status = analyze_helper.check_list_column(status_data.index, count_by_status)
+            # count_by_status_check_channel = analyze_helper.check_list(channel_sample.index,
+            #                                                           count_by_status_check_status)
+            # count_by_status_fullname = analyze_helper.set_fullname_column(status_dic, count_by_status_check_channel)
+            # count_by_status_fullname = analyze_helper.set_fullname_index(channel_dic, count_by_status_fullname)
 
-            # used year and branch but used year and year-1
-            year_select = []
-            if year:
-                year_select.append(int(year))
-                year_select.append(int(year) - 1)
-            else:
-                max_year = data_not_year.admission_year.max()
-                year_select.append(max_year)
-                year_select.append(max_year - 1)
-            data_compare = data_not_year[data_not_year['admission_year'].isin(year_select)]
-            compare_year = data_compare.groupby(['channel_id', 'admission_year']).size().unstack(fill_value=0)
+            # # used year and branch but used year and year-1
+            # year_select = []
+            # if year:
+            #     year_select.append(int(year))
+            #     year_select.append(int(year) - 1)
+            # else:
+            #     max_year = data_not_year.admission_year.max()
+            #     year_select.append(max_year)
+            #     year_select.append(max_year - 1)
+            # data_compare = data_not_year[data_not_year['admission_year'].isin(year_select)]
+            # compare_year = data_compare.groupby(['channel_id', 'admission_year']).size().unstack(fill_value=0)
 
-            if compare_year.empty:
-                channel_name = channel_sample['channel_name'].unique().tolist()
-                compare_year_success = pd.DataFrame(0, index=np.arange(len(channel_name)), columns=year_select)
-                compare_year_success['channel_name'] = channel_name
-                compare_year_success.set_index('channel_name', inplace=True)
-            else:
-                compare_year_check_channel = analyze_helper.check_list(channel_sample.index, compare_year)
-                compare_year_success = analyze_helper.check_list_column(year_select, compare_year_check_channel)
-                compare_year_success = analyze_helper.set_fullname_index(channel_dic, compare_year_success)
+            # if compare_year.empty:
+            #     channel_name = channel_sample['channel_name'].unique().tolist()
+            #     compare_year_success = pd.DataFrame(0, index=np.arange(len(channel_name)), columns=year_select)
+            #     compare_year_success['channel_name'] = channel_name
+            #     compare_year_success.set_index('channel_name', inplace=True)
+            # else:
+            #     compare_year_check_channel = analyze_helper.check_list(channel_sample.index, compare_year)
+            #     compare_year_success = analyze_helper.check_list_column(year_select, compare_year_check_channel)
+            #     compare_year_success = analyze_helper.set_fullname_index(channel_dic, compare_year_success)
 
                 
             value = {
-                'count_channel': count_channel_check_channel.to_dict(),
+                # 'count_channel': count_channel_check_channel.to_dict(),
                 # 'count_by_branch': dict(zip(round_list, gpa_by_branch)),
-                'count_by_school': [sort_count_school_fullname.to_dict()],
-                'compare_year': [compare_year_success.to_dict('index')],
-                'count_by_status': [count_by_status_fullname.to_dict('index')]
+                # 'count_by_school': [sort_count_school_fullname.to_dict()],
+                # 'compare_year': [compare_year_success.to_dict('index')],
+                # 'count_by_status': [count_by_status_fullname.to_dict('index')]
             }
 
             response = True
