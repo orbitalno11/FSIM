@@ -11,10 +11,16 @@ import {
     Card
 } from "semantic-ui-react";
 
+import { Form, Col, FormControl } from 'react-bootstrap'
+
 import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
 import { Bar } from 'react-chartjs-2';
+
+import MediaQuery from 'react-responsive'
+
+import { minDeviceWidth } from '../../../Constant'
 
 // redux
 import { connect } from 'react-redux'
@@ -68,22 +74,47 @@ class AlumniSummary extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
-                        {
-                            yearList !== null && (
-                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                                    <option value="0">แสดงทุกปี</option>
-                                    {
-                                        yearList !== null && yearList.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            )
-                        }
+                    <Header as="h3" align='center'>
+                        <MediaQuery minWidth={minDeviceWidth}>
+                            <Form.Row>
+                                <Col className="text-right">
+                                    <Form.Label>ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา</Form.Label>
+                                </Col>
+                                <Col className="text-left">
+                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-50">
+                                        <option value="0">แสดงทุกปี</option>
+                                        {
+                                            yearList !== null && (
+                                                yearList.map(item => (
+                                                    <option key={item} value={item}>{item}</option>
+                                                ))
+                                            )
+                                        }
+                                    </FormControl>
+                                </Col>
+                            </Form.Row>
+                        </MediaQuery>
+                        <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                            <Form.Row>
+                                <Col xs={12} className="text-center">
+                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
+                                </Col>
+                                <Col xs={12} className="text-left">
+                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-100">
+                                        <option value="0">แสดงทุกปี</option>
+                                        {
+                                            yearList !== null && (
+                                                yearList.map(item => (
+                                                    <option key={item} value={item}>{item}</option>
+                                                ))
+                                            )
+                                        }
+                                    </FormControl>
+                                </Col>
+                            </Form.Row>
+                        </MediaQuery>
                     </Header>
-                    <Divider />
+                    <hr />
                     <Grid>
                         <Grid.Row columns={2} >
                             <Grid.Column >

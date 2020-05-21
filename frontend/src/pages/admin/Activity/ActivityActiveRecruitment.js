@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, FormControl, Form, Col } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 
 import { Header } from 'semantic-ui-react'
 
-import MediaQuery from 'react-responsive'
-
-import { minDeviceWidth } from '../../../Constant'
+import YearSelect from '../../../components/YearSelect'
 
 import ActiveRecruitmentDetail from './ActivityActiveRecruitementDetail'
 import ARSchool from './ActiveRecruitmentSchool'
@@ -73,45 +71,11 @@ class ActivityActiveRecruitment extends Component {
 
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
-                        <Header as="h3" align='center'>
-                            <MediaQuery minWidth={minDeviceWidth}>
-                                <Form.Row>
-                                    <Col className="text-right">
-                                        <Form.Label>ค้นหาข้อมูล Active Recruitment ของปีการศึกษา</Form.Label>
-                                    </Col>
-                                    <Col className="text-left">
-                                        <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-50">
-                                            {
-                                                yearList !== null && (
-                                                    yearList.map(item => (
-                                                        <option key={item} value={item}>{item}</option>
-                                                    ))
-                                                )
-                                            }
-                                        </FormControl>
-                                    </Col>
-                                </Form.Row>
-                            </MediaQuery>
-                            <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
-                                <Form.Row>
-                                    <Col xs={12} className="text-center">
-                                        <Form.Label>ค้นหาข้อมูล Active Recruitment ของปีการศึกษา</Form.Label>
-                                    </Col>
-                                    <Col xs={12} className="text-left">
-                                        <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleYearSelect} className="w-100">
-                                            {
-                                                yearList !== null && (
-                                                    yearList.map(item => (
-                                                        <option key={item} value={item}>{item}</option>
-                                                    ))
-                                                )
-                                            }
-                                        </FormControl>
-                                    </Col>
-                                </Form.Row>
-                            </MediaQuery>
-                        </Header>
-                        <hr />
+                        {
+                            yearList !== null && (
+                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleYearSelect} title={"ค้นหาข้อมูล Active Recruitment ของปีการศึกษา"} />
+                            )
+                        }
                         {
                             key ? (
                                 tabName !== null && arData !== null && (
