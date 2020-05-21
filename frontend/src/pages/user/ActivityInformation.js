@@ -9,6 +9,7 @@ import {
     Table
 } from "semantic-ui-react";
 import { connect } from 'react-redux'
+import { Row, Col} from 'react-bootstrap'
 
 import { Bar} from "react-chartjs-2";
 
@@ -57,9 +58,9 @@ class ActivityInformation extends Component {
                         }
                     </Header>
                     <Divider />
-                    <Grid>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
+                    <Container className="mb-5">
+                        <Row>
+                            <Col  sm={12} lg={6} className="my-2">
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
@@ -74,8 +75,8 @@ class ActivityInformation extends Component {
                                         }
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
+                            </Col>
+                            <Col  sm={12} lg={6} className="my-2">
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
@@ -91,8 +92,8 @@ class ActivityInformation extends Component {
                                         <GraphBar />
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column>
-                        </Grid.Row>
+                            </Col>
+                        </Row>
                         <Divider />
                         <Grid.Row>
                             <Header as="h3" align='center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
@@ -134,7 +135,7 @@ class ActivityInformation extends Component {
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
-                    </Grid>
+                    </Container>
 
                 </Container>
             </Fragment>

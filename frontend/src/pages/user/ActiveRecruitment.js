@@ -9,6 +9,7 @@ import {
     Image
 } from "semantic-ui-react";
 import { connect } from 'react-redux'
+import { Row, Col} from 'react-bootstrap'
 
 import { Bar } from 'react-chartjs-2';
 
@@ -89,9 +90,9 @@ class ActiveRecruitment extends Component {
                         project_set.length !== 0 ?
                             (project_set.map((item, index) => {
                                 return (
-                                    <Grid key={item['project_name']} style={{ marginTop: '2%' }}>
-                                        <Grid.Row>
-                                            <Grid.Column width={8}>
+                                    <Container key={item['project_name']} style={{ marginTop: '2%' }}>
+                                        <Row>
+                                            <Col sm={12} lg={6} className="my-2">
                                                 <Card className="card-default">
                                                     <Card.Header as="h5">
                                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
@@ -101,9 +102,9 @@ class ActiveRecruitment extends Component {
                                                         <Bar data={setupNoneStackBarChart(item['analyze_by_activity'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
-                                            </Grid.Column>
+                                            </Col>
 
-                                            <Grid.Column width={8}>
+                                            <Col  sm={12} lg={6} className="my-2">
                                                 <Card className="card-default">
                                                     <Card.Header as="h5">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
@@ -112,9 +113,9 @@ class ActiveRecruitment extends Component {
                                                         <Bar data={setupNoneStackBarChart(item['analyze_by_activity_gpax'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
+                                            </Col>
+                                        </Row>
+                                    </Container>
                                 )
 
 
