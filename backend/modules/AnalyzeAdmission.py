@@ -242,8 +242,8 @@ class AnalyzeAdmission:
                 'all_student': all_student,
                 'table': group_fullname.to_dict('index'),
                 'count' : group_analyze.to_dict(),
-                'min' : group_analyze_min,
-                'max' : group_analyze_max
+                # 'min' : group_analyze_min,
+                # 'max' : group_analyze_max
             }
 
             response = True
