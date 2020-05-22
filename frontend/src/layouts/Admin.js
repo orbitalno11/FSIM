@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import AdminHome from "../pages/admin";
 import Alumni from "../pages/admin/Alumni";
 import Activity from "../pages/admin/Activity";
-import Admission from "../pages/admin/Admission/AdmissionManage";
+import Admission from "../pages/admin/Admission";
 import Student from "../pages/admin/Student";
 import Statcourse from '../pages/user/Statcourse'
 
