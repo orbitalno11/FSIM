@@ -141,7 +141,6 @@ class AnalyzeAdmission:
                 'compare_year': [compare_year_success.to_dict('index')],
                 'count_by_status': [count_by_status_fullname.to_dict('index')]
             }
-            print(value)
             response = True
             message = "Analyze Successfully"
         else:
