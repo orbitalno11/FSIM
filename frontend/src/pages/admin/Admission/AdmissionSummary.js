@@ -11,7 +11,7 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import { getAdmissionList, selectYear } from '../../../redux/action/adminAdmissionAction1'
+import { getAdmissionList, selectYear } from '../../../redux/action/adminAdmissionAction'
 
 class AdmissionSummary extends Component {
 
