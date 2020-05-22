@@ -153,37 +153,37 @@ export const getStudentData = dept_id => dispatch => {
 
     let studentData = {}
 
-    // axios.get(`/student/department?dept_id=${dept_id}`)
-    //     .then(res => {
-    //         let data = res.data.data
+    axios.get(`/student/department?dept_id=${dept_id}`)
+        .then(res => {
+            let data = res.data.data
 
-    //         if (Object.keys(data) < 1) {
-    //             dispatch(loadStudentFailed("Can not find data"))
-    //             dispatch(stopLoading())
-    //             return
-    //         }
+            if (Object.keys(data) < 1) {
+                dispatch(loadStudentFailed("Can not find data"))
+                dispatch(stopLoading())
+                return
+            }
 
-    //         let department = data['dept_name']
-    //         // let branch = data['branch'][0]
-    //         // let byYear = data['status_by_year'][0]
-    //         // let byBranch = data['df_status_by_branch'][0]
-    //         // let dept_id = dept_id
+            let department = data['dept_name']
+            let branch = data['branch']
+            let byYear = data['status_by_year'][0]
+            let byBranch = data['df_status_by_branch'][0]
+            let dept_id = data['dept_id']
 
-    //         studentData = {
-    //             department: department,
-    //             // branch: branch,
-    //             // byYear: byYear,
-    //             // byBranch: byBranch,
-    //             // dept_id: dept_id
-    //         }
+            studentData = {
+                department: department,
+                branch: branch,
+                byYear: byYear,
+                byBranch: byBranch,
+                dept_id: dept_id
+            }
 
-    //         dispatch(loadStudentSuccess(studentData))
-    //         dispatch(stopLoading())
-    //     })
-    //     .catch(err => {
-    //         dispatch(loadStudentFailed(err))
-    //         dispatch(stopLoading())
-    //     })
+            dispatch(loadStudentSuccess(studentData))
+            dispatch(stopLoading())
+        })
+        .catch(err => {
+            dispatch(loadStudentFailed(err))
+            dispatch(stopLoading())
+        })
 }
 
 export const getStudentList = year => dispatch => {
@@ -227,6 +227,52 @@ export const getEducationList = () => dispatch => {
             dispatch(stopLoading())
         })
 }
+
+export const addStudent = data => dispatch => {
+    dispatch(addStudentStart())
+    dispatch(startLoading())
+    axios.post('/admin/student/', data)
+        .then(res => {
+            dispatch(addStudentSuccess(true))
+            dispatch(stopLoading())
+            dispatch(getEducationList())
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+
+        })
+        .catch(err => {
+            console.error(err)
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+            dispatch(addStudentFailed(err, false))
+            dispatch(stopLoading())
+        })
+}
+
+export const deleteEducation = data => dispatch => {
+    dispatch(startLoading())
+    dispatch(deleteStudentStart())
+
+    axios.delete(`/admin/student/?key${data.id}`)
+        .then(res => {
+            let data = res.data
+            if (data['response']) {
+                dispatch(deleteStudentSuccess())
+                dispatch(getEducationList())
+                dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+            }
+            else {
+                dispatch(deleteStudentFailed("Response Error"))
+                dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+
+            }
+
+            dispatch(stopLoading())
+        })
+        .catch(err => {
+            console.error(err)
+        })
+}
+
+
 // export const getYearList = () => (dispatch) => {
 //     dispatch(loadActivityYearListStart())
 //     dispatch(startLoading())

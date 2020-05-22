@@ -16,12 +16,15 @@ import {
 import Piechart from "../../../components/Graph/Pie";
 import Barchart from "../../../components/Graph/Bar";
 import Horizontal from "../../../components/Graph/BarHorizontal";
+import { Pie } from "react-chartjs-2"
 
 import { setupPieChart, setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 
 import { connect } from 'react-redux'
 import { getStudentData, getStudentList, selectYear } from '../../../redux/action/adminStudentAction'
+import { getDepartmentList } from '../../../redux/action/adminInformationAction'
+
 
 
 //  wait other
@@ -34,6 +37,24 @@ import { colorSet } from '../../../Constant'
 
 class StudentData extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            dept_id : props.id || null,
+        }
+    }
+
+    async componentDidUpdate() {
+        let { dept_id } = this.state
+        let id = this.props.id
+        if (dept_id !== id) {
+            this.getData()
+        }
+        console.log(id)
+        console.log("+")
+        console.log(dept_id)
+    }
+
     componentDidMount() {
         this.getData()
     }
@@ -45,23 +66,21 @@ class StudentData extends Component {
     }
 
     getData = () => {
-        let { selectedYear } = this.props.student
-        let { dept_id } = this.props.student
-        // this.props.getStudentData(dept_id)
+        this.props.getDepartmentList()
+        let { dept_id } = this.state
+        this.props.getStudentData(dept_id)
         // this.props.getStudentList(selectedYear)
     }
 
     render() {
+        // let { departmentList } = this.props.information
+        let { studentData , studentList, selectedYear , yearList, department } = this.props.student
         
-        let { studentData , studentList, selectedYear , yearList} = this.props.student
-
-        console.log(studentData)
         return (
             <Fragment>
-                
                 <Container style={{backgroundColor:"#FFFFFF",padding:"2%"}}>
                     <Header as="h3" align = 'center'>
-                            ค้นหาข้อมูลการรับเข้าของปีการศึกษา{" "}
+                            ค้นหาข้อมูลการรับเข้าของปีการศึกษา
                             {
                             <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
                                 {
@@ -74,9 +93,9 @@ class StudentData extends Component {
                         </Header>
                         <Divider/>
                     <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
-                        จำนวนนักศึกษาทุกชั้นปี {}
+                        จำนวนนักศึกษาทุกชั้นปี {department}
                     </Header>
-                    
+
                     <Grid textAlign={"center"}>
                             <Grid.Row columns={2}>
                                 <Grid.Column>
@@ -87,7 +106,7 @@ class StudentData extends Component {
                                         <Card.Content>
                                         {
                                             studentData !== null ? (
-                                                <Piechart data={setupNoneStackBarChart(studentData.joinByStudent)} legend={{ display: false }} />
+                                                <Piechart  data={setupStackBarChart(studentData.branch)}  />
                                             ) : (
                                                     <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                 )
@@ -103,7 +122,7 @@ class StudentData extends Component {
                                         <Card.Content>
                                         {
                                             studentData !== null ? (
-                                                <Barchart data={setupNoneStackBarChart(studentData.joinByStudent)} legend={{ display: false }} />
+                                                <Barchart data={setupStackBarChart(studentData.byYear)}  />
                                             ) : (
                                                     <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                 )
@@ -119,11 +138,17 @@ class StudentData extends Component {
                                             <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                         </Card.Header>
                                         <Card.Content>
-                                            <Horizontal  />
+                                        {
+                                            studentData !== null ? (
+                                                <Horizontal data={setupStackBarChart(studentData.byBranch)} legend={{display: false}}  />
+                                                ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                         </Card.Content>
                                     </Card>
                                 </Grid.Column>
-                            </Grid.Row>                       
+                            </Grid.Row>
                         </Grid>
                 </Container>
             </Fragment>
@@ -133,7 +158,8 @@ class StudentData extends Component {
 
 const mapStateToProps = state => (
     {
-        student: state.admin_student
+        student: state.admin_student,
+        information: state.admin_information
     }
 )
 
@@ -141,8 +167,8 @@ const mapDispatchToProps = dispatch => (
     {
         getStudentData: (dept_id) => dispatch(getStudentData(dept_id)),
         getStudentList: (year) => dispatch(getStudentList(year)),
-        setYear: (year) => dispatch(selectYear(year))
+        setYear: (year) => dispatch(selectYear(year)),
+        getDepartmentList: () => dispatch(getDepartmentList())
     }
 )
 export default connect(mapStateToProps,mapDispatchToProps)(StudentData)
-

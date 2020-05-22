@@ -96,6 +96,21 @@ export default (state = initialState, action) => {
                 actionResult: action.actionResult,
                 error: action.error
             }
+        case types.DELETE_STUDENT_START:
+            return {
+                ...state
+            }
+        case types.DELETE_STUDENT_SUCCESS:
+            return {
+                ...state,
+                actionResult: action.actionResult
+            }
+        case types.DELETE_STUDENT_FAILED:
+            return {
+                ...state,
+                actionResult: action.actionResult,
+                error: action.error
+            }
         case types.GET_STUDENT_YEAR_LIST_START:
             return {
                 ...state

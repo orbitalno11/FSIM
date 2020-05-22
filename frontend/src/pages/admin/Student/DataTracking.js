@@ -23,25 +23,35 @@ import DataTable from "../../../components/DataTable";
 
 class SummarySurvey extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      dept_id: props.id || null,
+      studentList: null
+    }
+  }
 
   componentDidMount() {
-    this.getData()
+    this.props.getStudentList()
   }
 
-  handleSeclectYear = async event => {
-    let value = event.target.value
-    await this.props.setYear(value)
-    this.getData()
-  }
+  // handleSeclectYear = async event => {
+  //   let value = event.target.value
+  //   await this.props.setYear(value)
+  //   this.getData()
+  // }
 
-  getData = () => {
-    let { selectedYear } = this.props.student
-    // this.props.getStudentData(dept_id)
-    this.props.getStudentList(selectedYear)
-  }
+  // getData = () => {
+  //   let { selectedYear } = this.props.student
+  //   // this.props.getStudentData(dept_id)
+  //   this.props.getStudentList(selectedYear)
+
+  // }
 
   render() {
-    let { studentList, selectedYear, yearList } = this.props.student
+    let { studentList } = this.props.student
+    console.log(studentList)
     return (
       <Fragment>
         <Table>
@@ -96,8 +106,8 @@ const mapstateTpProps = state => (
 
 const mapDispatchProps = dispatch => (
   {
-    getStudentList: (selectedYear) => dispatch(getStudentList(selectedYear)),
-    setYear: (year) => dispatch(selectYear(year))
+    getStudentList: () => dispatch(getStudentList()),
+    // setYear: (year) => dispatch(selectYear(year))
   }
 )
 

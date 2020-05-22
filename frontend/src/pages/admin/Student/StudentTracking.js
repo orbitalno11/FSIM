@@ -64,7 +64,7 @@ class StudentTracking extends Component {
         if (departmentList !== null) {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
             departmentList.forEach(item => {
-                tabDetail.push(convertDetail(item['dept_id'], <DataTracking data={item} />))
+                tabDetail.push(convertDetail(item['dept_id'], <DataTracking id={item['dept_id']} />))
             })
         }
 

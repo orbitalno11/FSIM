@@ -2,6 +2,10 @@ import React, { Component, Fragment } from 'react'
 
 import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
 
+
+import { connect } from 'react-redux'
+import { selectYear, addStudent } from '../../../redux/action/adminStudentAction'
+
 //
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
@@ -14,9 +18,9 @@ import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } f
 // 
 // import LineChart from '../../../components/Graph/Line'
 
-const AddTab = () => (
+const AddTab = ({submit , selectFile , selectYear}) => (
     <Fragment>
-        <Form>
+        <Form onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ปีการศึกษา
@@ -24,7 +28,13 @@ const AddTab = () => (
                 <InputGroup>
                     <FormControl as="select">
                         <option>กรุณาเลือกปีการศึกษา</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
+                        <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required >
+                        {/* {
+                                selectYear.map((item, index) => (
+                                    <option key={index} value={item['year']}>{item['year']}</option>
+                                ))
+                            } */}
+                        </Form.Control>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
@@ -33,12 +43,12 @@ const AddTab = () => (
                     ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv">
+                    <FormControl type="file" accept=".excel,.xlsx,.csv"  onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
+            <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
+            <Button  type="submit" className="btn-info interval-1" >SUBMIT</Button>
            
         </Form>
     </Fragment>
@@ -98,15 +108,21 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: '1'
+            tabKey: '1',
+            selectedFile: null
         }
     }
+
+    // componentDidMount() {
+    //     this.addStudent()
+    // }
 
   
 
     render() {
-        let { location, match } = this.props
+        let { selectYear } = this.props.student
         let { tabKey } = this.state
+
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
@@ -145,4 +161,20 @@ class StudentAdd extends Component {
     }
 }
 
-export default  StudentAdd
+
+const mapStateToProps = state => (
+    {
+        student: state.admin_student
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        addStudent: (data) => dispatch(addStudent(data)),
+        selectYear: (year) => dispatch(selectYear(year))
+        
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAdd) 
+
