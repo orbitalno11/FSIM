@@ -155,3 +155,7 @@ export const LOAD_ADMISSION_LIST_FAILED = "load_admission_list_failed"
 export const DELETE_ADMISSION_START = "load_delete_admission_start"
 export const DELETE_ADMISSION_SUCCESS = "load_delete_admission_success"
 export const DELETE_ADMISSION_FAILED = "load_delete_admission_failed"
+
+export const ADD_ADMISSION_START = "load_add_admission_start"
+export const ADD_ADMISSION_SUCCESS = "load_add_admission_success"
+export const ADD_ADMISSION_FAILED = "load_add_admission_failed"
