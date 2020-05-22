@@ -37,6 +37,7 @@ class AnalyzeAdmission:
         if data['value']:
 
             df = pd.DataFrame(data['value'])
+            
             # real data  
             branch = connect.get_branch()
             branch_data = analyze_helper.set_branch(branch['value'])
@@ -132,7 +133,7 @@ class AnalyzeAdmission:
                 compare_year_success = analyze_helper.check_list_column(year_select, compare_year_check_channel)
                 compare_year_success = analyze_helper.set_fullname_index(channel_dic, compare_year_success)
 
-                
+            
             value = {
                 'count_channel': count_channel_check_channel.to_dict(),
                 'count_by_branch': dict(zip(round_list, gpa_by_branch)),
@@ -140,7 +141,7 @@ class AnalyzeAdmission:
                 'compare_year': [compare_year_success.to_dict('index')],
                 'count_by_status': [count_by_status_fullname.to_dict('index')]
             }
-
+            print(value)
             response = True
             message = "Analyze Successfully"
         else:
