@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 import Barchart from "../../components/Graph/Bar";
 // import Linechart from "../../components/Graph/Line"; 
 import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-// import { Bar} from "react-chartjs-2";
+import { Bar} from "react-chartjs-2";
 
 // import GraphLine from "../../components/Graph/Line";
 // import AdmissionTypePanel from "../../components/AddmissionTypePanel";
@@ -148,7 +148,7 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={countGrade} />
+                                        <Barchart data={countGrade} legend={{ display: false }} />
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -162,7 +162,7 @@ class Admission extends Component {
                                     <Card.Content>
                                     {
                                             countSchool !== null && (
-                                                <Barchart data={countSchool}  />
+                                                <Bar data={countSchool} legend={{ display: true }}  />
                                             )
                                         }
                                     </Card.Content>

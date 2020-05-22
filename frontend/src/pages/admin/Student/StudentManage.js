@@ -56,7 +56,7 @@ class ActivityManage extends Component {
                                         <Table.Cell>{item['dept_name']}</Table.Cell>
                                         <Table.Cell>{item['branch_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteActivity(item)}>ลบ</Button>
+                                            <Button onClick={() => this.handleDeleteActivity(item['educationYear'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
