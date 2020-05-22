@@ -34,7 +34,7 @@ import { LOGIN_SUCCESS } from './redux/types'
 import axios from 'axios'
 import AdminMenu from './components/AdminMenu'
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk,logger));
 // logger
 
 const token = localStorage.FSIMIdToken

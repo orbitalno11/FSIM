@@ -6,129 +6,75 @@ import { Form, FormControl, InputGroup } from 'react-bootstrap'
 import AdmissionSummary from "./AdmissionSummary";
 import AdmissionStudentSummary from "./AdmissionStudentSummary";
 
-const ManageTab = () => (
-    <Fragment>
-        <Table>
-            <Table.Header>
-                <Table.Row textAlign="center">
-                    <Table.HeaderCell>
-                        ลำดับ
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                        ปีการศึกษา
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                       รอบรับเข้า
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                        โครงการที่รับเข้า
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                       ไฟล์
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                        ดำเนินการ
-                    </Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                <Table.Row textAlign="center" >
-                    <Table.Cell>
-                        1
-                    </Table.Cell>
-                    <Table.Cell>
-                        2560
-                    </Table.Cell>
-                    <Table.Cell>
-                        1
-                    </Table.Cell>
-                    <Table.Cell>
-                        เรียนดี
-                    </Table.Cell>
-                    <Table.Cell>
-                        ไฟล์
-                    </Table.Cell>
-                    <Table.Cell>
-                        <Button>แก้ไข</Button>
-                        <Button>ลบ</Button>
-                    </Table.Cell>
-                </Table.Row>
-            </Table.Body>
-        </Table>
-    </Fragment>
-)
-const AddTab = () => (
-    <Fragment>
-        <Form>
-            <Form.Group>
-                <Form.Label>
-                    ปีที่รับเข้า
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    รอบรับเข้า
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกรอบที่รับเข้า</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    โครงการที่รับเข้า
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกโครงการที่รับเข้า</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ข้อมูลการรับนักศึกษา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv">
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
-        </Form>
-    </Fragment>
-)
+import { connect } from 'react-redux'
+import { getAdmissionList, deleteAdmission} from '../../../redux/action/adminAdmissionAction'
 
-class NewStudent extends Component {
+class AdmissionManage extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
+
         this.state = {
-            key: "SearchNewStudent",
-            branch: []
+            admissionList: null
         }
     }
 
+    componentDidMount() {
+        this.props.getAdmissionList()
+    }
+
+    handleDeleteAdmission = (year,round_id,channel_id) => {
+        this.props.deleteAdmission(year,round_id,channel_id)
+    }
+
     render() {
-        let tab = ["สรุปข้อมูลนักศึกษาใหม่", "สรุปข้อมูลการรับนักศึกษา", "จัดการข้อมูล", "เพิ่มข้อมูลการรับนักศึกษาใหม่"]
-        let pane = [<AdmissionSummary/>,<AdmissionStudentSummary/> , < ManageTab/>, <AddTab />]
+        let { admissionList } = this.props.admission
         return (
             <Fragment>
-                <TabDialog
-                    dialogName="ข้อมูลการรับนักศึกษา"
-                    tabList={tab}
-                    paneList={pane}
-                />
+                <Table>
+                    <Table.Header>
+                        <Table.Row textAlign="center">
+                            <Table.HeaderCell > ลำดับ </Table.HeaderCell>
+                            <Table.HeaderCell > ปีการศึกษา </Table.HeaderCell>
+                            <Table.HeaderCell>รอบรับเข้า</Table.HeaderCell>
+                            <Table.HeaderCell style={{width:'50%'}} > โครงการที่รับเข้า </Table.HeaderCell>
+                            <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {
+                            admissionList !== null && (
+                                admissionList.map((item, index) => (
+                                    <Table.Row textAlign="center" key={index}>
+                                        <Table.Cell>{index + 1}</Table.Cell>
+                                        <Table.Cell>{item['admission_year']}</Table.Cell>
+                                        <Table.Cell>{item['round_name']}</Table.Cell>
+                                        <Table.Cell textAlign="left">{item['channel_name']}</Table.Cell>
+                                        <Table.Cell>
+                                            <Button onClick={() => this.handleDeleteAdmission(item['admission_year'],item['round_id'],item['channel_id'])}>ลบ</Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            )
+                        }
+                    </Table.Body>
+                </Table>
             </Fragment>
-        );
+        )
     }
 }
 
-export default NewStudent
+const mapStateTpProps = state => (
+    {
+        admission: state.admin_admission
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getAdmissionList: () => dispatch(getAdmissionList()),
+        deleteAdmission: (year,round_id,channel_id) => dispatch(deleteAdmission(year,round_id,channel_id))
+    }
+)
+
+export default connect(mapStateTpProps, mapDispatchToProps)(AdmissionManage)

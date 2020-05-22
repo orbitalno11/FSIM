@@ -416,10 +416,10 @@ class DatabaseHelper:
 
     def get_all_status_admission(self, year=None):
         if year is not None:
-            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status where admission_year like '%s' " % (
+            sql_command = "SELECT status_id,channel_id,branch_id FROM `admission_in_branch` NATURAL JOIN `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status where admission_year like '%s' " % (
                 year)
         else:
-            sql_command = "SELECT status_id,channel_id FROM `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status "
+            sql_command = "SELECT status_id,channel_id,branch_id FROM `admission_in_branch` NATURAL JOIN `admission` NATURAL JOIN admission_channel NATURAL JOIN admission_from NATURAL JOIN entrance NATURAL JOIN has_status "
 
         execute = self.__execute_query(sql_command)
 
@@ -430,7 +430,8 @@ class DatabaseHelper:
             data = {
 
                 'status_id': data[0],
-                'channel_id': data[1]
+                'channel_id': data[1],
+                'branch_id' : data[2]
             }
             out_function_data.append(data)
 
@@ -983,12 +984,13 @@ class DatabaseHelper:
         year = "{}%".format(year)
 
         try:
-            self.__execute_delete_data(table="study_in", column="student_id", value=year)
-            self.__execute_delete_data(table="entrance", column="student_id", value=year)
-            self.__execute_delete_data(table="graduated", column="student_id", value=year)
-            self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
-            self.__execute_delete_data(table="academic_record", column="student_id", value=year)
-            self.__execute_delete_data(table="student", column="student_id", value=year)
+            print("DELETE HELLO {}".format(year))
+            # self.__execute_delete_data(table="study_in", column="student_id", value=year)
+            # self.__execute_delete_data(table="entrance", column="student_id", value=year)
+            # self.__execute_delete_data(table="graduated", column="student_id", value=year)
+            # self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
+            # self.__execute_delete_data(table="academic_record", column="student_id", value=year)
+            # self.__execute_delete_data(table="student", column="student_id", value=year)
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))

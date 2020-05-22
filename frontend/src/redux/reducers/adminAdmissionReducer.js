@@ -4,10 +4,11 @@ let year = new Date()
 year = year.getFullYear() + 543
 
 const initialState = {
-    activityList: null,
-    activityListByYear: null,
+    admissionList: null,
+    admissionListByYear: null,
     yearList: null,
     selectedYear: year,
+    actionResult: null,
     error: null
 }
 
@@ -35,23 +36,25 @@ export default (state = initialState, action) => {
                     admissionList: null,
                     error: action.error
                 }
-            case types.GET_ADMISSION_YEAR_LIST_START:
-                return {
-                     ...state
-                    }
+            // case types.GET_ADMISSION_YEAR_LIST_START:
+            //     return {
+            //          ...state
+            //         }
         
-            case types.GET_ADMISSION_YEAR_LIST_SUCCESS:
-                return {
-                    ...state,
-                    yearList: action.yearList
-                    }
+            // case types.GET_ADMISSION_YEAR_LIST_SUCCESS:
+            //     return {
+            //         ...state,
+            //         yearList: action.yearList
+            //         }
         
-            case types.GET_ADMISSION_YEAR_LIST_FAILED:
-                return {
-                    ...state,
-                    yearList: null,
-                    error: action.error
-                    }
+            // case types.GET_ADMISSION_YEAR_LIST_FAILED:
+            //     return {
+            //         ...state,
+            //         yearList: null,
+            //         error: action.error
+            //         }
+
+
             default: return state
         }
     }

@@ -9,19 +9,26 @@ import {
     Table
 } from "semantic-ui-react";
 
-import { FormControl, Form, Col } from 'react-bootstrap'
-
-import MediaQuery from 'react-responsive'
-
-import { minDeviceWidth } from '../../../Constant'
-
 import GraphBar from "../../../components/Graph/Bar";
+
+import YearSelect from '../../../components/YearSelect'
 
 import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar } from "react-chartjs-2";
 
 import { connect } from 'react-redux'
 import { getActivityData, getActivityList, selectYear } from '../../../redux/action/adminActivityAction'
+
+
+const option = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                display: false
+            }
+        }]
+    }
+}
 
 
 class ActivitySummary extends Component {
@@ -44,47 +51,15 @@ class ActivitySummary extends Component {
 
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
+
         return (
             <Fragment>
                 <Container>
-                    <Header as="h3" align='center'>
-                        <MediaQuery minWidth={minDeviceWidth}>
-                            <Form.Row>
-                                <Col className="text-right">
-                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
-                                </Col>
-                                <Col className="text-left">
-                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleSeclectYear} className="w-50">
-                                        {
-                                            yearList !== null && (
-                                                yearList.map(item => (
-                                                    <option key={item} value={item}>{item}</option>
-                                                ))
-                                            )
-                                        }
-                                    </FormControl>
-                                </Col>
-                            </Form.Row>
-                        </MediaQuery>
-                        <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
-                            <Form.Row>
-                                <Col xs={12} className="text-center">
-                                    <Form.Label>ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา</Form.Label>
-                                </Col>
-                                <Col xs={12} className="text-left">
-                                    <FormControl as="select" custom defaultValue={selectedYear} onChange={this.handleSeclectYear} className="w-100">
-                                        {
-                                            yearList !== null && (
-                                                yearList.map(item => (
-                                                    <option key={item} value={item}>{item}</option>
-                                                ))
-                                            )
-                                        }
-                                    </FormControl>
-                                </Col>
-                            </Form.Row>
-                        </MediaQuery>
-                    </Header>
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     <Grid textAlign='center'>
                         <Grid.Row>
                             <Grid.Column mobile={16} computer={8}>

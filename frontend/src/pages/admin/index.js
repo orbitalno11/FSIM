@@ -83,6 +83,16 @@ class AdminHome extends Component {
         await this.fetchAmountStudent()
         await this.fetchAmountAlumni()
         this.setUpAmountStudentChart()
+
+        axios.get('/admin/information')
+        .then(res => {
+            let recieved_data = res.data.data
+
+            console.log(res)
+        })
+        .catch(err => {
+
+        })
     }
 
     render() {
@@ -92,7 +102,7 @@ class AdminHome extends Component {
                 <Image src={KMUTT} alt="KMUTT" fluid />
                 <Container fluid className="mt-5 mx-2">
                     <Row>
-                        <Col sm={6} lg={3} className="text-center">
+                        <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/student">
                                 <div className="circle mx-auto">
                                     <FontAwesomeIcon icon={faUserTie} size="5x" />
@@ -100,7 +110,7 @@ class AdminHome extends Component {
                                 <label>ข้อมูลนักศึกษาปัจจุบัน</label>
                             </Link>
                         </Col>
-                        <Col sm={6} lg={3} className="text-center">
+                        <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/admission">
                                 <div className="circle mx-auto">
                                     <FontAwesomeIcon icon={faFileAlt} size="5x" />
@@ -108,7 +118,7 @@ class AdminHome extends Component {
                                 <label>ข้อมูลการรับนักศึกษา</label>
                             </Link>
                         </Col>
-                        <Col sm={6} lg={3} className="text-center">
+                        <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/activity">
                                 <div className="circle mx-auto">
                                     <FontAwesomeIcon icon={faHiking} size="5x" />
@@ -116,7 +126,7 @@ class AdminHome extends Component {
                                 <label>ข้อมูลกิจกรรม</label>
                             </Link>
                         </Col>
-                        <Col sm={6} lg={3} className="text-center">
+                        <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/alumni">
                                 <div className="circle mx-auto">
                                     <FontAwesomeIcon icon={faGraduationCap} size="5x" />

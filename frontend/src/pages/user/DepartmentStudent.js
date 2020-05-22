@@ -7,7 +7,7 @@ import {
     Header,
     Card
 } from "semantic-ui-react";
-
+import { Row, Col} from 'react-bootstrap'
 
 import Piechart from "../../components/Graph/Pie";
 import Barchart from "../../components/Graph/Bar";
@@ -93,42 +93,41 @@ class DepartmentStudent extends Component {
                         จำนวนนักศึกษาทุกชั้นปี {department}
                     </Header>
 
-                    <Grid textAlign={"center"}>
-                        <Grid.Row columns={2}>
-                            <Grid.Column>
+                    <Container className="mb-5">
+                        <Row >
+                            <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
+                                        จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
                                         <Piechart data={studentByBranch} />
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column>
-                            <Grid.Column>
+                            </Col>
+                            <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
+                                       สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
                                         <Barchart data={studentByYear} />
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
+                            </Col>
+                        
+                            <Col sm={12} lg={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
+                                        สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
                                         <Horizontal data={branchByStatus} />
                                     </Card.Content>
                                 </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Container>
             </Fragment>
         )

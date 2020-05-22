@@ -109,6 +109,30 @@
     font-size: 1.5rem;
 }
 
+
+.circle-user{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: #FF4612;
+    padding: 1.5rem;
+    color: white;
+}
+
+.circle-user:hover{
+    background-color: #FF4612;
+    border-radius: 50%;
+    width: 105px;
+    height: 105px;
+    transition: 0.2s;
+}
+
+.circle-user+label{
+    color: black;
+    font-size: 1.2rem;
+    align-items: center; 
+}
+
 .year-select{
     font-size: 0.75rem;
     margin-right: 1rem;

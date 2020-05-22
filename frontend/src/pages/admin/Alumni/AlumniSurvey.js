@@ -8,6 +8,8 @@ import {
     Table
 } from "semantic-ui-react";
 
+import YearSelect from '../../../components/YearSelect'
+
 // redux
 import { connect } from 'react-redux'
 import { setSelectedYear, loadSurveyData } from '../../../redux/action/adminAlumniAction'
@@ -43,22 +45,14 @@ class AlumniSurvey extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
-                        {
-                            yearList !== null && (
-                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                                    <option value="0">เลือกปีการศึกษา</option>
-                                    {
-                                        yearList !== null && yearList.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            )
-                        }
-                    </Header>
-                    <Divider />
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList}
+                                selectedYear={selectedYear}
+                                onSelectYear={this.handleYearSelect}
+                                title={"ค้นหาข้อมูลแบบสอบถามของปีการศึกษา"} />
+                        )
+                    }
                     <Grid>
                         <Grid.Row>
                             <Header as="h3">

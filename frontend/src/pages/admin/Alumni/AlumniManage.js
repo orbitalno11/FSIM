@@ -174,7 +174,6 @@ class AlumniManage extends Component {
                         <tr className="text-center">
                             <th >ลำดับ</th>
                             <th>ปีการศึกษา</th>
-                            <th style={{width:'60%'}}>ตารางที่เลือก</th>
                             <th>ดำเนินการ</th>
                         </tr>
                     </thead>
@@ -186,14 +185,6 @@ class AlumniManage extends Component {
                                     <tr key={index}>
                                         <td style={{textAlign:'center'}}>{index + 1}</td>
                                         <td style={{textAlign:'center'}}>{item['educationYear']}</td>
-                                        <td>
-                                        
-                                            <ul>
-                                                { item['tableHeader'] == null ? null:(item['tableHeader'].map((item,index)=>
-                                                <li key={index}>{item}</li>))}
-                                            </ul>
-                                        </td>
-
                                         <td style={{textAlign:'center'}}>
                                             <ButtonGroup aria-label="Basic example" style={{width:'80%'}}>
 

@@ -18,7 +18,7 @@ import backend.modules.AuthenticationModule as auth
 admin_student = Blueprint('admin_student', __name__)
 
 
-@admin_student.route('/', methods=['POST'])
+@admin_student.route('', methods=['POST'])
 def add_student_data():
 
     try:
@@ -44,7 +44,7 @@ def add_student_data():
     return api_helper.return_response(insert)
 
 
-@admin_student.route('/', methods=['DELETE'])
+@admin_student.route('', methods=['DELETE'])
 def delete_student_data():
 
     year = request.args.get('year')
