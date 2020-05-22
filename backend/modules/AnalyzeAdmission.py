@@ -86,7 +86,6 @@ class AnalyzeAdmission:
                     count_by_branch_by_channel['gpa_by_branch']=check_by_round_channel.to_dict('index')
                     count_by_branch_by_round.append(count_by_branch_by_channel)
                 gpa_by_branch.append(count_by_branch_by_round)
-                print(count_by_branch_by_round)
 
             if branch_id:
                 data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
