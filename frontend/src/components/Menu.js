@@ -27,7 +27,7 @@ class UserNavbar extends Component {
       <Fragment>
         <Responsive
           getWidth={getWidth}
-          minWidth={Responsive.onlyTablet.minWidth}
+          // minWidth={Responsive.onlyTablet.minWidth}
         >
           <Visibility
             once={false}
