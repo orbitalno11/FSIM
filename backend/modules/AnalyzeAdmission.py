@@ -201,11 +201,25 @@ class AnalyzeAdmission:
         data = connect.get_all_status_admission(year)
         value = {}
         if data['value']:
+           
             df = pd.DataFrame(data['value'])
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             channel_data = analyze_helper.set_fullname(connect.get_admission_channel())
             channel_dict = analyze_helper.set_dict(channel_data.index, channel_data.channel_name)
+            branch = connect.get_branch()
+            branch_data = analyze_helper.set_branch(branch['value'])
+            branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+
+
+            group_brance = df.groupby(['channel_id','branch_id']).size().unstack(fill_value=0)
+            group_brance = analyze_helper.set_fullname_column(branch_dict, group_brance)
+            group_brance = analyze_helper.set_fullname_index(channel_dict, group_brance)
+
+            group_analyze = df.groupby(['channel_id']).size()
+            group_analyze_min = group_analyze.min()
+            group_analyze_max = group_analyze.max()
+            group_analyze = analyze_helper.set_fullname_index(channel_dict, group_analyze)
 
             all_student = len(df)
             channel_count = df.channel_id.value_counts()
@@ -224,10 +238,13 @@ class AnalyzeAdmission:
             group = group.round(2).sort_index()
             group_check_index = analyze_helper.check_list(channel_data.index, group)
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
-
             value = {
+                'count_by_brance' : group_brance.to_dict('index'),
                 'all_student': all_student,
-                'table': group_fullname.to_dict('index')
+                'table': group_fullname.to_dict('index'),
+                'count' : group_analyze.to_dict(),
+                'min' : group_analyze_min,
+                'max' : group_analyze_max
             }
 
             response = True
