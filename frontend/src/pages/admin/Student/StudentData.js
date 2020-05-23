@@ -106,7 +106,7 @@ class StudentData extends Component {
                                         <Card.Content>
                                         {
                                             studentData !== null ? (
-                                                <Piechart  data={setupStackBarChart(studentData.branch)}  />
+                                                <Piechart  data={setupPieChart(studentData.branch)}  />
                                             ) : (
                                                     <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                 )

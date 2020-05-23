@@ -1,28 +1,67 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
+import { Container, Nav, Tab, Col, Row,Button } from 'react-bootstrap'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 
-//
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
+import {
+    Table,
+  } from "semantic-ui-react";
 
-// 
+ 
 
 
 import { connect } from 'react-redux'
 import { getStudentList, selectYear } from '../../../redux/action/adminStudentAction'
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
-// import TabDialog from '../../../components/TabDialog';
-import DataTracking from "./DataTracking";
 
-
-// 
-// import LineChart from '../../../components/Graph/Line'
-
-
+const Traching = ({id_dep,data})=>{
+        return (
+          <Fragment>
+          
+            <Table>
+              <Table.Header>
+                <Table.Row textAlign="center">
+                  <Table.HeaderCell> ลำดับ </Table.HeaderCell>
+                  <Table.HeaderCell> รหัสนักศึกษา </Table.HeaderCell>
+                  <Table.HeaderCell>ชื่อ-นามสกุล</Table.HeaderCell>
+                  <Table.HeaderCell> สาขา </Table.HeaderCell>
+                  <Table.HeaderCell>GPA</Table.HeaderCell>
+                  <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> 
+                   <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {
+                  data !== null ? (
+                    data.map((item, index) => (
+                      <Table.Row textAlign="center" key={index}>
+                        <Table.Cell>{index + 1}</Table.Cell>
+                        <Table.Cell>{item['student_id']}</Table.Cell>
+                        <Table.Cell>{item['firstname']}</Table.Cell>
+                        <Table.Cell>{item['branch_name']}</Table.Cell>
+                        <Table.Cell>{item['current_gpax']}</Table.Cell> 
+                        <Table.Cell>{item['current_gpax']}</Table.Cell> 
+                         <Table.Cell>
+                                                <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
+                                            </Table.Cell> 
+                       </Table.Row>
+                    ))
+                  ) : (
+                      <Table.Row>
+                        <Table.Cell colSpan={3}>
+                          <h2 className="text-center">ไม่พบข้อมูล</h2>
+                        </Table.Cell>
+                      </Table.Row>
+                    )
+                }
+              </Table.Body> 
+            </Table>
+          </Fragment>
+    
+        );
+}
 
 class StudentTracking extends Component {
 
@@ -44,11 +83,11 @@ class StudentTracking extends Component {
     }
 
 
-    handleYearSelect = async event => {
-        let value = event.target.value
-        await this.props.setYear(value)
-        this.getData()
-    }
+    // handleYearSelect = async event => {
+    //     let value = event.target.value
+    //     await this.props.setYear(value)
+    //     this.getData()
+    // }
 
 
    
@@ -57,14 +96,17 @@ class StudentTracking extends Component {
 
         let { departmentList } = this.props.information
 
+        let { studentList } = this.props.student
+
         let key = departmentList !== null && departmentList[0]['dept_id']
 
         let tabName = null, tabDetail = []
 
-        if (departmentList !== null) {
+        if (departmentList !== null&&studentList!==null) {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
             departmentList.forEach(item => {
-                tabDetail.push(convertDetail(item['dept_id'], <DataTracking id={item['dept_id']} />))
+                let student  = studentList.filter(data => data['dept_id'] == item['dept_id'])
+                tabDetail.push(convertDetail(item['dept_id'], <Traching id={item['dept_id']} data={student[0]['student']} />))
             })
         }
 
@@ -110,7 +152,6 @@ const mapDispatchToProps = dispatch => (
     {
         getStudentList: (selectedYear) => dispatch(getStudentList(selectedYear)),
         getDepartmentList: () => dispatch(getDepartmentList()),
-        setYear: (year) => dispatch(selectYear(year))
     }
 )
 
