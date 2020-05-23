@@ -106,18 +106,22 @@ class StudentSummary extends Component {
        
         let { departmentList } = this.props.information
         let { studentData } = this.props.student
-        let key = departmentList !== null && departmentList[0]['dept_id']
+        let key = false, tabName = null, tabDetail = []
 
-        let tabName = null, tabDetail = []
+        if(departmentList !== null&& departmentList.length){
+            let key = departmentList[0]['dept_id']
 
-        if (departmentList !== null && studentData!==null) {
-            tabName = convertTabName(departmentList, "dept_id", "dept_name")
-            
-            departmentList.forEach(item => {
-                let studentDept= studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
-                tabDetail.push(convertDetail(item['dept_id'], <StudentData  data={studentDept[0]} />))
-            })
-        }
+            let tabName = null, tabDetail = []
+
+            if (departmentList !== null && studentData!==null) {
+                tabName = convertTabName(departmentList, "dept_id", "dept_name")
+                
+                departmentList.forEach(item => {
+                    let studentDept= studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
+                    tabDetail.push(convertDetail(item['dept_id'], <StudentData  data={studentDept[0]} />))
+                })
+            }
+    }
 
        
         return (
