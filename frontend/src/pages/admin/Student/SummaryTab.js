@@ -21,69 +21,69 @@ import { getStudentData } from '../../../redux/action/adminStudentAction'
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 
-const StudentData =({data})=>{
+const StudentData = ({ data }) => {
 
     return (
         <Fragment>
-            <Container style={{backgroundColor:"#FFFFFF",padding:"2%"}}>
-              
-                <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
-                    จำนวนนักศึกษาทุกชั้นปี 
+            <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
+
+                <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
+                    จำนวนนักศึกษาทุกชั้นปี
                 </Header>
-                 <Grid textAlign={"center"}>
-                        <Grid.Row columns={2}>
-                            <Grid.Column>
-                                <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>จำนวนนักศึกษาต่อสาขา</h3>
-                                    </Card.Header>
-                                    <Card.Content>
+                <Grid textAlign={"center"}>
+                    <Grid.Row columns={2}>
+                        <Grid.Column>
+                            <Card fluid>
+                                <Card.Header textAlign={"center"}>
+                                    <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                </Card.Header>
+                                <Card.Content>
                                     {
                                         data !== null ? (
-                                            <Piechart  data={setupPieChart(data.branch)}  />
+                                            <Piechart data={setupPieChart(data.branch)} />
                                         ) : (
                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                             )
-                                    } 
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
-                                    </Card.Header>
-                                    <Card.Content>
-                                      {
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Card fluid>
+                                <Card.Header textAlign={"center"}>
+                                    <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                </Card.Header>
+                                <Card.Content>
+                                    {
                                         data !== null ? (
-                                            <Barchart data={setupStackBarChart(data.status_by_year[0])}  />
+                                            <Barchart data={setupStackBarChart(data.status_by_year[0])} />
                                         ) : (
                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                             )
-                                    }  
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Card fluid>
-                                    <Card.Header textAlign={"center"}>
-                                        <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
-                                    </Card.Header>
-                                    <Card.Content>
-                                      {
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Card fluid>
+                                <Card.Header textAlign={"center"}>
+                                    <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                </Card.Header>
+                                <Card.Content>
+                                    {
                                         data !== null ? (
-                                            <Horizontal data={setupStackBarChart(data.df_status_by_branch[0])} legend={{display: false}}  />
-                                            ) : (
+                                            <Horizontal data={setupStackBarChart(data.df_status_by_branch[0])} legend={{ display: false }} />
+                                        ) : (
                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                             )
-                                    }  
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid> 
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Container>
         </Fragment>
     )
@@ -93,7 +93,7 @@ const StudentData =({data})=>{
 class StudentSummary extends Component {
 
     componentDidMount() {
-       this.getData()
+        this.getData()
     }
 
     getData = () => {
@@ -103,27 +103,25 @@ class StudentSummary extends Component {
 
 
     render() {
-       
+
         let { departmentList } = this.props.information
         let { studentData } = this.props.student
-        let key = false, tabName = null, tabDetail = []
+        let tabName = null, tabDetail = []
 
-        if(departmentList !== null&& departmentList.length){
-            let key = departmentList[0]['dept_id']
+        let key = departmentList !== null && departmentList[0]['dept_id']
 
-            let tabName = null, tabDetail = []
 
-            if (departmentList !== null && studentData!==null) {
-                tabName = convertTabName(departmentList, "dept_id", "dept_name")
-                
-                departmentList.forEach(item => {
-                    let studentDept= studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
-                    tabDetail.push(convertDetail(item['dept_id'], <StudentData  data={studentDept[0]} />))
-                })
-            }
-    }
+        if (departmentList !== null && studentData !== null) {
+            tabName = convertTabName(departmentList, "dept_id", "dept_name")
 
-       
+            departmentList.forEach(item => {
+                let studentDept = studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
+                tabDetail.push(convertDetail(item['dept_id'], <StudentData data={studentDept[0]} />))
+            })
+        }
+
+
+
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
@@ -133,15 +131,15 @@ class StudentSummary extends Component {
                             <Row>
                                 <Col >
 
-                                        {
-                                            key ? (
-                                                tabName !== null && (
-                                                    <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
-                                                )
-                                            ) : (
-                                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
-                                                )
-                                        }
+                                    {
+                                        key ? (
+                                            tabName !== null && (
+                                                <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                                            )
+                                        ) : (
+                                                <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                            )
+                                    }
 
                                 </Col>
                             </Row>

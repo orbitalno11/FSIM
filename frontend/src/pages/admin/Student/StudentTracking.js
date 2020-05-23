@@ -75,7 +75,7 @@ class StudentTracking extends Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.getData()
   }
 
@@ -124,22 +124,20 @@ class StudentTracking extends Component {
   render() {
     let { showTrack, trackingStudent, dept } = this.state
     let { departmentList } = this.props.information
-    let key = false, tabName = null, tabDetail = []
+    let tabName = null, tabDetail = []
     let { studentList } = this.props.student
-    if(departmentList !== null&& departmentList.length){
-     
-      let key =  departmentList[0]['dept_id']
-      
-      let tabName = null, tabDetail = []
 
-      if (departmentList !== null && studentList !== null) {
-        tabName = convertTabName(departmentList, "dept_id", "dept_name")
-        departmentList.forEach(item => {
-          let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
-          tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
-        })
-      }
-  }
+    let key = departmentList !== null && departmentList[0]['dept_id']
+
+    if (departmentList !== null && studentList !== null) {
+      tabName = convertTabName(departmentList, "dept_id", "dept_name")
+      departmentList.forEach(item => {
+        let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
+        tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
+      })
+    }
+
+    // }
 
     return (
       <Fragment>
@@ -159,8 +157,8 @@ class StudentTracking extends Component {
                   <Container className="mb-5">
                     <Row>
                       <Col sm={12} lg={12} className="my-2">
-                        <div style={{marginBottom:'4%'}}>
-                         <h5>รหัสนักศึกษา : {trackingStudent.student_id}</h5>
+                        <div style={{ marginBottom: '4%' }}>
+                          <h5>รหัสนักศึกษา : {trackingStudent.student_id}</h5>
                           <h5>ชื่อ-นามสกุล : {trackingStudent.firstname} - {trackingStudent.lastname} </h5>
                           <h5>ภาควิชา    : {trackingStudent.dept}</h5>
                         </div>
