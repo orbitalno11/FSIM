@@ -56,6 +56,28 @@ const deleteAdmissionFalied = (error, result) => (
     }
 )
 
+// add admission
+const addAdmissionStart = () => (
+    {
+        type: types.ADD_ADMISSION_START
+    }
+)
+
+const addAdmissionSuccess = (result) => (
+    {
+        type: types.ADD_ADMISSION_SUCCESS,
+        actionResult: result
+    }
+)
+
+const addAdmissionFalied = (error, result) => (
+    {
+        type: types.ADD_ADMISSION_FAILED,
+        actionResult: result,
+        error: error
+    }
+)
+
 // //admission year list
 // const loadAdmissionYearListStart = () => (
 //     {
@@ -119,6 +141,31 @@ export const deleteAdmission = (year,round_id,channel_id) => (dispatch, getState
         .catch(err => {
             dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
             dispatch(deleteAdmissionFalied(err, false))
+            dispatch(stopLoading())
+        })
+}
+
+export const addAdmission = (year,channel)=> (dispatch, getState) => {
+    dispatch(addAdmissionStart())
+    dispatch(startLoading())
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    axios.post('/admin/admission/?year=${year}&channel=${channel}')
+        .then(res => {
+            dispatch(addAdmissionSuccess(true))
+            dispatch(stopLoading())
+            let year = getState().admin_admission.selectedYear
+            dispatch(getAdmissionList(year))
+            //dispatch(getActivityData(year))
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+        })
+        .catch(err => {
+            console.error(err)
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+            dispatch(addAdmissionFalied(err, false))
             dispatch(stopLoading())
         })
 }

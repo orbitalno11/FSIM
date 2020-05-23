@@ -4,13 +4,13 @@ import TabDialog from '../../../components/TabDialog'
 
 import AdmissionSummary from "./AdmissionSummary";
 import AdmissionStudentSummary from "./AdmissionStudentSummary";
-
 import AdmissionManage from './AdmissionManage'
+import AdmissionAdd from './AdmissionAdd'
 
 import { connect } from 'react-redux'
 import { getYearList } from '../../../redux/action/adminActivityAction'
 import LoadingComponent from '../../../components/LoadingComponent';
-import AdmissionAdd from './AdmissionAdd'
+
 
 class Admission extends Component {
 
