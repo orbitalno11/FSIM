@@ -258,7 +258,12 @@ export const getEducationList = () => dispatch => {
 export const addStudent = data => dispatch => {
     dispatch(startLoading())
     dispatch(addStudentStart())
-    axios.post('/admin/student/', data)
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    axios.post('/admin/student', data,config)
         .then(res => {
             dispatch(addStudentSuccess(true))
             dispatch(stopLoading())
