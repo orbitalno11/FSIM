@@ -225,7 +225,6 @@ export const deleteAdmission = (year,round_id,channel_id) => (dispatch, getState
             dispatch(stopLoading())
             let year = getState().admin_admission.selectedYear
             dispatch(getAdmissionList(year))
-            // dispatch(getAdmissionData(year))
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
@@ -235,7 +234,7 @@ export const deleteAdmission = (year,round_id,channel_id) => (dispatch, getState
         })
 }
 
-export const addAdmission = (year,channel)=> (dispatch, getState) => {
+export const addAdmission = data=> (dispatch, getState) => {
     dispatch(addAdmissionStart())
     dispatch(startLoading())
     const config = {
@@ -243,7 +242,7 @@ export const addAdmission = (year,channel)=> (dispatch, getState) => {
             'Content-Type': 'multipart/form-data'
         }
     }
-    axios.post('/admin/admission/?year=${year}&channel=${channel}')
+    axios.post('/admin/admission',data,config)
         .then(res => {
             dispatch(addAdmissionSuccess(true))
             dispatch(stopLoading())
@@ -408,7 +407,7 @@ export const getAdmissionData = () => dispatch => {
 export const getYearList = () => (dispatch) => {
     dispatch(loadAdmissionYearListStart())
     dispatch(startLoading())
-    axios.get('')
+    axios.get('/admission/year/list')
         .then(res => {
             let data = res.data.data
 

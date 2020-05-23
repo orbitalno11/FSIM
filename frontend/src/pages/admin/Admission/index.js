@@ -8,14 +8,14 @@ import AdmissionManage from './AdmissionManage'
 import AdmissionAdd from './AdmissionAdd'
 
 import { connect } from 'react-redux'
-import { getYearList } from '../../../redux/action/adminActivityAction'
+import { getYearList } from '../../../redux/action/adminAdmissionAction'
 import LoadingComponent from '../../../components/LoadingComponent';
 
 
 class Admission extends Component {
 
     componentDidMount() {
-        // this.props.getYearList()
+        this.props.getYearList()
     }
 
     render() {
@@ -48,7 +48,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        // getYearList: () => dispatch(getYearList())
+        getYearList: () => dispatch(getYearList())
     }
 )
 
