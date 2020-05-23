@@ -164,6 +164,58 @@ class AnalyzeStudent:
         
         return inner_res_helper.make_inner_response(response, message, value)
 
+    def student_admin(self):
+        value = {}
+        connect = DatabaseHelper()
+        data = connect.get_all_student()
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            # print(df.info())
+            df_branch = df[['branch_id', 'branch']]
+            get_branch=connect.get_department(None)
+
+            dept_data = pd.io.json.json_normalize(get_branch['value'], 'branch', ['dept_id','dept_name'])
+
+            department_data = dept_data[['dept_id','dept_name']].set_index('dept_id')
+            department_data.drop_duplicates(inplace=True)
+
+            status_data = analyze_helper.set_fullname(connect.get_status_list())
+            
+            status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
+            
+            list_department = department_data.index.tolist()
+            analyze_by_dept = []
+            for dept in list_department:
+                analyze = {}
+                df_dept = df[df['dept_id']==dept]
+                department_selector = dept_data[dept_data['dept_id']==dept]
+                # print(department_selector)
+                branch_data = analyze_helper.set_branch(department_selector[['branch_id','branch_name','amount_student']])
+                branch_dic = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+                status_by_branch = self.__status_by_branch(df_dept, list(branch_data.index.values),
+                                                        list(status_data.index.values))
+                status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
+                status_by_branch_finist = analyze_helper.set_fullname_column(status_dic, status_by_branch_index)
+                status_by_year = self.__count_status(df_dept[['student_year', 'education_status']],
+                                                    list(status_data.index.values))
+                status_by_year_finist = analyze_helper.set_fullname_column(status_dic, status_by_year)
+                analyze['dept_id'] = dept
+                analyze['branch'] = analyze_helper.set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()
+                analyze['status_by_year'] = [status_by_year_finist.to_dict('index')]
+                analyze['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
+                analyze_by_dept.append(analyze)
+
+            value ={
+                'analyze_by_dept':analyze_by_dept
+            }
+            response = True
+            message = "Analyze Student Successfully"
+        else:
+            response = False
+            message = "Don't have Data"
+
+        return inner_res_helper.make_inner_response(response, message, value)
+
 
 
 

@@ -6,12 +6,12 @@ import { openModal } from './modalAction'
 import axios from 'axios'
 
 // set select year
-const setSelectedYear = year => (
-    {
-        type: types.SET_STUDENT_SELECTED_YEAR,
-        year: year
-    }
-)
+// const setSelectedYear = year => (
+//     {
+//         type: types.SET_STUDENT_SELECTED_YEAR,
+//         year: year
+//     }
+// )
 
 // Load Student 
 const loadStudentstart = () => (
@@ -57,26 +57,26 @@ const loadStudentListFailed = (error) => (
     }
 )
 
-// department list
-const loadDepartmentListStart = () => (
-    {
-        type: types.LOAD_DEPT_LIST_START
-    }
-)
+// // department list
+// const loadDepartmentListStart = () => (
+//     {
+//         type: types.LOAD_DEPT_LIST_START
+//     }
+// )
 
-const loadDepartmentListSuccess = (list) => (
-    {
-        type: types.LOAD_DEPT_LIST_SUCCESS,
-        departmentList: list
-    }
-)
+// const loadDepartmentListSuccess = (list) => (
+//     {
+//         type: types.LOAD_DEPT_LIST_SUCCESS,
+//         departmentList: list
+//     }
+// )
 
-const loadDepartmentListFailed = (error) => (
-    {
-        type: types.LOAD_DEPT_LIST_FAILED,
-        error: error
-    }
-)
+// const loadDepartmentListFailed = (error) => (
+//     {
+//         type: types.LOAD_DEPT_LIST_FAILED,
+//         error: error
+//     }
+// )
 
 // load education
 const loadEducationListStart = () => (
@@ -121,6 +121,29 @@ const addStudentFailed = (error, result) => (
     }
 )
 
+// add gpax student
+const addGpaxStudentStart = () => (
+    {
+        type: types.ADD_GPAX_STUDENT_START
+    }
+)
+
+const addGpaxStudentSuccess = (result) => (
+    {
+        type: types.ADD_GPAX_STUDENT_SUCCESS,
+        actionResult: result
+    }
+)
+
+const addGpaxStudentFailed = (error, result) => (
+    {
+        type: types.ADD_GPAX_STUDENT_FAILED,
+        actionResult: result,
+        error: error
+    }
+)
+
+
 //delete student 
 const deleteStudentStart = () => (
     {
@@ -143,17 +166,31 @@ const deleteStudentFailed = (error, result) => (
     }
 )
 
-export const selectYear = year => dispatch => {
-    dispatch(setSelectedYear(year))
-}
 
-export const getStudentData = dept_id => dispatch => {
+// const loadStudentYearListSuccess = (list) => (
+//     {
+//         type: types.GET_STUDENT_YEAR_LIST_SUCCESS,
+//         yearList: list
+//     }
+// )
+
+// const loadStudentYearListFailed = (list) => (
+//     {
+//         type: types.GET_STUDENT_YEAR_LIST_FAILED,
+//         yearList: list
+//     }
+// )
+
+
+
+///กราฟ
+export const getStudentData = () => dispatch => {
     dispatch(startLoading())
     dispatch(loadStudentstart())
 
     let studentData = {}
 
-    axios.get(`/student/department?dept_id=${dept_id}`)
+    axios.get(`/admin/student/analyze`)
         .then(res => {
             let data = res.data.data
 
@@ -163,21 +200,7 @@ export const getStudentData = dept_id => dispatch => {
                 return
             }
 
-            let department = data['dept_name']
-            let branch = data['branch']
-            let byYear = data['status_by_year'][0]
-            let byBranch = data['df_status_by_branch'][0]
-            let dept_id = data['dept_id']
-
-            studentData = {
-                department: department,
-                branch: branch,
-                byYear: byYear,
-                byBranch: byBranch,
-                dept_id: dept_id
-            }
-
-            dispatch(loadStudentSuccess(studentData))
+            dispatch(loadStudentSuccess(data))
             dispatch(stopLoading())
         })
         .catch(err => {
@@ -186,11 +209,13 @@ export const getStudentData = dept_id => dispatch => {
         })
 }
 
-export const getStudentList = year => dispatch => {
+
+///หน้า student tracking
+export const getStudentList = () => dispatch => {
     dispatch(startLoading())
     dispatch(loadStudentListStart())
 
-    axios.get(`/admin/student/list?year=${year}`)
+    axios.get(`/admin/student/list?year=2560`)
         .then(res => {
             let data = res.data.data
 
@@ -199,7 +224,6 @@ export const getStudentList = year => dispatch => {
                 dispatch(stopLoading())
                 return
             }
-
             dispatch(loadStudentListSuccess(data))
             dispatch(stopLoading())
         })
@@ -209,7 +233,7 @@ export const getStudentList = year => dispatch => {
         })
 }
 
-
+///หน้า student manage
 export const getEducationList = () => dispatch => {
     dispatch(startLoading())
     dispatch(loadEducationListStart())
@@ -219,6 +243,8 @@ export const getEducationList = () => dispatch => {
             let data = res.data.data
 
             dispatch(loadEducationListSuccess(data))
+          
+            
             dispatch(stopLoading())
         })
         .catch(err => {
@@ -228,14 +254,14 @@ export const getEducationList = () => dispatch => {
         })
 }
 
+//เพิ่มนศ.
 export const addStudent = data => dispatch => {
-    dispatch(addStudentStart())
     dispatch(startLoading())
+    dispatch(addStudentStart())
     axios.post('/admin/student/', data)
         .then(res => {
             dispatch(addStudentSuccess(true))
             dispatch(stopLoading())
-            dispatch(getEducationList())
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
 
         })
@@ -246,6 +272,31 @@ export const addStudent = data => dispatch => {
             dispatch(stopLoading())
         })
 }
+
+//เพิ่มเกรด
+export const addStudentGpax = data => dispatch => {
+    dispatch(addGpaxStudentStart())
+    dispatch(startLoading())
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    axios.post('/admin/student/academic', data,config)
+        .then(res => {
+            dispatch(addGpaxStudentSuccess(true))
+            dispatch(stopLoading())
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+
+        })
+        .catch(err => {
+            console.error(err)
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+            dispatch(addGpaxStudentFailed(err, false))
+            dispatch(stopLoading())
+        })
+}
+
 
 export const deleteEducation = data => dispatch => {
     dispatch(startLoading())
