@@ -74,14 +74,14 @@ class DepartmentStudent extends Component {
         this.setupGraph()
     }
 
-    async componentDidUpdate() {
-        let { dept_id } = this.state
-        let id = this.props.match.params.id
-        if (dept_id !== id) {
-            await this.fetchData(id)
-            this.setupGraph()
-        }
-    }
+    // async componentDidUpdate() {
+    //     let { dept_id } = this.state
+    //     let id = this.props.match.params.id
+    //     if (dept_id !== id) {
+    //         await this.fetchData(id)
+    //         this.setupGraph()
+    //     }
+    // }
 
     render() {
         let { department, studentByBranch, studentByYear, branchByStatus } = this.state

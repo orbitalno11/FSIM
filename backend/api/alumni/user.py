@@ -42,13 +42,12 @@ def get_analyze_alumni_work():
 @user_alumni.route('/survey', methods=['GET'])
 def get_alumni_survey():
     year = request.args.get('year')
-    
-    if year is  None or  year=='null':
+
+    if year is None or year == 'null':
         db = FirebaseModule()
         data = db.alumni_get_survey()
     else:
         db = FirebaseModule()
         data = db.alumni_get_survey_by_year(int(year))
-        
 
     return api_helper.return_response(data)

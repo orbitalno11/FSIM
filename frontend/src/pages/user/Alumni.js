@@ -19,7 +19,7 @@ import GraphBar from "../../components/Graph/Bar";
 import { connect } from 'react-redux'
 
 import { getBranchList } from '../../redux/action/generalAction'
-import { setSelectedYear, loadWorkData, setSalaryChart } from '../../redux/action/adminAlumniAction'
+import { setSelectedYear, loadWorkData, setSalaryChart, getAllAlumniYear } from '../../redux/action/adminAlumniAction'
 import YearSelect from '../../components/YearSelect'
 
 class Alumni extends Component {
@@ -29,16 +29,15 @@ class Alumni extends Component {
         this.state = {
             year: null,
             loadTime: 0
-
         }
     }
-
-  
 
     componentDidMount() {
         this.props.getBranchList()
         this.fetchWorkData()
+        this.props.getAllAlumniYear()
     }
+
     fetchWorkData = async () => {
         let { selectedYear } = this.props.alumni
         this.props.loadWorkData(selectedYear)
@@ -177,7 +176,8 @@ const mapDispatchToProps = dispatch => (
         setSelectedYear: (year) => dispatch(setSelectedYear(year)),
         getBranchList: () => dispatch(getBranchList()),
         loadWorkData: (year) => dispatch(loadWorkData(year)),
-        setSalaryChart: (data) => dispatch(setSalaryChart(data))
+        setSalaryChart: (data) => dispatch(setSalaryChart(data)),
+        getAllAlumniYear: () => dispatch(getAllAlumniYear())
     }
 )
 

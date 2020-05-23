@@ -2,24 +2,19 @@ import React, { Component, Fragment } from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Grid,
     Card,
     Container,
-    Image
 } from "semantic-ui-react";
 
-// redux
-import { connect } from 'react-redux'
 
 import Barchart from "../../components/Graph/Bar";
-// import Linechart from "../../components/Graph/Line"; 
-import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
+import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
 import { Bar} from "react-chartjs-2";
 
-// import GraphLine from "../../components/Graph/Line";
-// import AdmissionTypePanel from "../../components/AddmissionTypePanel";
+import YearSelect from '../../components/YearSelect'
+
 import Axios from "axios";
 
 class Admission extends Component {
@@ -97,20 +92,12 @@ class Admission extends Component {
         return (
             <Fragment>
                 <Container className="white-background">
-                    <Header as="h5" textAlign="center">
-                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={year}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-                    </Header>
-                    <Divider />
-                    <Grid>
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={yearList} title="ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา" />
+                        )
+                    }
+                    <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="card-default">

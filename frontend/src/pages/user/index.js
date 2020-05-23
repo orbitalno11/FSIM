@@ -6,13 +6,10 @@ import {
   Grid,
   Button,
   Form,
-  Icon,
-  Tab,
   Label
 } from "semantic-ui-react";
 
-import { FormControl, Nav, Col, Row, InputGroup } from 'react-bootstrap'
-
+import { Col, Row } from 'react-bootstrap'
 
 import banner3 from "../../img/mockup2.png";
 
@@ -25,14 +22,17 @@ import Logophy from "../../img/phy.png";
 import Logochm from "../../img/chm.png";
 import { Link } from "react-router-dom";
 
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../Constant'
+
 const ButtonStudent = ({ id, name, image }) => (
   <Fragment>
     <Grid.Column mobile={16} tablet={4} computer={4} className="text-center">
-       <Link to={`/student/${id}`}>
-      <div className="circle-user mx-auto">
-        <Image src={image} />
-      </div>
-      <label>{name}</label>
+      <Link to={`/student/${id}`}>
+        <div className="circle-user mx-auto">
+          <Image src={image} />
+        </div>
+        <label>{name}</label>
       </Link>
     </Grid.Column>
   </Fragment>
@@ -41,7 +41,7 @@ const ButtonStudent = ({ id, name, image }) => (
 const PaneTemplate = ({ label, content, direction }) => (
   <Fragment>
     <Container>
-      <Grid padded>
+      <Grid padded textAlign="center">
         <Grid.Row>
           <Label className="font-18">{label}</Label>
         </Grid.Row>
@@ -53,92 +53,94 @@ const PaneTemplate = ({ label, content, direction }) => (
 );
 
 
-const StudentTab =()=>{
-  return(
+const StudentTab = () => {
+  return (
     <PaneTemplate
-              label="แสดงผลการวิเคราะห์การเรียนของนักศึกษาแต่ละภาควิชาโดยสรุปออกมาเป็นกราฟ"
-              direction="กรุณาเลือกภาควิชา"
-              content={
-                <Grid.Row columns={4}>
-                  {pageStudent.map((item) => (
-                    <ButtonStudent
-                      name={item.header_modal}
-                      id={item.id_modal}
-                      image={item.Image}
-                      key={item.id_modal}
-                    />
-                  ))}
-                </Grid.Row>
-              }
-            />
+      label="แสดงผลการวิเคราะห์การเรียนของนักศึกษาแต่ละภาควิชาโดยสรุปออกมาเป็นกราฟ"
+      direction="กรุณาเลือกภาควิชา"
+      content={
+        <Grid.Row>
+          {pageStudent.map((item) => (
+            <Grid.Column mobile={8} computer={4}>
+              <ButtonStudent
+                name={item.header_modal}
+                id={item.id_modal}
+                image={item.Image}
+                key={item.id_modal}
+              />
+            </Grid.Column>
+          ))}
+        </Grid.Row>
+      }
+    />
   )
 }
 
 
-const AdmissionTab =()=>{
-  return(
+const AdmissionTab = () => {
+  return (
     <PaneTemplate
-              label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
-              direction="กรุณาเลือกกิจกรรม"
-              content={
-                <Grid.Row>
-                  <Grid.Column textAlign="center">
-                    <Form.Group>
-                      {buttonAdmission.map((item, index) => (
+      label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
+      direction="กรุณาเลือกกิจกรรม"
+      content={
+        <Grid.Row>
+          <Grid.Column textAlign="center">
+            <Form.Group>
+              {buttonAdmission.map((item, index) => (
 
-                        <Button size='massive' color={item.color}  as={Link}
-                        to={item.url}
-                        key={index}>{item.name}</Button>
-                      
-                      ))}
-                    </Form.Group>
-                  </Grid.Column>
-                </Grid.Row>
-              }
-            />
+                <Button size='massive' color={item.color} as={Link}
+                  to={item.url}
+                  key={index}>{item.name}</Button>
+
+              ))}
+            </Form.Group>
+          </Grid.Column>
+        </Grid.Row>
+      }
+    />
   )
 }
 
-const ActivirtTab=()=>{
+const ActivirtTab = () => {
   return (
 
     <PaneTemplate
-    label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
-    direction="กรุณาเลือกกิจกรรม"
-    content={
-      <Row  >
-            {buttonNewStudent.map((item, index) => (
-              <Col  xs={12} md={6} align="center" key={index}>
-              <Button 
-              size='massive' 
-              color={item.color} 
-              as={Link}
-              to={item.url}
-              style={{margin:'3%',textAlign:'center'}}
+      label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
+      direction="กรุณาเลือกกิจกรรม"
+      content={
+        <Row  >
+          {buttonNewStudent.map((item, index) => (
+            <Col xs={12} md={6} align="center" key={index}>
+              <Button
+                size='massive'
+                color={item.color}
+                as={Link}
+                to={item.url}
+                style={{ margin: '3%', textAlign: 'center' }}
               >{item.name}</Button>
-              </Col>
-            ))}
-        
-      </Row>
-    }
-  />
+            </Col>
+          ))}
+
+        </Row>
+      }
+    />
   )
 }
 
 
-const AlumniTab=()=>{
-  return  (
+const AlumniTab = () => {
+  return (
     <PaneTemplate
       label="แสดงผลการวิเคราะห์หน้าที่การงานของนักศึกษาที่จบการศึกษา"
       content={
         <Grid.Row>
           <Grid.Column align="center">
-            <Button 
-              size='massive' 
+            <Button
+              size='massive'
               color='yellow'
               as={Link}
               to='/alumni'
-              >สรุปแบบสอบถาม</Button>
+            >สรุปแบบสอบถาม</Button>
           </Grid.Column>
         </Grid.Row>
       }
@@ -205,71 +207,92 @@ class Home extends Component {
 
     let tabName = [
       {
-          tabId: '1',
-          tabTitle: 'ข้อมูลนักศึกษา'
+        tabId: '1',
+        tabTitle: 'ข้อมูลนักศึกษา'
       },
       {
-          tabId: '2',
-          tabTitle: 'ข้อมูลการรับนักศึกษา'
+        tabId: '2',
+        tabTitle: 'ข้อมูลการรับนักศึกษา'
       },
       {
         tabId: '3',
         tabTitle: 'ข้อมูลกิจกรรมประชาสัมพันธ์'
       },
       {
-      tabId: '4',
-      tabTitle: 'ข้อมูลศิษย์เก่า'
-    },
-   ]
+        tabId: '4',
+        tabTitle: 'ข้อมูลศิษย์เก่า'
+      },
+    ]
     let tabDetail = [
       {
-          tabId: '1',
-          tabDetail: <StudentTab/>
+        tabId: '1',
+        tabDetail: <StudentTab />
       },
       {
-          tabId: '2',
-          tabDetail: <AdmissionTab/>
+        tabId: '2',
+        tabDetail: <AdmissionTab />
       },
       {
-          tabId: '3',
-          tabDetail: <ActivirtTab/>
+        tabId: '3',
+        tabDetail: <ActivirtTab />
       },
       {
-          tabId: '4',
-          tabDetail: <AlumniTab/>
+        tabId: '4',
+        tabDetail: <AlumniTab />
       }
 
-  ]
+    ]
 
     return (
       <Fragment>
         <Container>
           <Grid columns={2}>
-            <Row >
-              <Col xs={12} lg={6}>
-                <p className="head-index" as="huge" >
-                  WELCOME TO
+            <Row>
+              <MediaQuery minDeviceWidth={minDeviceWidth}>
+                <Col xs={12} lg={6}>
+                  <p className="head-index" as="huge" >
+                    WELCOME TO
                   <br />
                   FSci Student Information Management System
                 </p>
-                <Button primary href="/login">
-                  จัดการข้อมูล
+                  <Button primary href="/login">
+                    จัดการข้อมูล
                 </Button>
-              </Col>
-              <Col xs={12} lg={6}>
-                <Image
-                  src={banner3}
-                  className="header-chart"
-                  floated="right"
-                />
-              </Col>
+                </Col>
+                <Col xs={12} lg={6}>
+                  <Image
+                    src={banner3}
+                    className="header-chart"
+                    floated="right"
+                  />
+                </Col>
+              </MediaQuery>
+              <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                <Col xs={12} lg={6}>
+                  <Image
+                    src={banner3}
+                    className="header-chart"
+                    floated="right"
+                  />
+                </Col>
+                <Col xs={12} lg={6} className="text-center">
+                  <p className="text-center">
+                    WELCOME TO
+                    <br />
+                    FSci Student Information Management System
+                  </p>
+                  <Button primary as={Link} to="/login">
+                    จัดการข้อมูล
+                </Button>
+                </Col>
+              </MediaQuery>
             </Row>
           </Grid>
 
           <Grid>{
-          tabDetail !== null && (
-            <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} /
-            >)}
+            tabDetail !== null && (
+              <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} /
+              >)}
           </Grid>
         </Container>
       </Fragment>
