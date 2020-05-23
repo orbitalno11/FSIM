@@ -30,9 +30,9 @@ const StudentData = ({ data }) => {
                 <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
                     จำนวนนักศึกษาทุกชั้นปี
                 </Header>
-                <Grid textAlign={"center"}>
-                    <Grid.Row columns={2}>
-                        <Grid.Column>
+                <Container textAlign={"center"}>
+                    <Row >
+                        <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
                                 <Card.Header textAlign={"center"}>
                                     <h3>จำนวนนักศึกษาต่อสาขา</h3>
@@ -47,8 +47,8 @@ const StudentData = ({ data }) => {
                                     }
                                 </Card.Content>
                             </Card>
-                        </Grid.Column>
-                        <Grid.Column>
+                        </Col>
+                        <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
                                 <Card.Header textAlign={"center"}>
                                     <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
@@ -63,10 +63,10 @@ const StudentData = ({ data }) => {
                                     }
                                 </Card.Content>
                             </Card>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12} lg={12} className="my-2">
                             <Card fluid>
                                 <Card.Header textAlign={"center"}>
                                     <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
@@ -81,9 +81,9 @@ const StudentData = ({ data }) => {
                                     }
                                 </Card.Content>
                             </Card>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+                        </Col>
+                    </Row>
+                </Container>
             </Container>
         </Fragment>
     )
