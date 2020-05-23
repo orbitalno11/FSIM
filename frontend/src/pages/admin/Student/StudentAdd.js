@@ -1,26 +1,17 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import ReactModal from '../../../components/ReactModal'
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 
 import { connect } from 'react-redux'
-import { selectYear, addStudent } from '../../../redux/action/adminStudentAction'
+import { addStudentGpax, addStudent } from '../../../redux/action/adminStudentAction'
+import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
-import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
-//
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
-// 
-// import TabDialog from '../../../components/TabDialog'
-// import ARDetail from "../Activity/ARDetail";
-// import AMSci from "../Activity/AMSci";
-
-// 
-// import LineChart from '../../../components/Graph/Line'
-
-const AddTab = ({submit , selectFile , selectYear}) => (
+const AddGpax = ({ submit, selectFile, year }) => (
     <Fragment>
         <Form onSubmit={submit}>
             <Form.Group>
@@ -28,16 +19,16 @@ const AddTab = ({submit , selectFile , selectYear}) => (
                     ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required >
-                        {/* {
-                                selectYear.map((item, index) => (
-                                    <option key={index} value={item['year']}>{item['year']}</option>
-                                ))
-                            } */}
-                        </Form.Control>
+
+                    <FormControl id="educationYear" as="select" placeholder="ระบุปีการศึกษา" required >
+                        <option value='0'>กรุณาเลือกปีการศึกษา</option>
+                        {
+                            year.map((item, index) => (
+                                <option key={index} value={item}>{item}</option>
+                            ))
+                        }
                     </FormControl>
+
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -45,28 +36,32 @@ const AddTab = ({submit , selectFile , selectYear}) => (
                     ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv"  onChange={event => selectFile(event)}>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
-            </Form.Group>
+            </Form.Group >
             <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
-            <Button  type="submit" className="btn-info interval-1" >SUBMIT</Button>
-           
+            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
 )
 
-const AddNew = () => (
-        <Fragment>
-        <Form>
+const AddStudent = ({submit, selectFile, year}) => (
+    <Fragment>
+        <Form onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
+                <FormControl id="educationYear" as="select" placeholder="ระบุปีการศึกษา" required >
+                        <option value='0'>กรุณาเลือกปีการศึกษา</option>
+                        {
+                            year.map((item, index) => (
+                                <option key={index} value={item}>{item}</option>
+                            ))
+                            
+                        } 
                     </FormControl>
                 </InputGroup>
             </Form.Group>
@@ -82,7 +77,7 @@ const AddNew = () => (
             </Form.Group>
             <Form.Group>
                 <Form.Label>
-                สาขา
+                    สาขา
                 </Form.Label>
                 <InputGroup>
                     <FormControl as="select">
@@ -95,12 +90,12 @@ const AddNew = () => (
                     ข้อมูลนักศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv">
+                <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
+            <Button  type="reset" className="btn-EditData interval-1" >RESET</Button>
+            <Button  type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -110,16 +105,47 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            selectedFile: null
         }
     }
 
-    // componentDidMount() {
-    //     this.addStudent()
-    // }
+    handleGpaxSubmit = event => {
+        event.preventDefault()
+        let element = event.target.elements
 
-  
+        let data = {
+            educationYear :  element.educationYear.value,
+            upload  :  this.state.selectedFile
+        }
+        this.props.addStudent(data)
+    }
+
+    handleStudentSubmit = event => {
+        event.preventDefault()
+        let element = event.target.elements
+
+        let form = new FormData()
+        form.append('educationYear', element.educationYear.value)
+        form.append('upload', this.state.selectedFile)
+        this.props.addStudentGpax(form)
+    }
+
+    handleSelectFile = event => {
+        let file = event.target.files[0]
+        this.setState({
+            selectedFile: file
+        })
+    }
+
+
 
     render() {
+
+        let { yearList } = this.props.student
+        let { departmentList } = this.props.information
+        let key = departmentList !== null && departmentList[0]['dept_id']
+        // console.log("key")
+        // console.log(key)
         let tabName = [
             {
                 tabId: '1',
@@ -132,24 +158,25 @@ class StudentAdd extends Component {
         ]
 
         let tabDetail = [
-                {
-                    tabId: '1',
-                    tabDetail: <AddTab />
-                },
-                {
-                    tabId: '2',
-                    tabDetail: <AddNew />
-                }
-            ]
-        
+            {
+                tabId: '1',
+                tabDetail: <AddGpax submit={this.handleGpaxSubmit} selectFile={this.handleSelectFile} year={yearList} />
+            },
+            {
+                tabId: '2',
+                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} year={yearList} />
+            }
+        ]
+
 
 
         return (
             <Fragment>
-               <div className="my-2 w-100 mx-auto">
+                 <ReactModal />
+                <div className="my-2 w-100 mx-auto">
                     <Container fluid>
                         {
-                            tabDetail !== null && (
+                            tabDetail !== null && yearList !== null && (
                                 <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
                             )
                         }
@@ -163,17 +190,18 @@ class StudentAdd extends Component {
 
 const mapStateToProps = state => (
     {
-        student: state.admin_student
+        student: state.admin_student,
+        information: state.admin_information
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
         addStudent: (data) => dispatch(addStudent(data)),
-        selectYear: (year) => dispatch(selectYear(year))
-        
+        addStudentGpax :(data) => dispatch(addStudentGpax(data)),
+        getDepartmentList: () => dispatch(getDepartmentList()),
     }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentAdd) 
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAdd)
 

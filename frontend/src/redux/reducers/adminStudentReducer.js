@@ -8,7 +8,7 @@ const initialState = {
     studentList: null,
     departmentList: null,
     educationList: null,
-    yearList: null,
+    yearList: [2560, 2561, 2562],
     selectedYear: 2560,
     actionResult: null,
     error: null
@@ -91,6 +91,21 @@ export default (state = initialState, action) => {
                 actionResult: action.actionResult
             }
         case types.ADD_STUDENT_FAILED:
+            return {
+                ...state,
+                actionResult: action.actionResult,
+                error: action.error
+            }
+        case types.ADD_GPAX_STUDENT_START:
+            return {
+                ...state
+            }
+        case types.ADD_GPAX_STUDENT_SUCCESS:
+            return {
+                ...state,
+                actionResult: action.actionResult
+            }
+        case types.ADD_GPAX_STUDENT_FAILED:
             return {
                 ...state,
                 actionResult: action.actionResult,
