@@ -89,13 +89,10 @@ class StudentTracking extends Component {
       .then(res => {
          
           let data = res.data.data
-         
-
           this.setState({
               trackingStudent: data,
               dept : dept_name
           })
-          // console.log(this.state.countChannel)
       })
       .catch(error => {
           console.error(error)
