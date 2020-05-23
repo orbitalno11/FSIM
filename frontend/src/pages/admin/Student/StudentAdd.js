@@ -13,7 +13,7 @@ import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 const AddGpax = ({ submit, selectFile, year }) => (
     <Fragment>
-        <Form onSubmit={submit}>
+        <Form id="addGpax" onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ปีการศึกษา
@@ -39,15 +39,14 @@ const AddGpax = ({ submit, selectFile, year }) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group >
-            <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
-            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+            <Button type="submit" className="btn-info interval-1" style={{marginTop:'3%'}}>SUBMIT</Button>
         </Form>
     </Fragment>
 )
 
 const AddStudent = ({submit, selectFile, year}) => (
     <Fragment>
-        <Form onSubmit={submit}>
+        <Form  id="addStudent" onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ข้อมูลนักศึกษา
@@ -57,8 +56,7 @@ const AddStudent = ({submit, selectFile, year}) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button  type="reset" className="btn-EditData interval-1" >RESET</Button>
-            <Button  type="submit" className="btn-info interval-1" >SUBMIT</Button>
+            <Button  type="submit" className="btn-info interval-1"  style={{marginTop:'3%'}} >SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -98,12 +96,22 @@ class StudentAdd extends Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState){
+        let status =this.props.student.actionResult
+        if ((prevProps.actionResult!==status)&&(status==true)) {
+            // this.setState({
+            //     ...initialState
+            // })
+            document.getElementById("addStudent").reset();
+            document.getElementById("addGpax").reset();
+        }
+    }
+
 
 
     render() {
 
         let { yearList } = this.props.student
-        let { departmentList } = this.props.information
         let tabName = [
             {
                 tabId: '1',
@@ -149,7 +157,6 @@ class StudentAdd extends Component {
 const mapStateToProps = state => (
     {
         student: state.admin_student,
-        information: state.admin_information
     }
 )
 
