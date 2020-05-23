@@ -100,24 +100,6 @@ class AlumniManage extends Component {
             }
         }
     }
-
-    
-
-    // messageAlert = () => {
-    //     let set_alert=null
-    //     const {statusEdit}=this.state
-    //     if (this.props.status == false || statusEdit==false) {
-    //         // set_alert=<MessageError header='บันทึกล้มเหลว' body='กรุณาตรวจสอบการบันทึกอีกครั้ง'  />
-    //         this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
-           
-    //     }else if(this.props.status == true || statusEdit) {
-    //         set_alert=<MessageSuccess header='บันทึกสำเร็จ' body=''  />
-    //         this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
-          
-    //     }
-    //     return set_alert
-    // }
-
  
     render() {
         let { deleteItem, showDelete, showEdit, editData } = this.state
@@ -125,7 +107,6 @@ class AlumniManage extends Component {
         let { surveyList } = this.props.alumni
         return (
             <Fragment>
-              {/* {this.messageAlert()} */}
               <ReactModal />
                 {
                     deleteItem !== null && (
