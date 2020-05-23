@@ -11,12 +11,16 @@ from backend.helpers.database_helper import DatabaseHelper
 # import module
 from backend.modules.AnalyzeActivity import AnalyzeActivity
 
+# import authen
+import backend.modules.AuthenticationModule as auth
+
 admin_activity = Blueprint('admin_activity', __name__)
 
 
 # add activity project
 @admin_activity.route('', methods=['POST'])
-def add_new_activity():
+@auth.token_required
+def add_new_activity(current_user):
     form = request.form
     activity_id = form.get('activity_id')
     project_id = form.get('project_id')
@@ -33,33 +37,13 @@ def add_new_activity():
     db = DatabaseHelper()
     result = db.create_activity(data)
 
-    # try:
-    #     file = request.files['upload']
-    #     if file and Constant.allowed_file(file.filename):
-    #         destination = upload_helper.upload_file(Constant.ACTIVITY_FOLDER + "/{}".format(project_id), file, year)
-    #     else:
-    #         return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
-    # except Exception as e:
-    #     print(e)
-    #     return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
-    #
-    # if destination['response']:
-    #     data_helper = DataHelper()
-    #     insert_value = data_helper.read_activity_participant(destination['value'], activity_id)
-    #     if insert_value['response']:
-    #         db = DatabaseHelper()
-    #         # result = db.create_activity(data, insert_value['value'], project_id)
-    #     else:
-    #         return api_helper.return_response(insert_value)
-    # else:
-    #     return api_helper.return_response(destination)
-
     return api_helper.return_response(result)
 
 
 # delete activity
 @admin_activity.route('', methods=['DELETE'])
-def delete_activity():
+@auth.token_required
+def delete_activity(current_user):
     act_id = request.args.get('act_id')
     project_type = request.args.get('project_type')
 
@@ -75,7 +59,8 @@ def delete_activity():
 
 # upload activity participant
 @admin_activity.route('/participant', methods=['POST'])
-def insert_activity_participant():
+@auth.token_required
+def insert_activity_participant(current_user):
     form = request.form
     activity_id = form.get('activity_id')
     project_id = form.get('project_id')
@@ -113,7 +98,8 @@ def insert_activity_participant():
 
 # add activity project
 @admin_activity.route('/project', methods=['POST'])
-def add_activity_project():
+@auth.token_required
+def add_activity_project(current_user):
     data = request.get_json()
 
     if data is None:
@@ -137,7 +123,8 @@ def add_activity_project():
 
 
 @admin_activity.route('/project/type', methods=['GET'])
-def get_project_type():
+@auth.token_required
+def get_project_type(current_user):
     db = DatabaseHelper()
     result = db.get_project_type()
 
@@ -155,7 +142,8 @@ def get_analyze_project_ar():
 
 
 @admin_activity.route('/list', methods=['GET'])
-def get_activity_list():
+@auth.token_required
+def get_activity_list(current_user):
     year = request.args.get('year')
 
     db = DatabaseHelper()
