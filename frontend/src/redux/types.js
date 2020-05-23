@@ -97,6 +97,10 @@ export const GET_ACTIVITY_YEAR_LIST_START = "get_activity_year_list_start"
 export const GET_ACTIVITY_YEAR_LIST_SUCCESS = "get_activity_year_list_success"
 export const GET_ACTIVITY_YEAR_LIST_FAILED = "get_activity_year_list_failed"
 
+export const UPLOAD_ACTIVITY_PARTICIPANT_START = "upload_activity_participant_start"
+export const UPLOAD_ACTIVITY_PARTICIPANT_SUCCESS = "upload_activity_participant_success"
+export const UPLOAD_ACTIVITY_PARTICIPANT_FAILED = "upload_activity_participant_failed"
+
 //  admin information
 export const GET_COURSE_LIST_START = "get_couse_list_start"
 export const GET_COURSE_LIST_SUCCESS = "get_couse_list_success"

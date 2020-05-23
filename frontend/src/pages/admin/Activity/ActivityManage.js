@@ -26,15 +26,17 @@ class ActivityManage extends Component {
     render() {
         let { activityList } = this.props.activity
 
+        console.log(activityList)
+
         return (
             <Fragment>
                 <Table>
                     <Table.Header>
                         <Table.Row textAlign="center">
-                            <Table.HeaderCell> ลำดับ </Table.HeaderCell>
-                            <Table.HeaderCell> ปีการศึกษา </Table.HeaderCell>
+                            <Table.HeaderCell>ลำดับ</Table.HeaderCell>
+                            <Table.HeaderCell>ปีการศึกษา</Table.HeaderCell>
                             <Table.HeaderCell>ประเภทโครงการ</Table.HeaderCell>
-                            <Table.HeaderCell> ชื่อกิจกรรม </Table.HeaderCell>
+                            <Table.HeaderCell>ชื่อกิจกรรม</Table.HeaderCell>
                             <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>

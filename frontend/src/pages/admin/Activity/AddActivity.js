@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Container, Button, Form, InputGroup } from 'react-bootstrap'
 
-import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
+import SideTab from '../../../components/SideTabDialog'
 
 import ReactModal from '../../../components/ReactModal'
 
 import axios from 'axios'
 
 import { connect } from 'react-redux'
-import { addProject, addActivity } from '../../../redux/action/adminActivityAction'
+import { addProject, addActivity, uploadParticipant } from '../../../redux/action/adminActivityAction'
 
-const AddActivityData = ({ submit, project_list, selectFile }) => {
+const AddActivityData = ({ submit, project_list }) => {
     return (
         <Fragment>
             <Form onSubmit={submit}>
@@ -22,9 +22,7 @@ const AddActivityData = ({ submit, project_list, selectFile }) => {
                     </InputGroup>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>
-                        ประเภทโครงการ
-                </Form.Label>
+                    <Form.Label>ประเภทโครงการ</Form.Label>
                     <InputGroup>
                         <FormControl id="projectId" as="select" required>
                             <option>กรุณาเลือกประเภทโครงการ</option>
@@ -60,15 +58,6 @@ const AddActivityData = ({ submit, project_list, selectFile }) => {
                 </Form.Label>
                     <InputGroup>
                         <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>
-                        ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
-                </Form.Label>
-                    <InputGroup>
-                        <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={event => selectFile(event)}>
-                        </FormControl>
                     </InputGroup>
                 </Form.Group>
                 <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
@@ -113,6 +102,39 @@ const AddProject = ({ project_type, onSubmit }) => (
                 </InputGroup>
             </Form.Group>
             <Button typr="reset" className="btn-EditData interval-1" >RESET</Button>
+            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+        </Form>
+    </Fragment>
+)
+
+const UploadPaticipant = ({ activity_list, selectFile, submit }) => (
+    <Fragment>
+        <Form onSubmit={submit}>
+            <Form.Group>
+                <Form.Label>ชื่อกิจกรรม</Form.Label>
+                <InputGroup>
+                    <FormControl id="activityDetail" as="select" required>
+                        <option value="">กรุณาเลือกกิจกรรม</option>
+                        {
+                            activity_list !== null && (
+                                activity_list.map((item, index) => (
+                                    <option key={index} value={JSON.stringify(item)}>{item['activity_name']}</option>
+                                ))
+                            )
+                        }
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
+                </Form.Label>
+                <InputGroup>
+                    <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={selectFile} required>
+                    </FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Button type="reset" className="btn-EditData interval-1">RESET</Button>
             <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
@@ -172,9 +194,25 @@ class AddActivity extends Component {
         form.append('activity_name', element.activityName.value)
         form.append('budget', parseFloat(element.activityBudget.value))
         form.append('year', parseInt(element.educationYear.value))
-        form.append('upload', this.state.selectedFile)
 
         this.props.addActivity(form)
+    }
+
+    handleUpload = event => {
+        event.preventDefault()
+        let element = event.target.elements
+        let data = JSON.parse(element.activityDetail.value)
+        let form = new FormData()
+
+        form.append('activity_id', data['activity_id'])
+        form.append('project_id', data['project_id'])
+        form.append('project_type', data['project_type'])
+        form.append('year', data['education_year'])
+        form.append('upload', this.state.selectedFile)
+
+        console.log(data)
+
+        this.props.uploadParticipant(form)
     }
 
     handleSelectFile = event => {
@@ -188,18 +226,24 @@ class AddActivity extends Component {
     render() {
         let { project_type } = this.state
 
-        let { projectList } = this.props.activity
+        let { projectList, activityList } = this.props.activity
+
+        console.log(activityList)
 
         let tabDetail = null
 
         let tabName = [
             {
                 tabId: '1',
-                tabTitle: 'กิจกรรม'
+                tabTitle: 'สร้างโครงการใหม่'
             },
             {
                 tabId: '2',
-                tabTitle: 'โครงการใหม่'
+                tabTitle: 'สร้างกิจกรรมใหม่'
+            },
+            {
+                tabId: '3',
+                tabTitle: 'เพิ่มข้อมูลผู้เข้าร่วมกิจกรรม'
             }
         ]
 
@@ -207,11 +251,15 @@ class AddActivity extends Component {
             tabDetail = [
                 {
                     tabId: '1',
-                    tabDetail: <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} selectFile={this.handleSelectFile} />
+                    tabDetail: <AddProject project_type={project_type} onSubmit={this.handleProjectSubmit} />
                 },
                 {
                     tabId: '2',
-                    tabDetail: <AddProject project_type={project_type} onSubmit={this.handleProjectSubmit} />
+                    tabDetail: <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} />
+                },
+                {
+                    tabId: '3',
+                    tabDetail: <UploadPaticipant activity_list={activityList} submit={this.handleUpload} selectFile={this.handleSelectFile} />
                 }
             ]
         }
@@ -242,7 +290,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         addProject: (data) => dispatch(addProject(data)),
-        addActivity: (data) => dispatch(addActivity(data))
+        addActivity: (data) => dispatch(addActivity(data)),
+        uploadParticipant: (data) => dispatch(uploadParticipant(data))
     }
 )
 

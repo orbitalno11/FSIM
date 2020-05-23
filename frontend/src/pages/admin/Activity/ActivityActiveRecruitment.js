@@ -39,8 +39,6 @@ class ActivityActiveRecruitment extends Component {
 
         let key = false, tabName = null, tabDetail = []
 
-        console.log(projectList)
-
         if (projectList !== null) {
             let temp = projectList.filter(data => data['project_type'] !== 0)
             key = temp[0]['project_id']
