@@ -197,7 +197,7 @@ class AnalyzeAdmission:
     # admin
     def analyze_student_status(self, year=None):
         connect = DatabaseHelper()
-        data = connect.get_all_status_admission(year)
+        data = connect.get_all_admission(year)
         value = {}
         if data['value']:
            
@@ -205,7 +205,11 @@ class AnalyzeAdmission:
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             channel_data = analyze_helper.set_fullname(connect.get_admission_channel())
-            channel_dict = analyze_helper.set_dict(channel_data.index, channel_data.channel_name)
+            channel_sample = self.split_channel(channel_data)
+            dupli_channel = channel_sample.channel_name.duplicated(keep=False)
+            channel_sample.loc[dupli_channel, 'channel_name'] = channel_sample.loc[dupli_channel, 'channel_name'] + ' (' + \
+                                                            channel_sample['channel_round'] + ')'
+            channel_dict = analyze_helper.set_dict(channel_sample.index, channel_sample.channel_name)
             branch = connect.get_branch()
             branch_data = analyze_helper.set_branch(branch['value'])
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
@@ -215,35 +219,54 @@ class AnalyzeAdmission:
             group_brance = analyze_helper.set_fullname_column(branch_dict, group_brance)
             group_brance = analyze_helper.set_fullname_index(channel_dict, group_brance)
 
-            group_analyze = df.groupby(['channel_id']).size()
-            group_analyze_min = group_analyze.min()
-            group_analyze_max = group_analyze.max()
-            group_analyze = analyze_helper.set_fullname_index(channel_dict, group_analyze)
+            channel_id_list=channel_data.index.tolist()
 
+            table_count = []
+            for c_id in channel_id_list:
+                by_channel = {}
+                data = df[df['channel_id']==c_id]
+                if not data.empty:
+                    count = len(data)
+                    max_data=data.branch_id.value_counts().max()
+                    min_data=data.branch_id.value_counts().min()
+                else: 
+                    count=0
+                    max_data=0
+                    min_data= 0
+                by_channel['channel'] = channel_dict[c_id]
+                by_channel['count'] = count
+                by_channel['max_data'] = max_data
+                by_channel['min_data'] = min_data
+                table_count.append(by_channel)
+
+                
             all_student = len(df)
             channel_count = df.channel_id.value_counts()
 
             group = df[(df['status_id'] == 2) | (df['status_id'] == 3)]
             group = group.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
             group = analyze_helper.set_fullname_column(status_dic, group)
-
+            
             list_name = group.columns.tolist()
             group = pd.merge(channel_count, group, left_index=True, right_index=True, how='inner')
             group.rename(columns={group.columns[0]: "all"}, inplace=True)
+            all_admission = group['all'].sum()
             for name in list_name:
                 group['per_Type_' + name] = group.apply(lambda row: (row[name] / row['all']) * 100, axis=1)
                 group['per_Stu_' + name] = group.apply(lambda row: (row[name] / all_student) * 100, axis=1)
 
+            group['per_all_student'] = (group['all']/all_admission)* 100
             group = group.round(2).sort_index()
+            
+
+            
             group_check_index = analyze_helper.check_list(channel_data.index, group)
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
             value = {
                 'count_by_brance' : group_brance.to_dict('index'),
                 'all_student': all_student,
                 'table': group_fullname.to_dict('index'),
-                'count' : group_analyze.to_dict(),
-                'min' : str(group_analyze_min),
-                'max' : str(group_analyze_max)
+                'table_count' : table_count,
             }
 
             response = True
