@@ -131,6 +131,10 @@ export const ADD_STUDENT_START = "load_add_student_start"
 export const ADD_STUDENT_SUCCESS = "load_add_student_success"
 export const ADD_STUDENT_FAILED = "load_add_student_failed"
 
+export const ADD_GPAX_STUDENT_START = "load_add_gpax_student_start"
+export const ADD_GPAX_STUDENT_SUCCESS = "load_add_gpax_student_success"
+export const ADD_GPAX_STUDENT_FAILED = "load_add_gpax_student_failed"
+
 export const DELETE_STUDENT_START = "load_delete_student_start"
 export const DELETE_STUDENT_SUCCESS = "load_delete_student_success"
 export const DELETE_STUDENT_FAILED = "load_delete_student_failed"

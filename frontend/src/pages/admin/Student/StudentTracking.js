@@ -16,7 +16,8 @@ import { getStudentList, selectYear } from '../../../redux/action/adminStudentAc
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 
-const Traching = ({id_dep,data})=>{
+const Traching = ({id_dep,data,handleTracking})=>{
+        
         return (
           <Fragment>
           
@@ -28,8 +29,7 @@ const Traching = ({id_dep,data})=>{
                   <Table.HeaderCell>ชื่อ-นามสกุล</Table.HeaderCell>
                   <Table.HeaderCell> สาขา </Table.HeaderCell>
                   <Table.HeaderCell>GPA</Table.HeaderCell>
-                  {/* <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> 
-                   <Table.HeaderCell>ดำเนินการ</Table.HeaderCell> */}
+                  <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> 
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -42,10 +42,8 @@ const Traching = ({id_dep,data})=>{
                         <Table.Cell>{item['firstname']}</Table.Cell>
                         <Table.Cell>{item['branch_name']}</Table.Cell>
                         <Table.Cell>{item['current_gpax']}</Table.Cell> 
-                        {/* <Table.Cell>{item['current_gpax']}</Table.Cell> 
-                         <Table.Cell>
-                                                <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
-                                            </Table.Cell>  */}
+                        <Table.Cell> <Button onClick={() => handleTracking(item['student_id'])}>ติดตามผลการเรียน</Button></Table.Cell> 
+                      
                        </Table.Row>
                     ))
                   ) : (
@@ -83,6 +81,11 @@ class StudentTracking extends Component {
     }
 
 
+    handleTracking = (id_student)=>{
+      alert(id_student)
+    }
+
+
     // handleYearSelect = async event => {
     //     let value = event.target.value
     //     await this.props.setYear(value)
@@ -106,7 +109,7 @@ class StudentTracking extends Component {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
             departmentList.forEach(item => {
                 let student  = studentList.filter(data => data['dept_id'] == item['dept_id'])
-                tabDetail.push(convertDetail(item['dept_id'], <Traching id={item['dept_id']} data={student[0]['student']} />))
+                tabDetail.push(convertDetail(item['dept_id'], <Traching id={item['dept_id']} data={student[0]['student']} handleTracking={this.handleTracking}/>))
             })
         }
 
