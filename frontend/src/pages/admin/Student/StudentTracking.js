@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row,Button } from 'react-bootstrap'
+import { Container, Nav, Tab, Col, Row,Button,Modal } from 'react-bootstrap'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 
@@ -68,7 +68,9 @@ class StudentTracking extends Component {
         super(props)
         this.state = {
             tabKey: null,
-
+            trackingStudent:null,
+            dept :null,
+            showTrack:false
         }
     }
 
@@ -91,8 +93,11 @@ class StudentTracking extends Component {
           let data = res.data.data
           this.setState({
               trackingStudent: data,
-              dept : dept_name
-          })
+              dept : dept_name,
+              showTrack:true
+          },
+         
+          )
       })
       .catch(error => {
           console.error(error)
@@ -102,18 +107,14 @@ class StudentTracking extends Component {
       })
     }
 
-
-    // handleYearSelect = async event => {
-    //     let value = event.target.value
-    //     await this.props.setYear(value)
-    //     this.getData()
-    // }
-
-
-   
+    handlTrackClose = () => {
+      this.setState({
+        showTrack: false,
+      })
+  }
 
     render() {
-
+        let {showTrack} = this.state
         let { departmentList } = this.props.information
 
         let { studentList } = this.props.student
@@ -133,6 +134,20 @@ class StudentTracking extends Component {
         return (
             <Fragment>
                 <div className="my-2 w-100 mx-auto">
+
+                        <Modal
+                            size="lg"
+                            centered
+                            show={showTrack}
+                            onHide={this.handlTrackClose}
+                        >
+                            <Modal.Header closeButton>
+                                <h2>ต้องการลบข้อมูลแบบสอบถาม ปีการศึกษา </h2>
+                            </Modal.Header>
+                            <Modal.Body>
+                                หากลบข้อมูลแบบสอบถาม ปีการศึกษา  แล้วจะไม่สามารถยกเลิกได้ 
+                            </Modal.Body>
+                        </Modal>
 
                     <Container fluid>
                         <Tab.Container defaultActiveKey={key}>

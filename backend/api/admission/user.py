@@ -17,10 +17,9 @@ user_admission = Blueprint('user_admission', __name__)
 @user_admission.route('/analyze', methods=['GET'])
 def get_admission_admission():
     year = request.args.get('year')
-    branch = request.args.get('branch_id')
 
     db = AnalyzeAdmission()
-    data = db.analyze_admission(branch, year)
+    data = db.analyze_admission(year)
 
     return api_helper.return_response(data)
 
