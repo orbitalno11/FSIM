@@ -594,5 +594,529 @@ class Database:
 
         return result
 
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # INFORMATION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    
+    # 1IF. get department with number of student
+    def get_department(self, dept_id: str = None):
+        if dept_id is None or dept_id == 'null':
+            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name " \
+                          "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
+        else:
+            sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name " \
+                          "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                          "NATURAL JOIN branch WHERE dept_id like '{}' GROUP BY branch_id " \
+                          "ORDER BY dept_id ASC".format(dept_id)
+
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+
+        cur_dept = None
+        for dept in execute['value']:
+            if dept[3] != cur_dept:
+                cur_dept = dept[3]
+                temp = {
+                    'dept_id': dept[3],
+                    'dept_name': dept[4],
+                    'branch': []
+                }
+                out_function_data.append(temp)
+
+        cur_dept = execute['value'][0][3]
+        count = 0
+
+        for branch in execute['value']:
+            dept = branch[3]
+            if dept != cur_dept:
+                cur_dept = dept
+                count += 1
+
+            temp = {
+                'branch_id': branch[1],
+                'branch_name': branch[2],
+                'amount_student': branch[0]
+            }
+
+            out_function_data[count]['branch'].append(temp)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 2IF. get department with course detail
+    def get_department_detail(self, dept_id: str = None):
+        if dept_id is None or dept_id == "null":
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year " \
+                          "FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course " \
+                          "NATURAL JOIN course"
+        else:
+            sql_command = "SELECT dept_id, branch_id, course_id, dept_name, branch_name, course_name, course_year " \
+                          "FROM department NATURAL JOIN has_branch NATURAL JOIN branch NATURAL JOIN has_course " \
+                          "NATURAL JOIN course WHERE dept_id like '{}'".format(dept_id)
+
+        execute = self.__execute_query(sql_command)
+
+        data = execute['value']
+        out_data = []
+        cur_dept = None
+        past_dept = []
+        for dept in data:
+            if cur_dept != dept[0] and not dept[0] in past_dept:
+                cur_dept = dept[0]
+                detail = {'dept_id': dept[0], 'dept_name': dept[3], 'branch': list(), 'course': list()}
+                cur_branch = None
+                for dept2 in data:
+                    if cur_branch != dept2[1] and dept[0] == dept2[0]:
+                        cur_branch = dept2[1]
+                        branch = {
+                            'branch_id': dept2[1],
+                            'branch_name': dept2[4]
+                        }
+                        detail['branch'].append(branch)
+                cur_course = None
+                for dept3 in data:
+                    if cur_course != dept3[2] and dept[0] == dept3[0]:
+                        cur_course = dept3[2]
+                        course = {
+                            'course_id': dept3[2],
+                            'course_name': dept3[5],
+                            'course_year': dept3[6]
+                        }
+                        detail['course'].append(course)
+                past_dept.append(dept[0])
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "Query success", out_data)
+
+    # 3IF. get branch data
+    def get_branch(self, branch_id=None):
+        if branch_id is None or branch_id == "null":
+            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, " \
+                          "has_branch_id from branch natural join has_branch natural join department as dept"
+        else:
+            sql_command = "select branch.branch_id as id, branch.branch_name as name, dept.dept_id, dept.dept_name, " \
+                          "has_branch_id from branch natural join has_branch natural join department as dept " \
+                          "where branch_id like '{}'".format(branch_id)
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['branch_id', 'branch_name', 'dept_id', 'dept_name',
+                                                             'has_branch_id'],
+                                                            [0, 1, 2, 3, 4])
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
+
+    # 4IF. get course data with subject detail
+    def get_course(self, course_id: str = None):
+        if course_id is None or course_id == "null":
+            sql_command = "SELECT course_id, course_name, course_year, subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth FROM course NATURAL JOIN has_subject NATURAL JOIN subject"
+        else:
+            sql_command = "SELECT course_id, course_name, course_year, subject_code, subject_name_th, subject_name_en, " \
+                          "subject_weigth FROM course NATURAL JOIN has_subject NATURAL JOIN subject" \
+                          " WHERE course_id like '{}'".format(course_id)
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        data = execute['value']
+        out_data = list()
+        cur_course = None
+
+        for data_row in data:
+            if cur_course != data_row[0]:
+                cur_course = data_row[0]
+                detail = {
+                    'course_id': data_row[0], 'course_name': data_row[1], 'course_year': data_row[2], 'subject': list()
+                }
+                cur_subject = None
+                for subject in data:
+                    if cur_subject != subject[3] and cur_course == subject[0]:
+                        cur_subject = subject[3]
+                        subject_data = {
+                            'subject_code': subject[3],
+                            'subject_name_th': subject[4],
+                            'subject_name_en': subject[5],
+                            'subject_weight': subject[6]
+                        }
+                        detail['subject'].append(subject_data)
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # 5IF. get course list
+    def get_course_list(self):
+        sql_command = "SELECT course_id, course_name, course_year FROM course"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_data = self.__create_out_function_data(execute['value'],
+                                                   ['course_id', 'course_name', 'course_year'],
+                                                   [0, 1, 2])
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # 6IF. get school list
+    def get_school_lis(self):
+        sql_command = "SELECT * FROM school"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['school_id', 'school_title'],
+                                                            [0, 1])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # # STUDENT # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # 1ST. insert student academic record
+    def insert_academic_record(self, academic_data):
+        return self.__insert_multiple_into(table="academic_record",
+                                           attribute=['student_id', 'subject_code', 'semester', 'year', 'grade'],
+                                           value=academic_data)
+
+    # 2ST. insert student gpa record
+    def insert_gpa_record(self, gpa_data):
+        return self.__insert_multiple_into(table="gpa_record",
+                                           attribute=['student_id', 'gpa', 'semester', 'year'],
+                                           value=gpa_data)
+
+    # 3ST. insert new student data
+    def insert_new_student_data(self, data):
+        # prepare receive data
+        student_table = data['student']
+        student_table = json.loads(student_table)
+        student_table = list(student_table.values())
+
+        entrance_table = data['entrance']
+        entrance_table = json.loads(entrance_table)
+        entrance_table = list(entrance_table.values())
+
+        graduated_table = data['graduated']
+        graduated_table = json.loads(graduated_table)
+        graduated_table = list(graduated_table.values())
+
+        has_status_table = data['has_status']
+        has_status_table = json.loads(has_status_table)
+        has_status_table = list(has_status_table.values())
+
+        study_in_table = data['study_in']
+        study_in_table = json.loads(study_in_table)
+        study_in_table = list(study_in_table.values())
+
+        result = self.__insert_multiple_from_dataframe_into(table="student",
+                                                            attribute=['student_id', 'firstname', 'lastname', 'gender'],
+                                                            value=student_table)
+        if result['response']:
+            result = self.__insert_multiple_from_dataframe_into(table="entrance",
+                                                                attribute=['student_id', 'firstname', 'lastname',
+                                                                           'gender'],
+                                                                value=entrance_table)
+            if result['response']:
+                result = self.__insert_multiple_from_dataframe_into(table="graduated",
+                                                                    attribute=['student_id', 'school_id', 'gpax'],
+                                                                    value=graduated_table)
+                if result['response']:
+                    result = self.__insert_multiple_from_dataframe_into(table="has_status",
+                                                                        attribute=['student_id', 'status_id'],
+                                                                        value=has_status_table)
+                    if result['response']:
+                        result = self.__insert_multiple_from_dataframe_into(table="study_in",
+                                                                            attribute=['student_id', 'branch_id'],
+                                                                            value=study_in_table)
+
+        return result
+
+    # 4ST. delete student TODO waiting for decision about this function
+    def delete_student_by_year(self, year: str):
+        year = str(year)
+
+        if year is None or year == "null":
+            return inner_res_helper.make_inner_response(response=False,
+                                                        message="No delete year input.",
+                                                        value="No delete year input")
+
+        year = year[2:]
+        year = "{}%".format(year)
+
+        print("DELETE HELLO {}".format(year))
+
+        # try:
+        #     self.__execute_delete_data(table="study_in", column="student_id", value=year)
+        #     self.__execute_delete_data(table="entrance", column="student_id", value=year)
+        #     self.__execute_delete_data(table="graduated", column="student_id", value=year)
+        #     self.__execute_delete_data(table="gpa_record", column="student_id", value=year)
+        #     self.__execute_delete_data(table="academic_record", column="student_id", value=year)
+        #     self.__execute_delete_data(table="student", column="student_id", value=year)
+        # except pymysql.Error as e:
+        #     print("Error %d: %s" % (e.args[0], e.args[1]))
+        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
+
+    # 5ST. get all student data
+    def get_all_student(self, dept_id: str = None):
+        if dept_id is not None and dept_id != 'null':
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id " \
+                          "from student natural join study_in natural join has_branch natural join branch " \
+                          "natural join department NATURAL JOIN has_status where dept_id like '{}'".format(dept_id)
+        else:
+            sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id " \
+                          "from student natural join study_in natural join has_branch natural join branch " \
+                          "natural join department NATURAL JOIN has_status"
+
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+
+        for data in execute['value']:
+            year = data[0]
+            year = year[:2]
+            year = self.__constant.calculate_education_year(year)
+            data = {
+                'student_id': data[0],
+                'dept_id': data[5],
+                'department': data[1],
+                'branch_id': data[6],
+                'branch': data[2],
+                'current_gpax': data[3],
+                'education_status': data[4],
+                'student_year': year
+            }
+            out_function_data.append(data)
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 6ST. Student tracking
+    def get_student_tracking(self, id_student):
+        sql_command = "SELECT gpa, semester, current_gpax, education_year " \
+                      "FROM `gpa_record` NATURAL JOIN student where student_id='{}'".format(id_student)
+        execute = self.__execute_query(sql_command)
+        print(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['gpa', 'semester', 'current_gpax', 'education_year'],
+                                                            [0, 1, 2, 3])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 7ST. get all student academic record
+    def get_all_academic_record(self, dept_id=None, year=None):
+        if dept_id is None and year is None or dept_id == "null" or year == "null":
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in NATURAL JOIN has_branch"
+        elif dept_id is not None and year is None or year == "null":
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE dept_id like '{}'".format(dept_id)
+        elif year is not None and dept_id is None or dept_id == "null":
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE education_year = {}".format(int(year))
+        else:
+            sql_command = "select student_id, subject_code, semester, education_year, grade, status_id, branch_id " \
+                          "from academic_record NATURAL JOIN has_status NATURAL JOIN study_in " \
+                          "NATURAL JOIN has_branch WHERE education_year = {} " \
+                          "AND dept_id LIKE '{}'".format(int(year), dept_id)
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['student_id', 'subject_code', 'semester', 'education_year',
+                                                             'grade', 'education_status', 'branch_id'],
+                                                            [0, 1, 2, 3, 4, 5, 6])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 8ST. get academic result by branch
+    def subject_by_branch(self, branch_id, semester, education_year):
+        sql_command = "SELECT subject.subject_code, subject.subject_name_en, subject.subject_weigth, " \
+                      "academic_record.grade FROM (study_in NATURAL JOIN academic_record) " \
+                      "LEFT JOIN subject ON academic_record.subject_code = subject.subject_code " \
+                      "WHERE branch_id LIKE '{}' AND academic_record.semester = {} " \
+                      "AND academic_record.education_year = {}".format(branch_id, semester, education_year)
+
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['subject_code', 'subject_name_en', 'subject_weigth',
+                                                             'grade'],
+                                                            [0, 1, 2, 3])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 9ST. get student with education status by department
+    def get_student_status(self, dept_id, status_id):
+        sql_command = "SELECT student_id, firstname, lastname, current_gpax, branch_name, branch_id " \
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN branch " \
+                      "NATURAL JOIN department NATURAL JOIN has_status WHERE dept_id LIKE '{}' " \
+                      "AND status_id LIKE '{}'".format(str(dept_id), str(status_id))
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = []
+        for data in execute['value']:
+            year = data[0]
+            year = year[:2]
+            year = self.__constant.calculate_education_year(year)
+            temp = {
+                'student_id': data[0],
+                'firstname': data[1],
+                'lastname': data[2],
+                'current_gpax': data[3],
+                'branch_name': data[4],
+                'education_year': year
+            }
+            out_function_data.append(temp)
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 10ST. get education status list
+    def get_status_list(self):
+        sql_command = "SELECT * FROM student_status"
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        out_function_data = self.__create_out_function_data(execute['value'],
+                                                            ['status_id', 'status_title'],
+                                                            [0, 1])
+
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+
+    # 11ST. get student list group by department
+    def get_student_by_year(self, year: str = None):
+        sql_command = "SELECT student_id, firstname, lastname, branch_name, current_gpax, dept_id, dept_name, branch_id " \
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN branch NATURAL JOIN " \
+                      "has_branch NATURAL JOIN department"
+
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return execute
+
+        data = execute['value']
+        out_data = []
+        cur_dept = None
+        past_dept = []
+        for student in data:
+            if cur_dept != student[5] and not student[5] in past_dept:
+                cur_dept = student[5]
+                detail = {'dept_id': student[5], 'dept_name': student[5]}
+                std_list = []
+                for s_detail in data:
+                    if cur_dept == s_detail[5]:
+                        std_detail = {
+                            'student_id': s_detail[0],
+                            'firstname': s_detail[1],
+                            'lastname': s_detail[2],
+                            'current_gpax': s_detail[4],
+                            'branch_name': s_detail[3]
+                        }
+                        std_list.append(std_detail)
+                detail['student'] = std_list
+                past_dept.append(student[5])
+                out_data.append(detail)
+
+        return inner_res_helper.make_inner_response(True, "Query success", out_data)
+
+    # 12ST. get education year as list
+    def get_education_year_list(self):
+        sql_commad = "SELECT student_id, dept_name, branch_name, dept_id, branch_id " \
+                     "FROM student NATURAL JOIN study_in NATURAL JOIN branch " \
+                     "NATURAL JOIN has_branch NATURAL JOIN department " \
+                     "GROUP BY LEFT(student_id,2), dept_id, branch_id"
+
+        execute = self.__execute_query(sql_commad)
+
+        if not execute['response']:
+            return execute
+
+        out_data = []
+        for data in execute['value']:
+            year = {
+                'education_year': data[0][:2],
+                'dept_name': data[1],
+                'branch_name': data[2],
+                'dept_id': data[3],
+                'branch_id': data[4]
+            }
+            out_data.append(year)
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # # # # # # # # # # # # # # # # # USER # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # 1US. get user
+    def get_user(self, username: str = None):
+        if username is None or username == "null":
+            return inner_res_helper.make_inner_response(response=False, message="No username input.",
+                                                        value="No username input")
+
+        sql_command = "select staff_id, level_id, firstname, lastname from staff where staff_id like '%s'" % username
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return inner_res_helper.make_inner_response(response=False, message="User not found",
+                                                        value="User not found")
+
+        return execute
+
+    # 2US. get user for auth (have password)
+    def get_user_for_auth(self, username: str = None):
+        if username is None or username == "null":
+            return inner_res_helper.make_inner_response(response=False, message="No username input.",
+                                                        value="No username input")
+
+        sql_command = "select staff_id, level_id, firstname, lastname, password " \
+                      "from staff where staff_id like '%s'" % username
+        execute = self.__execute_query(sql_command)
+
+        if not execute['response']:
+            return inner_res_helper.make_inner_response(response=False, message="User not found",
+                                                        value="User not found")
+
+        return execute
+
+    # 3US. create user
+    def create_user(self, staff_id: str = None, first_name: str = None, last_name: str = None,
+                    hashed_pass: str = None,
+                    staff_level: int = -1, ):
+        if staff_id is None or first_name is None or last_name is None or hashed_pass is None or staff_id == "null" \
+                or first_name == "null" or last_name == "null" or hashed_pass == "null":
+            return inner_res_helper.make_inner_response(response=False, message="Some argument is None",
+                                                        value="Some argument is None")
+
+        try:
+            self.__insert_into(table="staff", column=["staff_id", "level_id", "firstname", "lastname", "password"],
+                               data=[staff_id, staff_level, first_name, last_name, hashed_pass])
+        except Exception as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+
+        return inner_res_helper.make_inner_response(True, "Success", "User was created")

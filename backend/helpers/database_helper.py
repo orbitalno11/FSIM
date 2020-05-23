@@ -954,7 +954,7 @@ class DatabaseHelper:
             self.__multiple_insert(table="student",
                                    column=['student_id', 'firstname', 'lastname', 'gender'],
                                    data=student_table)
-            self.__multiple_insert(table="entrance", column=['student_id', 'application_no'],
+            self.__multiple_insert(table="entrance", column=['student_id', 'firstname', 'lastname', 'gender'],
                                    data=entrance_table)
             self.__multiple_insert(table="graduated",
                                    column=['student_id', 'school_id', 'gpax'],
@@ -998,7 +998,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query Successful", "Success")
 
     # get all student data (pueng)
-    def get_all_student(self, dept_id=None):
+    def get_all_student(self, dept_id=None): #//
         if dept_id is not None:
             sql_command = "select student_id, dept_name, branch_name, current_gpax, status_id, dept_id, branch_id " \
                           "from student natural join study_in natural join has_branch natural join branch " \
@@ -1115,30 +1115,30 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get student data by department
-    def get_department_student_data(self, dept_id):
-        sql_command = "SELECT student_id, current_gpax, branch_id, status_id " \
-                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch " \
-                      "NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status " \
-                      "WHERE dept_id like '%s'" % (str(dept_id))
-        execute = self.__execute_query(sql_command)
-
-        if not execute['response']:
-            return execute
-
-        out_function_data = []
-        for data in execute['value']:
-            year = data[0]
-            year = year[:2]
-            year = self.__constant.calculate_education_year(year)
-            temp = {
-                'student_id': data[0],
-                'current_gpax': data[1],
-                'branch_id': data[2],
-                'status_id': data[3],
-                'education_year': year
-            }
-            out_function_data.append(temp)
-        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
+    # def get_department_student_data(self, dept_id):
+    #     sql_command = "SELECT student_id, current_gpax, branch_id, status_id " \
+    #                   "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch " \
+    #                   "NATURAL JOIN branch NATURAL JOIN department NATURAL JOIN has_status " \
+    #                   "WHERE dept_id like '%s'" % (str(dept_id))
+    #     execute = self.__execute_query(sql_command)
+    #
+    #     if not execute['response']:
+    #         return execute
+    #
+    #     out_function_data = []
+    #     for data in execute['value']:
+    #         year = data[0]
+    #         year = year[:2]
+    #         year = self.__constant.calculate_education_year(year)
+    #         temp = {
+    #             'student_id': data[0],
+    #             'current_gpax': data[1],
+    #             'branch_id': data[2],
+    #             'status_id': data[3],
+    #             'education_year': year
+    #         }
+    #         out_function_data.append(temp)
+    #     return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get student in department by status
     def get_student_status(self, dept_id, status_id):
