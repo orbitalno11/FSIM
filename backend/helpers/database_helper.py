@@ -411,7 +411,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(True, "Query Successful", out_data)
 
     # 4AD. get year list of admission
-    def get_year_list_of_admission(self):
+    def get_admission_year_list(self):
         sql_command = "SELECT admission_year FROM admission GROUP BY admission_year"
 
         execute = self.__execute_query(sql_command)

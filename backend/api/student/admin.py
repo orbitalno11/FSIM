@@ -156,7 +156,6 @@ def subject_by_branch():
     return api_helper.return_response(data)
 
 
-
 @admin_student.route('/analyze', methods=['GET'])
 def analyze_student():
     db = AnalyzeStudent()
