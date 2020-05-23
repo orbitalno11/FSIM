@@ -188,6 +188,28 @@ const deleteActivityFalied = (error, result) => (
     }
 )
 
+// upload activity particaipant
+const uploadParticipantStart = () => (
+    {
+        type: types.UPLOAD_ACTIVITY_PARTICIPANT_START
+    }
+)
+
+const uploadParticipantSuccess = (result) => (
+    {
+        type: types.UPLOAD_ACTIVITY_PARTICIPANT_SUCCESS,
+        actionResult: result
+    }
+)
+
+const uploadParticipantFalied = (error, result) => (
+    {
+        type: types.UPLOAD_ACTIVITY_PARTICIPANT_FAILED,
+        actionResult: result,
+        error: error
+    }
+)
+
 export const selectYear = year => dispatch => {
     dispatch(setSelectedYear(year))
 }
@@ -266,7 +288,7 @@ export const getActivityList = () => dispatch => {
         .then(res => {
             let data = res.data.data
 
-            if (Object.keys(data) < 1) {
+            if (data.length < 1) {
                 dispatch(loadActivityListFalied("Can not find data"))
                 dispatch(stopLoading())
                 return
@@ -314,7 +336,6 @@ export const addProject = data => dispatch => {
             dispatch(stopLoading())
             dispatch(getProjectList())
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
-
         })
         .catch(err => {
             console.error(err)
@@ -327,12 +348,8 @@ export const addProject = data => dispatch => {
 export const addActivity = data => (dispatch, getState) => {
     dispatch(addActivityStart())
     dispatch(startLoading())
-    const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    }
-    axios.post('/admin/activity/', data, config)
+
+    axios.post('/admin/activity', data)
         .then(res => {
             dispatch(addActivitySuccess(true))
             dispatch(stopLoading())
@@ -340,6 +357,7 @@ export const addActivity = data => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
+            dispatch(getYearList())
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
@@ -361,6 +379,7 @@ export const delelteActivity = act_id => (dispatch, getState) => {
             dispatch(getActivityList(year))
             dispatch(getActivityData(year))
             dispatch(getARActivityData(year))
+            dispatch(getYearList())
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
@@ -382,7 +401,7 @@ export const getYearList = () => (dispatch) => {
 
             if (!data.includes(cur_year))
                 data.push(cur_year)
-            
+
             data.sort((prev, cur) => (cur - prev))
 
             dispatch(loadActivityYearListSuccess(data))
@@ -391,6 +410,33 @@ export const getYearList = () => (dispatch) => {
         .catch(err => {
             console.error(err)
             dispatch(loadActivityYearListFalied())
+            dispatch(stopLoading())
+        })
+}
+
+export const uploadParticipant = data => (dispatch, getState) => {
+    dispatch(uploadParticipantStart())
+    dispatch(startLoading())
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+
+    axios.post('/admin/activity/participant', data, config)
+        .then(() => {
+            dispatch(uploadParticipantSuccess(true))
+            dispatch(stopLoading())
+            let year = getState().admin_activity.selectedYear
+            dispatch(getActivityList(year))
+            dispatch(getActivityData(year))
+            dispatch(getARActivityData(year))
+            dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+        })
+        .catch(err => {
+            dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+            dispatch(uploadParticipantFalied(err, false))
             dispatch(stopLoading())
         })
 }

@@ -15,7 +15,7 @@ admin_activity = Blueprint('admin_activity', __name__)
 
 
 # add activity project
-@admin_activity.route('/', methods=['POST'])
+@admin_activity.route('', methods=['POST'])
 def add_new_activity():
     form = request.form
     activity_id = form.get('activity_id')
@@ -30,26 +30,29 @@ def add_new_activity():
         return api_helper.create_error_exception(message="Can not found some value.", response_code=400,
                                                  value="Can not found some value.")
 
-    try:
-        file = request.files['upload']
-        if file and Constant.allowed_file(file.filename):
-            destination = upload_helper.upload_file(Constant.ACTIVITY_FOLDER + "/{}".format(project_id), file, year)
-        else:
-            return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
-    except Exception as e:
-        print(e)
-        return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+    db = DatabaseHelper()
+    result = db.create_activity(data)
 
-    if destination['response']:
-        data_helper = DataHelper()
-        insert_value = data_helper.read_activity_participant(destination['value'], activity_id)
-        if insert_value['response']:
-            db = DatabaseHelper()
-            result = db.insert_activity(data, insert_value['value'], project_id)
-        else:
-            return api_helper.return_response(insert_value)
-    else:
-        return api_helper.return_response(destination)
+    # try:
+    #     file = request.files['upload']
+    #     if file and Constant.allowed_file(file.filename):
+    #         destination = upload_helper.upload_file(Constant.ACTIVITY_FOLDER + "/{}".format(project_id), file, year)
+    #     else:
+    #         return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
+    # except Exception as e:
+    #     print(e)
+    #     return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+    #
+    # if destination['response']:
+    #     data_helper = DataHelper()
+    #     insert_value = data_helper.read_activity_participant(destination['value'], activity_id)
+    #     if insert_value['response']:
+    #         db = DatabaseHelper()
+    #         # result = db.create_activity(data, insert_value['value'], project_id)
+    #     else:
+    #         return api_helper.return_response(insert_value)
+    # else:
+    #     return api_helper.return_response(destination)
 
     return api_helper.return_response(result)
 
@@ -65,7 +68,45 @@ def delete_activity():
                                                  value="Can not get value.")
 
     db = DatabaseHelper()
-    result = db.delete_activity(act_id, project_type)
+    result = db.delete_activity(act_id)
+
+    return api_helper.return_response(result)
+
+
+# upload activity participant
+@admin_activity.route('/participant', methods=['POST'])
+def insert_activity_participant():
+    form = request.form
+    activity_id = form.get('activity_id')
+    project_id = form.get('project_id')
+    project_type = form.get('project_type')
+    year = form.get('year')
+
+    data = [activity_id, project_id, year, project_type]
+
+    if None in data:
+        return api_helper.create_error_exception(message="Can not found some value.", response_code=400,
+                                                 value="Can not found some value.")
+    try:
+        file = request.files['upload']
+        if file and Constant.allowed_file(file.filename):
+            destination = upload_helper.upload_file(Constant.ACTIVITY_FOLDER + "/{}".format(project_id), file, year)
+        else:
+            return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
+    except Exception as e:
+        print(e)
+        return api_helper.create_error_exception(str(e), "Can not find a file with " + str(e.args[0]), 400)
+
+    if destination['response']:
+        data_helper = DataHelper()
+        insert_value = data_helper.read_activity_participant(destination['value'], activity_id)
+        if insert_value['response']:
+            db = DatabaseHelper()
+            result = db.insert_activity_participant(insert_value['value'], project_type)
+        else:
+            return api_helper.return_response(insert_value)
+    else:
+        return api_helper.return_response(destination)
 
     return api_helper.return_response(result)
 
@@ -90,7 +131,7 @@ def add_activity_project():
     data = [project_id, project_type, project_name]
 
     db = DatabaseHelper()
-    result = db.insert_activity_project(data)
+    result = db.create_project(data)
 
     return api_helper.return_response(result)
 
@@ -109,7 +150,6 @@ def get_analyze_project_ar():
 
     db = AnalyzeActivity()
     data = db.analyze_ar(year)
-
 
     return api_helper.return_response(data)
 

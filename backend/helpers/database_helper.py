@@ -280,19 +280,21 @@ class DatabaseHelper:
         return insert
 
     # 8AC. insert activity participant data
-    def insert_activity_participant(self, participant_data, project_id):
+    def insert_activity_participant(self, participant_data, project_type: int):
         participant_table = participant_data['participant_data']
         participant_table = json.loads(participant_table)
         participant_table = list(participant_table.values())
 
-        project_list = self.get_project_list()
-        project_list = project_list['value']
+        project_type = int(project_type)
 
-        project_type = None
-        for project in project_list:
-            if project['project_id'] == project_id:
-                project_type = project['project_type']
-                break
+        # project_list = self.get_project_list()
+        # project_list = project_list['value']
+        #
+        # project_type = None
+        # for project in project_list:
+        #     if project['project_id'] == project_id:
+        #         project_type = project['project_type']
+        #         break
 
         if project_type == 0:
             result = self.__insert_multiple_from_dataframe_into(table='activity_no_ar',
@@ -612,6 +614,9 @@ class DatabaseHelper:
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
+
+        if len(execute['value']) < 1:
+            return inner_res_helper.make_inner_response(False, "Doesn't have value", None)
 
         out_function_data = []
 
