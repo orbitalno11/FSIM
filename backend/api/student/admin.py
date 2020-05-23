@@ -154,3 +154,11 @@ def subject_by_branch():
     data = db.subject_by_branch(branch,semester,year)
 
     return api_helper.return_response(data)
+
+
+
+@admin_student.route('/analyze', methods=['GET'])
+def analyze_student():
+    db = AnalyzeStudent()
+    data = db.student_admin()
+    return api_helper.return_response(data)

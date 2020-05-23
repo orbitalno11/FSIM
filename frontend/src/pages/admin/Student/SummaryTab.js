@@ -1,61 +1,121 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row } from 'react-bootstrap'
+import { Container, Tab, Col, Row } from 'react-bootstrap'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 import {
-    Dropdown,
-    Divider,
-    Image,
     Grid,
     Header,
     Card
 } from "semantic-ui-react";
 
 
-// import GraphBar from "../../../components/Graph/Bar";
 import Piechart from "../../../components/Graph/Pie";
 import Barchart from "../../../components/Graph/Bar";
 import Horizontal from "../../../components/Graph/BarHorizontal";
-import { Pie } from "react-chartjs-2"
 
-import { setupPieChart, setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
-
-
-//
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
-
-//
-
+import { setupPieChart, setupStackBarChart } from '../../../components/Graph/GraphController'
 
 import { connect } from 'react-redux'
-import { getStudentData, selectYear } from '../../../redux/action/adminStudentAction'
+import { getStudentData } from '../../../redux/action/adminStudentAction'
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
-import StudentData from "./StudentData";
+
+const StudentData =({data})=>{
+
+    return (
+        <Fragment>
+            <Container style={{backgroundColor:"#FFFFFF",padding:"2%"}}>
+              
+                <Header textAlign="center" as="h2" style={{marginBottom:"5%"}}>
+                    จำนวนนักศึกษาทุกชั้นปี 
+                </Header>
+                 <Grid textAlign={"center"}>
+                        <Grid.Row columns={2}>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                    </Card.Header>
+                                    <Card.Content>
+                                    {
+                                        data !== null ? (
+                                            <Piechart  data={setupPieChart(data.branch)}  />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    } 
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                    </Card.Header>
+                                    <Card.Content>
+                                      {
+                                        data !== null ? (
+                                            <Barchart data={setupStackBarChart(data.status_by_year[0])}  />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }  
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Card fluid>
+                                    <Card.Header textAlign={"center"}>
+                                        <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                    </Card.Header>
+                                    <Card.Content>
+                                      {
+                                        data !== null ? (
+                                            <Horizontal data={setupStackBarChart(data.df_status_by_branch[0])} legend={{display: false}}  />
+                                            ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }  
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid> 
+            </Container>
+        </Fragment>
+    )
+}
 
 
 class StudentSummary extends Component {
 
     componentDidMount() {
+       this.getData()
+    }
+
+    getData = () => {
         this.props.getDepartmentList()
-     
+        this.props.getStudentData()
     }
 
 
     render() {
        
         let { departmentList } = this.props.information
-
+        let { studentData } = this.props.student
         let key = departmentList !== null && departmentList[0]['dept_id']
 
         let tabName = null, tabDetail = []
 
-        if (departmentList !== null) {
+        if (departmentList !== null && studentData!==null) {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
+            
             departmentList.forEach(item => {
-                tabDetail.push(convertDetail(item['dept_id'], <StudentData id={item['dept_id']} data={item} />))
+                let studentDept= studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
+                tabDetail.push(convertDetail(item['dept_id'], <StudentData  data={studentDept[0]} />))
             })
         }
 
@@ -67,7 +127,7 @@ class StudentSummary extends Component {
                     <Container fluid>
                         <Tab.Container defaultActiveKey={key}>
                             <Row>
-                                <Col lg={16}>
+                                <Col >
 
                                         {
                                             key ? (
@@ -93,13 +153,15 @@ class StudentSummary extends Component {
 
 const mapStateToProps = state => (
     {
-        information: state.admin_information
+        information: state.admin_information,
+        student: state.admin_student
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
         getDepartmentList: () => dispatch(getDepartmentList()),
+        getStudentData: () => dispatch(getStudentData()),
     }
 )
 

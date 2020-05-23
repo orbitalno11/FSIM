@@ -101,7 +101,7 @@ class StudentTracking extends Component {
         let key = departmentList !== null && departmentList[0]['dept_id']
 
         let tabName = null, tabDetail = []
-
+        
         if (departmentList !== null&&studentList!==null) {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
             departmentList.forEach(item => {

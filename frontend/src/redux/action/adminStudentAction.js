@@ -147,13 +147,13 @@ export const selectYear = year => dispatch => {
     dispatch(setSelectedYear(year))
 }
 
-export const getStudentData = dept_id => dispatch => {
+export const getStudentData = () => dispatch => {
     dispatch(startLoading())
     dispatch(loadStudentstart())
 
     let studentData = {}
 
-    axios.get(`/student/department?dept_id=${dept_id}`)
+    axios.get(`/admin/student/analyze`)
         .then(res => {
             let data = res.data.data
 
@@ -163,21 +163,7 @@ export const getStudentData = dept_id => dispatch => {
                 return
             }
 
-            let department = data['dept_name']
-            let branch = data['branch'][0]
-            let byYear = data['status_by_year'][0]
-            let byBranch = data['df_status_by_branch'][0]
-            let dept_id = data['dept_id']
-
-            studentData = {
-                department: department,
-                branch: branch,
-                byYear: byYear,
-                byBranch: byBranch,
-                dept_id: dept_id
-            }
-
-            dispatch(loadStudentSuccess(studentData))
+            dispatch(loadStudentSuccess(data))
             dispatch(stopLoading())
         })
         .catch(err => {
@@ -199,7 +185,6 @@ export const getStudentList = year => dispatch => {
                 dispatch(stopLoading())
                 return
             }
-            console.log(data)
             dispatch(loadStudentListSuccess(data))
             dispatch(stopLoading())
         })
