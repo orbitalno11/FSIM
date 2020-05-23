@@ -1113,10 +1113,11 @@ class DatabaseHelper:
                                                         value="Some argument is None")
 
         try:
-            self.__insert_into(table="staff", column=["staff_id", "level_id", "firstname", "lastname", "password"],
-                               data=[staff_id, staff_level, first_name, last_name, hashed_pass])
+            self.__insert_into(table="staff",
+                               attribute=["staff_id", "level_id", "firstname", "lastname", "password"],
+                               value=[staff_id, staff_level, first_name, last_name, hashed_pass])
         except Exception as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
-            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+            print(e)
+            return inner_res_helper.make_inner_response(False, "Error", "Can not create user.")
 
         return inner_res_helper.make_inner_response(True, "Success", "User was created")
