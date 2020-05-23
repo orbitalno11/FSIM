@@ -8,15 +8,22 @@ import {
     Container,
     Table
 } from "semantic-ui-react";
+
 import { connect } from 'react-redux'
+
 import { Row, Col} from 'react-bootstrap'
 
 import { Bar} from "react-chartjs-2";
 
 import GraphBar from "../../components/Graph/Bar";
+
 import { setupStackBarChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
+
 import { getActivityData, getActivityList, selectYear } from '../../redux/action/adminActivityAction'
+
 import { getYearList } from '../../redux/action/adminActivityAction'
+
+import YearSelect from '../../components/YearSelect'
 
 class ActivityInformation extends Component {
 
@@ -45,19 +52,11 @@ class ActivityInformation extends Component {
         return (
             <Fragment>
                 <Container className="white-background">
-                    <Header as="h5" textAlign="center">
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-                    </Header>
-                    <Divider />
+                    {
+                        yearList != null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
+                        )
+                    }
                     <Container className="mb-5">
                         <Row>
                             <Col  sm={12} lg={6} className="my-2">

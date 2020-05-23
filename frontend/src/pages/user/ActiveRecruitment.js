@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from "react";
+
 import axios from 'axios'
 
 import {
     Header,
-    Grid,
     Card,
-    Container,
-    Image
+    Container
 } from "semantic-ui-react";
+
 import { connect } from 'react-redux'
+
 import { Row, Col} from 'react-bootstrap'
 
 import { Bar } from 'react-chartjs-2';
@@ -18,6 +19,8 @@ import { startLoading, stopLoading } from '../../redux/action/generalAction'
 import { setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
 import { getYearList, selectYear } from '../../redux/action/adminActivityAction'
+
+import YearSelect from '../../components/YearSelect'
 
 class ActiveRecruitment extends Component {
 
@@ -69,23 +72,14 @@ class ActiveRecruitment extends Component {
         let { yearList, selectedYear } = this.props.activity
         let { project_set } = this.state
 
-        console.log(selectedYear)
-
         return (
             <Fragment>
                 <Container className="white-background">
-                    <Header as="h5" align='center'>
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-                    </Header>
+                    {
+                        yearList != null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
+                        )
+                    }
                     {
                         project_set.length !== 0 ?
                             (project_set.map((item, index) => {
