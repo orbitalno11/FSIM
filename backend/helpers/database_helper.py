@@ -909,7 +909,7 @@ class DatabaseHelper:
 
     # 6ST. Student tracking
     def get_student_tracking(self, id_student):
-        sql_command = "SELECT gpa, semester, current_gpax, education_year " \
+        sql_command = "SELECT gpa, semester, current_gpax, education_year,firstname,lastname " \
                       "FROM `gpa_record` NATURAL JOIN student where student_id='{}'".format(id_student)
         execute = self.__execute_query(sql_command)
         print(sql_command)
@@ -917,8 +917,8 @@ class DatabaseHelper:
             return execute
 
         out_function_data = self.__create_out_function_data(execute['value'],
-                                                            ['gpa', 'semester', 'current_gpax', 'education_year'],
-                                                            [0, 1, 2, 3])
+                                                            ['gpa', 'semester', 'current_gpax', 'education_year','firstname','lastname'],
+                                                            [0, 1, 2, 3, 4, 5])
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
