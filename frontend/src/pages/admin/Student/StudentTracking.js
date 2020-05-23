@@ -72,6 +72,7 @@ class StudentTracking extends Component {
       tabKey: null,
       trackingStudent: [],
       showTrack: false
+
     }
   }
 
@@ -124,20 +125,21 @@ class StudentTracking extends Component {
   render() {
     let { showTrack, trackingStudent, dept } = this.state
     let { departmentList } = this.props.information
-    let tabName = null, tabDetail = []
+    let key=false,tabName = null, tabDetail = []
     let { studentList } = this.props.student
+    if (departmentList !== null) {
+      key = departmentList[0]['dept_id']
+      if (departmentList !== null && studentList !== null) {
+        tabName = convertTabName(departmentList, "dept_id", "dept_name")
+        departmentList.forEach(item => {
+          let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
+          tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
+        })
 
-    let key = departmentList !== null && departmentList[0]['dept_id']
-
-    if (departmentList !== null && studentList !== null) {
-      tabName = convertTabName(departmentList, "dept_id", "dept_name")
-      departmentList.forEach(item => {
-        let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
-        tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
-      })
+      }
     }
 
-    // }
+
 
     return (
       <Fragment>
