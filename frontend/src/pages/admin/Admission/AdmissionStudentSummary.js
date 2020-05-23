@@ -13,74 +13,32 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-
+import { getAdmissionData } from '../../../redux/action/adminAdmissionAction'
 
 import GraphBar from "../../../components/Graph/Bar";
-import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../../components/Graph/GraphController';
+import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
+import { Bar } from "react-chartjs-2";
 
 
-import Axios from "axios";
-import Barchart from "../../../components/Graph/Bar";
+
+
 
 
 class AdmissionStudentSummary extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
+
         this.state = {
-            year: 2560,
-            yearList: [2560, 2561, 2562, 2563],
-            branch: props.branch_list,
-            admissionRound: []
+            admissionData : null
+         
         }
     }
-
     componentDidMount() {
-        this.getCountChannel()
+        this.props.getAdmissionData()
     }
-
-    fetchBranch = () => {
-
-    }
-
-    getCountChannel = () => {
-        let { year } = this.state
-        Axios.get(`/admin/admission/analyze/channel`)
-            .then(res => {
-               
-                let data = res.data.data
-
-                let admissionRound = data['analyze_by_round'][0]
-                // let countChannel = data['count_channel']
-                // let countSchool = data['count_by_school']
-                // let compareYear = data['compare_year'][0]
-                // let countStatus = data['count_by_status'][0]
-                // let countGrade = data['count_by_branch'][0]
-
-               
-                // console.log(countChannel)
-
-                this.setState({
-                    admissionRound: setupStackBarChart(admissionRound)
-                    // countChannel: setupNoneStackBarChart(countChannel),
-                    // countSchool: setupStackBarChart(countSchool),
-                    // compareYear: setupStackBarChart(compareYear),
-                    // countStatus: setupStackBarChart(countStatus),
-                    // countGrade: setupStackBarChart(countGrade)
-
-                })
-                // console.log(this.state.countChannel)
-            })
-            .catch(error => {
-                console.error(error)
-                this.setState({
-                    loadTime: 1
-                })
-            })
-    }
-
     render() {
-        let {branch_list, admissionRound} = this.props
+        let {admissionData} = this.props.admission
         return (
             <Fragment>
                 <Container>
@@ -98,113 +56,122 @@ class AdmissionStudentSummary extends Component {
                     </Header>
                     <Divider/>
                     <Grid>
-                        
                         <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนที่รับเข้านักศึกษาของโครงการแต่ละประเภท
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <Barchart data={admissionRound}/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงผลการศึกษาโครงการต่างๆ 
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/1
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                        {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round1)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/2 
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/2
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
+                                    {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round2)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 2
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/1 
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
+                                        {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round3)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/1
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round4)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/2
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 4
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
+                                    {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round5)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column mobile={16} computer={8}>
+                                <Card className="card-default">
+                                    <Card.Header as="h5">
+                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 4
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round6)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                            <Grid.Column mobile={16} computer={8}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 5
                                     </Card.Header>
                                     <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        เกรดเฉลี่ยของนักศึกษาแต่ละรอบที่รับเข้า
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
+                                    {
+                                            admissionData !== null ? (
+                                                <Bar data={setupNoneStackBarChart(admissionData.round7)} legend={{ display: false }} />
+                                            ) : (
+                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                )
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -220,6 +187,19 @@ class AdmissionStudentSummary extends Component {
         )
     }
 }
+const mapStateToProps = state => (
+    {
+        admission: state.admin_admission
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getAdmissionData: () => dispatch(getAdmissionData())
+       
+        // setYear: (2560) => dispatch(selectYear())
+    }
+)
 
 
-export default AdmissionStudentSummary
+export default connect(mapStateToProps, mapDispatchToProps)(AdmissionStudentSummary)

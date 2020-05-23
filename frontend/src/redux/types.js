@@ -147,9 +147,30 @@ export const GET_STUDENT_YEAR_LIST_FAILED = "load_student_year_list_failed"
 // admin admission
 export const SET_ADMISSION_SELECTED_YEAR = "set_ADMISSION_selected_year"
 
-// export const GET_ADMISSION_YEAR_LIST_START = "get_admission_year_list_start"
-// export const GET_ADMISSION_YEAR_LIST_SUCCESS = "get_admission_year_list_success"
-// export const GET_ADMISSION_YEAR_LIST_FAILED = "get_admission_year_list_failed"
+
+export const GET_ADMISSION_YEAR_LIST_START = "get_admission_year_list_start"
+export const GET_ADMISSION_YEAR_LIST_SUCCESS = "get_admission_year_list_success"
+export const GET_ADMISSION_YEAR_LIST_FAILED = "get_admission_year_list_failed"
+
+export const LOAD_ADMISSION_TABLE_START = "load_admission_table_start"
+export const LOAD_ADMISSION_TABLE_SUCCESS = "load_admission_table_success"
+export const LOAD_ADMISSION_TABLE_FAILED = "load_admission_table_failed"
+
+export const LOAD_ADMISSION_TABLE_TWO_START = "load_admission_table_two_start"
+export const LOAD_ADMISSION_TABLE_TWO_SUCCESS = "load_admission_table_two_success"
+export const LOAD_ADMISSION_TABLE_TWO_FAILED = "load_admission_table_three_failed"
+
+
+export const LOAD_ADMISSION_TABLE_THREE_START = "load_admission_table_three_start"
+export const LOAD_ADMISSION_TABLE_THREE_SUCCESS = "load_admission_table_three_success"
+export const LOAD_ADMISSION_TABLE_THREE_FAILED = "load_admission_table_three_failed"
+
+
+export const LOAD_ADMISSION_DATA_START = "load_admission_data_start"
+export const LOAD_ADMISSION_DATA_SUCCESS = "load_admission_data_success"
+export const LOAD_ADMISSION_DATA_FAILED = "load_admission_data_failed"
+
+
 
 //admission Kim
 export const LOAD_ADMISSION_LIST_START = "load_admission_list_start"

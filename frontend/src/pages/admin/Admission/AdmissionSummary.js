@@ -11,21 +11,37 @@ import {
 
 // redux
 import {connect} from 'react-redux'
-import { getAdmissionList, selectYear } from '../../../redux/action/adminAdmissionAction'
+import { getAdmissionTable,getAdmissionTableTwo,getAdmissionTableThree, selectedYear } from '../../../redux/action/adminAdmissionAction'
+
+
+
+const option = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                display: false
+            }
+        }]
+    }
+}
+
 
 class AdmissionSummary extends Component {
-
 
     constructor(props) {
         super(props)
 
         this.state = {
-            admissionList: null
+            admissionTable: null,
+            admissionTableThree: null,
+            admissionTableTwo: null
         }
     }
 
     componentDidMount() {
-        this.props.getAdmissionList()
+        this.props.getAdmissionTable()
+        this.props.getAdmissionTableThree()
+        this.props.getAdmissionTableTwo()
     }
     handleSeclectYear = async event => {
         let value = event.target.value
@@ -34,7 +50,7 @@ class AdmissionSummary extends Component {
     }
   
     render() {
-        let { admissionList, selectedYear,yearList } = this.props.admission
+        let { admissionTable,admissionTableTwo,admissionTableThree, selectedYear,yearList } = this.props.admission
         return (
             <Fragment>
                  <Container>
@@ -89,17 +105,22 @@ class AdmissionSummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                {/* {
-                                    admissionList !== null && (
-                                        admissionList.map((item, index) => (
+                                {
+                                    admissionTable !== null && (
+                                        admissionTable.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
-                                                <Table.Cell>{item['count_by_branch']}</Table.Cell>
-                                                
-                                                
+                                                <Table.Cell>{item[0]}</Table.Cell>
+                                                <Table.Cell>{item[1]["เคมี "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["คณิตศาสตร์ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["สถิติ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาการคอมพิวเตอร์ประยุกต์ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["ฟิสิกส์ประยุกต์ (หลักสูตรสองภาษา) "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["จุลชีววิทยา "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาศาสตร์และเทคโนโลยีการอาหาร "]}</Table.Cell>
                                             </Table.Row>
                                         ))
                                     )
-                                } */}
+                                }
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
@@ -130,15 +151,16 @@ class AdmissionSummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell style={{paddingLeft: "4%"}}>
-                                            คัดเลือกตรง
-                                        </Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                    
-                                    </Table.Row>
+                                {
+                                    admissionTableTwo !== null && (
+                                        admissionTableThree.map((item, index) => (
+                                            <Table.Row textAlign="center" key={index}>
+                                                <Table.Cell>{item[0]}</Table.Cell>
+                                                <Table.Cell>{item[1]["all"]}</Table.Cell>
+                                            </Table.Row>
+                                        ))
+                                    )
+                                }
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
@@ -159,7 +181,7 @@ class AdmissionSummary extends Component {
                                             รวมจำนวนนักศึกษา (คน)
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={1} textAlign="center">
-                                            ร้อยละ
+                                            ร้อยละ(จากนักศึกษาทั้งหมด)
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={1} textAlign="center">
                                             จำนวนนักศึกษาตกออก(คน)​
@@ -185,20 +207,23 @@ class AdmissionSummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell style={{paddingLeft: "4%"}}>
-                                            คัดเลือกตรง
-                                        </Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                                        <Table.Cell textAlign="center">3</Table.Cell>
-                    
-                                    </Table.Row>
+                                {
+                                    admissionTableThree !== null && (
+                                        admissionTableThree.map((item, index) => (
+                                            <Table.Row textAlign="center" key={index}>
+                                                <Table.Cell>{item[0]}</Table.Cell>
+                                                <Table.Cell>{item[1]["all"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Type_ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Stu_ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาฑัณฑ์"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Type_วิทยาฑัณฑ์"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Stu_วิทยาฑัณฑ์"]}</Table.Cell>
+                                            </Table.Row>
+                                        ))
+                                    )
+                                }
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
@@ -217,8 +242,10 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        getAdmissionList: () => dispatch(getAdmissionList()),
-        setYear: (year) => dispatch(selectYear(year))
+        getAdmissionTable: () => dispatch(getAdmissionTable()),
+        getAdmissionTableTwo: () => dispatch(getAdmissionTableTwo()),
+        getAdmissionTableThree: () => dispatch(getAdmissionTableThree()),
+        // setYear: (year) => dispatch(selectYear(year))
     }
 )
 
