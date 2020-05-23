@@ -1,22 +1,19 @@
 import React, { Component, Fragment } from 'react'
+import axios from "axios";
 
-import { Container, Card, Tab, Col, Row, Button, Modal } from 'react-bootstrap'
+
+import { Container, Modal, Tab, Col, Row, Button } from 'react-bootstrap'
+import { Table ,Header, Divider} from 'semantic-ui-react'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
-
-
-import {
-  Table,
-} from "semantic-ui-react";
+import ReactModal from '../../../components/ReactModal'
 
 import Line from "../../../components/Graph/Line";
 import { setupLineChart } from "../../../components/Graph/GraphController";
 
-import axios from "axios";
-
-
 import { connect } from 'react-redux'
-import { getStudentList, selectYear } from '../../../redux/action/adminStudentAction'
+import { getStudentList } from '../../../redux/action/adminStudentAction'
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
+import { openModal } from '../../../redux/action/modalAction'
 
 
 const Traching = ({ dept_name, data, handleTracking }) => {
@@ -42,7 +39,7 @@ const Traching = ({ dept_name, data, handleTracking }) => {
                 <Table.Row textAlign="center" key={index}>
                   <Table.Cell>{index + 1}</Table.Cell>
                   <Table.Cell>{item['student_id']}</Table.Cell>
-                  <Table.Cell>{item['firstname']}</Table.Cell>
+                  <Table.Cell>{item['firstname']}  {item['lastname']}</Table.Cell>
                   <Table.Cell>{item['branch_name']}</Table.Cell>
                   <Table.Cell>{item['current_gpax']}</Table.Cell>
                   <Table.Cell> <Button onClick={() => handleTracking(item['student_id'], dept_name)}>ติดตามผลการเรียน</Button></Table.Cell>
@@ -97,7 +94,7 @@ class StudentTracking extends Component {
             student_id: data.student_id,
             firstname: data.firstname,
             lastname: data.lastname,
-            trackking: setupLineChart(data.trackking),
+            trackking: this.setLabelTracking(setupLineChart(data.trackking)),
             dept: dept_name,
           },
 
@@ -108,9 +105,7 @@ class StudentTracking extends Component {
       })
       .catch(error => {
         console.error(error)
-        this.setState({
-          loadTime: 1
-        })
+        this.props.openModal(true, [{ text: 'ยังไม่มีข้อมูลเกรดของนักศึกษาหมายเลข  ' + id_student, color: '#C0392B', type: false }])
       })
   }
 
@@ -122,10 +117,24 @@ class StudentTracking extends Component {
     })
   }
 
+  setLabelTracking=(data)=>{
+    let dataLabel = data.labels
+    let newLabel = []
+    dataLabel.map(item=>{
+      let number = parseInt(item)
+      let semester = (number%2)+1
+      let year = Math.floor(number/2)+1
+      newLabel.push('ปี '+year+' เทอม '+semester)
+    },
+    data.labels = newLabel
+    )
+    return data
+  }
+
   render() {
     let { showTrack, trackingStudent, dept } = this.state
     let { departmentList } = this.props.information
-    let key=false,tabName = null, tabDetail = []
+    let key = false, tabName = null, tabDetail = []
     let { studentList } = this.props.student
     if (departmentList !== null) {
       key = departmentList[0]['dept_id']
@@ -143,6 +152,7 @@ class StudentTracking extends Component {
 
     return (
       <Fragment>
+        <ReactModal />
         <div className="my-2 w-100 mx-auto">
           {
             trackingStudent !== null ?
@@ -152,19 +162,22 @@ class StudentTracking extends Component {
                 show={showTrack}
                 onHide={this.handlTrackClose}
               >
-                <Modal.Header closeButton>
-                  <h2>กราฟแสดงผลการเรียน</h2>
-                </Modal.Header>
+               
                 <Modal.Body>
                   <Container className="mb-5">
                     <Row>
                       <Col sm={12} lg={12} className="my-2">
-                        <div style={{ marginBottom: '4%' }}>
+                        <div >
+                          <Header as='h2'>ข้อมูลนักศึกษา</Header>
                           <h5>รหัสนักศึกษา : {trackingStudent.student_id}</h5>
-                          <h5>ชื่อ-นามสกุล : {trackingStudent.firstname} - {trackingStudent.lastname} </h5>
+                          <h5>ชื่อ-นามสกุล : {trackingStudent.firstname}   {trackingStudent.lastname} </h5>
                           <h5>ภาควิชา    : {trackingStudent.dept}</h5>
                         </div>
+                        <Divider style={{ marginBottom: '4%' }}/>
+                        <div style={{padding:'3%'}}>
                         <Line data={trackingStudent.trackking} legend={{ display: false }} />
+                        </div>
+                        <h5 align="center" style={{margin:'2%'}}>กราฟแสดงเกรดเฉลี่ยนักศึกษารายเทอม</h5>
                       </Col>
                     </Row>
                   </Container>
@@ -209,6 +222,7 @@ const mapDispatchToProps = dispatch => (
   {
     getStudentList: (selectedYear) => dispatch(getStudentList(selectedYear)),
     getDepartmentList: () => dispatch(getDepartmentList()),
+    openModal: (bool, data) => dispatch(openModal(bool, data))
   }
 )
 
