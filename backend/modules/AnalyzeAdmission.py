@@ -52,7 +52,7 @@ class AnalyzeAdmission:
             channel_sample_for_dict = channel_sample[['channel_name']]
             round_data = channel_sample[['round_id','round_name']]
 
-            school = analyze_helper.set_fullname(connect.get_working_school_list())
+            school = analyze_helper.set_fullname(connect.get_school_lis())
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
             school_dict = analyze_helper.set_dict(school.index, school.school_title)
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)

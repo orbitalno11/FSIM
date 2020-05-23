@@ -225,7 +225,7 @@ class DatabaseHelper:
             return execute
 
         out_data = self.__create_out_function_data(execute['value'],
-                                                   ['project_id', 'project_id', 'project_type'],
+                                                   ['project_id', 'project_name', 'project_type'],
                                                    [0, 1, 2])
 
         return inner_res_helper.make_inner_response(True, "Success", out_data)

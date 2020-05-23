@@ -218,7 +218,7 @@ class AnalyzeActivity:
                     analyze_by_activity = analyze_helper.check_list(branch_data.index, analyze_by_activity)
                     analyze_by_activity = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity)
                     
-                    analyze_by_activity_gpax = df.groupby(['branch_name'])['grade'].mean()
+                    analyze_by_activity_gpax = df.groupby(['branch_name'])['gpax'].mean()
                     analyze_by_activity_gpax = analyze_helper.check_list(branch_data.index, analyze_by_activity_gpax)
                     analyze_by_activity_gpax = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity_gpax)
                     analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
