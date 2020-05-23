@@ -85,18 +85,19 @@ class AdminHome extends Component {
         this.setUpAmountStudentChart()
 
         axios.get('/admin/information')
-        .then(res => {
-            let recieved_data = res.data.data
+            .then(res => {
+                let recieved_data = res.data.data
 
-            console.log(res)
-        })
-        .catch(err => {
+                console.log(res)
+            })
+            .catch(err => {
 
-        })
+            })
     }
 
     render() {
-        let { user, amountStudentPie, amountStudentStatus, amountWorkingStatus } = this.state
+        let { user, amountStudentPie, amountStudentStatus, amountWorkingStatus, amountStudent, statusStudent, alumniWork } = this.state
+
         return (
             <Fragment>
                 <Image src={KMUTT} alt="KMUTT" fluid />
@@ -144,7 +145,11 @@ class AdminHome extends Component {
                                 <Card.Title className="card-header">
                                     <strong>จำนวนนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
-                                <PieChart data={amountStudentPie} />
+                                <div style={{ textAlign: 'center', height: '100%' }}>
+                                    {
+                                        amountStudent.length !== 0 ? <PieChart data={amountStudentPie} /> : <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                    }
+                                </div>
                                 <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
@@ -153,7 +158,13 @@ class AdminHome extends Component {
                                 <Card.Title className="card-header">
                                     <strong>อัตราการมีงานทำของศิษย์เก่า</strong>
                                 </Card.Title>
-                                <PieChart data={amountWorkingStatus} />
+                                <div style={{ textAlign: 'center', height: '100%' }}>
+                                    {
+                                        alumniWork.length !== 0 ? <PieChart data={amountWorkingStatus} /> : <h2 className="text-center" text-align= "center" >ไม่พบข้อมูล</h2>
+                                    }
+
+                                </div>
+
                                 <Button variant="secondary" to='/admin/alumni' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
@@ -162,7 +173,13 @@ class AdminHome extends Component {
                                 <Card.Title className="card-header">
                                     <strong>สถานะทางการศึกษาของนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
-                                <Bar data={amountStudentStatus} />
+                                <div style={{ textAlign: 'center', height: '100%' }}>
+                                    {
+                                        statusStudent.length !== 0 ? <Bar data={amountStudentStatus} /> : <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                    }
+                                }
+                                </div>
+
                                 <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>
