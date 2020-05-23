@@ -19,16 +19,15 @@ const AddGpax = ({ submit, selectFile, year }) => (
                     ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
-
-                    <FormControl id="educationYear" as="select" placeholder="ระบุปีการศึกษา" required >
-                        <option value='0'>กรุณาเลือกปีการศึกษา</option>
-                        {
-                            year.map((item, index) => (
-                                <option key={index} value={item}>{item}</option>
-                            ))
-                        }
-                    </FormControl>
-
+                    <FormControl id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required ></FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    เทอมการศึกษา
+                </Form.Label>
+                <InputGroup>
+                    <FormControl id="semester" type="number" placeholder="ระบุเทอมการศึกษา" required ></FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -49,42 +48,6 @@ const AddGpax = ({ submit, selectFile, year }) => (
 const AddStudent = ({submit, selectFile, year}) => (
     <Fragment>
         <Form onSubmit={submit}>
-            <Form.Group>
-                <Form.Label>
-                    ปีการศึกษา
-                </Form.Label>
-                <InputGroup>
-                <FormControl id="educationYear" as="select" placeholder="ระบุปีการศึกษา" required >
-                        <option value='0'>กรุณาเลือกปีการศึกษา</option>
-                        {
-                            year.map((item, index) => (
-                                <option key={index} value={item}>{item}</option>
-                            ))
-                            
-                        } 
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ภาควิชา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกภาควิชา</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    สาขา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกสาขา</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
             <Form.Group>
                 <Form.Label>
                     ข้อมูลนักศึกษา
@@ -112,12 +75,11 @@ class StudentAdd extends Component {
     handleGpaxSubmit = event => {
         event.preventDefault()
         let element = event.target.elements
-
-        let data = {
-            educationYear :  element.educationYear.value,
-            upload  :  this.state.selectedFile
-        }
-        this.props.addStudent(data)
+        let form = new FormData()
+        form.append('year',element.educationYear.value)
+        form.append('semester',element.semester.value)
+        form.append('upload', this.state.selectedFile)
+        this.props.addStudentGpax(form)
     }
 
     handleStudentSubmit = event => {
@@ -125,9 +87,8 @@ class StudentAdd extends Component {
         let element = event.target.elements
 
         let form = new FormData()
-        form.append('educationYear', element.educationYear.value)
         form.append('upload', this.state.selectedFile)
-        this.props.addStudentGpax(form)
+        this.props.addStudent(form)
     }
 
     handleSelectFile = event => {
@@ -143,9 +104,6 @@ class StudentAdd extends Component {
 
         let { yearList } = this.props.student
         let { departmentList } = this.props.information
-        let key = departmentList !== null && departmentList[0]['dept_id']
-        // console.log("key")
-        // console.log(key)
         let tabName = [
             {
                 tabId: '1',
