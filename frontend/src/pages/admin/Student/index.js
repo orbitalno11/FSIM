@@ -13,7 +13,6 @@ import TabDialog from '../../../components/TabDialog'
 import StudentSummary from "./SummaryTab";
 import StudentTracking from "./StudentTracking";
 import StudentAdd from "./StudentAdd";
-import StudentManage from "./StudentManage";
 
 const AddTab = () => (
     <Fragment>
@@ -79,8 +78,8 @@ class Student extends Component {
     }
 
     render() {
-        let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "จัดการข้อมูล", "เพิ่มข้อมูล"]
-        let pane = [<StudentSummary/>, <StudentTracking/>,< StudentManage/>, <StudentAdd/>]
+        let tabName = ["สรุปข้อมูลผลการศึกษา", "Student tracking", "เพิ่มข้อมูล"]
+        let pane = [<StudentSummary/>, <StudentTracking/>, <StudentAdd/>]
         let { loading } = this.props.website
 
         return (
