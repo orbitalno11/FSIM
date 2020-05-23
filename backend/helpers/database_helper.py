@@ -456,7 +456,7 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(True, "Query Successful", out_function_data)
 
-    # get admission data by department and year
+    # get admission data by department and year TODO() check who use
     def get_admission_data_by_dept(self, department=None, year=None):
         if department is None or department == "null":
             sql_command = "SELECT school_id, school_name, channel_id, channel_name, branch_id, branch_name " \
