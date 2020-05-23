@@ -9,6 +9,7 @@ import {
   } from "semantic-ui-react";
 
  
+import axios from "axios";
 
 
 import { connect } from 'react-redux'
@@ -16,7 +17,7 @@ import { getStudentList, selectYear } from '../../../redux/action/adminStudentAc
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 
-const Traching = ({id_dep,data,handleTracking})=>{
+const Traching = ({dept_name,data,handleTracking})=>{
         
         return (
           <Fragment>
@@ -42,7 +43,7 @@ const Traching = ({id_dep,data,handleTracking})=>{
                         <Table.Cell>{item['firstname']}</Table.Cell>
                         <Table.Cell>{item['branch_name']}</Table.Cell>
                         <Table.Cell>{item['current_gpax']}</Table.Cell> 
-                        <Table.Cell> <Button onClick={() => handleTracking(item['student_id'])}>ติดตามผลการเรียน</Button></Table.Cell> 
+                        <Table.Cell> <Button onClick={() => handleTracking(item['student_id'],dept_name)}>ติดตามผลการเรียน</Button></Table.Cell> 
                       
                        </Table.Row>
                     ))
@@ -66,7 +67,8 @@ class StudentTracking extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: null
+            tabKey: null,
+
         }
     }
 
@@ -81,8 +83,26 @@ class StudentTracking extends Component {
     }
 
 
-    handleTracking = (id_student)=>{
-      alert(id_student)
+    handleTracking = (id_student,dept_name)=>{
+      alert(dept_name)
+      axios.get(`/admin/student/tracking?id_student=59090500801`)
+      .then(res => {
+         
+          let data = res.data.data
+         
+
+          this.setState({
+              trackingStudent: data,
+              dept : dept_name
+          })
+          // console.log(this.state.countChannel)
+      })
+      .catch(error => {
+          console.error(error)
+          this.setState({
+              loadTime: 1
+          })
+      })
     }
 
 
@@ -109,7 +129,7 @@ class StudentTracking extends Component {
             tabName = convertTabName(departmentList, "dept_id", "dept_name")
             departmentList.forEach(item => {
                 let student  = studentList.filter(data => data['dept_id'] == item['dept_id'])
-                tabDetail.push(convertDetail(item['dept_id'], <Traching id={item['dept_id']} data={student[0]['student']} handleTracking={this.handleTracking}/>))
+                tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking}/>))
             })
         }
 
