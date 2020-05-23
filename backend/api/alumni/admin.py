@@ -20,7 +20,8 @@ admin_alumni = Blueprint('admin_alumni', __name__)
 
 # add survey data to firebase by year
 @admin_alumni.route('/survey', methods=['POST'])
-def add_alumni_survey():
+@auth.token_required
+def add_alumni_survey(current_user):
     # this api need education year (2561, 2562), table header as a list and google sheet url
     data = request.get_json()
 
@@ -54,7 +55,8 @@ def add_alumni_survey():
 
 # add survey data to firebase by year
 @admin_alumni.route('/survey', methods=['DELETE'])
-def delete_alumni_survey():
+@auth.token_required
+def delete_alumni_survey(current_user):
     # this api need education year (2561, 2562), table header as a list and google sheet url
     key = request.args.get('key')
     year = request.args.get('year')
@@ -73,7 +75,8 @@ def delete_alumni_survey():
 
 # add survey data to firebase by year
 @admin_alumni.route('/survey', methods=['PUT'])
-def edit_alumni_survey():
+@auth.token_required
+def edit_alumni_survey(current_user):
     # this api need education year (2561, 2562), table header as a list and google sheet url
     data = request.get_json()
 

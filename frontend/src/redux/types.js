@@ -37,6 +37,10 @@ export const ADD_SURVEY_START = "add_survey_start"
 export const ADD_SURVEY_SUCCESS = "add_survey_success"
 export const ADD_SURVEY_FAILED = "add_survey_failed"
 
+export const EDIT_SURVEY_START = "edit_survey_start"
+export const EDIT_SURVEY_SUCCESS = "edit_survey_success"
+export const EDIT_SURVEY_FAILED = "edit_survey_failed"
+
 export const DELETE_SURVEY_START = "delete_survey_start"
 export const DELETE_SURVEY_SUCCESS = "delete_survey_success"
 export const DELETE_SURVEY_FAILED = "delete_survey_failed"

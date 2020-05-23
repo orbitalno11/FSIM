@@ -132,6 +132,24 @@ export default (state = initialState, action) => {
                 error: action.error
             }
 
+        case types.UPLOAD_ACTIVITY_PARTICIPANT_START:
+            return {
+                ...state
+            }
+
+        case types.UPLOAD_ACTIVITY_PARTICIPANT_SUCCESS:
+            return {
+                ...state,
+                actionResult: action.actionResult
+            }
+
+        case types.UPLOAD_ACTIVITY_PARTICIPANT_FAILED:
+            return {
+                ...state,
+                actionResult: action.actionResult,
+                error: action.error
+            }
+
         default: return state
     }
 }

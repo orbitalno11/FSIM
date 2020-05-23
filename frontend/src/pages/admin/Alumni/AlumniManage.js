@@ -10,7 +10,6 @@ import  ReactModal  from '../../../components/ReactModal'
 //redux 
 import { connect } from 'react-redux'
 import { getSurveyList } from '../../../redux/action/adminAlumniAction'
-import {MessageError,MessageSuccess} from '../../../components/MessageAlert'
 import { deleteItem } from '../../../redux/action/adminAlumniAction'
 import { openModal } from '../../../redux/action/modalAction'
 

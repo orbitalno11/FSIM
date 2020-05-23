@@ -8,8 +8,7 @@ import  ReactModal  from '../../../components/ReactModal'
 
 // redux
 import { connect } from 'react-redux'
-import { addSurvey,getSurveyList } from '../../../redux/action/adminAlumniAction'
-import { openModal } from '../../../redux/action/modalAction'
+import { addSurvey, getSurveyList, editSurvey } from '../../../redux/action/adminAlumniAction'
 
 
 import { startLoading, stopLoading } from '../../../redux/action/generalAction'
@@ -214,7 +213,7 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        console.log(data)
+        // this.props.editSurvey(data)
 
         axios.put(`/admin/alumni/survey`, data)
             .then(res => {
@@ -350,7 +349,7 @@ const mapDispatchToProps = dispatch => (
         startLoading: () => dispatch(startLoading()),
         stopLoading: () => dispatch(stopLoading()),
         loadSurveyList:() => dispatch(getSurveyList()),
-
+        editSurvey: (data) => dispatch(editSurvey(data))
     }
 )
 

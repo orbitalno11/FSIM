@@ -6,66 +6,12 @@ import SideTab from '../../../components/SideTabDialog'
 
 import ReactModal from '../../../components/ReactModal'
 
+import { AddActivityData, UploadPaticipant } from './ActivityAddComponent'
+
 import axios from 'axios'
 
 import { connect } from 'react-redux'
 import { addProject, addActivity, uploadParticipant } from '../../../redux/action/adminActivityAction'
-
-const AddActivityData = ({ submit, project_list }) => {
-    return (
-        <Fragment>
-            <Form onSubmit={submit}>
-                <Form.Group>
-                    <Form.Label>ปีการศึกษา</Form.Label>
-                    <InputGroup>
-                        <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required />
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>ประเภทโครงการ</Form.Label>
-                    <InputGroup>
-                        <FormControl id="projectId" as="select" required>
-                            <option>กรุณาเลือกประเภทโครงการ</option>
-                            {
-                                project_list !== null && (
-                                    project_list.map((item, index) => (
-                                        <option key={index} value={item['project_id']}>{item['project_name']}</option>
-                                    ))
-                                )
-                            }
-                        </FormControl>
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>
-                        รหัสกิจกรรม (ไม่เกิน 5 ตัวอักษร)
-                </Form.Label>
-                    <InputGroup>
-                        <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="5" required />
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>
-                        ชื่อกิจกรรม
-                </Form.Label>
-                    <InputGroup>
-                        <Form.Control id="activityName" type="text" placeholder="กรุณาใส่ชื่อกิจกรรม" required />
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>
-                        งบประมาณ
-                </Form.Label>
-                    <InputGroup>
-                        <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
-                    </InputGroup>
-                </Form.Group>
-                <Button type="reset" className="btn-EditData interval-1" >RESET</Button>
-                <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
-            </Form>
-        </Fragment>
-    )
-}
 
 const AddProject = ({ project_type, onSubmit }) => (
     <Fragment>
@@ -102,39 +48,6 @@ const AddProject = ({ project_type, onSubmit }) => (
                 </InputGroup>
             </Form.Group>
             <Button typr="reset" className="btn-EditData interval-1" >RESET</Button>
-            <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
-        </Form>
-    </Fragment>
-)
-
-const UploadPaticipant = ({ activity_list, selectFile, submit }) => (
-    <Fragment>
-        <Form onSubmit={submit}>
-            <Form.Group>
-                <Form.Label>ชื่อกิจกรรม</Form.Label>
-                <InputGroup>
-                    <FormControl id="activityDetail" as="select" required>
-                        <option value="">กรุณาเลือกกิจกรรม</option>
-                        {
-                            activity_list !== null && (
-                                activity_list.map((item, index) => (
-                                    <option key={index} value={JSON.stringify(item)}>{item['activity_name']}</option>
-                                ))
-                            )
-                        }
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ไฟล์รายชื่อผู้เข้าร่วมกิจกรรม
-                </Form.Label>
-                <InputGroup>
-                    <FormControl id="file" type="file" accept=".xlsx, .xls" onChange={selectFile} required>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Button type="reset" className="btn-EditData interval-1">RESET</Button>
             <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
@@ -225,11 +138,7 @@ class AddActivity extends Component {
 
     render() {
         let { project_type } = this.state
-
-        let { projectList, activityList } = this.props.activity
-
-        console.log(activityList)
-
+        
         let tabDetail = null
 
         let tabName = [
@@ -255,11 +164,11 @@ class AddActivity extends Component {
                 },
                 {
                     tabId: '2',
-                    tabDetail: <AddActivityData project_list={projectList} submit={this.handleActivitySubmit} />
+                    tabDetail: <AddActivityData submit={this.handleActivitySubmit} />
                 },
                 {
                     tabId: '3',
-                    tabDetail: <UploadPaticipant activity_list={activityList} submit={this.handleUpload} selectFile={this.handleSelectFile} />
+                    tabDetail: <UploadPaticipant submit={this.handleUpload} selectFile={this.handleSelectFile} />
                 }
             ]
         }
