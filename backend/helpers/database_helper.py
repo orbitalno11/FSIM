@@ -24,12 +24,12 @@ class DatabaseHelper:
         self.__db_connection = pymysql.connect(self.__host, self.__user, self.__password, self.__db)
         self.__cursor = self.__db_connection.cursor()
 
-    # change epoch time to string format 2020-01-01
+    # change epoch time to string format 2020-01-01//
     def __change_time_epoch_to_string(self, time):
         convert = datetime.fromtimestamp(int(time)).strftime("%Y-%m-%d")
         return str(convert)
 
-    # change list ton insert format
+    # change list ton insert format//
     def __change_to_list_no_time(self, load):
         output_list = []
         for data in load:
@@ -53,7 +53,7 @@ class DatabaseHelper:
             output_list.append(tuple(temp))
         return output_list
 
-    # insert data to database function
+    # insert data to database function //
     def __multiple_insert(self, table, column, data, has_time=False, time_cols=None):
         sql_command = "insert into %s (%s) values (%s)" % (table, ','.join(column), ','.join('%s' for _ in column))
         if has_time:
@@ -65,19 +65,19 @@ class DatabaseHelper:
         self.__db_connection.commit()
 
     # insert data with correctly form
-    # insert multiple value
+    # insert multiple value //
     def __insert_multiple_into(self, table, column, data):
         sql_command = "insert into %s (%s) values (%s)" % (table, ','.join(column), ','.join('%s' for _ in column))
         self.__cursor.executemany(sql_command, data)
         self.__db_connection.commit()
 
-    # insert single value
+    # insert single value //
     def __insert_into(self, table, column, data):
         sql_command = "insert into %s (%s) values (%s)" % (table, ','.join(column), ','.join('%s' for _ in column))
         self.__cursor.execute(sql_command, data)
         self.__db_connection.commit()
 
-    # execute query function
+    # execute query function //
     def __execute_query(self, sql_command):
         try:
             self.__cursor.execute(sql_command)
@@ -108,7 +108,7 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # # ACTIVITY # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # get all activity NOT ActivityActiveRecruitment (pueng)
-    def get_activity_publicize(self, year=None):
+    def get_activity_publicize(self, year=None):#//
         # TODO() no activity join table
         # TODO() SELECT activity_id, year, activity_budget from activity NATURAL JOIN activity_project WHERE project_type = 0
         if not year is None or year == "null":
@@ -136,7 +136,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all activity  ActivityActiveRecruitment (pueng)
-    def get_activity_ar(self, year=None):
+    def get_activity_ar(self, year=None):#//
         if not year is None and year != "null":
             sql_command = "SELECT activity_id, school_name, branch_name, gpax, year FROM activity_ar " \
                           "NATURAL JOIN activity WHERE year = {} ".format(int(year))
@@ -163,7 +163,7 @@ class DatabaseHelper:
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
     # get all activity  ActivityActiveRecruitment (pueng)
-    def get_project_ar(self, year=None):
+    def get_project_ar(self, year=None):#//
         if not year is None and year != "null":
             sql_command = "SELECT project_id, gpax ,branch_name FROM activity_ar NATURAL JOIN activity NATURAL " \
                           "JOIN activity_project where project_type=1 and year = %d " % (int(year))
@@ -209,7 +209,7 @@ class DatabaseHelper:
         for data in execute['value']:
             project = {
                 'project_id': data[0],
-                'project_name': data[1],
+                'project_id': data[1],
                 'project_type': data[2]
             }
             out_data.append(project)

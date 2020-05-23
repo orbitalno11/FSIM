@@ -20,8 +20,8 @@ admin_admission = Blueprint('admin_admission', __name__)
 
 # upload admission data api
 @admin_admission.route('', methods=['POST'])
-@auth.token_required
-def insert_admission(current_user):
+# @auth.token_required
+def insert_admission():
     # This api need "Year" as year , "Admission type" as admission_type
     # and "Admission channel" as channel to be a parameter
 
@@ -50,13 +50,16 @@ def insert_admission(current_user):
         data_helper = DataHelper()
         insert_value = data_helper.read_admission(channel, year, destination['value'])
         if insert_value['response']:
-            db = DatabaseHelper()
-            insert = db.insert_admission(insert_value['value'])
+            print(insert_value['value'])
+            # db = DatabaseHelper()
+            # insert = db.insert_admission(insert_value['value'])
         else:
             return api_helper.return_response(insert_value)
     else:
         return api_helper.return_response(destination)
     return api_helper.return_response(insert)
+
+    return api_helper.create_response("DEV", True, "DEV", 200)
 
 
 # delete admission data
