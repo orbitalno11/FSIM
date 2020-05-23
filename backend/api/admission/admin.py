@@ -51,15 +51,13 @@ def insert_admission():
         insert_value = data_helper.read_admission(channel, year, destination['value'])
         if insert_value['response']:
             print(insert_value['value'])
-            # db = DatabaseHelper()
-            # insert = db.insert_admission(insert_value['value'])
+            db = DatabaseHelper()
+            insert = db.insert_admission(insert_value['value'])
         else:
             return api_helper.return_response(insert_value)
     else:
         return api_helper.return_response(destination)
     return api_helper.return_response(insert)
-
-    return api_helper.create_response("DEV", True, "DEV", 200)
 
 
 # delete admission data
