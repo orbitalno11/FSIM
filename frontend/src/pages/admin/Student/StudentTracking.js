@@ -28,8 +28,8 @@ const Traching = ({id_dep,data})=>{
                   <Table.HeaderCell>ชื่อ-นามสกุล</Table.HeaderCell>
                   <Table.HeaderCell> สาขา </Table.HeaderCell>
                   <Table.HeaderCell>GPA</Table.HeaderCell>
-                  <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> 
-                   <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
+                  {/* <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell> 
+                   <Table.HeaderCell>ดำเนินการ</Table.HeaderCell> */}
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -42,10 +42,10 @@ const Traching = ({id_dep,data})=>{
                         <Table.Cell>{item['firstname']}</Table.Cell>
                         <Table.Cell>{item['branch_name']}</Table.Cell>
                         <Table.Cell>{item['current_gpax']}</Table.Cell> 
-                        <Table.Cell>{item['current_gpax']}</Table.Cell> 
+                        {/* <Table.Cell>{item['current_gpax']}</Table.Cell> 
                          <Table.Cell>
                                                 <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
-                                            </Table.Cell> 
+                                            </Table.Cell>  */}
                        </Table.Row>
                     ))
                   ) : (

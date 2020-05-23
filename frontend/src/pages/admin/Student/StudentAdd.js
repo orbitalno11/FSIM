@@ -6,6 +6,8 @@ import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } f
 import { connect } from 'react-redux'
 import { selectYear, addStudent } from '../../../redux/action/adminStudentAction'
 
+import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
+
 //
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
@@ -108,8 +110,6 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: '1',
-            selectedFile: null
         }
     }
 
@@ -120,40 +120,39 @@ class StudentAdd extends Component {
   
 
     render() {
-        let { selectYear } = this.props.student
-        let { tabKey } = this.state
+        let tabName = [
+            {
+                tabId: '1',
+                tabTitle: 'เพิ่มข้อมูลเกรด'
+            },
+            {
+                tabId: '2',
+                tabTitle: 'เพิ่มข้อมูลนักศึกษาปัจจุบัน'
+            }
+        ]
+
+        let tabDetail = [
+                {
+                    tabId: '1',
+                    tabDetail: <AddTab />
+                },
+                {
+                    tabId: '2',
+                    tabDetail: <AddNew />
+                }
+            ]
+        
+
 
         return (
             <Fragment>
-                <div className="my-2 w-100 mx-auto">
-                    {/* <h1 className="admin-page-header">ข้อมูลภาควิชา</h1>
-                    <hr className="yellow-hr" /> */}
+               <div className="my-2 w-100 mx-auto">
                     <Container fluid>
-                        <Tab.Container defaultActiveKey={tabKey}>
-                            <Row>
-                                <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" >เพิ่มข้อมูลเกรด</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="2" className="sub-nav" >เพิ่มข้อมูลนักศึกษาปัจจุบัน</Nav.Link>
-                                        </Nav.Item>
-                                    </Nav>
-                                </Col>
-                                <Col lg={9}>
-                                    <Tab.Content>
-                                        
-                                        <Tab.Pane eventKey="1">
-                                            <AddTab />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="2">
-                                           <AddNew/>
-                                        </Tab.Pane>
-                                    </Tab.Content>
-                                </Col>
-                            </Row>
-                        </Tab.Container>
+                        {
+                            tabDetail !== null && (
+                                <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                            )
+                        }
                     </Container>
                 </div>
             </Fragment>
