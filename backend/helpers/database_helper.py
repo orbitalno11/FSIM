@@ -374,25 +374,24 @@ class DatabaseHelper:
     # 2AD. get all admission data
     def get_all_admission(self, year: int = None):
         if year is None or year == 'null':
-            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id, status_id, student.current_gpax " \
+            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id, status_id, student.current_gpax,dept_id " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
-                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
+                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance NATURAL JOIN has_branch) " \
                           "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id"
         else:
-            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id, status_id, student.current_gpax " \
+            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id, status_id, student.current_gpax,dept_id " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN " \
-                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance) " \
+                          "admission_channel NATURAL JOIN admission_studied NATURAL JOIN entrance NATURAL JOIN has_branch) " \
                           "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id " \
                           "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
-
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
 
         out_data = self.__create_out_function_data(execute['value'],
                                                    ['channel_id', 'admission_year', 'branch_id', 'school_id',
-                                                    'status_id', 'current_gpax', 'channel_name'],
-                                                   [0, 2, 3, 4, 5, 6, 1])
+                                                    'status_id', 'current_gpax', 'channel_name','dept_id'],
+                                                   [0, 2, 3, 4, 5, 6, 1,7])
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
 
