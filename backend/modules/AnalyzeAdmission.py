@@ -29,7 +29,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class AnalyzeAdmission:
 
-    def analyze_admission(self, branch_id=None, year=None):
+    def analyze_admission(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
@@ -37,10 +37,12 @@ class AnalyzeAdmission:
         if data['value']:
 
             df = pd.DataFrame(data['value'])
-            
             # real data  
-            branch = connect.get_branch()
-            branch_data = analyze_helper.set_branch(branch['value'])
+            deparment = connect.get_department()
+            deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
+            # branch_data = analyze_helper.set_branch(branch['value'])
+            deparment_data = deparment[['dept_id','dept_name']]
+            deparment_data.set_index('dept_id',inplace=True)
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             channel_data = analyze_helper.set_fullname(connect.get_admission_channel())
             channel_sample = self.split_channel(channel_data)
@@ -53,7 +55,7 @@ class AnalyzeAdmission:
             round_data = channel_sample[['round_id','round_name']]
 
             school = analyze_helper.set_fullname(connect.get_school_lis())
-            branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+            deparment_dict = analyze_helper.set_dict(deparment_data.index, deparment_data.dept_name)
             school_dict = analyze_helper.set_dict(school.index, school.school_title)
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             channel_dic = analyze_helper.set_dict(channel_sample_for_dict.index, channel_sample_for_dict.channel_name)
@@ -64,10 +66,10 @@ class AnalyzeAdmission:
             if year:
                 data_split_now = df.loc[df['admission_year'] == int(year)]
 
-            count_by_branch = data_split_now.groupby(['channel_id', 'branch_id'])['current_gpax'].mean().unstack(
+            count_by_branch = data_split_now.groupby(['channel_id', 'dept_id'])['current_gpax'].mean().unstack(
                 fill_value=0)
             count_by_branch = count_by_branch.round(2)
-            count_by_branch_check_branch = analyze_helper.check_list_column(branch_data.index, count_by_branch)
+            count_by_branch_check_branch = analyze_helper.check_list_column(deparment_data.index, count_by_branch)
             count_by_branch_check_channel = analyze_helper.check_list(channel_sample.index,
                                                                       count_by_branch_check_branch)
             round_list=channel_sample['round_id'].unique().tolist()
@@ -81,16 +83,16 @@ class AnalyzeAdmission:
                 for l_channel in list_channel_channel: 
                     count_by_branch_by_channel={}
                     check_by_round_channel = count_by_branch_check_channel[count_by_branch_check_channel.index == l_channel]
-                    check_by_round_channel = analyze_helper.set_fullname_column(branch_dict, check_by_round_channel)
+                    check_by_round_channel = analyze_helper.set_fullname_column(deparment_dict, check_by_round_channel)
                     check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
                     count_by_branch_by_channel['fullname']=channel_dic[l_channel]
                     count_by_branch_by_channel['gpa_by_branch']=check_by_round_channel.to_dict('index')
                     count_by_branch_by_round.append(count_by_branch_by_channel)
                 gpa_by_branch.append(count_by_branch_by_round)
 
-            if branch_id:
-                data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
-                data_split_now = data_split_now.loc[data_split_now['branch_id'] == branch_id]
+            # if branch_id:
+            #     data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
+            #     data_split_now = data_split_now.loc[data_split_now['branch_id'] == branch_id]
 
             # not used branch
             # used year
@@ -234,9 +236,9 @@ class AnalyzeAdmission:
                     max_data=0
                     min_data= 0
                 by_channel['channel'] = channel_dict[c_id]
-                by_channel['count'] = count
-                by_channel['max_data'] = max_data
-                by_channel['min_data'] = min_data
+                by_channel['count'] = str(count)
+                by_channel['max_data'] = str(max_data)
+                by_channel['min_data'] = str(min_data)
                 table_count.append(by_channel)
 
                 
@@ -264,7 +266,7 @@ class AnalyzeAdmission:
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
             value = {
                 'count_by_brance' : group_brance.to_dict('index'),
-                'all_student': all_student,
+                'all_student': str(all_student),
                 'table': group_fullname.to_dict('index'),
                 'table_count' : table_count,
             }
