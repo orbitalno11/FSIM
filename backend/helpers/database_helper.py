@@ -51,9 +51,9 @@ class DatabaseHelper:
             # convert epoch time to string
             if isinstance(time_cols_index, list):
                 for i in time_cols_index:
-                    temp[i] = self.__change_time_epoch_to_string(temp[i])
+                    temp[i] = self.__change_epoch_to_string(temp[i])
             else:
-                temp[time_cols_index] = self.__change_time_epoch_to_string(temp[time_cols_index])
+                temp[time_cols_index] = self.__change_epoch_to_string(temp[time_cols_index])
             temp = list(map(str, temp))
             output_list.append(tuple(temp))
         return output_list

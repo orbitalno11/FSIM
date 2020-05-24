@@ -175,6 +175,7 @@ class DataHelper:
         # data frame for graduated
         graduated = df.loc[:, ['student_id', 'school_id', 'old_gpa']]
         graduated.rename(columns={'old_gpa': 'gpax'}, inplace=True)
+        graduated.fillna("0000000000", inplace=True)
 
         # data frame for has status table
         has_status = df.loc[:, ['student_id']]

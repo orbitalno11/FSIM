@@ -18,10 +18,10 @@ const AddProject = ({ project_type, onSubmit }) => (
         <Form onSubmit={onSubmit}>
             <Form.Group>
                 <Form.Label>
-                    รหัสโครงการ (ไม่เกิน 4 ตัวอักษร)
+                    รหัสโครงการ (ไม่เกิน 10 ตัวอักษร)
                 </Form.Label>
                 <InputGroup>
-                    <Form.Control id="project_id" type="text" placeholder="กรุณาใส่รหัสโครงการ" maxLength="4" required />
+                    <Form.Control id="project_id" type="text" placeholder="กรุณาใส่รหัสโครงการ" maxLength="10" required />
                 </InputGroup>
             </Form.Group>
             <Form.Group>
