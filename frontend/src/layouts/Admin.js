@@ -12,7 +12,7 @@ import Statcourse from '../pages/user/Statcourse'
 // information
 import Information from "../pages/admin/Information/Information";
 import Department from '../pages/admin/Information/Department'
-import Course from '../pages/admin/Information/Course'
+
 
 
 // redux
@@ -27,8 +27,6 @@ class AdminLayout extends Component {
                     <Route exact path={"/admin"} component={AdminHome} />
                     <Route exact path={"/admin/information"} component={Information} />
                     <Route exact path={"/admin/information/department"} component={Department} />
-                    <Route exact path={"/admin/information/course"} component={Course} />
-                    <Route exact path={"/admin/information/Subject"} component={Statcourse} />
                     <Route exact path={"/admin/admission"} component={Admission} />
                     <Route exact path={"/admin/activity"} component={Activity} />
                     <Route exact path={"/admin/alumni"} component={Alumni} />
