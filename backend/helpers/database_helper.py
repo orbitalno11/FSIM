@@ -801,6 +801,24 @@ class DatabaseHelper:
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
 
+    # 7IF. get department from ds
+    def get_department_ds(self):
+        sql_command = "SELECT count(branch_id) as student_amount, branch_id, branch_name, dept_id, dept_name " \
+                        "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                        "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
+       
+
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_data = self.__create_out_function_data(execute['value'],
+                                                   ['dept_id', 'dept_name', 'branch_id', 'branch_name',
+                                                    'student_amount'],
+                                                   [3, 4, 1, 2, 0])
+
+        return inner_res_helper.make_inner_response(True, "Query success.", out_data)
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # STUDENT # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 

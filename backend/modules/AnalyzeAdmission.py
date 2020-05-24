@@ -39,11 +39,17 @@ class AnalyzeAdmission:
             df = pd.DataFrame(data['value'])
             
             # real data  
-            deparment = connect.get_department()
-            deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
-            # branch_data = analyze_helper.set_branch(branch['value'])
-            deparment_data = deparment[['dept_id','dept_name']]
+            # deparment = connect.get_department()
+            # deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
+            # # branch_data = analyze_helper.set_branch(branch['value'])
+            # deparment_data = deparment[['dept_id','dept_name']]
+            # deparment_data.set_index('dept_id',inplace=True)
+            
+            deparment = connect.get_department_ds()
+            deparment_data = pd.DataFrame(deparment['value']) 
+            deparment_data = deparment_data[['dept_id','dept_name']]
             deparment_data.set_index('dept_id',inplace=True)
+
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             channel_data = analyze_helper.set_fullname(connect.get_admission_channel())
             channel_sample = self.split_channel(channel_data)
