@@ -132,14 +132,15 @@ class StudentTracking extends Component {
   }
 
   render() {
-    let { showTrack, trackingStudent, dept } = this.state
+    let { showTrack, trackingStudent } = this.state
     let { departmentList } = this.props.information
     let key = false, tabName = null, tabDetail = []
     let { studentList } = this.props.student
     if (departmentList !== null) {
       key = departmentList[0]['dept_id']
+      tabName = convertTabName(departmentList, "dept_id", "dept_name")
       if (departmentList !== null && studentList !== null) {
-        tabName = convertTabName(departmentList, "dept_id", "dept_name")
+       
         departmentList.forEach(item => {
           let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
           tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
@@ -189,12 +190,11 @@ class StudentTracking extends Component {
               <Row>
                 <Col >
                   {
-                    key ? (
-                      tabName !== null && (
+                    key && tabName !== null  && studentList!==null? (
                         <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
                       )
-                    ) : (
-                        <h1 className="text-center">ไม่พบข้อมูล</h1>
+                     : (
+                        <h1 align="center" className="text-center">ไม่พบข้อมูล</h1>
                       )
                   }
 

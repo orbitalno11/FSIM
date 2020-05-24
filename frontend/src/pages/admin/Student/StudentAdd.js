@@ -35,7 +35,7 @@ const AddGpax = ({ submit, selectFile }) => (
                     ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={selectFile}>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
             </Form.Group >

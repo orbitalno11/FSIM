@@ -109,10 +109,8 @@ class StudentSummary extends Component {
         let key=false,tabName = null, tabDetail = []
         if (departmentList !== null ){
             key =  departmentList[0]['dept_id']
-        
+            tabName = convertTabName(departmentList, "dept_id", "dept_name")
             if (departmentList !== null && studentData !== null) {
-                tabName = convertTabName(departmentList, "dept_id", "dept_name")
-    
                 departmentList.forEach(item => {
                     let studentDept = studentData['analyze_by_dept'].filter(data => data['dept_id'] == item['dept_id'])
                     tabDetail.push(convertDetail(item['dept_id'], <StudentData data={studentDept[0]} />))
@@ -132,12 +130,11 @@ class StudentSummary extends Component {
                         <Tab.Container defaultActiveKey={key}>
                             <Row>
                                 <Col >
-
+                              
                                     {
-                                        key ? (
-                                            tabName !== null && (
+                                        key && tabName !== null && studentData!==null ?(
                                                 <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
-                                            )
+                                            
                                         ) : (
                                                 <h1 className="text-center">ไม่พบข้อมูล</h1>
                                             )
