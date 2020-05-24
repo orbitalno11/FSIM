@@ -227,7 +227,7 @@ class AnalyzeAdmission:
             group_brance = df.groupby(['channel_id','branch_id']).size().unstack(fill_value=0)
             group_brance = analyze_helper.set_fullname_column(branch_dict, group_brance)
             group_brance = analyze_helper.set_fullname_index(channel_dict, group_brance)
-
+            branch_list =group_brance.columns.tolist()
             channel_id_list=channel_data.index.tolist()
 
             table_count = []
@@ -248,7 +248,7 @@ class AnalyzeAdmission:
                 by_channel['min_data'] = str(min_data)
                 table_count.append(by_channel)
 
-                
+            
             all_student = len(df)
             channel_count = df.channel_id.value_counts()
 
@@ -267,11 +267,11 @@ class AnalyzeAdmission:
             group['per_all_student'] = (group['all']/all_admission)* 100
             group = group.round(2).sort_index()
             
-
-            
             group_check_index = analyze_helper.check_list(channel_data.index, group)
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
+
             value = {
+                'branch' : branch_list,
                 'count_by_brance' : group_brance.to_dict('index'),
                 'all_student': str(all_student),
                 'table': group_fullname.to_dict('index'),

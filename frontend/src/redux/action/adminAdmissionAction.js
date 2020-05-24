@@ -100,52 +100,6 @@ const loadAdmissionTableFalied = (error) => (
 )
 
 
-// admission table2
-const loadAdmissionTableTwoStart = () => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_TWO_START
-    }
-)
-
-const loadAdmissionTableTwoSuccess = (data) => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_TWO_SUCCESS,
-        admissionTableTwo: data
-    }
-)
-
-const loadAdmissionTableTwoFalied = (error) => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_TWO_FAILED,
-        error: error
-    }
-)
-
-
-
-
-// admission table3
-const loadAdmissionTableThreeStart = () => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_THREE_START
-    }
-)
-
-const loadAdmissionTableThreeSuccess = (data) => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_THREE_SUCCESS,
-        admissionTableThree: data
-    }
-)
-
-const loadAdmissionTableThreeFalied = (error) => (
-    {
-        type: types.LOAD_ADMISSION_TABLE_THREE_FAILED,
-        error: error
-    }
-)
-
-
 //  admission data
 const loadAdmissionDataStart = () => (
     {
@@ -249,6 +203,10 @@ export const addAdmission = data=> (dispatch, getState) => {
             dispatch(stopLoading())
             let year = getState().admin_admission.selectedYear
             dispatch(getAdmissionList(year))
+            dispatch(getAdmissionData(year))
+            dispatch(getYearList())
+            
+            
             //dispatch(getActivityData(year))
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
@@ -277,84 +235,24 @@ export const getAdmissionTable = year => dispatch => {
             }
             
         
-            let branchData = data.count_by_brance
-         
-            const admissionTable = Object.entries(branchData);
-              
-            admissionTable.forEach(([key, value]) => {
-                // console.log(key); 
-                // console.log(value); 
-              });
+            let branchData =  Object.entries(data['count_by_brance'])
+            let admissionTableTwo =  data['table_count']
+            let admissionTableThree = Object.entries(data['table'])
+            let branch = data['branch']
 
-            dispatch(loadAdmissionTableSuccess(admissionTable))
+
+            let data_admission = {
+                branch : branch,
+                branchData: branchData,
+                admissionTableTwo: admissionTableTwo,
+                admissionTableThree: admissionTableThree
+            }
+              
+            dispatch(loadAdmissionTableSuccess(data_admission))
             dispatch(stopLoading())
         })
         .catch(err => {
             dispatch(loadAdmissionTableFalied(err))
-            dispatch(stopLoading())
-        })
-}
-// ตาราง 2
-export const getAdmissionTableTwo = year => dispatch => {
-    dispatch(startLoading())
-    dispatch(loadAdmissionTableTwoStart())
-
-    axios.get(`/admin/admission/analyze/status?year=${year}`)
-        .then(res => {
-            let data = res.data.data
-            
-
-            if (Object.keys(data) < 1) {
-                dispatch(loadAdmissionTableTwoFalied("Can not find data"))
-                dispatch(stopLoading())
-                return
-            }
-            
-        
-            let admissionTableTwo = data.table_count
-         
-            
-            dispatch(loadAdmissionTableTwoSuccess(admissionTableTwo))
-            dispatch(stopLoading())
-        })
-        .catch(err => {
-            dispatch(loadAdmissionTableTwoFalied(err))
-            dispatch(stopLoading())
-        })
-}
-
-// ตาราง3
-export const getAdmissionTableThree = year => dispatch => {
-    dispatch(startLoading())
-    dispatch(loadAdmissionTableThreeStart())
-
-    axios.get(`/admin/admission/analyze/status?year=${year}`)
-        .then(res => {
-            let data = res.data.data
-            
-
-            if (Object.keys(data) < 1) {
-                dispatch(loadAdmissionTableThreeFalied("Can not find data"))
-                dispatch(stopLoading())
-                return
-            }
-            
-        
-            let tableData = data.table
-            console.log(tableData);
-
-            const admissionTableThree = Object.entries(tableData);
-              
-            admissionTableThree.forEach(([key, value]) => {
-                console.log(key); 
-                console.log(value); 
-              });
-
-            dispatch(loadAdmissionTableThreeSuccess(admissionTableThree))
-            dispatch(stopLoading())
-        })
-        .catch(err => {
-            dispatch(loadAdmissionTableThreeFalied(err))
             dispatch(stopLoading())
         })
 }
