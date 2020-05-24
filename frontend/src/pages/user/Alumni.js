@@ -74,12 +74,15 @@ class Alumni extends Component {
             <Fragment>
                 <Container>
                     {
-                        yearList !== null && (
-                            <YearSelect yearList={yearList}
-                                selectedYear={selectedYear}
-                                onSelectYear={this.handleYearSelect}
-                                title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
-                        )
+                        !yearList?
+                            yearList !== null && (
+                                <YearSelect yearList={yearList}
+                                    selectedYear={selectedYear}
+                                    onSelectYear={this.handleYearSelect}
+                                    title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
+                            ):null
+                        
+                       
                     }
                     <Grid textAlign="center">
                         <Grid.Row >
@@ -135,7 +138,7 @@ class Alumni extends Component {
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='branch'>
-                                        <select className="form-control" onChange={this.handleSalarySelect}>
+                                        <select className="form-control"  onChange={workData!==null?this.handleSalarySelect:null}>
                                             <option value="all">ทุกสาขาวิชา</option>
                                             {
                                                 branchList !== null && (
