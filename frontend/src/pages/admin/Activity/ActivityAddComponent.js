@@ -8,7 +8,7 @@ export const AddActivityData = ({ submit }) => {
     let { projectList } = useSelector(state => state.admin_activity)
     return (
         <div>
-            <Form onSubmit={submit}>
+            <Form id="addActivity" onSubmit={submit}>
                 <Form.Group>
                     <Form.Label>ปีการศึกษา</Form.Label>
                     <InputGroup>
@@ -65,7 +65,7 @@ export const UploadPaticipant = ({ selectFile, submit }) => {
     let { activityList } = useSelector(state => state.admin_activity)
     return (
         <div>
-            <Form onSubmit={submit}>
+            <Form id="UploadActivity" onSubmit={submit}>
                 <Form.Group>
                     <Form.Label>ชื่อกิจกรรม</Form.Label>
                     <InputGroup>
