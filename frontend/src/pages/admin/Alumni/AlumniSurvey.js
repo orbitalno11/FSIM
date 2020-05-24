@@ -46,12 +46,15 @@ class AlumniSurvey extends Component {
             <Fragment>
                 <Container>
                     {
-                        yearList !== null && (
+                        console.log(yearList)
+                    }
+                    {
+                         (yearList!==null&&yearList.length>0) ? (
                             <YearSelect yearList={yearList}
                                 selectedYear={selectedYear}
                                 onSelectYear={this.handleYearSelect}
                                 title={"ค้นหาข้อมูลแบบสอบถามของปีการศึกษา"} />
-                        )
+                        ):null
                     }
                     <Grid>
                         <Grid.Row>
