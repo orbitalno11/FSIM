@@ -28,8 +28,6 @@ import { Bar } from "react-chartjs-2";
 
 class AdmissionStudentSummary extends Component {
 
-   
-
     componentDidMount() {
         this.getData()
     }

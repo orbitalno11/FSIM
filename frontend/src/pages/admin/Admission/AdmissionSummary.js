@@ -87,8 +87,8 @@ class AdmissionSummary extends Component {
                                 </Table.Header>
 
                                 <Table.Body>
-                                {
-                                    admissionTable !== null && (
+                                 {
+                                    admissionTable !== null ? (
                                         admissionTable.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
                                                 <Table.Cell>{item[0]}</Table.Cell>
@@ -101,8 +101,15 @@ class AdmissionSummary extends Component {
                                                 <Table.Cell>{item[1]["วิทยาศาสตร์และเทคโนโลยีการอาหาร "]}</Table.Cell>
                                             </Table.Row>
                                         )) 
-                                    )
+                                    )                                  
+                                    : 
+                                     (
+                                            <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                          
+                                      )
                                 }
+                            
+                                
                                 </Table.Body>
                             </Table>
                         </Grid.Row>
@@ -134,7 +141,7 @@ class AdmissionSummary extends Component {
 
                                 <Table.Body>
                                 {
-                                    admissionTableTwo !== null && (
+                                    admissionTableTwo !== null ? (
                                         admissionTableTwo.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
                                                 <Table.Cell>{item["channel"]}</Table.Cell>
@@ -143,7 +150,11 @@ class AdmissionSummary extends Component {
                                                 <Table.Cell>{item["min_data"]}</Table.Cell>
                                             </Table.Row>
                                         ))
-                                    )
+                                    )  : 
+                                    (
+                                           <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                         
+                                     )
                                 }
                                 </Table.Body>
                             </Table>
@@ -192,7 +203,7 @@ class AdmissionSummary extends Component {
 
                                 <Table.Body>
                                 {
-                                    admissionTableThree !== null && (
+                                    admissionTableThree !== null ? (
                                         admissionTableThree.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
                                                 <Table.Cell>{item[0]}</Table.Cell>
@@ -206,7 +217,11 @@ class AdmissionSummary extends Component {
                                                 <Table.Cell>{item[1]["per_Stu_วิทยาฑัณฑ์"]}</Table.Cell>
                                             </Table.Row>
                                         ))
-                                    )   
+                                    )    : 
+                                    (
+                                           <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                         
+                                     )
                                 }
                                 </Table.Body>
                             </Table>
