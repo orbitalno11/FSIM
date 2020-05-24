@@ -12,6 +12,7 @@ import { addSurvey, getSurveyList, editSurvey } from '../../../redux/action/admi
 
 
 import { startLoading, stopLoading } from '../../../redux/action/generalAction'
+import { openModal } from '../../../redux/action/modalAction'
 
 const initialState = {
     educationYear: null,
@@ -178,7 +179,14 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        await this.props.addSurvey(data)
+        if(tableHeader.length==0){
+            this.props.openModal(true, [{ text: 'กรุณาเลือกข้อมูลสำหรับวิเคราะห์  ' , color: '#C0392B', type: false }])
+
+        }else{
+            await this.props.addSurvey(data)
+        }
+
+        
     }
 
     handleEdit = event => {
@@ -209,10 +217,12 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl,
             personal_header: list_p
         }
-
-        // this.props.editSurvey(data)
-
-        axios.put(`/admin/alumni/survey`, data)
+        if(tableHeader.length==0){
+            this.props.checkStatus(false)
+            this.props.loadSurveyList()
+        }else{
+            this.props.checkStatus(true)
+            axios.put(`/admin/alumni/survey`, data)
             .then(() => {
                 this.props.checkStatus(true)
                 this.props.loadSurveyList()
@@ -220,6 +230,11 @@ class AlumniAddSurvey extends Component {
             .catch(err => {
                 this.props.checkStatus(false)
             })
+        }
+
+        // this.props.editSurvey(data)
+
+       
     }
 
     handleFormChange = (e) => {
@@ -343,7 +358,9 @@ const mapDispatchToProps = dispatch => (
         startLoading: () => dispatch(startLoading()),
         stopLoading: () => dispatch(stopLoading()),
         loadSurveyList: () => dispatch(getSurveyList()),
-        editSurvey: (data) => dispatch(editSurvey(data))
+        editSurvey: (data) => dispatch(editSurvey(data)),
+        openModal: (bool, data) => dispatch(openModal(bool, data))
+
     }
 )
 
