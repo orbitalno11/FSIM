@@ -15,7 +15,7 @@ import { addProject, addActivity, uploadParticipant } from '../../../redux/actio
 
 const AddProject = ({ project_type, onSubmit }) => (
     <Fragment>
-        <Form onSubmit={onSubmit}>
+        <Form id="addProject" onSubmit={onSubmit}>
             <Form.Group>
                 <Form.Label>
                     รหัสโครงการ (ไม่เกิน 10 ตัวอักษร)
@@ -66,6 +66,15 @@ class AddActivity extends Component {
 
     componentDidMount() {
         this.getProjectType()
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        let status = this.props.activity.actionResult
+        if ((prevProps.actionResult !== status) && (status === true)) {
+            document.getElementById("addProject").reset();
+            document.getElementById("addActivity").reset();
+            document.getElementById("UploadActivity").reset();
+        }
     }
 
     getProjectType = () => {
