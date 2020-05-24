@@ -37,6 +37,7 @@ class AnalyzeAdmission:
         if data['value']:
 
             df = pd.DataFrame(data['value'])
+            
             # real data  
             deparment = connect.get_department()
             deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
@@ -153,7 +154,7 @@ class AnalyzeAdmission:
     # admin
     def analyze_admission_admin(self, year=None):
         connect = DatabaseHelper()
-        data = connect.get_all_admission(year)
+        data = connect.get_all_admission_admin(year)
         value = {}
         if data['value']:
             df = pd.DataFrame(data['value'])

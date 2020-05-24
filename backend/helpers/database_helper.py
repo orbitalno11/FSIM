@@ -375,6 +375,7 @@ class DatabaseHelper:
                           "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id " \
                           "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
         execute = self.__execute_query(sql_command)
+        print(sql_command)
         if not execute['response']:
             return execute
 
@@ -462,6 +463,28 @@ class DatabaseHelper:
             self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
+
+    # 7AD. all admission data for admin
+    def get_all_admission_admin(self, year: int = None):
+        if year is None or year == 'null':
+            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id,dept_id " \
+                          "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel " \
+                          "NATURAL JOIN admission_studied) NATURAL JOIN has_branch " 
+        else:
+            sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id,dept_id " \
+                          "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel " \
+                          "NATURAL JOIN admission_studied) NATURAL JOIN has_branch " \
+                          "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_data = self.__create_out_function_data(execute['value'],
+                                                   ['channel_id', 'admission_year', 'branch_id', 'school_id',
+                                                    'channel_name', 'dept_id'],
+                                                   [0, 2, 3, 4, 1, 5])
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
+                                    
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ALUMNI # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
