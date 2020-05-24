@@ -260,11 +260,11 @@ export const addAdmission = data=> (dispatch, getState) => {
 }
 
 // ตารางแรก 1
-export const getAdmissionTable = () => dispatch => {
+export const getAdmissionTable = year => dispatch => {
     dispatch(startLoading())
     dispatch(loadAdmissionTableStart())
 
-    axios.get(`/admin/admission/analyze/status`)
+    axios.get(`/admin/admission/analyze/status?year=${year}`)
         .then(res => {
             let data = res.data.data
             
@@ -294,7 +294,7 @@ export const getAdmissionTable = () => dispatch => {
         })
 }
 // ตาราง 2
-export const getAdmissionTableTwo = () => dispatch => {
+export const getAdmissionTableTwo = () => (dispatch) => {
     dispatch(startLoading())
     dispatch(loadAdmissionTableTwoStart())
 
@@ -310,15 +310,9 @@ export const getAdmissionTableTwo = () => dispatch => {
             }
             
         
-            let Datacount = data.table
+            let admissionTableTwo = data.table_count
          
-            const admissionTableTwo = Object.entries(Datacount);
-              
-            admissionTableTwo.forEach(([key, value]) => {
-                // console.log(key); 
-                // console.log(value); 
-              });
-
+            
             dispatch(loadAdmissionTableTwoSuccess(admissionTableTwo))
             dispatch(stopLoading())
         })
@@ -327,7 +321,6 @@ export const getAdmissionTableTwo = () => dispatch => {
             dispatch(stopLoading())
         })
 }
-
 
 // ตาราง3
 export const getAdmissionTableThree = () => dispatch => {
