@@ -11,7 +11,7 @@ import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 
 
-const AddGpax = ({ submit, selectFile, year }) => (
+const AddGpax = ({ submit, selectFile }) => (
     <Fragment>
         <Form id="addGpax" onSubmit={submit}>
             <Form.Group>
@@ -35,7 +35,7 @@ const AddGpax = ({ submit, selectFile, year }) => (
                     ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={selectFile}>
                     </FormControl>
                 </InputGroup>
             </Form.Group >
@@ -126,7 +126,7 @@ class StudentAdd extends Component {
         let tabDetail = [
             {
                 tabId: '1',
-                tabDetail: <AddGpax submit={this.handleGpaxSubmit} selectFile={this.handleSelectFile} year={yearList} />
+                tabDetail: <AddGpax submit={this.handleGpaxSubmit} selectFile={this.handleSelectFile} />
             },
             {
                 tabId: '2',

@@ -20,7 +20,6 @@ admin_student = Blueprint('admin_student', __name__)
 
 @admin_student.route('', methods=['POST'])
 def add_student_data():
-
     try:
         file = request.files['upload']
         if file and Constant.allowed_academic_file(file.filename):
@@ -46,7 +45,6 @@ def add_student_data():
 
 @admin_student.route('', methods=['DELETE'])
 def delete_student_data():
-
     year = request.args.get('year')
     database = DatabaseHelper()
     result = database.delete_student_by_year(year)
@@ -85,12 +83,14 @@ def insert_academic_record():
         if insert_value['response']:
             data = insert_value['value']
             db = DatabaseHelper()
-            academic_record = db.insert_academic_record(data['academic_record'])
+            academic_record = db.insert_academic_record(data['academic_record'], data['gpa_record'])
             if not academic_record['response']:
-                return api_helper.create_response(message=academic_record['message'], response=False, response_code=500)
-            gpa_record = db.insert_gpa_record(data['gpa_record'])
-            if not gpa_record['response']:
-                return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500)
+                return api_helper.create_response(message=academic_record['message'], response=False, response_code=500,
+                                                  data=academic_record['value'])
+            # gpa_record = db.insert_gpa_record(data['gpa_record'])
+            # if not gpa_record['response']:
+            #     return api_helper.create_response(message=gpa_record['message'], response=False, response_code=500,
+            #                                       data=academic_record['value'])
 
     return api_helper.create_response(message="Developing", response=True, response_code=200, data="Developing")
 
@@ -127,7 +127,6 @@ def get_student_list():
 # get education list
 @admin_student.route('/education/list', methods=['GET'])
 def get_education_year_list():
-
     db = DatabaseHelper()
     result = db.get_education_year_list()
 
@@ -150,8 +149,8 @@ def subject_by_branch():
     semester = request.args.get('semester')
     year = request.args.get('year')
     semester = int(semester)
-    year    = int(year)
-    data = db.subject_by_branch(branch,semester,year)
+    year = int(year)
+    data = db.subject_by_branch(branch, semester, year)
 
     return api_helper.return_response(data)
 
