@@ -115,7 +115,6 @@ export const GET_COURSE_DATA_SUCCESS = "get_couse_data_success"
 export const GET_COURSE_DATA_FAILED = "get_couse_data_failed"
 
 // // admin student
-export const SET_STUDENT_SELECTED_YEAR = "set_STUDENT_selected_year"
 
 export const LOAD_STUDENT_DATA_START = "load_student_data_start"
 export const LOAD_STUDENT_DATA_SUCCESS = "load_student_data_success"
@@ -125,14 +124,7 @@ export const LOAD_STUDENT_LIST_START = "load_student_data_list_start"
 export const LOAD_STUDENT_LIST_SUCCESS = "load_student_data_list_success"
 export const LOAD_STUDENT_LIST_FAILED = "load_student_data_list_failed"
 
-export const LOAD_DEPT_LIST_START = "load_dept_list_start"
-export const LOAD_DEPT_LIST_SUCCESS = "load_dept_list_success"
-export const LOAD_DEPT_LIST_FAILED = "load_dept_list_failed"
 
-
-export const LOAD_EDUCATION_LIST_START = "load_education_list_start"
-export const LOAD_EDUCATION_LIST_SUCCESS = "load_education_list_success"
-export const LOAD_EDUCATION_LIST_FAILED = "load_education_list_failed"
 
 
 export const ADD_STUDENT_START = "load_add_student_start"
@@ -143,13 +135,7 @@ export const ADD_GPAX_STUDENT_START = "load_add_gpax_student_start"
 export const ADD_GPAX_STUDENT_SUCCESS = "load_add_gpax_student_success"
 export const ADD_GPAX_STUDENT_FAILED = "load_add_gpax_student_failed"
 
-export const DELETE_STUDENT_START = "load_delete_student_start"
-export const DELETE_STUDENT_SUCCESS = "load_delete_student_success"
-export const DELETE_STUDENT_FAILED = "load_delete_student_failed"
 
-export const GET_STUDENT_YEAR_LIST_START = "load_student_year_list_start"
-export const GET_STUDENT_YEAR_LIST_SUCCESS = "load_student_year_list_success"
-export const GET_STUDENT_YEAR_LIST_FAILED = "load_student_year_list_failed"
 
 
 // admin admission
