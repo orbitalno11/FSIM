@@ -69,7 +69,7 @@ class AlumniSummary extends Component {
             <Fragment>
                 <Container>
                     {
-                        !yearList ?
+                        yearList ?
                             yearList !== null && (
                                 <YearSelect yearList={yearList}
                                     selectedYear={selectedYear}
