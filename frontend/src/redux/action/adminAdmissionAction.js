@@ -200,6 +200,7 @@ export const getAdmissionList = () => dispatch => {
     axios.get(`/admin/admission/list`)
         .then(res => {
             let data = res.data.data
+        
 
             if (Object.keys(data) < 1) {
                 dispatch(loadAdmissionListFalied("Can not find data"))
@@ -340,13 +341,13 @@ export const getAdmissionTableThree = year => dispatch => {
             
         
             let tableData = data.table
-            // console.log(tableData);
+            console.log(tableData);
 
             const admissionTableThree = Object.entries(tableData);
               
             admissionTableThree.forEach(([key, value]) => {
-                // console.log(key); 
-                // console.log(value); 
+                console.log(key); 
+                console.log(value); 
               });
 
             dispatch(loadAdmissionTableThreeSuccess(admissionTableThree))
