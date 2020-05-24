@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from "react";
 
 import {
-    Dropdown,
     Divider,
     Grid,
     Header,
@@ -15,17 +14,6 @@ import YearSelect from '../../../components/YearSelect'
 import {connect} from 'react-redux'
 import { getAdmissionTable,getAdmissionTableTwo,getAdmissionTableThree, selectYear } from '../../../redux/action/adminAdmissionAction'
 
-
-
-const option = {
-    scales: {
-        xAxes: [{
-            ticks: {
-                display: false
-            }
-        }]
-    }
-}
 
 
 class AdmissionSummary extends Component {

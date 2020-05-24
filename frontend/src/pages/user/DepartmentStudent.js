@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import {
-    Image,
     Container,
-    Grid,
     Header,
     Card
 } from "semantic-ui-react";

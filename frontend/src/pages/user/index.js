@@ -60,8 +60,8 @@ const StudentTab = () => {
       direction="กรุณาเลือกภาควิชา"
       content={
         <Grid.Row>
-          {pageStudent.map((item) => (
-            <Grid.Column mobile={8} computer={4}>
+          {pageStudent.map((item, index) => (
+            <Grid.Column key={index} mobile={8} computer={4}>
               <ButtonStudent
                 name={item.header_modal}
                 id={item.id_modal}
@@ -198,10 +198,6 @@ const buttonAdmission = [
 ];
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-
 
   render() {
 

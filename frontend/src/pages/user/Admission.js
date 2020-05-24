@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 
 import {
-    Header,
-    Divider,
     Grid,
     Card,
     Container,

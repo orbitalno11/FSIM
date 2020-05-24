@@ -9,11 +9,7 @@ import ReactModal from '../../../components/ReactModal'
 import { connect } from 'react-redux'
 import { addAdmission } from '../../../redux/action/adminAdmissionAction'
 
-const initialState = {
 
-    selectedFile:null
-
-};
 class Addadmission extends Component {
 
     constructor(props) {
@@ -28,9 +24,9 @@ class Addadmission extends Component {
         this.fetchChannel()
     }
 
-    componentDidUpdate(prevProps, prevState){
-        let status =this.props.admission.admissionStatus
-        if ((prevProps.admissionStatus!==status)&&(status==true)) {
+    componentDidUpdate(prevProps, prevState) {
+        let status = this.props.admission.admissionStatus
+        if ((prevProps.admissionStatus !== status) && (status === true)) {
             // this.setState({
             //     ...initialState
             // })
@@ -127,7 +123,7 @@ class Addadmission extends Component {
 const mapStateToProps = state => (
     {
         admission: state.admin_admission
-        
+
     }
 )
 

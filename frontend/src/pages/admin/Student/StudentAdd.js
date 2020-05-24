@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl, Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Container, Button, Form, InputGroup } from 'react-bootstrap'
 import ReactModal from '../../../components/ReactModal'
-import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
+import SideTab from '../../../components/SideTabDialog'
 
 
 import { connect } from 'react-redux'
@@ -39,24 +39,24 @@ const AddGpax = ({ submit, selectFile }) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group >
-            <Button type="submit" className="btn-info interval-1" style={{marginTop:'3%'}}>SUBMIT</Button>
+            <Button type="submit" className="btn-info interval-1" style={{ marginTop: '3%' }}>SUBMIT</Button>
         </Form>
     </Fragment>
 )
 
-const AddStudent = ({submit, selectFile, year}) => (
+const AddStudent = ({ submit, selectFile, year }) => (
     <Fragment>
-        <Form  id="addStudent" onSubmit={submit}>
+        <Form id="addStudent" onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ข้อมูลนักศึกษา
                 </Form.Label>
                 <InputGroup>
-                <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button  type="submit" className="btn-info interval-1"  style={{marginTop:'3%'}} >SUBMIT</Button>
+            <Button type="submit" className="btn-info interval-1" style={{ marginTop: '3%' }} >SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -74,16 +74,14 @@ class StudentAdd extends Component {
         event.preventDefault()
         let element = event.target.elements
         let form = new FormData()
-        form.append('year',element.educationYear.value)
-        form.append('semester',element.semester.value)
+        form.append('year', element.educationYear.value)
+        form.append('semester', element.semester.value)
         form.append('upload', this.state.selectedFile)
         this.props.addStudentGpax(form)
     }
 
     handleStudentSubmit = event => {
         event.preventDefault()
-        let element = event.target.elements
-
         let form = new FormData()
         form.append('upload', this.state.selectedFile)
         this.props.addStudent(form)
@@ -96,12 +94,9 @@ class StudentAdd extends Component {
         })
     }
 
-    componentDidUpdate(prevProps, prevState){
-        let status =this.props.student.actionResult
-        if ((prevProps.actionResult!==status)&&(status==true)) {
-            // this.setState({
-            //     ...initialState
-            // })
+    componentDidUpdate(prevProps, prevState) {
+        let status = this.props.student.actionResult
+        if ((prevProps.actionResult !== status) && (status === true)) {
             document.getElementById("addStudent").reset();
             document.getElementById("addGpax").reset();
         }
@@ -138,7 +133,7 @@ class StudentAdd extends Component {
 
         return (
             <Fragment>
-                 <ReactModal />
+                <ReactModal />
                 <div className="my-2 w-100 mx-auto">
                     <Container fluid>
                         {
@@ -163,7 +158,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         addStudent: (data) => dispatch(addStudent(data)),
-        addStudentGpax :(data) => dispatch(addStudentGpax(data)),
+        addStudentGpax: (data) => dispatch(addStudentGpax(data)),
         getDepartmentList: () => dispatch(getDepartmentList()),
     }
 )

@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react'
 
-import axios from 'axios'
-
-import { Table, Button, Modal ,ButtonGroup} from 'react-bootstrap'
+import { Table, Button, Modal, ButtonGroup } from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
-import  ReactModal  from '../../../components/ReactModal'
+import ReactModal from '../../../components/ReactModal'
 
 //redux 
 import { connect } from 'react-redux'
@@ -22,10 +20,10 @@ class AlumniManage extends Component {
             deleteItem: null,
             showEdit: false,
             editData: null,
-            messageSuccessAlert : false,
-            messageErrorAlert : false,
-            statusEdit:null
-           
+            messageSuccessAlert: false,
+            messageErrorAlert: false,
+            statusEdit: null
+
         }
     }
 
@@ -44,7 +42,7 @@ class AlumniManage extends Component {
     handleDelete = async event => {
         let { id, educationYear } = this.state.deleteItem
         const data = {
-            index:this.state.index,
+            index: this.state.index,
             id: id,
             educationYear: educationYear,
         }
@@ -78,35 +76,33 @@ class AlumniManage extends Component {
         })
     }
 
-    checkStatus=(status)=>{
+    checkStatus = (status) => {
         this.setState({
             showEdit: false,
-            statusEdit:status
+            statusEdit: status
         })
-
-     
     }
 
-    componentDidUpdate(prevProps, prevState){
-        const {statusEdit}=this.state
-        if(prevState.statusEdit!==statusEdit){
-            if (statusEdit==false) {
-                this.props.openModal(true,[{text:'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง',color:'#C0392B',type:false}])
-                this.setState({statusEdit:null})
-            }else if(statusEdit) {
-                this.props.openModal(true,[{text:'บันทึกสำเร็จ',color:'#33cc33',type:true}])
-                this.setState({statusEdit:null})
+    componentDidUpdate(prevProps, prevState) {
+        const { statusEdit } = this.state
+        if (prevState.statusEdit !== statusEdit) {
+            if (statusEdit === false) {
+                this.props.openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }])
+                this.setState({ statusEdit: null })
+            } else if (statusEdit) {
+                this.props.openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }])
+                this.setState({ statusEdit: null })
             }
         }
     }
- 
+
     render() {
         let { deleteItem, showDelete, showEdit, editData } = this.state
 
         let { surveyList } = this.props.alumni
         return (
             <Fragment>
-              <ReactModal />
+                <ReactModal />
                 {
                     deleteItem !== null && (
                         <Modal
@@ -119,7 +115,7 @@ class AlumniManage extends Component {
                                 <h2>ต้องการลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']}</h2>
                             </Modal.Header>
                             <Modal.Body>
-                                หากลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']} แล้วจะไม่สามารถยกเลิกได้ 
+                                หากลบข้อมูลแบบสอบถาม ปีการศึกษา {deleteItem['educationYear']} แล้วจะไม่สามารถยกเลิกได้
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="danger" onClick={this.handleDelete}>ลบ</Button>
@@ -140,7 +136,7 @@ class AlumniManage extends Component {
                                 <h2>แก้ไขข้อมูลแบบสอบถาม ปีการศึกษา {editData['educationYear']}</h2>
                             </Modal.Header>
                             <Modal.Body>
-                                <AlumniAddSurvey  checkStatus={this.checkStatus}  editData={editData} />
+                                <AlumniAddSurvey checkStatus={this.checkStatus} editData={editData} />
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="danger" onClick={this.handleEditClose}>ยกเลิก</Button>
@@ -161,24 +157,24 @@ class AlumniManage extends Component {
                         {
                             surveyList !== null ? (
                                 surveyList.slice(0).reverse().map((item, index) => (
-                                   
-                                    <tr key={index}>
-                                        <td style={{textAlign:'center'}}>{index + 1}</td>
-                                        <td style={{textAlign:'center'}}>{item['educationYear']}</td>
-                                        <td style={{textAlign:'center'}}>
-                                            <ButtonGroup aria-label="Basic example" style={{width:'80%'}}>
 
-                                            <Button size="lg"  variant="warning" onClick={() => this.onEditClick(item)} >แก้ไข</Button>
-                                            <Button size="lg"  variant="danger"  onClick={() => this.onDeleteClick(item)} >ลบ</Button>
+                                    <tr key={index}>
+                                        <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                                        <td style={{ textAlign: 'center' }}>{item['educationYear']}</td>
+                                        <td style={{ textAlign: 'center' }}>
+                                            <ButtonGroup aria-label="Basic example" style={{ width: '80%' }}>
+
+                                                <Button size="lg" variant="warning" onClick={() => this.onEditClick(item)} >แก้ไข</Button>
+                                                <Button size="lg" variant="danger" onClick={() => this.onDeleteClick(item)} >ลบ</Button>
                                             </ButtonGroup>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
-                                    <td colSpan={4} className="text-center"><h2>ไม่พบข้อมูล</h2></td>
-                                </tr>
-                            )
+                                    <tr>
+                                        <td colSpan={4} className="text-center"><h2>ไม่พบข้อมูล</h2></td>
+                                    </tr>
+                                )
                         }
                     </tbody>
                 </Table>
@@ -199,8 +195,8 @@ const mapDispatchToProps = dispatch => (
     {
         loadSurveyList: () => dispatch(getSurveyList()),
         deleteItem: (data) => dispatch(deleteItem(data)),
-        openModal:(bool,data) =>dispatch(openModal(bool,data)),
+        openModal: (bool, data) => dispatch(openModal(bool, data)),
     }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps) (AlumniManage)
+export default connect(mapStateToProps, mapDispatchToProps)(AlumniManage)

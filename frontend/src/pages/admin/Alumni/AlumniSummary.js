@@ -5,7 +5,6 @@ import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../..
 
 import {
     Grid,
-    Header,
     Container,
     Card
 } from "semantic-ui-react";
@@ -38,7 +37,7 @@ class AlumniSummary extends Component {
     handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
-        if (n_year == 0)
+        if (n_year === 0)
             n_year = null
 
         await this.props.setSelectedYear(n_year)

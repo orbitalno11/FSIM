@@ -2,11 +2,9 @@ import React, {Component, Fragment} from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Container,
     Table,
-    Image
 } from "semantic-ui-react";
 
 

@@ -3,14 +3,13 @@ import React, { Component, Fragment } from "react";
 import axios from 'axios'
 
 import {
-    Header,
     Card,
     Container
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
 
-import { Row, Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 import { Bar } from 'react-chartjs-2';
 
@@ -62,8 +61,8 @@ class ActiveRecruitment extends Component {
 
     handleSeclectYear = async event => {
         let value = event.target.value
-        if(value ==0) 
-            value=null 
+        if (value === 0)
+            value = null
         await this.props.setYear(value)
         this.fetchData()
     }
@@ -98,7 +97,7 @@ class ActiveRecruitment extends Component {
                                                 </Card>
                                             </Col>
 
-                                            <Col  sm={12} lg={6} className="my-2">
+                                            <Col sm={12} lg={6} className="my-2">
                                                 <Card className="card-default">
                                                     <Card.Header as="h5">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
