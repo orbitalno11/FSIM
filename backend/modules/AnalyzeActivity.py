@@ -156,18 +156,17 @@ class AnalyzeActivity:
 
             gpax_school = data.groupby(['school_name'])['gpax'].mean()
             sort_gpax_school = gpax_school.sort_values(ascending=False).head()
-
             analyze_by_activity = data.groupby(['activity_id', 'branch_name']).size().unstack(fill_value=0)
             analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
-            analyze_by_activity = analyze_helper.check_list_column(branch_data.index, analyze_by_activity)
-            analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
+            analyze_by_activity = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity)
+            # analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
 
             analyze_by_activity_gpax = data.groupby(['activity_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
             analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
-            analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.index, analyze_by_activity_gpax)
+            analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
-            analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
+            # analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
 
             analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
@@ -215,12 +214,12 @@ class AnalyzeActivity:
 
                 if not df.empty:
                     analyze_by_activity = df.groupby(['branch_name']).size()
-                    analyze_by_activity = analyze_helper.check_list(branch_data.index, analyze_by_activity)
-                    analyze_by_activity = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity)
+                    analyze_by_activity = analyze_helper.check_list(branch_data.branch_name, analyze_by_activity)
+                    # analyze_by_activity = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity)
                     
                     analyze_by_activity_gpax = df.groupby(['branch_name'])['gpax'].mean()
-                    analyze_by_activity_gpax = analyze_helper.check_list(branch_data.index, analyze_by_activity_gpax)
-                    analyze_by_activity_gpax = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity_gpax)
+                    analyze_by_activity_gpax = analyze_helper.check_list(branch_data.branch_name, analyze_by_activity_gpax)
+                    # analyze_by_activity_gpax = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity_gpax)
                     analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
                     list_pr = {
