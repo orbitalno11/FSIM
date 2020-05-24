@@ -270,23 +270,23 @@ export const getAdmissionData = year => dispatch => {
                 dispatch(stopLoading())
                 return
             }
-
-            let round1 = data['analyze_by_round'][0]['รอบที่ 1/1']
-            let round2 = data['analyze_by_round'][1]['รอบที่ 1/2']
-            let round3 = data['analyze_by_round'][2]['รอบที่ 2']
-            let round4 = data['analyze_by_round'][3]['รอบที่ 3/1']
-            let round5 = data['analyze_by_round'][4]['รอบที่ 3/2']
-            let round6 = data['analyze_by_round'][5]['รอบที่ 4']
-            let round7 = data['analyze_by_round'][6]['รอบที่ 5']
-            let admissionData  = {
-                round1,
-                round2,
-                round3,
-                round4,
-                round5,
-                round6,
-                round7
-            }
+            let admissionData = data['analyze_by_round']
+            // let round1 = data['analyze_by_round'][0]['รอบที่ 1/1']
+            // let round2 = data['analyze_by_round'][1]['รอบที่ 1/2']
+            // let round3 = data['analyze_by_round'][2]['รอบที่ 2']
+            // let round4 = data['analyze_by_round'][3]['รอบที่ 3/1']
+            // let round5 = data['analyze_by_round'][4]['รอบที่ 3/2']
+            // let round6 = data['analyze_by_round'][5]['รอบที่ 4']
+            // let round7 = data['analyze_by_round'][6]['รอบที่ 5']
+            // let admissionData  = {
+            //     round1,
+            //     round2,
+            //     round3,
+            //     round4,
+            //     round5,
+            //     round6,
+            //     round7
+            // }
             dispatch(loadAdmissionDataSuccess(admissionData))
             dispatch(stopLoading())
         })

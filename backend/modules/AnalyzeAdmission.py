@@ -172,8 +172,9 @@ class AnalyzeAdmission:
 
             data_split = self.split_channel(df)
             channel_round = channel_sample.channel_round.drop_duplicates().to_list()
-            analyze_by_round = []
+            analyze_by_round=[]
             for i in channel_round:
+                analyze_by_round_s = {}
                 data_in_round = data_split[data_split['channel_round'] == i]
 
                 if data_in_round.empty:
@@ -181,7 +182,11 @@ class AnalyzeAdmission:
                     data_group = data_channel_sample.groupby(['channel_round', 'channel_name']).size().unstack(
                         fill_value=0)
                     data_group.iloc[:] = 0
-                    analyze_by_round.append(data_group.to_dict('index'))
+                    data_group.reset_index(inplace=True)
+                    name = data_group.iloc[0,0]
+                    data_group=data_group.drop(columns=['channel_round'])
+                    analyze_by_round_s['name'] = name
+                    analyze_by_round_s['analyze'] = data_group.to_dict('index')
 
 
                 else:
@@ -189,8 +194,13 @@ class AnalyzeAdmission:
                     channel_sample_selector = (channel_sample[channel_sample['channel_round'] == i])
                     data_group_check_channel = analyze_helper.check_list_column(channel_sample_selector.channel_name,
                                                                                 data_group)
-                    analyze_by_round.append(data_group_check_channel.to_dict('index'))
-
+                    data_group_check_channel.reset_index(inplace=True)
+                    name = data_group_check_channel.iloc[0,0]
+                    data_group_check_channel=data_group_check_channel.drop(columns=['channel_round'])
+                    
+                    analyze_by_round_s['name'] = name
+                    analyze_by_round_s['analyze'] = data_group_check_channel.to_dict('index')
+                analyze_by_round.append(analyze_by_round_s)
             value = {
                 'analyze_by_round': analyze_by_round
             }
