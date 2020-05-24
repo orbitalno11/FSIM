@@ -129,6 +129,7 @@ class AnalyzeActivity:
 
         if data['value']:
             data = pd.DataFrame(data['value'])
+            
             activity = analyze_helper.set_fullname(connect.get_activity_list())
             dupli_activity = activity.activity_name.duplicated(keep=False)
             activity.loc[dupli_activity, 'activity_name'] = activity.loc[dupli_activity, 'activity_name'] + ' (' + \
@@ -163,14 +164,14 @@ class AnalyzeActivity:
 
             gpax_school = data.groupby(['school_name'])['gpax'].mean()
             sort_gpax_school = gpax_school.sort_values(ascending=False).head()
-            analyze_by_activity = data.groupby(['activity_id', 'branch_name']).size().unstack(fill_value=0)
-            analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
+            analyze_by_activity = data.groupby(['project_id', 'branch_name']).size().unstack(fill_value=0)
+            # analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
             analyze_by_activity = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
 
-            analyze_by_activity_gpax = data.groupby(['activity_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
-            analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
+            analyze_by_activity_gpax = data.groupby(['project_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
+            # analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
             analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
