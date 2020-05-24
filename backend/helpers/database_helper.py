@@ -96,17 +96,18 @@ class DatabaseHelper:
 
     # 7. insert data into database (multiple value)
     def __insert_multiple_into(self, table, attribute, value):
-        sql_command = "INSERT INTO {} ({}) VALUES {}".format(table,
-                                                             ','.join(attribute),
-                                                             ','.join('%s' for _ in attribute))
-        try:
-            self.__cursor.executemany(sql_command, value)
-            self.__db_connection.commit()
-        except pymysql.Error as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
-            self.__db_connection.rollback()
-            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
+        sql_command = "INSERT INTO {} ({}) VALUES ({})".format(table,
+                                                               ','.join(attribute),
+                                                               ','.join('%s' for _ in attribute))
+        self.__cursor.executemany(sql_command, value)
+        # try:
+        #     self.__cursor.executemany(sql_command, value)
+        #     self.__db_connection.commit()
+        # except pymysql.Error as e:
+        #     print("Error %d: %s" % (e.args[0], e.args[1]))
+        #     self.__db_connection.rollback()
+        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        # return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
     # 8. delete data from database (one value)
     def __execute_delete_data(self, table, attribute, value):
@@ -783,16 +784,28 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # # STUDENT # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # 1ST. insert student academic record
-    def insert_academic_record(self, academic_data):
-        return self.__insert_multiple_into(table="academic_record",
-                                           attribute=['student_id', 'subject_code', 'semester', 'year', 'grade'],
-                                           value=academic_data)
+    def insert_academic_record(self, academic_data, gpa_data):
+        try:
+            self.__insert_multiple_into(table="academic_record",
+                                        attribute=['student_id', 'subject_code', 'semester', 'education_year', 'grade'],
+                                        value=academic_data)
+
+            self.__insert_multiple_into(table="gpa_record",
+                                        attribute=['student_id', 'gpa', 'semester', 'year'],
+                                        value=gpa_data)
+
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
     # 2ST. insert student gpa record
-    def insert_gpa_record(self, gpa_data):
-        return self.__insert_multiple_into(table="gpa_record",
-                                           attribute=['student_id', 'gpa', 'semester', 'year'],
-                                           value=gpa_data)
+    # def insert_gpa_record(self, gpa_data):
+    #     return self.__insert_multiple_into(table="gpa_record",
+    #                                        attribute=['student_id', 'gpa', 'semester', 'year'],
+    #                                        value=gpa_data)
 
     # 3ST. insert new student data
     def insert_new_student_data(self, data):
