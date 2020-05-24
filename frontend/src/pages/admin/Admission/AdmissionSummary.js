@@ -35,27 +35,6 @@ class AdmissionSummary extends Component {
         this.props.getAdmissionTableTwo(selectedYear)
         
     }
-
-    // constructor(props) {
-    //     super(props)
-
-    //     this.state = {
-    //         admissionTable: null,
-    //         admissionTableThree: null,
-    //         admissionTableTwo: null
-    //     }
-    // }
-
-    // componentDidMount() {
-    //     this.props.getAdmissionTable()
-    //     this.props.getAdmissionTableThree()
-    //     this.props.getAdmissionTableTwo()
-    // }
-    // handleSeclectYear = async event => {
-    //     let value = event.target.value
-    //     await this.props.setYear(value)
-    //     this.getData()
-    // }
   
     render() {
         let { admissionTable,admissionTableTwo,admissionTableThree, selectedYear,yearList } = this.props.admission
@@ -121,7 +100,7 @@ class AdmissionSummary extends Component {
                                                 <Table.Cell>{item[1]["จุลชีววิทยา "]}</Table.Cell>
                                                 <Table.Cell>{item[1]["วิทยาศาสตร์และเทคโนโลยีการอาหาร "]}</Table.Cell>
                                             </Table.Row>
-                                        ))
+                                        )) 
                                     )
                                 }
                                 </Table.Body>
@@ -227,7 +206,7 @@ class AdmissionSummary extends Component {
                                                 <Table.Cell>{item[1]["per_Stu_วิทยาฑัณฑ์"]}</Table.Cell>
                                             </Table.Row>
                                         ))
-                                    )
+                                    )   
                                 }
                                 </Table.Body>
                             </Table>

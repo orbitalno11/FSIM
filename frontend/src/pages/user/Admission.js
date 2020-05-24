@@ -52,7 +52,7 @@ class Admission extends Component {
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
                 let countGrade = data['count_by_branch'][0]
-
+                console.log(countGrade)
 
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
@@ -133,7 +133,11 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={countGrade} legend={{ display: false }} />
+                                       {/* {
+                                            countGrade !== null && (
+                                                <Bar data={countGrade} legend={{ display: true }}  />
+                                            )
+                                        } */}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
