@@ -8,8 +8,8 @@ import DepartmentMangement from './DepartmentManagement'
 
 class Information extends Component{
     render() {
-        let tabList = ["ข้อมูลภาควิชา", "ข้อมูลสาขา", "ข้อมูลหลักสูตร"]
-        let paneList = [<DepartmentMangement />, null, null]
+        let tabList = ["ข้อมูลภาควิชา"]
+        let paneList = [<DepartmentMangement />]
         return (
             <Fragment>
                 <Container className="my-3">

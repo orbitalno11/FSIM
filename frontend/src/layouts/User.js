@@ -13,11 +13,9 @@ import Admission from "../pages/user/Admission";
 import ActiveRecruitment from "../pages/user/ActiveRecruitment";
 import Alumni from "../pages/user/Alumni";
 import ActivityInformation from "../pages/user/ActivityInformation";
-
 import DepartmentStudent from '../pages/user/DepartmentStudent'
-import Statcourse from '../pages/user/Statcourse'
-import StatcourseGPA from '../pages/user/StatcourseGPA'
-import Statcoursebranch from '../pages/user/Statcoursebranch'
+
+
 
 
 class UserLayout extends Component {
@@ -33,9 +31,6 @@ class UserLayout extends Component {
                     <Route exact path="/alumni" component={Alumni} />
                     <Route exact path="/activity" component={ActivityInformation} />
                     <Route exact path="/student/:id" component={DepartmentStudent} />
-                    <Route exact path="/Statcourse" component={Statcourse} />
-                    <Route exact path="/StatcourseGPA" component={StatcourseGPA} />
-                    <Route exact path="/Statcoursebranch" component={Statcoursebranch} />
                 </Switch>
             </Fragment>
         )

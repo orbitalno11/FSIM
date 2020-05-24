@@ -29,16 +29,22 @@ class AdminMenu extends Component {
                                 <NavLink exact to="/admin" className="nav-link navHover" activeClassName="navActive">หน้าหลัก</NavLink>
                             </Nav.Item>
                             <Nav.Item>
-                                <LinkContainer to={"/admin/information"} className="navHover" activeClassName="navActive">
-                                    <NavDropdown title="ข้อมูลพื้นฐาน">
-                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/department"} className="nav-link" activeClassName="active">ข้อมูลภาควิชา</NavDropdown.Item>
-                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/course"} className="nav-link" activeClassName="active">ข้อมูลหลักสูตร</NavDropdown.Item>
-                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/subject"} className="nav-link" activeClassName="active">ข้อมูลรายวิชา</NavDropdown.Item>
-                                        {/* <NavDropdown.Divider />
-                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information"} className="nav-link" activeClassName="active">จัดการข้อมูลพื้นฐาน</NavDropdown.Item> */}
-                                    </NavDropdown>
+                                <LinkContainer to={"/admin/information/department"} className="navHover" activeClassName="navActive">
+                                    <NavLink exact to={"/admin/information/department"} className="nav-link" activeClassName="active">ข้อมูลภาควิชา</NavLink>
                                 </LinkContainer>
                             </Nav.Item>
+                            {/* <Nav.Item>
+                                <LinkContainer to={"/admin/information"} className="navHover" activeClassName="navActive">
+                                    <NavDropdown title="ข้อมูลพื้นฐาน">
+                                        <NavLink exact to={"/admin/information"} className="nav-link" activeClassName="active">ข้อมูลภาควิชา</NavLink>
+                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/department"} className="nav-link" activeClassName="active">ข้อมูลภาควิชา</NavDropdown.Item>
+                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/course"} className="nav-link" activeClassName="active">ข้อมูลหลักสูตร</NavDropdown.Item>
+                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information/subject"} className="nav-link" activeClassName="active">ข้อมูลรายวิชา</NavDropdown.Item> */}
+                                        {/* {/* <NavDropdown.Divider />
+                                        <NavDropdown.Item as={NavLink} exact to={"/admin/information"} className="nav-link" activeClassName="active">จัดการข้อมูลพื้นฐาน</NavDropdown.Item> */}
+                                    {/* </NavDropdown>
+                                </LinkContainer>
+                            </Nav.Item> */} 
                             <Nav.Item>
                                 <LinkContainer to={"/admin/student"} className="navHover" activeClassName="navActive">
                                     <NavLink exact to={"/admin/student"} className="nav-link" activeClassName="active">ข้อมูลนักศึกษาปัจจุบัน</NavLink>

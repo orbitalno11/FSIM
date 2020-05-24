@@ -2,13 +2,11 @@ import React, {Component, Fragment} from "react";
 import { Link } from 'react-router-dom'
 import {
     Header,
-    Dropdown,
     Divider,
     Grid,
     Card,
     Container,
     Button,
-    Image
 } from "semantic-ui-react";
 
 import YearSelect from '../../../components/YearSelect'
@@ -17,8 +15,7 @@ import YearSelect from '../../../components/YearSelect'
 import {connect} from 'react-redux'
 import { getAdmissionData,selectYear } from '../../../redux/action/adminAdmissionAction'
 
-import GraphBar from "../../../components/Graph/Bar";
-import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
+import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar } from "react-chartjs-2";
 
 
@@ -27,8 +24,6 @@ import { Bar } from "react-chartjs-2";
 
 
 class AdmissionStudentSummary extends Component {
-
-   
 
     componentDidMount() {
         this.getData()

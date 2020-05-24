@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from "react";
 
-import TabDialog from "../../../components/TabDialog";
+
 import { Table, Button } from 'semantic-ui-react'
-import { Form, FormControl, InputGroup } from 'react-bootstrap'
-import AdmissionSummary from "./AdmissionSummary";
-import AdmissionStudentSummary from "./AdmissionStudentSummary";
 
 import { connect } from 'react-redux'
 import { getAdmissionList, deleteAdmission} from '../../../redux/action/adminAdmissionAction'

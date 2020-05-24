@@ -4,12 +4,18 @@ import {
     Grid,
     Card,
     Container,
+    Header,
+    Divider
 } from "semantic-ui-react";
 
 
 import Barchart from "../../components/Graph/Bar";
 import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import { Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+
+import { connect } from 'react-redux'
+import { selectYear, getYearList } from '../../redux/action/adminAdmissionAction'
+
 
 import YearSelect from '../../components/YearSelect'
 
@@ -20,9 +26,7 @@ class Admission extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            year: 2560,
-            yearList: [2560, 2561, 2562, 2563],
-            branch: props.branch_list,
+            selectYear: null,
             countChannel: null,
             countSchool: null,
             compareYear: null,
@@ -32,37 +36,42 @@ class Admission extends Component {
     }
 
     componentDidMount() {
+        this.props.getYearList()
         this.getCountChannel()
-        // this.setupGraph()
+        
+      
     }
 
-    fetchBranch = () => {
-
-    }
+    // handleSeclectYear = async event => {
+    //     let value = event.target.value
+    //     await this.props.setYear(value)
+    //     this.getCountChannel()
+    // }
 
     getCountChannel = () => {
-        let { year } = this.state
-        Axios.get(`/admission/analyze`)
+        let { selectedYear } = this.props.admission
+
+        Axios.get(`/admission/analyze?year=${selectedYear}`)
             .then(res => {
-               
+
                 let data = res.data.data
 
                 let countChannel = data['count_channel']
                 let countSchool = data['count_by_school']
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
-                let countGrade = data['count_by_branch'][0]
-                console.log(countGrade)
+                // let countGrade = data.Data
+                // console.log(countGrade)
 
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
                     countSchool: setupStackBarChart(countSchool),
                     compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
-                    countGrade: setupStackBarChart(countGrade)
+                    // countGrade: setupNoneStackBarChart(countGrade)
 
                 })
-                console.log(this.state.countChannel)
+                // console.log(this.state.countChannel)
             })
             .catch(error => {
                 console.error(error)
@@ -70,6 +79,14 @@ class Admission extends Component {
                     loadTime: 1
                 })
             })
+    }
+
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        if (value === 0)
+            value = null
+        await this.props.setYear(value)
+        this.getCountChannel()
     }
 
     // setUpDropDown = branch => {
@@ -86,15 +103,21 @@ class Admission extends Component {
     // }
 
     render() {
-        let { year, yearList, countChannel, countSchool, compareYear, countStatus, countGrade } = this.state
+        let {  countChannel, countSchool, compareYear, countStatus, countGrade } = this.state
+        let { selectedYear, yearList } = this.props.admission
+        
+
         return (
             <Fragment>
                 <Container className="white-background">
-                    {
-                        yearList !== null && (
-                            <YearSelect yearList={yearList} selectedYear={yearList} title="ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา" />
-                        )
-                    }
+                <Divider />
+                    <Header as="h5" textAlign="center">
+                        {
+                            yearList !== null && (
+                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                            )
+                        }
+                    </Header>
                     <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
@@ -133,11 +156,11 @@ class Admission extends Component {
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
                                     </Card.Header>
                                     <Card.Content>
-                                       {/* {
+                                       {
                                             countGrade !== null && (
-                                                <Bar data={countGrade} legend={{ display: true }}  />
+                                                <Barchart data={countGrade} legend={{ display: true }}  />
                                             )
-                                        } */}
+                                        }
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -149,9 +172,9 @@ class Admission extends Component {
                                         กราฟแสดง 5 อันดับโรงเรียน 2560
                                     </Card.Header>
                                     <Card.Content>
-                                    {
+                                        {
                                             countSchool !== null && (
-                                                <Bar data={countSchool} legend={{ display: true }}  />
+                                                <Bar data={countSchool} legend={{ display: true }} />
                                             )
                                         }
                                     </Card.Content>
@@ -168,10 +191,10 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             compareYear !== null && (
-                                                <Barchart data={compareYear} />
+                                                <Barchart data={compareYear} legend={{ display: true }} />
                                             )
                                         }
-                                        
+
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -183,5 +206,18 @@ class Admission extends Component {
     }
 }
 
+const mapStateToProps = state => (
+    {
+        admission: state.admin_admission
+    }
+)
 
-export default Admission
+const mapDispatchToProps = dispatch => (
+    {
+        setYear: (year) => dispatch(selectYear(year)),
+        getYearList: () => dispatch(getYearList()),
+    }
+)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admission)
