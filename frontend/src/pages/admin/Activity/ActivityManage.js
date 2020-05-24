@@ -26,8 +26,6 @@ class ActivityManage extends Component {
     render() {
         let { activityList } = this.props.activity
 
-        console.log(activityList)
-
         return (
             <Fragment>
                 <Table>

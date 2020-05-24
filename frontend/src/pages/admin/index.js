@@ -160,7 +160,7 @@ class AdminHome extends Component {
                                 </Card.Title>
                                 <div style={{ textAlign: 'center', height: '100%' }}>
                                     {
-                                        alumniWork.length !== 0 ? <PieChart data={amountWorkingStatus} /> : <h2 className="text-center" text-align= "center" >ไม่พบข้อมูล</h2>
+                                        alumniWork.length !== 0 ? <PieChart data={amountWorkingStatus} /> : <h2 className="text-center" text-align="center" >ไม่พบข้อมูล</h2>
                                     }
 
                                 </div>
@@ -177,9 +177,7 @@ class AdminHome extends Component {
                                     {
                                         statusStudent.length !== 0 ? <Bar data={amountStudentStatus} /> : <h2 className="text-center">ไม่พบข้อมูล</h2>
                                     }
-                                }
                                 </div>
-
                                 <Button variant="secondary" to='/admin/student' as={Link}>ดูเพิ่มเติม</Button>
                             </Card>
                         </Col>

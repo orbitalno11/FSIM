@@ -376,7 +376,6 @@ class DatabaseHelper:
                           "LEFT JOIN (student NATURAL JOIN has_status) ON student.student_id LIKE entrance.student_id " \
                           "WHERE admission_year BETWEEN {} and {}".format(int(year) - 1, int(year))
         execute = self.__execute_query(sql_command)
-        print(sql_command)
         if not execute['response']:
             return execute
 
@@ -485,7 +484,6 @@ class DatabaseHelper:
                                                     'channel_name', 'dept_id'],
                                                    [0, 2, 3, 4, 1, 5])
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
-                                    
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ALUMNI # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -858,7 +856,7 @@ class DatabaseHelper:
                                                        attribute=['student_id', 'firstname', 'lastname', 'gender'],
                                                        value=student_table)
             self.__insert_multiple_from_dataframe_into(table="entrance",
-                                                       attribute=['application_no', 'student_id'],
+                                                       attribute=['student_id', 'application_no'],
                                                        value=entrance_table)
             self.__insert_multiple_from_dataframe_into(table="graduated",
                                                        attribute=['student_id', 'school_id', 'gpax'],

@@ -28,13 +28,13 @@ class ARSchool extends Component {
                     <Grid>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-circle-modal">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักเรียนที่เข้าศึกษาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            numberBySchool !== null ? <Bar data={numberBySchool} /> : <h1>ไม่พบข้อมูล</h1>
+                                            numberBySchool !== null ? <Bar data={numberBySchool} legend={{display: false}} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>
@@ -42,13 +42,13 @@ class ARSchool extends Component {
                         </Grid.Row>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-circle-modal">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            gpaBySchool !== null ? <Bar data={gpaBySchool} /> : <h1>ไม่พบข้อมูล</h1>
+                                            gpaBySchool !== null ? <Bar data={gpaBySchool} legend={{display: false}} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>
