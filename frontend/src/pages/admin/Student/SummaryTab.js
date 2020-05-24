@@ -27,14 +27,14 @@ const StudentData = ({ data }) => {
         <Fragment>
             <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
 
-                <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
+                <Header align="center" as="h2" style={{ marginBottom: "5%" }}>
                     จำนวนนักศึกษาทุกชั้นปี
                 </Header>
-                <Container textAlign={"center"}>
+                <Container align="center">
                     <Row >
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header textAlign={"center"}>
+                                <Card.Header align="center">
                                     <h3>จำนวนนักศึกษาต่อสาขา</h3>
                                 </Card.Header>
                                 <Card.Content>
@@ -50,7 +50,7 @@ const StudentData = ({ data }) => {
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header textAlign={"center"}>
+                                <Card.Header align="center">
                                     <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
                                 </Card.Header>
                                 <Card.Content>
@@ -68,7 +68,7 @@ const StudentData = ({ data }) => {
                     <Row>
                         <Col sm={12} lg={12} className="my-2">
                             <Card fluid>
-                                <Card.Header textAlign={"center"}>
+                                <Card.Header align="center">
                                     <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                 </Card.Header>
                                 <Card.Content>
