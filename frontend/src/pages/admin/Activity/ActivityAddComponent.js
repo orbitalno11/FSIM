@@ -32,10 +32,10 @@ export const AddActivityData = ({ submit }) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>
-                        รหัสกิจกรรม (ไม่เกิน 5 ตัวอักษร)
+                        รหัสกิจกรรม (ไม่เกิน 10 ตัวอักษร)
                 </Form.Label>
                     <InputGroup>
-                        <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="5" required />
+                        <Form.Control id="activityId" type="text" placeholder="กรุณาใส่รหัสกิจกรรม" maxLength="10" required />
                     </InputGroup>
                 </Form.Group>
                 <Form.Group>
