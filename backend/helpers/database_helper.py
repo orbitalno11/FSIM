@@ -112,27 +112,11 @@ class DatabaseHelper:
     def __execute_delete_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE '{}'".format(table, attribute, value)
         self.__cursor.execute(sql_command)
-        # try:
-        #     self.__cursor.execute(sql_command)
-        #     self.__db_connection.commit()
-        # except pymysql.Error as e:
-        #     print("Error %d: %s" % (e.args[0], e.args[1]))
-        #     self.__db_connection.rollback()
-        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        # return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 9. delete data from database (multiple data)
     def __execute_delete_multiple_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE {}".format(table, attribute, '%s')
         self.__cursor.executemany(sql_command, value)
-        # try:
-        #     self.__cursor.executemany(sql_command, value)
-        #     self.__db_connection.commit()
-        # except pymysql.Error as e:
-        #     print("Error %d: %s" % (e.args[0], e.args[1]))
-        #     self.__db_connection.rollback()
-        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        # return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 10. custom sql command with database connection commit (one execute)
     def __execute_custom_command(self, sql_command):
@@ -322,7 +306,7 @@ class DatabaseHelper:
             print("Error %d: %s" % (e.args[0], e.args[1]))
             self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
+        return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 10AC. get year list of activity
     def get_year_list_of_activity(self):
