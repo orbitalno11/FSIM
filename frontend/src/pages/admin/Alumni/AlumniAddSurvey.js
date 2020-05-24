@@ -179,7 +179,7 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        if(tableHeader.length==0){
+        if(tableHeader.length===0){
             this.props.openModal(true, [{ text: 'กรุณาเลือกข้อมูลสำหรับวิเคราะห์  ' , color: '#C0392B', type: false }])
 
         }else{
@@ -217,7 +217,7 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl,
             personal_header: list_p
         }
-        if(tableHeader.length==0){
+        if(tableHeader.length===0){
             this.props.checkStatus(false)
             this.props.loadSurveyList()
         }else{

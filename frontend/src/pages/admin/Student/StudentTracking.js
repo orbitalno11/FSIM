@@ -120,6 +120,7 @@ class StudentTracking extends Component {
   setLabelTracking = (data) => {
     let dataLabel = data.labels
     let newLabel = []
+
     dataLabel.map(item => {
       let number = parseInt(item)
       let semester = (number % 2) + 1

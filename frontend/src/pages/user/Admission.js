@@ -60,7 +60,7 @@ class Admission extends Component {
                 let countSchool = data['count_by_school']
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
-                let countGrade = data['count_by_branch']
+                // let countGrade = data.Data
                 // console.log(countGrade)
 
                 this.setState({
@@ -68,7 +68,7 @@ class Admission extends Component {
                     countSchool: setupStackBarChart(countSchool),
                     compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
-                    countGrade: setupStackBarChart(countGrade)
+                    // countGrade: setupNoneStackBarChart(countGrade)
 
                 })
                 // console.log(this.state.countChannel)
@@ -105,6 +105,8 @@ class Admission extends Component {
     render() {
         let {  countChannel, countSchool, compareYear, countStatus, countGrade } = this.state
         let { selectedYear, yearList } = this.props.admission
+        
+
         return (
             <Fragment>
                 <Container className="white-background">
@@ -127,7 +129,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             countChannel !== null && (
-                                                <Barchart data={countChannel} legend={{ display: false }} />
+                                                <Barchart data={countChannel}  />
                                             )
                                         }
 
@@ -147,7 +149,7 @@ class Admission extends Component {
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-                        {/* <Grid.Row>
+                        <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
@@ -162,7 +164,7 @@ class Admission extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                        </Grid.Row> */}
+                        </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="card-default">
@@ -212,8 +214,6 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        // getUserAdmissionData: (year) => dispatch(getUserAdmissionData(year)),
-        // getAdmissionData: (year) => dispatch(getAdmissionData(year)),
         setYear: (year) => dispatch(selectYear(year)),
         getYearList: () => dispatch(getYearList()),
     }
