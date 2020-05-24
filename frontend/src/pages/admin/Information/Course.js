@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Container, Nav, Tab, Col, Row, Button, Form, InputGroup, ButtonGroup, Table } from 'react-bootstrap'
+import { Container, Col, Row, Table } from 'react-bootstrap'
 
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
@@ -70,54 +70,6 @@ const CourseDetail = ({ data }) => (
                 </Table>
             </Col>
         </Row>
-    </Fragment>
-)
-
-const DepartmentEdit = () => (
-    <Fragment>
-        <Form>
-            <h2 className="text-sub-header">ชื่อหลักสูตร</h2>
-            <Form.Group>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="ชื่อหลักสูตร" required />
-                    <Button variant="success">บันทึก</Button>
-                </InputGroup>
-            </Form.Group>
-        </Form>
-        <hr />
-        <Form>
-            <h2 className="text-sub-header">รหัศหลักสูตร</h2>
-            <Form.Group>
-                <InputGroup>
-                    <Form.Control type="text" placeholder="รหัศหลักสูตร" required />
-                    <Button variant="success">บันทึก</Button>
-                </InputGroup>
-            </Form.Group>
-        </Form>
-        <hr />
-        <Row noGutters className="my-2">
-            <Col sm={3}>
-                <h2 className="text-sub-header">รายชื่อรายวิชา</h2>
-            </Col>
-            <Col sm={9}>
-                <ButtonGroup>
-                    <Button variant="primary">เพิ่มรายวิชา</Button>
-                    <Button variant="warning">แก้ไขรายวิชา</Button>
-                </ButtonGroup>
-            </Col>
-        </Row>
-        <Form className="my-2">
-            <Form.Control as={"select"}>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-            </Form.Control>
-            <Form.Group>
-                <Form.Label>ชื่อรายวิชา</Form.Label>
-                <Form.Control type="text" placeholder="ชื่อรายวิชา" required />
-            </Form.Group>
-            <Button variant="success">บันทึก</Button>
-        </Form>
     </Fragment>
 )
 

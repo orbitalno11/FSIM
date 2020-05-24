@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 import { Container, Modal, Tab, Col, Row, Button } from 'react-bootstrap'
-import { Table ,Header, Divider} from 'semantic-ui-react'
+import { Table, Header, Divider } from 'semantic-ui-react'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 import ReactModal from '../../../components/ReactModal'
 
@@ -117,16 +117,16 @@ class StudentTracking extends Component {
     })
   }
 
-  setLabelTracking=(data)=>{
+  setLabelTracking = (data) => {
     let dataLabel = data.labels
     let newLabel = []
-    dataLabel.map(item=>{
+    dataLabel.map(item => {
       let number = parseInt(item)
-      let semester = (number%2)+1
-      let year = Math.floor(number/2)+1
-      newLabel.push('ปี '+year+' เทอม '+semester)
+      let semester = (number % 2) + 1
+      let year = Math.floor(number / 2) + 1
+      newLabel.push('ปี ' + year + ' เทอม ' + semester)
     },
-    data.labels = newLabel
+      data.labels = newLabel
     )
     return data
   }
@@ -140,9 +140,9 @@ class StudentTracking extends Component {
       key = departmentList[0]['dept_id']
       tabName = convertTabName(departmentList, "dept_id", "dept_name")
       if (departmentList !== null && studentList !== null) {
-       
+
         departmentList.forEach(item => {
-          let student = studentList.filter(data => data['dept_id'] == item['dept_id'])
+          let student = studentList.filter(data => data['dept_id'] === item['dept_id'])
           tabDetail.push(convertDetail(item['dept_id'], <Traching dept_name={item['dept_name']} data={student[0]['student']} handleTracking={this.handleTracking} />))
         })
 
@@ -163,7 +163,7 @@ class StudentTracking extends Component {
                 show={showTrack}
                 onHide={this.handlTrackClose}
               >
-               
+
                 <Modal.Body>
                   <Container className="mb-5">
                     <Row>
@@ -174,11 +174,11 @@ class StudentTracking extends Component {
                           <h5>ชื่อ-นามสกุล : {trackingStudent.firstname}   {trackingStudent.lastname} </h5>
                           <h5>ภาควิชา    : {trackingStudent.dept}</h5>
                         </div>
-                        <Divider style={{ marginBottom: '4%' }}/>
-                        <div style={{padding:'3%'}}>
-                        <Line data={trackingStudent.trackking} legend={{ display: false }} />
+                        <Divider style={{ marginBottom: '4%' }} />
+                        <div style={{ padding: '3%' }}>
+                          <Line data={trackingStudent.trackking} legend={{ display: false }} />
                         </div>
-                        <h5 align="center" style={{margin:'2%'}}>กราฟแสดงเกรดเฉลี่ยนักศึกษารายเทอม</h5>
+                        <h5 align="center" style={{ margin: '2%' }}>กราฟแสดงเกรดเฉลี่ยนักศึกษารายเทอม</h5>
                       </Col>
                     </Row>
                   </Container>
@@ -190,10 +190,10 @@ class StudentTracking extends Component {
               <Row>
                 <Col >
                   {
-                    key && tabName !== null  && studentList!==null? (
-                        <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
-                      )
-                     : (
+                    key && tabName !== null && studentList !== null ? (
+                      <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
+                    )
+                      : (
                         <h1 align="center" className="text-center">ไม่พบข้อมูล</h1>
                       )
                   }

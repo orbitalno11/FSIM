@@ -1,15 +1,10 @@
 import * as types from '../types'
 
-let year = new Date()
-year = year.getFullYear() + 543
-
 const initialState = {
     studentData: null,
     studentList: null,
     departmentList: null,
     educationList: null,
-    yearList: [2560, 2561, 2562],
-    selectedYear: 2560,
     actionResult: null,
     error: null
 }

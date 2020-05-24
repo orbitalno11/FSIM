@@ -10,24 +10,12 @@ import { closeModal } from "../redux/action/modalAction";
 //  wait other
 import 'chartjs-plugin-datalabels'
 
-import axios from 'axios'
-
-// import color set
-import { colorSet } from '../Constant'
-
-
 
 class ReactModal extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     closeModal = () => {
         this.props.closeModal()
     }
-
-
-
 
     render() {
         let { modal } = this.props

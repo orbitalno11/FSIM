@@ -20,17 +20,6 @@ import { connect } from 'react-redux'
 import { getActivityData, getActivityList, selectYear } from '../../../redux/action/adminActivityAction'
 
 
-const option = {
-    scales: {
-        xAxes: [{
-            ticks: {
-                display: false
-            }
-        }]
-    }
-}
-
-
 class ActivitySummary extends Component {
 
     componentDidMount() {

@@ -4,8 +4,7 @@ import {
     Header,
     Divider,
     Container,
-    List,
-    Image
+    List
 } from "semantic-ui-react";
 
 import { Link } from "react-router-dom";

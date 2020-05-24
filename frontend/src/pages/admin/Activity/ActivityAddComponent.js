@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FormControl, Container, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Button, Form, InputGroup } from 'react-bootstrap'
 
 import { useSelector } from 'react-redux'
 

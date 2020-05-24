@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 
 import { Container, Col, Row } from 'react-bootstrap'
 
-import axios from 'axios'
-
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 
 import { connect } from 'react-redux'

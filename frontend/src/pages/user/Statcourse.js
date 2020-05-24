@@ -3,13 +3,9 @@ import React, {Component, Fragment} from "react";
 import {
     Header,
     Divider,
-    Grid,
     Container,
     List,
-    Image
 } from "semantic-ui-react";
-
-// redux
 
 import { Link } from "react-router-dom";
 

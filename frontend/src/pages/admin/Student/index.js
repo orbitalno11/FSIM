@@ -1,20 +1,13 @@
 import React, {Component, Fragment} from "react";
-import { Form, FormControl, InputGroup } from 'react-bootstrap'
-import { Table, Button } from 'semantic-ui-react'
 
-// import SearchActivity from "../../../components/SearchActivity";
-// import AddActivity from "../../../components/AddActivity";
 import { connect } from 'react-redux'
 import LoadingComponent from '../../../components/LoadingComponent'
-import { getStudentList } from '../../../redux/action/adminStudentAction'
 
 import TabDialog from '../../../components/TabDialog'
 
 import StudentSummary from "./SummaryTab";
 import StudentTracking from "./StudentTracking";
 import StudentAdd from "./StudentAdd";
-
-
 
 
 class Student extends Component {
