@@ -9,9 +9,11 @@ import {
     Table
 } from "semantic-ui-react";
 
+import YearSelect from '../../../components/YearSelect'
+
 // redux
 import {connect} from 'react-redux'
-import { getAdmissionTable,getAdmissionTableTwo,getAdmissionTableThree, selectedYear } from '../../../redux/action/adminAdmissionAction'
+import { getAdmissionTable,getAdmissionTableTwo,getAdmissionTableThree, selectYear } from '../../../redux/action/adminAdmissionAction'
 
 
 
@@ -28,26 +30,44 @@ const option = {
 
 class AdmissionSummary extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            admissionTable: null,
-            admissionTableThree: null,
-            admissionTableTwo: null
-        }
-    }
-
     componentDidMount() {
-        this.props.getAdmissionTable()
-        this.props.getAdmissionTableThree()
-        this.props.getAdmissionTableTwo()
+        this.getData()
     }
+
     handleSeclectYear = async event => {
         let value = event.target.value
         await this.props.setYear(value)
         this.getData()
     }
+
+    getData = () => {
+        let { selectedYear } = this.props.admission
+        this.props.getAdmissionTable(selectedYear)
+        this.props.getAdmissionTableThree()
+        this.props.getAdmissionTableTwo()
+        
+    }
+
+    // constructor(props) {
+    //     super(props)
+
+    //     this.state = {
+    //         admissionTable: null,
+    //         admissionTableThree: null,
+    //         admissionTableTwo: null
+    //     }
+    // }
+
+    // componentDidMount() {
+    //     this.props.getAdmissionTable()
+    //     this.props.getAdmissionTableThree()
+    //     this.props.getAdmissionTableTwo()
+    // }
+    // handleSeclectYear = async event => {
+    //     let value = event.target.value
+    //     await this.props.setYear(value)
+    //     this.getData()
+    // }
   
     render() {
         let { admissionTable,admissionTableTwo,admissionTableThree, selectedYear,yearList } = this.props.admission
@@ -55,17 +75,12 @@ class AdmissionSummary extends Component {
             <Fragment>
                  <Container>
                  <Header as="h5" textAlign="center">
-                        ข้อมูลการรับเข้าของปีการศึกษา
+                        
                         {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     </Header>
                         <Divider/>
                      <Grid>     
@@ -153,10 +168,12 @@ class AdmissionSummary extends Component {
                                 <Table.Body>
                                 {
                                     admissionTableTwo !== null && (
-                                        admissionTableThree.map((item, index) => (
+                                        admissionTableTwo.map((item, index) => (
                                             <Table.Row textAlign="center" key={index}>
-                                                <Table.Cell>{item[0]}</Table.Cell>
-                                                <Table.Cell>{item[1]["all"]}</Table.Cell>
+                                                <Table.Cell>{item["channel"]}</Table.Cell>
+                                                <Table.Cell>{item["count"]}</Table.Cell>
+                                                <Table.Cell>{item["max_data"]}</Table.Cell>
+                                                <Table.Cell>{item["min_data"]}</Table.Cell>
                                             </Table.Row>
                                         ))
                                     )
@@ -213,7 +230,7 @@ class AdmissionSummary extends Component {
                                             <Table.Row textAlign="center" key={index}>
                                                 <Table.Cell>{item[0]}</Table.Cell>
                                                 <Table.Cell>{item[1]["all"]}</Table.Cell>
-                                                <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_all_student"]}</Table.Cell>
                                                 <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
                                                 <Table.Cell>{item[1]["per_Type_ตกออก"]}</Table.Cell>
                                                 <Table.Cell>{item[1]["per_Stu_ตกออก"]}</Table.Cell>
@@ -242,10 +259,10 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        getAdmissionTable: () => dispatch(getAdmissionTable()),
+        getAdmissionTable: (year) => dispatch(getAdmissionTable(year)),
         getAdmissionTableTwo: () => dispatch(getAdmissionTableTwo()),
         getAdmissionTableThree: () => dispatch(getAdmissionTableThree()),
-        // setYear: (year) => dispatch(selectYear(year))
+        setYear: (year) => dispatch(selectYear(year))
     }
 )
 
