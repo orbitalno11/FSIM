@@ -1,14 +1,31 @@
-# FSci Student Information Management System
+# FSci Student Information System
+The web application used to manage information in Faculty of Science, KMUTT.
 
-To run this web application please install python library follow the "requirements.txt" file.<br/>
-pip install -r requirements.txt
+## Website feature
+ - **For admission data**
+	- Show admission statistic of TCAS round.
+	- Show average academic result for first year student of each admission channel.
+ - **For public relations**
+	 - Show statistic of participants of each activity of project.
+	 - Can show top 5 school which join the faculty activity each year (Active Recruitment).
+ - **For current student data**
+	- Show number of current student each department.
+	- Show number of current student by year and education status in chart.
+	- Student tracking for probation student.
+	- Statistic of subject in Faculty of Science, KMUTT.
+ - **For alumni data**
+	 - Show number of alumni each branch by education year.
+	 - Represent alumni data such as working status, average salary by their branch etc. in chart.
+	 - Show statistic data for survey.
 
-<strong>SYSTEM REQUIREMENTS</strong><br/>
-python version 3.7 and pip
+## Website development
 
-<strong>DEVELOP GUIDE</strong>
-<ol>
-    <li>install python library follow the "requirements.txt" file.<br/>You can install by "pip install -r requirements.txt"</li>
-    <li>install node dependencies from package.json</li>
-    <li>to run with flask (backend) please build react.js application before, Because the flask is config the static folder and template folder to build.</li>
-</ol>
+ 1. Programming Language
+	 - Python 3.7
+	 - JavaScript
+ 2. Tech stack
+	- flask
+	- react js
+	- mySQL database
+	- firebase realtime database
+	- google sheet api

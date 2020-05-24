@@ -4,7 +4,7 @@ from flask import jsonify, make_response
 import backend.Constant as Constant
 
 
-def create_error_exception(message: str, value, response_code: int):
+def create_error_exception(message : str, value, response_code: int):
     return make_response(jsonify({"message": message, "value": value}), response_code, Constant.RESPONSE_HEADERS)
 
 

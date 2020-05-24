@@ -1,66 +1,76 @@
-import React, { Component, Fragment } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
 // router
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 
-// redux
-import { connect } from 'react-redux'
+import jwtDecode from 'jwt-decode'
 
 // general component
 import Navbar from './components/Menu'
-import Home from './pages/Home'
+// import Home from './pages/user/Home'
 
+// import user layout
+import UserLayout from './layouts/User'
 
-// user component
-import Admission from "./pages/Admission";
-import ActiveRecruitment from "./pages/ActiveRecruitment";
-import Alumni from "./pages/Alumni";
-import ActivityInformation from "./pages/ActivityInformation";
-
-import DepartmentDetail from './pages/DepartmentDetail'
 
 // admin component
 import AdminLayout from './layouts/Admin'
 
-class App extends Component {
-    constructor(props) {
-        super(props)
+// authen
+import Login from './pages/user/Login'
+import AuthRoute from './components/AuthRoute'
+import AdminRoute from './components/AdminRoute'
+
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from "redux";
+import logger from 'redux-logger'
+import thunk from "redux-thunk";
+import rootReducer from './redux/reducers';
+
+import { userLogout, setUser } from './redux/action/authAction'
+import { LOGIN_SUCCESS } from './redux/types'
+
+import axios from 'axios'
+import AdminMenu from './components/AdminMenu'
+
+const store = createStore(rootReducer, applyMiddleware(thunk,logger));
+// logger
+
+const token = localStorage.FSIMIdToken
+if (token){
+    const decodeToken = jwtDecode(token)
+    if (decodeToken.exp * 1000 < Date.now()){
+        store.dispatch(userLogout())
+        window.location.href = '/login'
+    }else{
+        store.dispatch({ type: LOGIN_SUCCESS })
+        store.dispatch(setUser(localStorage.userName, localStorage.userType))
+        axios.defaults.headers.common['x-access-token'] = token
     }
+}
+
+class App extends Component {
 
     render() {
-        let { user } = this.props
         return (
-            <Fragment>
-                {user.userType === 'user' && <Navbar />}
+            <Provider store={store}>
                 <div className="App">
+                    { store.getState().auth.authenticated ? <AdminMenu /> : <Navbar />}
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/admission" component={Admission} />
-                        <Route exact path="/active" component={ActiveRecruitment} />
-                        <Route exact path="/alumni" component={Alumni} />
-                        <Route exact path="/activity" component={ActivityInformation} />
-
-                        <Route path="/department/:dept_id" component={DepartmentDetail} />
-
                         {/*    admin    */}
-                        <Route path="/admin" component={AdminLayout} />
+                        <AdminRoute path="/admin" component={AdminLayout} />
+
+                        <AuthRoute exact path="/login" component={Login} />
+
+                        {/*     user    */}
+                        <Route path="/" component={UserLayout} />
                     </Switch>
                 </div>
-                {user.userType !== 'user' &&
-                    <div className="footer mt-0">
-                        ภาควิชาคณิตศาสตร์, คณะวิทยาศาสตร์, มจธ.<br />
-                126 ถ.ประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร 10140<br />
-                โทรศัพท์ (+66) 2 470 8820, (+66) 2 470 8822, (+66) 2 470 8839,
-                โทรสาร (+66) 2 428 4025
-             </div>}
-            </Fragment>
+            </Provider>
         )
     }
 }
 
-const mapStateToProps = state => ({
-    user: state.auth
-})
 
-export default connect(mapStateToProps)(App);
+export default withRouter(App)

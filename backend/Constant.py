@@ -1,12 +1,14 @@
-DATABASE_HOST = "<host>"
+DATABASE_HOST = "localhost"
 DATABASE_NAME = "FSIM"
 DATABASE_USER = "root"
-DATABASE_PASSWORD = "<password>"
+DATABASE_PASSWORD = ""
 
 
 UPLOAD_FOLDER = "./uploads/"
 ADMISSION_FOLDER = UPLOAD_FOLDER + "admission"
 ACADEMIC_FOLDER = UPLOAD_FOLDER + "academic"
+STUDENT_FOLDER = UPLOAD_FOLDER + "student"
+ACTIVITY_FOLDER = UPLOAD_FOLDER + "activity"
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
 SECRET_KEY = "FSIM2020"
@@ -17,8 +19,12 @@ RESPONSE_HEADERS = {"Content-type": "application/json"}
 google_credentials = "google_credentials.json"
 google_sheet_scope = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
+# firebase
+firebase_credentials = "firebase_credentials.json"
+firebase_database_url = "https://my-fsim.firebaseio.com/"
 
-def allowed_admission_file(filename):
+
+def allowed_file(filename):
     from werkzeug.utils import secure_filename
     name = secure_filename(filename)
     return '.' in name and name.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

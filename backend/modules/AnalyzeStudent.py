@@ -2,7 +2,7 @@
 # to get data from database please use DatabaseConnection class and
 # use method which provide the data that you want
 # Example for get data
-#  1. database = DatabaseConnection().get_instance()
+#  1. database = DatabaseConnection()
 #  2. variable_to_get_response_data = database.your_method()
 # the response data is in JSON form it will have 3 part
 # 1. response state (True/False) this part will send the state of query success or not
@@ -22,6 +22,8 @@
 # import helper
 from backend.helpers.database_helper import DatabaseHelper
 import backend.helpers.inner_response_helper as inner_res_helper
+import backend.helpers.analyze_helper as analyze_helper
+
 from collections import defaultdict
 from collections import OrderedDict
 import pandas as pd
@@ -29,85 +31,196 @@ import json
 
 
 class AnalyzeStudent:
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if AnalyzeStudent.__instance is None:
-            AnalyzeStudent()
-        return AnalyzeStudent.__instance
-
-    def __init__(self):
-        if AnalyzeStudent.__instance is not None:
-            raise Exception("This class is a singleton! analyze student")
-        else:
-            AnalyzeStudent.__instance = self
 
     # uses in user and admin
     # this function returns student data and status student that analyze in 'dept'.
     # this function required department id
-    def analyze_by_dept(self, dept=None):
+    def analyze_by_dept(self, dept):
         value = {}
-        connect = DatabaseHelper.get_instance()
+        connect = DatabaseHelper()
         data = connect.get_all_student(dept)
-
         if data['value']:
             df = pd.DataFrame(data['value'])
             df_branch = df[['branch_id', 'branch']]
-            branch_data = self.__set_branch(connect.get_department(dept))
-            status_data = self.__set_status(connect.get_status_list())
-            branch_dic = self.__set_dict(branch_data.index, branch_data.branch_name)
-            status_dic = self.__set_dict(status_data.index, status_data.status_title)
+            get_branch=connect.get_department(dept)
+            if dept:
+                branch_data = analyze_helper.set_branch(get_branch['value'][0]['branch'])
+            else :
+                branch=[]
+                for i in get_branch['value']: 
+                    for index in range(len(i['branch'])):
+                        branch.append(i['branch'][index])
+                branch_data = analyze_helper.set_branch(branch)
+               
+          
+            status_data = analyze_helper.set_fullname(connect.get_status_list())
+            branch_dic = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+            status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             status_by_branch = self.__status_by_branch(df, list(branch_data.index.values),
                                                        list(status_data.index.values))
-            status_by_branch_index = self.__set_fullname_index(branch_dic, status_by_branch)
-            status_by_branch_finist = self.__set_fullname_column(status_dic, status_by_branch_index)
+
+            status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
+            status_by_branch_finist = analyze_helper.set_fullname_column(status_dic, status_by_branch_index)
             status_by_year = self.__count_status(df[['student_year', 'education_status']],
                                                  list(status_data.index.values))
-            status_by_year_finist = self.__set_fullname_column(status_dic, status_by_year)
-
+            status_by_year_finist = analyze_helper.set_fullname_column(status_dic, status_by_year)
+            value['dept_name'] = get_branch['value'][0]['dept_name']
             value['all_stu_dept'] = self.__count_student_dept(df)
-            value['branch'] = [self.__set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()]
+            value['branch'] = [analyze_helper.set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()]
             value['status_by_year'] = [status_by_year_finist.to_dict('index')]
             value['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
+
             response = True
             message = "Analyze Student Successfully"
         else:
             response = False
-            message = "Analyze Student Failed"
+            message = "Don't have Data"
 
         return inner_res_helper.make_inner_response(response, message, value)
 
     # uses in user and admin
     # this function return  academic results that analyze in 'dept'.
     # this function required department id
-    def analyze_by_subject_dept(self, dept):
-        connect = DatabaseHelper.get_instance()
-        data = connect.get_all_academic_record(dept)
+    def analyze_by_subject_dept(self, dept=None,year=None):
+        connect = DatabaseHelper()
+        data = connect.get_all_academic_record(dept,year)
         value = {}
-
         if data['value']:
             df = pd.DataFrame(data['value'])
-            grouped = df.groupby(['education_year', 'subject_code', 'grade']).size().unstack(fill_value=0)
-            df_grouped = pd.DataFrame(grouped.stack().to_frame(name='count').reset_index())
-            value['subject_by_year'] = [self.__retro_dictify(df_grouped)]
+            get_branch      =connect.get_branch()
+            branch_data     = analyze_helper.set_branch(get_branch['value'])
+            branch_dic      = (branch_data.branch_name).to_dict()
+            df_f            = df[df['grade']=='F']
+            if dept:
+                branch      = branch_data[branch_data['dept_id']==dept]
+                list_branch = branch.index.tolist()
+            else:
+                list_branch = branch_data.index.tolist()
+            group_subject   = df.groupby(['subject_code','grade']).size().unstack(fill_value=0)
+            group_subject_F = df_f.groupby(['subject_code','branch_id']).size().unstack(fill_value=0)
+            group_subject_F = analyze_helper.check_list_column(list_branch,group_subject_F)
+            group_subject_F = analyze_helper.set_fullname_column(branch_dic,group_subject_F)
+
+            value={
+                'analyze_by_grade' : group_subject.to_dict('index'),
+                'group_F'          : [group_subject_F.to_dict('index')]
+            }
             response = True
             message = "Analyze Subject Successfully"
         else:
+            
             response = False
-            message = "Analyze Subject Failed"
+            message = "Don't have Data"
         return inner_res_helper.make_inner_response(response, message, value)
 
-    def __set_branch(self, data):
-        branch_data = pd.DataFrame(data['value'][0]['branch'])
-        branch_data['branch_name'] = (branch_data['branch_name'].str.split("-", n=1, expand=True))[0]
-        branch_data = branch_data.set_index('branch_id')
-        return branch_data
+    def student_tracking(self,id_student):
+        connect = DatabaseHelper()
+        data = connect.get_student_tracking(id_student)
+        value = {}
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            df = df.sort_values(by=['education_year', 'semester'])
+            df_drop_s = df[df['semester']!='S']
+            df_drop_s.reset_index(inplace=True)
+            
+            df_tracking = df_drop_s.gpa
 
-    def __set_status(self, data):
-        status_df = pd.DataFrame(data['value']).set_index('status_id')
-        return status_df
+            value={
+                'student_id' : id_student,
+                'firstname' : df_drop_s.loc[0,'firstname'],
+                'lastname' : df_drop_s.loc[0,'lastname'],
+                'gpax'  :   df_drop_s.current_gpax.loc[1],
+                'trackking' : df_tracking.to_dict()
+            }
+            response = True
+            message = "Analyze Subject Successfully"
+        else:
+            response= False
+            message = "Don't have Data"
+        
+        return inner_res_helper.make_inner_response(response, message, value)
 
+
+    def subject_by_branch(self,branch_id,semester,education_year):
+        connect = DatabaseHelper()
+        data = connect.subject_by_branch(branch_id,semester,education_year)
+        value = {}
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            list_grade = {'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C' : 2,'D+' : 1.5, 'D' : 1 , 'F' : 0, 'Fe' : 0}
+            df['grade'].replace(list_grade,inplace=True)
+            df = df[df['grade']!='W']
+            df['grade'] =df.grade.astype(int)
+            grouped = df.groupby(["subject_code","subject_name_en","subject_weigth"])["grade"].agg(['size','mean','std'])
+            grouped = grouped.reset_index(level=['subject_name_en','subject_weigth'])
+            grouped = grouped.round(2)
+            value={
+                 'subject' : grouped.to_dict('index'),
+            }
+            response = True
+            message = "Analyze Subject Successfully"
+        else:
+            response= False
+            message = "Don't have Data"
+        
+        return inner_res_helper.make_inner_response(response, message, value)
+
+    def student_admin(self):
+        value = {}
+        connect = DatabaseHelper()
+        data = connect.get_all_student()
+        if data['value']:
+            df = pd.DataFrame(data['value'])
+            # print(df.info())
+            df_branch = df[['branch_id', 'branch']]
+            get_branch=connect.get_department(None)
+
+            dept_data = pd.io.json.json_normalize(get_branch['value'], 'branch', ['dept_id','dept_name'])
+
+            department_data = dept_data[['dept_id','dept_name']].set_index('dept_id')
+            department_data.drop_duplicates(inplace=True)
+
+            status_data = analyze_helper.set_fullname(connect.get_status_list())
+            
+            status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
+            
+            list_department = department_data.index.tolist()
+            analyze_by_dept = []
+            for dept in list_department:
+                analyze = {}
+                df_dept = df[df['dept_id']==dept]
+                department_selector = dept_data[dept_data['dept_id']==dept]
+                # print(department_selector)
+                branch_data = analyze_helper.set_branch(department_selector[['branch_id','branch_name','amount_student']])
+                branch_dic = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+                status_by_branch = self.__status_by_branch(df_dept, list(branch_data.index.values),
+                                                        list(status_data.index.values))
+                status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
+                status_by_branch_finist = analyze_helper.set_fullname_column(status_dic, status_by_branch_index)
+                status_by_year = self.__count_status(df_dept[['student_year', 'education_status']],
+                                                    list(status_data.index.values))
+                status_by_year_finist = analyze_helper.set_fullname_column(status_dic, status_by_year)
+                analyze['dept_id'] = dept
+                analyze['branch'] = analyze_helper.set_fullname_index(branch_dic, branch_data['amount_student']).to_dict()
+                analyze['status_by_year'] = [status_by_year_finist.to_dict('index')]
+                analyze['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
+                analyze_by_dept.append(analyze)
+
+            value ={
+                'analyze_by_dept':analyze_by_dept
+            }
+            response = True
+            message = "Analyze Student Successfully"
+        else:
+            response = False
+            message = "Don't have Data"
+
+        return inner_res_helper.make_inner_response(response, message, value)
+
+
+
+
+    
     def __count_student_dept(self, df):
         num_student_dept = len(df.index)
         return num_student_dept
@@ -121,6 +234,7 @@ class AnalyzeStudent:
 
     def __status_by_branch(self, df, list_sample, status):
         grouped = df.groupby(['branch_id', 'education_status']).size().unstack(fill_value=0)
+        
         list_branch = self.__check_list(list_sample, list(grouped.index.values))
         list_status = self.__check_list(status, list(grouped.columns.values))
         for col in list_branch:
@@ -129,31 +243,13 @@ class AnalyzeStudent:
             grouped[col] = 0
         return grouped
 
-    def __retro_dictify(self, frame):
-        d = {}
-        for row in frame.values:
-            here = d
-            for elem in row[:-2]:
-                if elem not in here:
-                    here[elem] = {}
-                here = here[elem]
-            here[row[-2]] = row[-1]
-        return d
-
+    
     def __check_list(self, sample, main):
         list_miss = set(sample) - set(main)
         return list_miss
 
-    def __set_fullname_index(self, dic, data):
-        data.index = data.index.map(dic)
-        return data
-
-    def __set_fullname_column(self, dic, data):
-        data.columns = data.columns.map(dic)
-        return data
-
-    def __set_dict(self, key, value):
-        return dict([(key, value) for key, value in zip(key, value)])
+    
+   
 
 # get_all_student() method for get student data
 # get_all_academic_record() method get student academic record data
