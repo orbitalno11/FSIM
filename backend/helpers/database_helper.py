@@ -78,6 +78,7 @@ class DatabaseHelper:
             self.__db_connection.commit()
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
@@ -86,18 +87,12 @@ class DatabaseHelper:
         sql_command = "INSERT INTO {} ({}) VALUES ({})".format(table,
                                                                ','.join(attribute),
                                                                ','.join('%s' for _ in attribute))
-        try:
-            if has_time:
-                insert_data = self.__change_to_list_with_time_columns(value, time_attr_indicator)
-            else:
-                insert_data = self.__change_to_list_no_time(value)
+        if has_time:
+            insert_data = self.__change_to_list_with_time_columns(value, time_attr_indicator)
+        else:
+            insert_data = self.__change_to_list_no_time(value)
 
-            self.__cursor.executemany(sql_command, insert_data)
-            self.__db_connection.commit()
-        except Exception as e:
-            print(e)
-            return inner_res_helper.make_inner_response(False, "Insert data failed.", str(e))
-        return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
+        self.__cursor.executemany(sql_command, insert_data)
 
     # 7. insert data into database (multiple value)
     def __insert_multiple_into(self, table, attribute, value):
@@ -109,30 +104,35 @@ class DatabaseHelper:
             self.__db_connection.commit()
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
     # 8. delete data from database (one value)
     def __execute_delete_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE '{}'".format(table, attribute, value)
-        try:
-            self.__cursor.execute(sql_command)
-            self.__db_connection.commit()
-        except pymysql.Error as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
-            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
+        self.__cursor.execute(sql_command)
+        # try:
+        #     self.__cursor.execute(sql_command)
+        #     self.__db_connection.commit()
+        # except pymysql.Error as e:
+        #     print("Error %d: %s" % (e.args[0], e.args[1]))
+        #     self.__db_connection.rollback()
+        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        # return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 9. delete data from database (multiple data)
     def __execute_delete_multiple_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE {}".format(table, attribute, '%s')
-        try:
-            self.__cursor.executemany(sql_command, value)
-            self.__db_connection.commit()
-        except pymysql.Error as e:
-            print("Error %d: %s" % (e.args[0], e.args[1]))
-            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
+        self.__cursor.executemany(sql_command, value)
+        # try:
+        #     self.__cursor.executemany(sql_command, value)
+        #     self.__db_connection.commit()
+        # except pymysql.Error as e:
+        #     print("Error %d: %s" % (e.args[0], e.args[1]))
+        #     self.__db_connection.rollback()
+        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        # return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 10. custom sql command with database connection commit (one execute)
     def __execute_custom_command(self, sql_command):
@@ -141,6 +141,7 @@ class DatabaseHelper:
             self.__db_connection.commit()
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
@@ -151,6 +152,7 @@ class DatabaseHelper:
             self.__db_connection.commit()
         except pymysql.Error as e:
             print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
@@ -287,40 +289,40 @@ class DatabaseHelper:
 
         project_type = int(project_type)
 
-        # project_list = self.get_project_list()
-        # project_list = project_list['value']
-        #
-        # project_type = None
-        # for project in project_list:
-        #     if project['project_id'] == project_id:
-        #         project_type = project['project_type']
-        #         break
+        try:
+            if project_type == 0:
+                self.__insert_multiple_from_dataframe_into(table='activity_no_ar',
+                                                           attribute=['activity_id', 'firstname', 'lastname',
+                                                                      'school_name'],
+                                                           value=participant_table)
+            elif project_type == 1:
+                self.__insert_multiple_from_dataframe_into(table='activity_ar',
+                                                           attribute=['activity_id', 'firstname', 'lastname',
+                                                                      'school_name', 'branch_name', 'gpax'],
+                                                           value=participant_table)
+            else:
+                return inner_res_helper.make_inner_response(False, "Error",
+                                                            "Can not insert data for this project type.")
 
-        if project_type == 0:
-            result = self.__insert_multiple_from_dataframe_into(table='activity_no_ar',
-                                                                attribute=['activity_id', 'firstname', 'lastname',
-                                                                           'school_name'],
-                                                                value=participant_table)
-        elif project_type == 1:
-            result = self.__insert_multiple_from_dataframe_into(table='activity_ar',
-                                                                attribute=['activity_id', 'firstname', 'lastname',
-                                                                           'school_name', 'branch_name', 'gpax'],
-                                                                value=participant_table)
-        else:
-            result = inner_res_helper.make_inner_response(False, "Error",
-                                                          "Can not insert data for this project type.")
-
-        return result
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
     # 9AC. delete activity by activity id
     def delete_activity(self, act_id: str = None):
-        result = self.__execute_delete_data(table='activity_no_ar', attribute='activity_id', value=act_id)
-        if result['response']:
-            result = self.__execute_delete_data(table="activity_ar", attribute="activity_id", value=act_id)
-            if result['response']:
-                result = self.__execute_delete_data(table="activity", attribute="activity_id", value=act_id)
-
-        return result
+        try:
+            self.__execute_delete_data(table='activity_no_ar', attribute='activity_id', value=act_id)
+            self.__execute_delete_data(table="activity_ar", attribute="activity_id", value=act_id)
+            self.__execute_delete_data(table="activity", attribute="activity_id", value=act_id)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
     # 10AC. get year list of activity
     def get_year_list_of_activity(self):
@@ -352,26 +354,28 @@ class DatabaseHelper:
         admission_studied = json.loads(admission_studied)
         admission_studied = list(admission_studied.values())
 
-        result = self.__insert_multiple_from_dataframe_into(table="admission",
-                                                            attribute=['application_no', 'firstname', 'lastname',
-                                                                       'gender', 'decision', 'admission_year',
-                                                                       'upload_date'],
-                                                            value=admission_table, has_time=True,
-                                                            time_attr_indicator=6)
-        if result['response']:
-            result = self.__insert_multiple_from_dataframe_into(table="admission_in_branch",
-                                                                attribute=['application_no', 'branch_id'],
-                                                                value=admission_branch)
-            if result['response']:
-                result = self.__insert_multiple_from_dataframe_into(table="admission_from",
-                                                                    attribute=['application_no', 'channel_id'],
-                                                                    value=admission_from)
-                if result['response']:
-                    result = self.__insert_multiple_from_dataframe_into(table="admission_studied",
-                                                                        attribute=['application_no', 'gpax',
-                                                                                   'school_id'],
-                                                                        value=admission_studied)
-        return result
+        try:
+            self.__insert_multiple_from_dataframe_into(table="admission",
+                                                       attribute=['application_no', 'firstname', 'lastname',
+                                                                  'gender', 'decision', 'admission_year',
+                                                                  'upload_date'],
+                                                       value=admission_table, has_time=True,
+                                                       time_attr_indicator=6)
+            self.__insert_multiple_from_dataframe_into(table="admission_in_branch",
+                                                       attribute=['application_no', 'branch_id'],
+                                                       value=admission_branch)
+            self.__insert_multiple_from_dataframe_into(table="admission_from",
+                                                       attribute=['application_no', 'channel_id'],
+                                                       value=admission_from)
+            self.__insert_multiple_from_dataframe_into(table="admission_studied",
+                                                       attribute=['application_no', 'gpax', 'school_id'],
+                                                       value=admission_studied)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
     # 2AD. get all admission data
     def get_all_admission(self, year: int = None):
@@ -392,8 +396,8 @@ class DatabaseHelper:
 
         out_data = self.__create_out_function_data(execute['value'],
                                                    ['channel_id', 'admission_year', 'branch_id', 'school_id',
-                                                    'status_id', 'current_gpax', 'channel_name','dept_id'],
-                                                   [0, 2, 3, 4, 5, 6, 1,7])
+                                                    'status_id', 'current_gpax', 'channel_name', 'dept_id'],
+                                                   [0, 2, 3, 4, 5, 6, 1, 7])
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
 
@@ -459,18 +463,21 @@ class DatabaseHelper:
         for student_id in data:
             student_id_list.append(student_id[0])
 
-        result = self.__execute_delete_multiple_data(table="admission_studied", attribute="application_no",
-                                                     value=student_id_list)
-        if result['response']:
-            result = self.__execute_delete_multiple_data(table="admission_in_branch", attribute="application_no",
-                                                         value=student_id_list)
-            if result['response']:
-                result = self.__execute_delete_multiple_data(table="admission_from", attribute="application_no",
-                                                             value=student_id_list)
-                if result['response']:
-                    result = self.__execute_delete_multiple_data(table="admission", attribute="application_no",
-                                                                 value=student_id_list)
-        return result
+        try:
+            self.__execute_delete_multiple_data(table="admission_studied", attribute="application_no",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="admission_in_branch", attribute="application_no",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="admission_from", attribute="application_no",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="admission", attribute="application_no",
+                                                value=student_id_list)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ALUMNI # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -519,18 +526,21 @@ class DatabaseHelper:
         for student_id in data:
             student_id_list.append(student_id[0])
 
-        result = self.__execute_delete_multiple_data(table="alumni_graduated", attribute="alumni_id",
-                                                     value=student_id_list)
-        if result['response']:
-            result = self.__execute_delete_multiple_data(table="working", attribute="alumni_id",
-                                                         value=student_id_list)
-            if result['response']:
-                result = self.__execute_delete_multiple_data(table="apprentice", attribute="alumni_id",
-                                                             value=student_id_list)
-                if result['response']:
-                    result = self.__execute_delete_multiple_data(table="alumni", attribute="alumni_id",
-                                                                 value=student_id_list)
-        return result
+        try:
+            self.__execute_delete_multiple_data(table="alumni_graduated", attribute="alumni_id",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="working", attribute="alumni_id",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="apprentice", attribute="alumni_id",
+                                                value=student_id_list)
+            self.__execute_delete_multiple_data(table="alumni", attribute="alumni_id",
+                                                value=student_id_list)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Delete data success.")
 
     # 3AL. get working status list
     def get_working_status_list(self):
@@ -575,25 +585,26 @@ class DatabaseHelper:
         alumni_apprentice = json.loads(alumni_apprentice)
         alumni_apprentice = list(alumni_apprentice.values())
 
-        result = self.__insert_multiple_from_dataframe_into(table="alumni",
-                                                            attribute=['alumni_id', 'gpax', 'graduated_year'],
-                                                            value=alumni_table)
-        if result['response']:
-            result = self.__insert_multiple_from_dataframe_into(table="alumni_graduated",
-                                                                attribute=['alumni_id', 'branch_id'],
-                                                                value=alumni_graduated)
-            if result['response']:
-                result = self.__insert_multiple_from_dataframe_into(table="working",
-                                                                    attribute=['alumni_id', 'status_id', 'company',
-                                                                               'institution', 'job_description',
-                                                                               'faculty', 'branch', 'salary'],
-                                                                    value=alumni_working)
-                if result['response']:
-                    result = self.__insert_multiple_from_dataframe_into(table="apprentice",
-                                                                        attribute=['alumni_id', 'apprentice_id'],
-                                                                        value=alumni_apprentice)
-
-        return result
+        try:
+            self.__insert_multiple_from_dataframe_into(table="alumni",
+                                                       attribute=['alumni_id', 'gpax', 'graduated_year'],
+                                                       value=alumni_table)
+            self.__insert_multiple_from_dataframe_into(table="alumni_graduated",
+                                                       attribute=['alumni_id', 'branch_id'],
+                                                       value=alumni_graduated)
+            self.__insert_multiple_from_dataframe_into(table="working",
+                                                       attribute=['alumni_id', 'status_id', 'company', 'institution',
+                                                                  'job_description', 'faculty', 'branch', 'salary'],
+                                                       value=alumni_working)
+            self.__insert_multiple_from_dataframe_into(table="apprentice",
+                                                       attribute=['alumni_id', 'apprentice_id'],
+                                                       value=alumni_apprentice)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # INFORMATION # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -822,28 +833,28 @@ class DatabaseHelper:
         study_in_table = json.loads(study_in_table)
         study_in_table = list(study_in_table.values())
 
-        result = self.__insert_multiple_from_dataframe_into(table="student",
-                                                            attribute=['student_id', 'firstname', 'lastname', 'gender'],
-                                                            value=student_table)
-        if result['response']:
-            result = self.__insert_multiple_from_dataframe_into(table="entrance",
-                                                                attribute=['student_id', 'firstname', 'lastname',
-                                                                           'gender'],
-                                                                value=entrance_table)
-            if result['response']:
-                result = self.__insert_multiple_from_dataframe_into(table="graduated",
-                                                                    attribute=['student_id', 'school_id', 'gpax'],
-                                                                    value=graduated_table)
-                if result['response']:
-                    result = self.__insert_multiple_from_dataframe_into(table="has_status",
-                                                                        attribute=['student_id', 'status_id'],
-                                                                        value=has_status_table)
-                    if result['response']:
-                        result = self.__insert_multiple_from_dataframe_into(table="study_in",
-                                                                            attribute=['student_id', 'branch_id'],
-                                                                            value=study_in_table)
-
-        return result
+        try:
+            self.__insert_multiple_from_dataframe_into(table="student",
+                                                       attribute=['student_id', 'firstname', 'lastname', 'gender'],
+                                                       value=student_table)
+            self.__insert_multiple_from_dataframe_into(table="entrance",
+                                                       attribute=['application_no', 'student_id'],
+                                                       value=entrance_table)
+            self.__insert_multiple_from_dataframe_into(table="graduated",
+                                                       attribute=['student_id', 'school_id', 'gpax'],
+                                                       value=graduated_table)
+            self.__insert_multiple_from_dataframe_into(table="has_status",
+                                                       attribute=['student_id', 'status_id'],
+                                                       value=has_status_table)
+            self.__insert_multiple_from_dataframe_into(table="study_in",
+                                                       attribute=['student_id', 'branch_id'],
+                                                       value=study_in_table)
+            self.__db_connection.commit()
+        except pymysql.Error as e:
+            print("Error %d: %s" % (e.args[0], e.args[1]))
+            self.__db_connection.rollback()
+            return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
+        return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
     # 4ST. delete student TODO waiting for decision about this function
     def delete_student_by_year(self, year: str):
@@ -917,7 +928,8 @@ class DatabaseHelper:
             return execute
 
         out_function_data = self.__create_out_function_data(execute['value'],
-                                                            ['gpa', 'semester', 'current_gpax', 'education_year','firstname','lastname'],
+                                                            ['gpa', 'semester', 'current_gpax', 'education_year',
+                                                             'firstname', 'lastname'],
                                                             [0, 1, 2, 3, 4, 5])
 
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_function_data)
