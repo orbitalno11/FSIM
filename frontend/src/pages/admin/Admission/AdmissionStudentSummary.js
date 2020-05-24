@@ -11,9 +11,11 @@ import {
     Image
 } from "semantic-ui-react";
 
+import YearSelect from '../../../components/YearSelect'
+
 // redux
 import {connect} from 'react-redux'
-import { getAdmissionData } from '../../../redux/action/adminAdmissionAction'
+import { getAdmissionData,selectYear } from '../../../redux/action/adminAdmissionAction'
 
 import GraphBar from "../../../components/Graph/Bar";
 import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
@@ -26,33 +28,36 @@ import { Bar } from "react-chartjs-2";
 
 class AdmissionStudentSummary extends Component {
 
-    constructor(props) {
-        super(props)
+   
 
-        this.state = {
-            admissionData : null
-         
-        }
-    }
     componentDidMount() {
-        this.props.getAdmissionData()
+        this.getData()
     }
+
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        await this.props.setYear(value)
+        this.getData()
+    }
+
+    getData = () => {
+        let { selectedYear } = this.props.admission
+        this.props.getAdmissionData(selectedYear)
+        
+        
+    }
+
     render() {
-        let {admissionData} = this.props.admission
+        let {admissionData,selectedYear,yearList} = this.props.admission
         return (
             <Fragment>
                 <Container>
                     <Header as="h5" textAlign="center">
-                        ค้นหาการรับเข้าโดยปีการศึกษา{" "}
-                       
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     </Header>
                     <Divider/>
                     <Grid>
@@ -195,9 +200,8 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
     {
-        getAdmissionData: () => dispatch(getAdmissionData())
-       
-        // setYear: (2560) => dispatch(selectYear())
+        getAdmissionData: (year) => dispatch(getAdmissionData(year)) ,
+        setYear: (year) => dispatch(selectYear(year))
     }
 )
 

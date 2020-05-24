@@ -43,8 +43,8 @@ class AdmissionSummary extends Component {
     getData = () => {
         let { selectedYear } = this.props.admission
         this.props.getAdmissionTable(selectedYear)
-        this.props.getAdmissionTableThree()
-        this.props.getAdmissionTableTwo()
+        this.props.getAdmissionTableThree(selectedYear)
+        this.props.getAdmissionTableTwo(selectedYear)
         
     }
 
@@ -260,8 +260,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         getAdmissionTable: (year) => dispatch(getAdmissionTable(year)),
-        getAdmissionTableTwo: () => dispatch(getAdmissionTableTwo()),
-        getAdmissionTableThree: () => dispatch(getAdmissionTableThree()),
+        getAdmissionTableTwo: (year) => dispatch(getAdmissionTableTwo(year)),
+        getAdmissionTableThree: (year) => dispatch(getAdmissionTableThree(year)),
         setYear: (year) => dispatch(selectYear(year))
     }
 )

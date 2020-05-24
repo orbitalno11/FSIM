@@ -294,11 +294,11 @@ export const getAdmissionTable = year => dispatch => {
         })
 }
 // ตาราง 2
-export const getAdmissionTableTwo = () => (dispatch) => {
+export const getAdmissionTableTwo = year => dispatch => {
     dispatch(startLoading())
     dispatch(loadAdmissionTableTwoStart())
 
-    axios.get(`/admin/admission/analyze/status`)
+    axios.get(`/admin/admission/analyze/status?year=${year}`)
         .then(res => {
             let data = res.data.data
             
@@ -323,11 +323,11 @@ export const getAdmissionTableTwo = () => (dispatch) => {
 }
 
 // ตาราง3
-export const getAdmissionTableThree = () => dispatch => {
+export const getAdmissionTableThree = year => dispatch => {
     dispatch(startLoading())
     dispatch(loadAdmissionTableThreeStart())
 
-    axios.get(`/admin/admission/analyze/status`)
+    axios.get(`/admin/admission/analyze/status?year=${year}`)
         .then(res => {
             let data = res.data.data
             
@@ -340,7 +340,7 @@ export const getAdmissionTableThree = () => dispatch => {
             
         
             let tableData = data.table
-            console.log(tableData);
+            // console.log(tableData);
 
             const admissionTableThree = Object.entries(tableData);
               
@@ -358,11 +358,11 @@ export const getAdmissionTableThree = () => dispatch => {
         })
 }
 
-export const getAdmissionData = () => dispatch => {
+export const getAdmissionData = year => dispatch => {
     dispatch(startLoading())
     dispatch(loadAdmissionDataStart())
 
-    axios.get(`/admin/admission/analyze/channel`)
+    axios.get(`/admin/admission/analyze/channel?year=${year}`)
         .then(res => {
             let data = res.data.data
 
