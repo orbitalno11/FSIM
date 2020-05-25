@@ -33,7 +33,7 @@ class AnalyzeAdmission:
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
         value = {}
-
+       
         if data['value']:
 
             df = pd.DataFrame(data['value'])
@@ -269,9 +269,15 @@ class AnalyzeAdmission:
             all_student = len(df)
             channel_count = df.channel_id.value_counts()
 
+            
+
             group = df[(df['status_id'] == 2) | (df['status_id'] == 3)]
+            
             group = group.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
-            # group = analyze_helper.set_fullname_column(status_dic, group)
+            if group.empty:
+                group = pd.DataFrame(0, index=np.arange(len(channel_count)), columns= [2,3])
+                group['channel'] = channel_count.index
+                group.set_index('channel', inplace=True)
             group = group.rename(columns={2:"probation",3:"drop"})
 
             list_name = group.columns.tolist()
