@@ -1,7 +1,7 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import cross_origin
 
 # import constant
-import backend.Constant as Constant
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -56,6 +56,7 @@ def add_alumni_survey(current_user):
 # add survey data to firebase by year
 @admin_alumni.route('/survey', methods=['DELETE'])
 @auth.token_required
+@cross_origin(origin="https://my-fsim.web.app", headers=['Content- Type','Authorization'])
 def delete_alumni_survey(current_user):
     # this api need education year (2561, 2562), table header as a list and google sheet url
     key = request.args.get('key')

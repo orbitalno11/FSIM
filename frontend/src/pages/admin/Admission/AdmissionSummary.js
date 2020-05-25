@@ -51,6 +51,183 @@ class AdmissionSummary extends Component {
                             )
                         }
                     </Header>
+                     <Grid>     
+                         <Grid.Row> 
+                            <Header  as = "h2">
+                                จำนวนประเภทการเข้าศึกษาแต่ละสาขาวิชา ของนักศึกษาคณะวิทยาศาสตร์ มจธ.
+                                </Header>
+                            <Divider/>
+                            <Table celled structured>
+                                <Table.Header>
+                                    <Table.Row active>
+                                        <Table.HeaderCell width={2} textAlign="center">
+                                            ประเภทการเข้าศึกษา
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            เคมี
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            คณิตศาสตร์
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            สถิติ
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            วิทยาการคอมพิวเตอร์ประยุกต์
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ฟิสิกส์ประยุกต์
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            จุลชีววิทยา
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            วิทยาศาสตร์และเทคโนโลยีการอาหาร
+                                        </Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+
+                                <Table.Body>
+                                 {
+                                    admissionTable !== null ? (
+                                        admissionTable.map((item, index) => (
+                                            <Table.Row textAlign="center" key={index}>
+                                                <Table.Cell>{item[0]}</Table.Cell>
+                                                <Table.Cell>{item[1]["เคมี "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["คณิตศาสตร์ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["สถิติ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาการคอมพิวเตอร์ประยุกต์ "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["ฟิสิกส์ประยุกต์ (หลักสูตรสองภาษา) "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["จุลชีววิทยา "]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาศาสตร์และเทคโนโลยีการอาหาร "]}</Table.Cell>
+                                            </Table.Row>
+                                        )) 
+                                    )                                  
+                                    : 
+                                     (
+                                            <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                          
+                                      )
+                                }
+                            
+                                
+                                </Table.Body>
+                            </Table>
+                        </Grid.Row>
+                    </Grid>
+                    <Grid>     
+                         <Grid.Row> 
+                            <Header  as = "h2">
+                                ค่าเฉลี่ยประเภทการเข้าศึกษาแต่ละสาขาวิชาของนักศึกษาคณะวิทยาศาสตร์ มจธ.
+                                </Header>
+                            <Divider/>
+                            <Table celled structured>
+                                <Table.Header>
+                                    <Table.Row active>
+                                        <Table.HeaderCell width={3} textAlign="center">
+                                            ประเภทการเข้าศึกษา
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={3} textAlign="center">
+                                            จำนวนคน
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={3} textAlign="center">
+                                            Max
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={3} textAlign="center">
+                                            Min
+                                        </Table.HeaderCell>
+                                    
+                                    </Table.Row>
+                                </Table.Header>
+
+                                <Table.Body>
+                                {
+                                    admissionTableTwo !== null ? (
+                                        admissionTableTwo.map((item, index) => (
+                                            <Table.Row textAlign="center" key={index}>
+                                                <Table.Cell>{item["channel"]}</Table.Cell>
+                                                <Table.Cell>{item["count"]}</Table.Cell>
+                                                <Table.Cell>{item["max_data"]}</Table.Cell>
+                                                <Table.Cell>{item["min_data"]}</Table.Cell>
+                                            </Table.Row>
+                                        ))
+                                    )  : 
+                                    (
+                                           <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                         
+                                     )
+                                }
+                                </Table.Body>
+                            </Table>
+                        </Grid.Row>
+                    </Grid>   
+                    <Grid>     
+                         <Grid.Row> 
+                            <Header  as = "h2">
+                                ประเภทการรับเข้าศึกษาของคณะวิทยาศาสตร์ มจธ.
+                                </Header>
+                            <Divider/>
+                            <Table celled structured>
+                                <Table.Header>
+                                    <Table.Row active>
+                                        <Table.HeaderCell width={2} textAlign="center">
+                                            ประเภทการเข้าศึกษา
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            รวมจำนวนนักศึกษา (คน)
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ร้อยละ(จากนักศึกษาทั้งหมด)
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            จำนวนนักศึกษาตกออก(คน)​
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ร้อยละนักศึกษาตกออก(จากนักศึกษาแต่ละประเภท)​
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ร้อยละนักศึกษาตกออก(จากนักศึกษาทั้งหมด)​
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            จำนวนนักศึกษาติดวิทยาทัณฑ์(คน)​
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ร้อยละของนักศึกษาวิทยาทัณฑ์(จากแต่ละประเภท)​
+                                        </Table.HeaderCell>
+                                        <Table.HeaderCell width={1} textAlign="center">
+                                            ร้อยละนักศึกษาวิทยาทัณฑ์จากนักศึกษาทั้งหมด​
+                                        </Table.HeaderCell>
+
+                                     
+                                    </Table.Row>
+                                </Table.Header>
+
+                                <Table.Body>
+                                {
+                                    admissionTableThree !== null ? (
+                                        admissionTableThree.map((item, index) => (
+                                            <Table.Row textAlign="center" key={index}>
+                                                <Table.Cell>{item[0]}</Table.Cell>
+                                                <Table.Cell>{item[1]["all"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_all_student"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Type_ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Stu_ตกออก"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["วิทยาฑัณฑ์"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Type_วิทยาฑัณฑ์"]}</Table.Cell>
+                                                <Table.Cell>{item[1]["per_Stu_วิทยาฑัณฑ์"]}</Table.Cell>
+                                            </Table.Row>
+                                        ))
+                                    )    : 
+                                    (
+                                           <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                         
+                                     )
+                                }
+                                </Table.Body>
+                            </Table>
+                        </Grid.Row>
+                    </Grid>         
                     {
                         (admissionTable !== null) ?
                             (

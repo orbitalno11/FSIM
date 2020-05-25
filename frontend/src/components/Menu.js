@@ -36,7 +36,7 @@ class UserNavbar extends Component {
             <Container>
               <Navbar expand="lg">
                 <Navbar.Brand href="/">
-                  <Image className="logo" src={logo} />
+                  <Image className="fs-logo-navbar" src={logo} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse

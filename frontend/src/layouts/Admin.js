@@ -12,8 +12,6 @@ import Student from "../pages/admin/Student";
 import Information from "../pages/admin/Information/Information";
 import Department from '../pages/admin/Information/Department'
 
-
-
 // redux
 import { connect } from 'react-redux'
 

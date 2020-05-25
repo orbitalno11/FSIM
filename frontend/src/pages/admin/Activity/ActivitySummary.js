@@ -52,7 +52,7 @@ class ActivitySummary extends Component {
                     <Grid textAlign='center'>
                         <Grid.Row>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
@@ -68,7 +68,7 @@ class ActivitySummary extends Component {
                                 </Card>
                             </Grid.Column>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>

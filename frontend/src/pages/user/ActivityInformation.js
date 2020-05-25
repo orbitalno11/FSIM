@@ -50,34 +50,33 @@ class ActivityInformation extends Component {
 
         return (
             <Fragment>
-                <Container className="white-background">
+                <Container>
                     {
                         yearList != null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
                         )
                     }
-                    <Container className="mb-5">
-                        <Row>
-                            <Col sm={12} lg={6} className="my-2">
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
+                    <Row>
+                        <Col sm={12} lg={6} className="my-2">
+                            <Card className="fs-cd-default">
+                                <Card.Header as="h5">
+                                    กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
-                                    <Card.Content>
-                                        {
-                                            activityData !== null ? (
-                                                <Bar data={setupNoneStackBarChart(activityData.joinByActivity)} legend={{ display: false }} />
-                                            ) : (
-                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
-                                                )
-                                        }
-                                    </Card.Content>
-                                </Card>
-                            </Col>
-                            <Col sm={12} lg={6} className="my-2">
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
+                                <Card.Content>
+                                    {
+                                        activityData !== null ? (
+                                            <Bar data={setupNoneStackBarChart(activityData.joinByActivity)} legend={{ display: false }} />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Col>
+                        <Col sm={12} lg={6} className="my-2">
+                            <Card className="fs-cd-default">
+                                <Card.Header as="h5">
+                                    กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
                                         {
