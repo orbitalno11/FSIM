@@ -228,6 +228,8 @@ class AnalyzeAdmission:
 
 
             group_brance = df.groupby(['channel_id','branch_id']).size().unstack(fill_value=0)
+            group_brance = analyze_helper.check_list_column(branch_data.index,group_brance)
+            group_brance = analyze_helper.check_list(channel_data.index,group_brance)
             group_brance = analyze_helper.set_fullname_column(branch_dict, group_brance)
             group_brance = analyze_helper.set_fullname_index(channel_dict, group_brance)
             branch_list =group_brance.columns.tolist()
