@@ -35,13 +35,13 @@ const StudentData = ({ data }) => {
                     <Row >
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header as="h4" align="center">
-                                    จำนวนนักศึกษาต่อสาขา
+                                <Card.Header align="center">
+                                    <h3>จำนวนนักศึกษาต่อสาขา</h3>
                                 </Card.Header>
                                 <Card.Content>
                                     {
                                         data !== null ? (
-                                            <Piechart data={setupPieChart(data.branch)} />
+                                            <Piechart data={setupPieChart(data.branch)}  />
                                         ) : (
                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                             )
@@ -51,8 +51,8 @@ const StudentData = ({ data }) => {
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header as="h4" align="center">
-                                   สถานะของนักศึกษาแต่ละชั้นปี
+                                <Card.Header align="center">
+                                    <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
                                 </Card.Header>
                                 <Card.Content>
                                     {
@@ -69,8 +69,8 @@ const StudentData = ({ data }) => {
                     <Row>
                         <Col sm={12} lg={12} className="my-2">
                             <Card fluid>
-                                <Card.Header as="h4" align="center">
-                                    สถานะของนักศึกษาแต่ละสาขา
+                                <Card.Header align="center">
+                                    <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
                                 </Card.Header>
                                 <Card.Content>
                                     {

@@ -34,7 +34,17 @@ const option_res = {
 		labels: {
 			fontSize: 8
 		}
-	}
+	},
+	scales: {
+		yAxes: [{
+		  display: false,
+		}],
+		xAxes: [{
+		  ticks: {
+			display: false //this will remove only the label
+		  }
+		}]
+	  }
 }
 
 class Piechart extends Component {

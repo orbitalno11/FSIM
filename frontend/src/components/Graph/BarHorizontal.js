@@ -11,7 +11,8 @@ const option = {
     // Change options for ALL labels of THIS CHART
     datalabels: {
       color: '#000000',
-      anchor: 'end'
+      anchor: 'end',
+      display: false
     }
   },
   legend: {
@@ -26,14 +27,26 @@ const option_res = {
     // Change options for ALL labels of THIS CHART
     datalabels: {
       color: '#000000',
-      anchor: 'end'
+      anchor: 'end',
+      display: false
     }
   }, scales: {
+
     yAxes: [{
       ticks: {
         fontSize: 8
       }
+    }],
+    xAxes: [{
+      ticks: {
+        display: false //this will remove only the label
+      }
     }]
+    // yAxes: [{
+    //   ticks: {
+    //     fontSize: 8
+    //   }
+    // }]
   },
   legend: {
     labels: {
