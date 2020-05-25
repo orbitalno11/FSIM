@@ -33,8 +33,8 @@ const StudentData = ({ data }) => {
                     <Row >
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header align="center">
-                                    <h3>จำนวนนักศึกษาต่อสาขา</h3>
+                                <Card.Header as="h4" align="center">
+                                    จำนวนนักศึกษาต่อสาขา
                                 </Card.Header>
                                 <Card.Content>
                                     {
@@ -49,8 +49,8 @@ const StudentData = ({ data }) => {
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
-                                <Card.Header align="center">
-                                    <h3>สถานะของนักศึกษาแต่ละชั้นปี</h3>
+                                <Card.Header as="h4" align="center">
+                                   สถานะของนักศึกษาแต่ละชั้นปี
                                 </Card.Header>
                                 <Card.Content>
                                     {
@@ -67,8 +67,8 @@ const StudentData = ({ data }) => {
                     <Row>
                         <Col sm={12} lg={12} className="my-2">
                             <Card fluid>
-                                <Card.Header align="center">
-                                    <h3>สถานะของนักศึกษาแต่ละสาขา</h3>
+                                <Card.Header as="h4" align="center">
+                                    สถานะของนักศึกษาแต่ละสาขา
                                 </Card.Header>
                                 <Card.Content>
                                     {

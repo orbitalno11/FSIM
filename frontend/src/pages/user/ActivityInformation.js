@@ -56,7 +56,7 @@ class ActivityInformation extends Component {
                         <Row>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
@@ -72,7 +72,7 @@ class ActivityInformation extends Component {
                             </Col>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
