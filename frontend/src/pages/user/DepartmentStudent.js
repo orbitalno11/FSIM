@@ -98,7 +98,7 @@ class DepartmentStudent extends Component {
                         <Row >
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
@@ -108,7 +108,7 @@ class DepartmentStudent extends Component {
                             </Col>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
@@ -119,7 +119,7 @@ class DepartmentStudent extends Component {
 
                             <Col sm={12} lg={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
@@ -132,14 +132,14 @@ class DepartmentStudent extends Component {
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
                     <Container>
-                        <Header textAlign="center" as="h2" className="my-5">
+                        <Header textAlign="center" as="h4" className="my-5">
                             จำนวนนักศึกษาทุกชั้นปี {department}
                         </Header>
                         <Divider />
                         <Row >
                             <Col lg={6} md={4} sm={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
@@ -149,7 +149,7 @@ class DepartmentStudent extends Component {
                             </Col>
                             <Col sm={12} md={4} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
@@ -160,7 +160,7 @@ class DepartmentStudent extends Component {
 
                             <Col sm={12} md={4} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>

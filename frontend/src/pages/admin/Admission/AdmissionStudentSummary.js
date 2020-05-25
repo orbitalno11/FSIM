@@ -53,7 +53,7 @@ class AdmissionStudentSummary extends Component {
                                     return (
                                         <Grid.Column mobile="16" computer="8" className="my-3" key={index}>
                                             <Card className="fs-cd-default">
-                                                <Card.Header as="h3">
+                                                <Card.Header as="h4">
                                                     กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
                                                 </Card.Header>
                                                 <Card.Content >

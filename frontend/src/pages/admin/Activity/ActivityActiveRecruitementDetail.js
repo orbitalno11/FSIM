@@ -36,12 +36,12 @@ class ActiveRecruitment extends Component {
                         <Grid.Row >
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {project_name} แต่ละสาขา
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            dataByBranch !== null ? <Bar data={dataByBranch} legend={{ display: false }} options={labelTopOfChart} /> : <h1>ไม่พบข้อมูล</h1>
+                                            dataByBranch !== null ? <Bar data={dataByBranch} legend={{ display: false }} options={labelTopOfChart} /> : <h3 className="text-center">ไม่พบข้อมูล</h3>
                                         }
                                     </Card.Content>
                                 </Card>
@@ -50,12 +50,12 @@ class ActiveRecruitment extends Component {
                         <Grid.Row >
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ {project_name} แต่ละสาขา
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            dataByGPAX !== null ? <Bar data={dataByGPAX} legend={{ display: false }} options={labelTopOfChart} /> : <h1>ไม่พบข้อมูล</h1>
+                                            dataByGPAX !== null ? <Bar data={dataByGPAX} legend={{ display: false }} options={labelTopOfChart} /> : <h3 className="text-center">ไม่พบข้อมูล</h3>
                                         }
                                     </Card.Content>
                                 </Card>

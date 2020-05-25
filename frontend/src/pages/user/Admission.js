@@ -150,7 +150,7 @@ class Admission extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
                                         {selectedYear}
                                     </Card.Header>
@@ -168,7 +168,7 @@ class Admission extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี {selectedYear}
                                     </Card.Header>
                                     <Card.Content>
@@ -184,7 +184,7 @@ class Admission extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา {selectedYear}
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='fs-font-18'>
@@ -209,7 +209,7 @@ class Admission extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดง 5 อันดับโรงเรียน {selectedYear}
                                     </Card.Header>
                                     <Card.Content>
@@ -225,7 +225,7 @@ class Admission extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี {selectedYear} และ {parseInt(selectedYear) + 1}
                                     </Card.Header>
                                     <Card.Content>

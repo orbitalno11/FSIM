@@ -87,7 +87,7 @@ class ActiveRecruitment extends Component {
                                         <Row>
                                             <Col sm={12} lg={6} className="my-2">
                                                 <Card className="fs-cd-default">
-                                                    <Card.Header as="h5">
+                                                    <Card.Header as="h4">
                                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
@@ -99,7 +99,7 @@ class ActiveRecruitment extends Component {
 
                                             <Col sm={12} lg={6} className="my-2">
                                                 <Card className="fs-cd-default">
-                                                    <Card.Header as="h5">
+                                                    <Card.Header as="h4">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
