@@ -145,7 +145,7 @@ class AlumniManage extends Component {
                     )
                 }
 
-                <Table >
+                <Table responsive hover>
                     <thead>
                         <tr className="text-center">
                             <th >ลำดับ</th>
