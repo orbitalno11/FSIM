@@ -73,29 +73,36 @@ class AnalyzeAdmission:
             if year:
                 data_split_now = df.loc[df['admission_year'] == int(year)]
 
-            count_by_branch = data_split_now.groupby(['channel_id', 'dept_id'])['current_gpax'].mean().unstack(
-                fill_value=0)
-            count_by_branch = count_by_branch.round(2)
-            count_by_branch_check_branch = analyze_helper.check_list_column(deparment_data.index, count_by_branch)
-            count_by_branch_check_channel = analyze_helper.check_list(channel_sample.index,
-                                                                      count_by_branch_check_branch)
             round_list=channel_sample['round_id'].unique().tolist()
+            
             gpa_by_branch = []
             
             for i in round_list: 
-                count_by_branch_by_round=[]
-                gpa_by_channel = []
-                list_channel = channel_sample[channel_sample['round_id']==i]
-                list_channel_channel = list_channel.index.unique().tolist() 
-                for l_channel in list_channel_channel: 
-                    count_by_branch_by_channel={}
-                    check_by_round_channel = count_by_branch_check_channel[count_by_branch_check_channel.index == l_channel]
-                    check_by_round_channel = analyze_helper.set_fullname_column(deparment_dict, check_by_round_channel)
-                    check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
-                    count_by_branch_by_channel['fullname']=channel_dic[l_channel]
-                    count_by_branch_by_channel['gpa_by_branch']=check_by_round_channel.to_dict('index')
-                    count_by_branch_by_round.append(count_by_branch_by_channel)
-                gpa_by_branch.append(count_by_branch_by_round)
+                gpa_by_count = {}
+                channel_list = channel_sample[channel_sample['round_id']==i]
+                list_channel = channel_list.index.tolist()
+                count_by_branch= data_split_now['channel_id'].isin(list_channel)
+                count_by_branch= data_split_now[count_by_branch]
+                count_by_branch = count_by_branch.groupby(['channel_id', 'dept_id'])['current_gpax'].mean().unstack(
+                    fill_value=0)
+                count_by_branch = count_by_branch.round(2)
+                count_by_branch_check_branch = analyze_helper.check_list_column(deparment_data.index, count_by_branch)
+                count_by_branch_check_channel = analyze_helper.check_list(channel_list.index,
+                                                                        count_by_branch_check_branch)
+                check_by_round_channel = analyze_helper.set_fullname_column(deparment_dict, count_by_branch_check_branch)
+                check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
+                gpa_by_count['gpa_by_branch']=check_by_round_channel.to_dict('index')
+                gpa_by_branch.append(gpa_by_count)   
+                                               
+
+                # count_by_branch_by_round=[]
+                # gpa_by_channel = []
+                # list_channel = channel_sample[channel_sample['round_id']==i]
+                # list_channel_channel = list_channel.index.unique().tolist() 
+                # for l_channel in list_channel_channel: 
+                    # count_by_branch_by_channel={}
+                    
+                # gpa_by_branch.append(count_by_branch_by_round)
 
             # if branch_id:
             #     data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
@@ -145,7 +152,7 @@ class AnalyzeAdmission:
             
             value = {
                 'count_channel': count_channel_check_channel.to_dict(),
-                'count_by_branch': dict(zip(round_list, gpa_by_branch)),
+                'count_by_branch':  dict(zip(round_list, gpa_by_branch)),
                 'count_by_school': [sort_count_school_fullname.to_dict()],
                 'compare_year': [compare_year_success.to_dict('index')],
                 'count_by_status': [count_by_status_fullname.to_dict('index')]
