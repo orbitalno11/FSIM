@@ -102,7 +102,10 @@ class DepartmentStudent extends Component {
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            studentByBranch!==null? <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                       
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -112,7 +115,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            studentByYear!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                   
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -123,7 +129,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            branchByStatus!==null?   <Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                      
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -143,7 +152,10 @@ class DepartmentStudent extends Component {
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            branchByStatus!==null?   <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -153,7 +165,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            studentByYear!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -164,7 +179,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            branchByStatus!==null?<Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
