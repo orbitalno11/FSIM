@@ -102,7 +102,7 @@ class DepartmentStudent extends Component {
                 <MediaQuery minDeviceWidth={minDeviceWidth}>
                     <Container>
                         <Header textAlign="center" as="h2" className="my-5">
-                            จำนวนนักศึกษาทุกชั้นปี {department}
+                            กราฟแสดงการวิเคราะห์นักศึกษาปัจจุบัน {department}
                         </Header>
                         <Divider />
                         <Row >

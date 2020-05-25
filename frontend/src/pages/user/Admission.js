@@ -142,11 +142,15 @@ class Admission extends Component {
         return (
             <Fragment>
                 <Container >
-                    {
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้ารับการศึกษารายปี
+                        </Header>
+                    <div className="my-5"> {
                         yearList !== null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
                         )
-                    }
+                    }</div>
+                   
                     <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>

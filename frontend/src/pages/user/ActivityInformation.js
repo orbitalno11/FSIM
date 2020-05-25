@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 import {
     Card,
     Container,
+    Header
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
@@ -47,11 +48,17 @@ class ActivityInformation extends Component {
         return (
             <Fragment>
                 <Container >
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้าร่วมกิจกรรมประชาสัมพันธ์
+
+                        </Header>
+                <div className="my-5">
                     {
                         yearList != null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
                         )
                     }
+                    </div>
                     <Container className="mb-5">
                         <Row>
                             <Col sm={12} lg={6} className="my-2">

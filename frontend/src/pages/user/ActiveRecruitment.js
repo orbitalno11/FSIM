@@ -4,7 +4,8 @@ import axios from 'axios'
 
 import {
     Card,
-    Container
+    Container,
+    Header
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
@@ -74,11 +75,16 @@ class ActiveRecruitment extends Component {
         return (
             <Fragment>
                 <Container>
-                    {
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้าร่วมโครงการรับเข้า
+
+                        </Header>
+                    <div className="my-5"> {
                         yearList != null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
                         )
-                    }
+                    }</div>
+                   
                     {
                         project_set.length !== 0 ?
                             (project_set.map((item, index) => {

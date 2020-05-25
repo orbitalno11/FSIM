@@ -4,7 +4,8 @@ import {
     Grid,
     Container,
     Card,
-    Divider
+    Divider,
+    Header
 } from "semantic-ui-react";
 
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
@@ -76,7 +77,10 @@ class Alumni extends Component {
             <Fragment>
 
                 <Container  >
-                    
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์ศิษย์เก่า
+                        </Header>
+                <div className="my-5">
                     {
 
                         yearList.length !== 0 ?
@@ -88,6 +92,7 @@ class Alumni extends Component {
                             ) : null
 
                     }
+                    </div>
                     <Divider/>
                     <Grid textAlign="center">
                         <Grid.Row >
