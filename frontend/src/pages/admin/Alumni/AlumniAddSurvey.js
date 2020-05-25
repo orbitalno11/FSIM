@@ -284,7 +284,10 @@ class AlumniAddSurvey extends Component {
                     <Form.Row >
                         <Col xs={12} md={6}>
                             <Form.Group>
-                                <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>
+                                {
+                                     tableHeader !== null? <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>:null
+                                }
+                               
                                 <div onChange={this.handleFormChange}>
                                     {
                                         tableHeader !== null && list_personal.map((item, index) => (
@@ -318,7 +321,10 @@ class AlumniAddSurvey extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <Form.Group>
-                                <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>
+                                {
+                                    tableHeader !== null? <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>:null
+                                }
+                               
                                 <div onChange={this.handleHeaderSelect}>
                                     {
                                         tableHeader !== null && tableHeader.map((item, index) => (

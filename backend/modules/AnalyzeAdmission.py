@@ -39,11 +39,17 @@ class AnalyzeAdmission:
             df = pd.DataFrame(data['value'])
             
             # real data  
-            deparment = connect.get_department()
-            deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
-            # branch_data = analyze_helper.set_branch(branch['value'])
-            deparment_data = deparment[['dept_id','dept_name']]
+            # deparment = connect.get_department()
+            # deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
+            # # branch_data = analyze_helper.set_branch(branch['value'])
+            # deparment_data = deparment[['dept_id','dept_name']]
+            # deparment_data.set_index('dept_id',inplace=True)
+            
+            deparment = connect.get_department_ds()
+            deparment_data = pd.DataFrame(deparment['value']) 
+            deparment_data = deparment_data[['dept_id','dept_name']]
             deparment_data.set_index('dept_id',inplace=True)
+
             status_data = analyze_helper.set_fullname(connect.get_status_list())
             channel_data = analyze_helper.set_fullname(connect.get_admission_channel())
             channel_sample = self.split_channel(channel_data)
@@ -166,8 +172,9 @@ class AnalyzeAdmission:
 
             data_split = self.split_channel(df)
             channel_round = channel_sample.channel_round.drop_duplicates().to_list()
-            analyze_by_round = []
+            analyze_by_round=[]
             for i in channel_round:
+                analyze_by_round_s = {}
                 data_in_round = data_split[data_split['channel_round'] == i]
 
                 if data_in_round.empty:
@@ -175,7 +182,11 @@ class AnalyzeAdmission:
                     data_group = data_channel_sample.groupby(['channel_round', 'channel_name']).size().unstack(
                         fill_value=0)
                     data_group.iloc[:] = 0
-                    analyze_by_round.append(data_group.to_dict('index'))
+                    data_group.reset_index(inplace=True)
+                    name = data_group.iloc[0,0]
+                    data_group=data_group.drop(columns=['channel_round'])
+                    analyze_by_round_s['name'] = name
+                    analyze_by_round_s['analyze'] = data_group.to_dict('index')
 
 
                 else:
@@ -183,8 +194,13 @@ class AnalyzeAdmission:
                     channel_sample_selector = (channel_sample[channel_sample['channel_round'] == i])
                     data_group_check_channel = analyze_helper.check_list_column(channel_sample_selector.channel_name,
                                                                                 data_group)
-                    analyze_by_round.append(data_group_check_channel.to_dict('index'))
-
+                    data_group_check_channel.reset_index(inplace=True)
+                    name = data_group_check_channel.iloc[0,0]
+                    data_group_check_channel=data_group_check_channel.drop(columns=['channel_round'])
+                    
+                    analyze_by_round_s['name'] = name
+                    analyze_by_round_s['analyze'] = data_group_check_channel.to_dict('index')
+                analyze_by_round.append(analyze_by_round_s)
             value = {
                 'analyze_by_round': analyze_by_round
             }
@@ -221,7 +237,7 @@ class AnalyzeAdmission:
             group_brance = df.groupby(['channel_id','branch_id']).size().unstack(fill_value=0)
             group_brance = analyze_helper.set_fullname_column(branch_dict, group_brance)
             group_brance = analyze_helper.set_fullname_index(channel_dict, group_brance)
-
+            branch_list =group_brance.columns.tolist()
             channel_id_list=channel_data.index.tolist()
 
             table_count = []
@@ -242,33 +258,33 @@ class AnalyzeAdmission:
                 by_channel['min_data'] = str(min_data)
                 table_count.append(by_channel)
 
-                
+            
             all_student = len(df)
             channel_count = df.channel_id.value_counts()
 
             group = df[(df['status_id'] == 2) | (df['status_id'] == 3)]
             group = group.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
-            group = analyze_helper.set_fullname_column(status_dic, group)
-            
+            # group = analyze_helper.set_fullname_column(status_dic, group)
+            group = group.rename(columns={2:"probation",3:"drop"})
+
             list_name = group.columns.tolist()
             group = pd.merge(channel_count, group, left_index=True, right_index=True, how='inner')
             group.rename(columns={group.columns[0]: "all"}, inplace=True)
             all_admission = group['all'].sum()
             for name in list_name:
-                group['per_Type_' + name] = group.apply(lambda row: (row[name] / row['all']) * 100, axis=1)
-                group['per_Stu_' + name] = group.apply(lambda row: (row[name] / all_student) * 100, axis=1)
+                group['per_Type_' + str(name)] = group.apply(lambda row: (row[name] / row['all']) * 100, axis=1)
+                group['per_Stu_' + str(name)] = group.apply(lambda row: (row[name] / all_student) * 100, axis=1)
 
             group['per_all_student'] = (group['all']/all_admission)* 100
             group = group.round(2).sort_index()
             
-
-            
             group_check_index = analyze_helper.check_list(channel_data.index, group)
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
             value = {
+                'branch' : branch_list,
                 'count_by_brance' : group_brance.to_dict('index'),
                 'all_student': str(all_student),
-                'table': group_fullname.to_dict('index'),
+                'table': group_check_index.to_dict('index'),
                 'table_count' : table_count,
             }
 

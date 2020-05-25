@@ -129,6 +129,7 @@ class AnalyzeActivity:
 
         if data['value']:
             data = pd.DataFrame(data['value'])
+            
             activity = analyze_helper.set_fullname(connect.get_activity_list())
             dupli_activity = activity.activity_name.duplicated(keep=False)
             activity.loc[dupli_activity, 'activity_name'] = activity.loc[dupli_activity, 'activity_name'] + ' (' + \
@@ -138,14 +139,21 @@ class AnalyzeActivity:
             activityAr = activityAr[['activity_name']]
             activity_dict = analyze_helper.set_dict(activityAr.index, activityAr.activity_name)
 
-            get_branch=connect.get_department(None)
+            # get_branch=connect.get_department(None)
 
-            branch=[]
-            for i in get_branch['value']: 
-                for index in range(len(i['branch'])):
-                    branch.append(i['branch'][index])
-            branch_data = analyze_helper.set_branch(branch)
-            branch_data.drop(columns=['amount_student'],inplace=True)
+            # branch=[]
+            # for i in get_branch['value']: 
+            #     for index in range(len(i['branch'])):
+            #         branch.append(i['branch'][index])
+            # branch_data = analyze_helper.set_branch(branch)
+            # branch_data.drop(columns=['amount_student'],inplace=True)
+            # branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+
+            get_branch = connect.get_department_ds()
+            get_branch = pd.DataFrame(get_branch['value'])
+            
+            branch_data = get_branch[['branch_id','branch_name']]
+            branch_data = branch_data.set_index('branch_id')
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
             # activity_data keep data activity such as activity_year and activity_budget
@@ -156,14 +164,14 @@ class AnalyzeActivity:
 
             gpax_school = data.groupby(['school_name'])['gpax'].mean()
             sort_gpax_school = gpax_school.sort_values(ascending=False).head()
-            analyze_by_activity = data.groupby(['activity_id', 'branch_name']).size().unstack(fill_value=0)
-            analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
+            analyze_by_activity = data.groupby(['project_id', 'branch_name']).size().unstack(fill_value=0)
+            # analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
             analyze_by_activity = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
 
-            analyze_by_activity_gpax = data.groupby(['activity_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
-            analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
+            analyze_by_activity_gpax = data.groupby(['project_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
+            # analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
             analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
@@ -195,14 +203,22 @@ class AnalyzeActivity:
             project = project[project['project_type']==1]
             project.drop(columns=['project_type'],inplace=True)
             project_dict = analyze_helper.set_dict(project.index, project.project_name)
-            get_branch=connect.get_department(None)
 
-            branch=[]
-            for i in get_branch['value']: 
-                for index in range(len(i['branch'])):
-                    branch.append(i['branch'][index])
-            branch_data = analyze_helper.set_branch(branch)
-            branch_data.drop(columns=['amount_student'],inplace=True)
+
+            # get_branch=connect.get_department(None)
+            # branch=[]
+            # for i in get_branch['value']: 
+            #     for index in range(len(i['branch'])):
+            #         branch.append(i['branch'][index])
+            # branch_data = analyze_helper.set_branch(branch)
+            # branch_data.drop(columns=['amount_student'],inplace=True)
+            # branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+
+            get_branch = connect.get_department_ds()
+            get_branch = pd.DataFrame(get_branch['value'])
+            
+            branch_data = get_branch[['branch_id','branch_name']]
+            branch_data = branch_data.set_index('branch_id')
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
             list_project = project.index.tolist()

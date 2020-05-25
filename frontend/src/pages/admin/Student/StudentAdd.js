@@ -44,7 +44,7 @@ const AddGpax = ({ submit, selectFile }) => (
     </Fragment>
 )
 
-const AddStudent = ({ submit, selectFile, year }) => (
+const AddStudent = ({ submit, selectFile }) => (
     <Fragment>
         <Form id="addStudent" onSubmit={submit}>
             <Form.Group>
@@ -66,7 +66,10 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedFile: null
+            selectedFile: null,
+            savegpax: false,
+            saveupload: false,
+
         }
     }
 
@@ -77,6 +80,9 @@ class StudentAdd extends Component {
         form.append('year', element.educationYear.value)
         form.append('semester', element.semester.value)
         form.append('upload', this.state.selectedFile)
+        this.setState({
+            savegpax: true
+        })
         this.props.addStudentGpax(form)
     }
 
@@ -84,21 +90,36 @@ class StudentAdd extends Component {
         event.preventDefault()
         let form = new FormData()
         form.append('upload', this.state.selectedFile)
+        this.setState({
+            saveupload: true
+        })
         this.props.addStudent(form)
     }
 
     handleSelectFile = event => {
         let file = event.target.files[0]
         this.setState({
-            selectedFile: file
+            selectedFile: file,
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
+        let { savegpax,saveupload } = this.state
         let status = this.props.student.actionResult
         if ((prevProps.actionResult !== status) && (status === true)) {
-            document.getElementById("addStudent").reset();
-            document.getElementById("addGpax").reset();
+            if (savegpax === true) {
+                this.setState({
+                    savegpax: false
+                })
+                document.getElementById("addGpax").reset();
+
+            } else if (saveupload === true) {
+                this.setState({
+                    saveupload: false
+                })
+                document.getElementById("addStudent").reset();
+            }
+
         }
     }
 
@@ -125,7 +146,7 @@ class StudentAdd extends Component {
             },
             {
                 tabId: '2',
-                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} year={yearList} />
+                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} />
             }
         ]
 

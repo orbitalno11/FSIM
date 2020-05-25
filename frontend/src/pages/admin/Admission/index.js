@@ -20,7 +20,7 @@ class Admission extends Component {
 
     render() {
         let tab = ["สรุปข้อมูลนักศึกษาใหม่", "สรุปข้อมูลการรับนักศึกษา", "จัดการข้อมูล", "เพิ่มข้อมูลการรับนักศึกษาใหม่"]
-        let pane = [<AdmissionSummary/>,<AdmissionStudentSummary/> , < AdmissionManage/>,<AdmissionAdd/>]
+        let pane = [<AdmissionSummary />, <AdmissionStudentSummary />, < AdmissionManage />, <AdmissionAdd />]
         let { loading } = this.props.website
         return (
             <Fragment>

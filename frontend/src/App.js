@@ -37,6 +37,8 @@ import AdminMenu from './components/AdminMenu'
 const store = createStore(rootReducer, applyMiddleware(thunk,logger));
 // logger
 
+axios.defaults.baseURL="http://127.0.0.1:5000/api/v1/"
+
 const token = localStorage.FSIMIdToken
 if (token){
     const decodeToken = jwtDecode(token)

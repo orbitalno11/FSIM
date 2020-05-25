@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
         case LOAD_SURVEY_YEAR_FAILED:
             return {
                 ...state,
-                yearList: action.yearList,
+                yearList: [],
                 error: action.error
             }
 

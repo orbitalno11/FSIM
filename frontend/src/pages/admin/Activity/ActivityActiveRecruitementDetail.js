@@ -9,6 +9,8 @@ import {
 import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar } from 'react-chartjs-2';
 
+import { labelTopOfChart } from '../../../Constant'
+
 
 class ActiveRecruitment extends Component {
 
@@ -39,7 +41,7 @@ class ActiveRecruitment extends Component {
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            dataByBranch !== null ? <Bar data={dataByBranch} legend={{ display: false }} /> : <h1>ไม่พบข้อมูล</h1>
+                                            dataByBranch !== null ? <Bar data={dataByBranch} legend={{ display: false }} options={labelTopOfChart} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>
@@ -53,7 +55,7 @@ class ActiveRecruitment extends Component {
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            dataByGPAX !== null ? <Bar data={dataByGPAX} legend={{ display: false }} /> : <h1>ไม่พบข้อมูล</h1>
+                                            dataByGPAX !== null ? <Bar data={dataByGPAX} legend={{ display: false }} options={labelTopOfChart} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>
