@@ -4,9 +4,9 @@ import {
     Divider,
     Grid,
     Header,
-    Container,
-    Table
+    Container
 } from "semantic-ui-react";
+import { Table} from 'react-bootstrap'
 
 import YearSelect from '../../../components/YearSelect'
 
@@ -54,41 +54,41 @@ class AdmissionSummary extends Component {
                                         <Grid.Row>
                                             <Header as="h3">จำนวนประเภทการเข้าศึกษาแต่ละสาขาวิชา ของนักศึกษาคณะวิทยาศาสตร์ มจธ.</Header>
                                             <Divider />
-                                            <Table celled structured>
-                                                <Table.Header>
-                                                    <Table.Row active>
-                                                        <Table.HeaderCell width={2} textAlign="center">ประเภทการเข้าศึกษา </Table.HeaderCell>
+                                            <Table responsive   hover>
+                                                <thead>
+                                                    <tr >
+                                                        <th style={{width:'40%'}} >ประเภทการเข้าศึกษา </th>
                                                         {
                                                             admissionTable['branch'].map((item, index) => {
                                                                 return (
-                                                                    <Table.HeaderCell key={index} width={1} textAlign="center">
+                                                                    <th className="text-center" key={index} >
                                                                         {item}
-                                                                    </Table.HeaderCell>
+                                                                    </th>
                                                                 )
                                                             })
                                                         }
-                                                    </Table.Row>
-                                                </Table.Header>
+                                                    </tr>
+                                                </thead>
 
-                                                <Table.Body>
+                                                <tbody>
                                                     {
                                                         admissionTable !== null && (
                                                             admissionTable['branchData'].map((item, index) => (
-                                                                <Table.Row textAlign="center" key={index}>
-                                                                    <Table.Cell>{item[0]}</Table.Cell>
+                                                                <tr   key={index}>
+                                                                    <td>{item[0]}</td>
                                                                     {
                                                                         admissionTable['branch'].map((item1, index) => {
                                                                             return (
-                                                                                <Table.Cell key={index}>{item[1][item1]}</Table.Cell>
+                                                                                <td className="text-center" key={index}>{item[1][item1]}</td>
                                                                             )
                                                                         })
                                                                     }
 
-                                                                </Table.Row>
+                                                                </tr>
                                                             ))
                                                         )
                                                     }
-                                                </Table.Body>
+                                                </tbody>
                                             </Table>
                                         </Grid.Row>
                                     </Grid>
@@ -96,30 +96,30 @@ class AdmissionSummary extends Component {
                                         <Grid.Row>
                                             <Header as="h3">ค่าเฉลี่ยประเภทการเข้าศึกษาแต่ละสาขาวิชาของนักศึกษาคณะวิทยาศาสตร์ มจธ.</Header>
                                             <Divider />
-                                            <Table celled structured>
-                                                <Table.Header>
-                                                    <Table.Row active>
-                                                        <Table.HeaderCell width={3} textAlign="center">ประเภทการเข้าศึกษา</Table.HeaderCell>
-                                                        <Table.HeaderCell width={3} textAlign="center">จำนวนคน</Table.HeaderCell>
-                                                        <Table.HeaderCell width={3} textAlign="center">จำนวนสูงสุด</Table.HeaderCell>
-                                                        <Table.HeaderCell width={3} textAlign="center">จำนวนต่ำสุด</Table.HeaderCell>
-                                                    </Table.Row>
-                                                </Table.Header>
+                                            <Table responsive   hover>
+                                                <thead>
+                                                    <tr >
+                                                        <th style={{width:'40%'}}  >ประเภทการเข้าศึกษา</th>
+                                                        <th style={{width:'20%'}} className="text-center">จำนวนคน</th>
+                                                        <th style={{width:'20%'}} className="text-center">จำนวนสูงสุด</th>
+                                                        <th style={{width:'20%'}} className="text-center">จำนวนต่ำสุด</th>
+                                                    </tr>
+                                                </thead>
 
-                                                <Table.Body>
+                                                <tbody>
                                                     {
                                                         admissionTable['admissionTableTwo'] !== null && (
                                                             admissionTable['admissionTableTwo'].map((item, index) => (
-                                                                <Table.Row textAlign="center" key={index}>
-                                                                    <Table.Cell>{item["channel"]}</Table.Cell>
-                                                                    <Table.Cell>{item["count"]}</Table.Cell>
-                                                                    <Table.Cell>{item["max_data"]}</Table.Cell>
-                                                                    <Table.Cell>{item["min_data"]}</Table.Cell>
-                                                                </Table.Row>
+                                                                <tr key={index}>
+                                                                    <td>{item["channel"]}</td>
+                                                                    <td className="text-center">{item["count"]}</td>
+                                                                    <td className="text-center">{item["max_data"]}</td>
+                                                                    <td className="text-center">{item["min_data"]}</td>
+                                                                </tr>
                                                             ))
                                                         )
                                                     }
-                                                </Table.Body>
+                                                </tbody>
                                             </Table>
                                         </Grid.Row>
                                     </Grid>
@@ -127,40 +127,40 @@ class AdmissionSummary extends Component {
                                         <Grid.Row>
                                             <Header as="h3">ประเภทการรับเข้าศึกษาของคณะวิทยาศาสตร์ มจธ.</Header>
                                             <Divider />
-                                            <Table celled structured>
-                                                <Table.Header>
-                                                    <Table.Row active>
-                                                        <Table.HeaderCell width={2} textAlign="center">ประเภทการเข้าศึกษา </Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">รวมจำนวนนักศึกษา (คน)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">ร้อยละ(จากนักศึกษาทั้งหมด)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">จำนวนนักศึกษาตกออก(คน)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">ร้อยละนักศึกษาตกออก(จากนักศึกษาแต่ละประเภท)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">ร้อยละนักศึกษาตกออก(จากนักศึกษาทั้งหมด)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">จำนวนนักศึกษาติดวิทยาทัณฑ์(คน)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">ร้อยละของนักศึกษาวิทยาทัณฑ์(จากแต่ละประเภท)</Table.HeaderCell>
-                                                        <Table.HeaderCell width={1} textAlign="center">ร้อยละนักศึกษาวิทยาทัณฑ์จากนักศึกษาทั้งหมด</Table.HeaderCell>
-                                                    </Table.Row>
-                                                </Table.Header>
+                                            <Table responsive   hover>
+                                                <thead>
+                                                    <tr >
+                                                        <th width={2} >ประเภทการเข้าศึกษา </th>
+                                                        <th width={1} >รวมจำนวนนักศึกษา (คน)</th>
+                                                        <th width={1} >ร้อยละ(จากนักศึกษาทั้งหมด)</th>
+                                                        <th width={1} >จำนวนนักศึกษาตกออก(คน)</th>
+                                                        <th width={1} >ร้อยละนักศึกษาตกออก(จากนักศึกษาแต่ละประเภท)</th>
+                                                        <th width={1} >ร้อยละนักศึกษาตกออก(จากนักศึกษาทั้งหมด)</th>
+                                                        <th width={1} >จำนวนนักศึกษาติดวิทยาทัณฑ์(คน)</th>
+                                                        <th width={1} >ร้อยละของนักศึกษาวิทยาทัณฑ์(จากแต่ละประเภท)</th>
+                                                        <th width={1} >ร้อยละนักศึกษาวิทยาทัณฑ์จากนักศึกษาทั้งหมด</th>
+                                                    </tr>
+                                                </thead>
 
-                                                <Table.Body>
+                                                <tbody>
                                                     {
                                                         admissionTable['admissionTableThree'] !== null && (
                                                             admissionTable['admissionTableThree'].map((item, index) => (
-                                                                <Table.Row textAlign="center" key={index}>
-                                                                    <Table.Cell>{item[0]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["all"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_all_student"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["drop"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Type_drop"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Stu_drop"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["probation"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Type_probation"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Stu_probation"]}</Table.Cell>
-                                                                </Table.Row>
+                                                                <tr  key={index}>
+                                                                    <td>{item[0]}</td>
+                                                                    <td>{item[1]["all"]}</td>
+                                                                    <td>{item[1]["per_all_student"]}</td>
+                                                                    <td>{item[1]["drop"]}</td>
+                                                                    <td>{item[1]["per_Type_drop"]}</td>
+                                                                    <td>{item[1]["per_Stu_drop"]}</td>
+                                                                    <td>{item[1]["probation"]}</td>
+                                                                    <td>{item[1]["per_Type_probation"]}</td>
+                                                                    <td>{item[1]["per_Stu_probation"]}</td>
+                                                                </tr>
                                                             ))
                                                         )
                                                     }
-                                                </Table.Body>
+                                                </tbody>
                                             </Table>
                                         </Grid.Row>
                                     </Grid>

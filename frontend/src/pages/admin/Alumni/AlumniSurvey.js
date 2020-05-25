@@ -6,7 +6,7 @@ import {
     Header,
     Container,
 } from "semantic-ui-react";
-import { Table} from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 
 import YearSelect from '../../../components/YearSelect'
 
@@ -45,14 +45,14 @@ class AlumniSurvey extends Component {
         return (
             <Fragment>
                 <Container>
-                   
+
                     {
-                         (yearList!==null&&yearList.length>0) ? (
+                        (yearList !== null && yearList.length > 0) ? (
                             <YearSelect yearList={yearList}
                                 selectedYear={selectedYear}
                                 onSelectYear={this.handleYearSelect}
                                 title={"ค้นหาข้อมูลแบบสอบถามของปีการศึกษา"} />
-                        ):null
+                        ) : null
                     }
                     <Grid>
                         <Grid.Row>
@@ -60,7 +60,7 @@ class AlumniSurvey extends Component {
                                 ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {selectedYear}
                             </Header>
                             <Divider />
-                            <Table responsive hover  style={{marginTop:'2%'}}>
+                            <Table responsive hover style={{ marginTop: '2%' }}>
                                 <thead>
                                     <tr align="center">
                                         <th width={12} >
@@ -81,19 +81,24 @@ class AlumniSurvey extends Component {
                                             ? surveyAnalyze.map((item, index) => (
                                                 <tr key={index}>
                                                     <td style={{ paddingLeft: "4%" }}>{item['topic']}</td>
-                                                    <td textAlign="center">{item['mean']}</td>
-                                                    <td textAlign="center">{item['std']}</td>
+                                                    <td className="text-center">{item['mean']}</td>
+                                                    <td className="text-center">{item['std']}</td>
                                                 </tr>
                                             )) : (
-                                                <tr>
-                                                    <td colSpan={3} ><h2 className="text-center">ไม่พบข้อมูล</h2></td>
-                                                </tr>
+                                                null
                                             )
                                     }
                                 </tbody>
                             </Table>
+
                         </Grid.Row>
                     </Grid>
+
+                    {
+                                surveyAnalyze !== null ? null : (<Fragment>
+                                   <div className="text-center"> <h3 style={{ marginTop: '5%' }} >ไม่พบข้อมูล</h3></div>
+                                </Fragment>)
+                            }
 
                 </Container>
 

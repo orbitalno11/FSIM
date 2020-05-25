@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Table, Button, Modal, ButtonGroup } from 'react-bootstrap'
+import { Table, Container, Button, Modal, ButtonGroup } from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
 import ReactModal from '../../../components/ReactModal'
@@ -147,7 +147,7 @@ class AlumniManage extends Component {
 
                 <Table responsive hover>
                     <thead>
-                        <tr className="text-center">
+                        <tr align="center">
                             <th >ลำดับ</th>
                             <th>ปีการศึกษา</th>
                             <th>ดำเนินการ</th>
@@ -158,7 +158,7 @@ class AlumniManage extends Component {
                             surveyList !== null ? (
                                 surveyList.slice(0).reverse().map((item, index) => (
 
-                                    <tr key={index}>
+                                    <tr align="center" key={index}>
                                         <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                         <td style={{ textAlign: 'center' }}>{item['educationYear']}</td>
                                         <td style={{ textAlign: 'center' }}>
@@ -171,13 +171,13 @@ class AlumniManage extends Component {
                                     </tr>
                                 ))
                             ) : (
-                                    <tr>
-                                        <td colSpan={4} className="text-center"><h2>ไม่พบข้อมูล</h2></td>
-                                    </tr>
-                                )
+                                <tr>
+                                <td colSpan={4} className="text-center"><h2>ไม่พบข้อมูล</h2></td>
+                            </tr>                                )
                         }
                     </tbody>
                 </Table>
+                
             </Fragment>
         )
     }

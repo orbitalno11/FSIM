@@ -36,7 +36,7 @@ const Traching = ({ dept_name, data, handleTracking }) => {
           {
             data !== null ? (
               data.map((item, index) => (
-                <tr textAlign="center" key={index}>
+                <tr textAlign="center" key={index} align="center">
                   <td>{index + 1}</td>
                   <td>{item['student_id']}</td>
                   <td>{item['firstname']}  {item['lastname']}</td>
@@ -193,7 +193,7 @@ class StudentTracking extends Component {
                       <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
                     )
                       : (
-                        <h1 align="center" className="text-center">ไม่พบข้อมูล</h1>
+                        <div className="text-center"> <h3 style={{ marginTop: '5%' }} >ไม่พบข้อมูล</h3></div>
                       )
                   }
 
