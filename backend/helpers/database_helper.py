@@ -484,6 +484,19 @@ class DatabaseHelper:
                                                    [0, 2, 3, 4, 1, 5])
         return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
 
+    # 7AD. list admission round 
+    def get_list_round_admission_admin(self):
+        sql_command = "SELECT round_id,round_name FROM `admission_round`"
+
+        execute = self.__execute_query(sql_command)
+        if not execute['response']:
+            return execute
+
+        out_data = self.__create_out_function_data(execute['value'],
+                                                   ['round_id', 'round_name'],
+                                                   [0, 1])
+        return inner_res_helper.make_inner_response(response=True, message="Success", value=out_data)
+
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # ALUMNI # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
