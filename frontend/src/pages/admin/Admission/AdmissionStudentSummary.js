@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { getAdmissionData, selectYear } from '../../../redux/action/adminAdmissionAction'
 
 import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
-import Bar from '../../../components/Graph/Bar'
+import { Bar } from 'react-chartjs-2'
 
 
 class AdmissionStudentSummary extends Component {
@@ -59,7 +59,7 @@ class AdmissionStudentSummary extends Component {
                                                 <Card.Content >
                                                     {
                                                         admissionData !== null ? (
-                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={false} />
+                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={{display: false}} />
                                                         ) : (
                                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                             )

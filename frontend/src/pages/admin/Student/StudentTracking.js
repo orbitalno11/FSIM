@@ -121,7 +121,7 @@ class StudentTracking extends Component {
     let dataLabel = data.labels
     let newLabel = []
 
-    dataLabel.map(item => {
+    dataLabel.forEach(item => {
       let number = parseInt(item)
       let semester = (number % 2) + 1
       let year = Math.floor(number / 2) + 1
@@ -149,8 +149,6 @@ class StudentTracking extends Component {
 
       }
     }
-
-
 
     return (
       <Fragment>
