@@ -63,8 +63,8 @@ class Admission extends Component {
 
     handleSalarySelect = event => {
         let value = event.target.value
-        let { countGrade } = this.state
-        if(countGrade[0]!==undefined){
+        let { countGrade,response_round } = this.state
+        if(response_round){
             this.setState({
                 gpa_by_branch: countGrade[value]['gpa_by_branch']
             })
@@ -94,8 +94,10 @@ class Admission extends Component {
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
                 let countGrade = data['count_by_branch']
+                let response_round = data['response_round']
+
                 let gpa_by_branch = null
-                if(countGrade[0]!==undefined){
+                if(response_round){
                     gpa_by_branch = countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
                 }else{
                     gpa_by_branch = null
@@ -108,8 +110,7 @@ class Admission extends Component {
                     countGrade: countGrade,
                     gpa_by_branch: gpa_by_branch
                 })
-                
-                        })
+            })
             .catch(error => {
                 console.error(error)
                 this.setState({
@@ -201,7 +202,8 @@ class Admission extends Component {
                                         </select>
                                     </Card.Header>
                                     <Card.Content>
-                                        {gpa_by_branch !== null ? <Bar data={setupStackBarChart(gpa_by_branch)} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
+                                           
+                                        {(gpa_by_branch !== undefined )&(gpa_by_branch!==null)? <Bar data={setupStackBarChart(gpa_by_branch)} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>

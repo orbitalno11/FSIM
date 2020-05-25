@@ -76,6 +76,7 @@ class AnalyzeAdmission:
             
             data_not_none=data_split_now.dropna()
             gpa_by_branch = []
+            response_round = False
             for i in round_list: 
                 gpa_by_count = {}
                 channel_list = channel_sample[channel_sample['round_id']==i]
@@ -93,9 +94,8 @@ class AnalyzeAdmission:
                     check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
                     gpa_by_count['gpa_by_branch']=check_by_round_channel.to_dict('index')
                     gpa_by_branch.append(gpa_by_count)  
-                else: 
-                    gpa_by_branch.append(gpa_by_count)                           
-
+                    response_round = True
+               
           
             count_channel = data_split_now.groupby('channel_id').size()
             count_channel_check_channel = analyze_helper.check_list(channel_sample.index, count_channel)
@@ -141,7 +141,8 @@ class AnalyzeAdmission:
                 'count_by_branch':  dict(zip(round_list, gpa_by_branch)),
                 'count_by_school': [sort_count_school_fullname.to_dict()],
                 'compare_year': [compare_year_success.to_dict('index')],
-                'count_by_status': [count_by_status_fullname.to_dict('index')]
+                'count_by_status': [count_by_status_fullname.to_dict('index')],
+                'response_round' : response_round
             }
             response = True
             message = "Analyze Successfully"
