@@ -156,7 +156,7 @@ export const getAdmissionList = () => dispatch => {
             let data = res.data.data
         
 
-            if (Object.keys(data) < 1) {
+            if (data.length < 1) {
                 dispatch(loadAdmissionListFalied("Can not find data"))
                 dispatch(stopLoading())
                 return

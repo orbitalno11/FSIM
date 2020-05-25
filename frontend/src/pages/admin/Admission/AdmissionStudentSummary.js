@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { Link } from 'react-router-dom'
 import {
     Header,
-    Divider,
     Grid,
     Card,
     Container,
@@ -49,49 +48,59 @@ class AdmissionStudentSummary extends Component {
             <Fragment>
                 <Container>
                     <Header as="h5" textAlign="center">
+                       
                         {
                             yearList !== null && (
                                 <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
                             )
                         }
                     </Header>
-                    <Divider />
                     <Grid>
                         {
-                            admissionData !== null && (
+                            admissionData !== null ? (
                                 admissionData.map((item, index) => {
                                     return (
-                                       
-                                            <Grid.Column mobile="16" computer="8" className="my-3">
-                                                <Card className="card-default">
-                                                    <Card.Header as="h3">
-                                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
-                                                    </Card.Header>
-                                                    <Card.Content >
-                                                        {
-                                                            admissionData !== null ? (
-                                                                <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={{ display: false }} />
-                                                            ) : (
-                                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
-                                                                )
-                                                        }
-                                                    </Card.Content>
-                                                </Card>
-                                            </Grid.Column>
-                                        
+
+                                        <Grid.Column mobile="16" computer="8" className="my-3">
+                                            <Card className="card-default">
+                                                <Card.Header as="h3">
+                                                    กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
+                                                </Card.Header>
+                                                <Card.Content >
+                                                    {
+                                                        admissionData !== null ? (
+                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={{ display: false }} />
+                                                        ) : (
+                                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                            )
+                                                    }
+                                                </Card.Content>
+                                            </Card>
+                                        </Grid.Column>
+
                                     )
                                 })
+                            ):(
+
+                                <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3>
+                                               
+
+                                </Container>
+                                
+                               
                             )
 
                         }
 
 
                     </Grid>
-                    <Grid.Row>
-                        <Button as={Link} to="/admission">
-                            เพิ่มเติม
+                    {admissionData !== null ?(
+                    <Container textAlign="center" style={{ marginTop: '5%',marginBottom:'5%' }}>
+                        <Button as={Link} to="/admission" className="btn-info interval-1" style={{color:'#FFFFFF'}}>
+                            ดูผลการวิเคราะห์เพิ่มเติม 
                         </Button>
-                    </Grid.Row>
+                    </Container>
+                    ):null}
                 </Container>
             </Fragment>
         )

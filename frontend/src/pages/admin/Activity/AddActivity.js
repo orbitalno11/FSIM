@@ -47,7 +47,6 @@ const AddProject = ({ project_type, onSubmit }) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button typr="reset" className="btn-EditData interval-1" >RESET</Button>
             <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
         </Form>
     </Fragment>
@@ -60,7 +59,8 @@ class AddActivity extends Component {
         this.state = {
             project_type: null,
             tabKey: '1',
-            selectedFile: null
+            selectedFile: null,
+            saveFlie: false
         }
     }
 
@@ -70,10 +70,15 @@ class AddActivity extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let status = this.props.activity.actionResult
+        // let { saveFlie } = this.state
         if ((prevProps.actionResult !== status) && (status === true)) {
-            document.getElementById("addProject").reset();
-            document.getElementById("addActivity").reset();
-            document.getElementById("UploadActivity").reset();
+        //     if (saveFlie===true) {
+        //         this.setState({ saveFlie: false })
+        //     } else {
+                document.getElementById("addProject").reset();
+                document.getElementById("addActivity").reset();
+        //         document.getElementById("UploadActivity").reset();
+        //     }
         }
     }
 
@@ -140,14 +145,15 @@ class AddActivity extends Component {
     handleSelectFile = event => {
         let file = event.target.files[0]
         this.setState({
-            selectedFile: file
+            selectedFile: file,
+            saveFlie: true
         })
     }
 
 
     render() {
         let { project_type } = this.state
-        
+
         let tabDetail = null
 
         let tabName = [

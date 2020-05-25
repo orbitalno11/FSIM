@@ -68,8 +68,9 @@ class AlumniSummary extends Component {
         return (
             <Fragment>
                 <Container>
+                   
                     {
-                        yearList ?
+                        yearList.length>0 ?
                             yearList !== null && (
                                 <YearSelect yearList={yearList}
                                     selectedYear={selectedYear}

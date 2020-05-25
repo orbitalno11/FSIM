@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 
 
-import { Table, Button } from 'semantic-ui-react'
+import { Table, Button,Container } from 'semantic-ui-react'
 
 import { connect } from 'react-redux'
-import { getAdmissionList, deleteAdmission} from '../../../redux/action/adminAdmissionAction'
+import { getAdmissionList, deleteAdmission } from '../../../redux/action/adminAdmissionAction'
 
 class AdmissionManage extends Component {
 
@@ -20,8 +20,8 @@ class AdmissionManage extends Component {
         this.props.getAdmissionList()
     }
 
-    handleDeleteAdmission = (year,round_id,channel_id) => {
-        this.props.deleteAdmission(year,round_id,channel_id)
+    handleDeleteAdmission = (year, round_id, channel_id) => {
+        this.props.deleteAdmission(year, round_id, channel_id)
     }
 
     render() {
@@ -34,11 +34,14 @@ class AdmissionManage extends Component {
                             <Table.HeaderCell > ลำดับ </Table.HeaderCell>
                             <Table.HeaderCell > ปีการศึกษา </Table.HeaderCell>
                             <Table.HeaderCell>รอบรับเข้า</Table.HeaderCell>
-                            <Table.HeaderCell style={{width:'50%'}} > โครงการที่รับเข้า </Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: '50%' }} > โครงการที่รับเข้า </Table.HeaderCell>
                             <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
+                        {
+                            console.log(admissionList)
+                        }
                         {
                             admissionList !== null && (
                                 admissionList.map((item, index) => (
@@ -48,14 +51,21 @@ class AdmissionManage extends Component {
                                         <Table.Cell>{item['round_name']}</Table.Cell>
                                         <Table.Cell textAlign="left">{item['channel_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteAdmission(item['admission_year'],item['round_id'],item['channel_id'])}>ลบ</Button>
+                                            <Button onClick={() => this.handleDeleteAdmission(item['admission_year'], item['round_id'], item['channel_id'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
                             )
                         }
+
+
                     </Table.Body>
                 </Table>
+                {
+                    admissionList == null ? (
+                    <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3>
+                    </Container>) : null}
+
             </Fragment>
         )
     }
@@ -70,7 +80,7 @@ const mapStateTpProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         getAdmissionList: () => dispatch(getAdmissionList()),
-        deleteAdmission: (year,round_id,channel_id) => dispatch(deleteAdmission(year,round_id,channel_id))
+        deleteAdmission: (year, round_id, channel_id) => dispatch(deleteAdmission(year, round_id, channel_id))
     }
 )
 

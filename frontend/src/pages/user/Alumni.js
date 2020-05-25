@@ -15,7 +15,7 @@ import GraphBar from "../../components/Graph/Bar";
 import { connect } from 'react-redux'
 
 import { getBranchList } from '../../redux/action/generalAction'
-import { getAllAlumniYear,setSelectedYear, loadWorkData, setSalaryChart } from '../../redux/action/adminAlumniAction'
+import { getAllAlumniYear, setSelectedYear, loadWorkData, setSalaryChart } from '../../redux/action/adminAlumniAction'
 import YearSelect from '../../components/YearSelect'
 
 class Alumni extends Component {
@@ -32,7 +32,7 @@ class Alumni extends Component {
         this.props.loadAllYear()
         this.props.getBranchList()
         this.fetchWorkData()
-       
+
     }
 
     fetchWorkData = async () => {
@@ -73,22 +73,20 @@ class Alumni extends Component {
 
         return (
             <Fragment>
-             
+
                 <Container>
-                    {
-                        console.log(yearList)
-                    }
+
                     {
 
-                        yearList!==null&&yearList.length>0?
+                        yearList.length > 0 ?
                             yearList !== null && (
                                 <YearSelect yearList={yearList}
                                     selectedYear={selectedYear}
                                     onSelectYear={this.handleYearSelect}
                                     title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
-                            ):null
-                        
-                       
+                            ) : null
+
+
                     }
                     <Grid textAlign="center">
                         <Grid.Row >
@@ -144,7 +142,7 @@ class Alumni extends Component {
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='branch'>
-                                        <select className="form-control"  onChange={workData!==null?this.handleSalarySelect:null}>
+                                        <select className="form-control" onChange={workData !== null ? this.handleSalarySelect : null}>
                                             <option value="all">ทุกสาขาวิชา</option>
                                             {
                                                 branchList !== null && (

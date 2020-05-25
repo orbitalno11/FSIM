@@ -45,9 +45,7 @@ class AlumniSurvey extends Component {
         return (
             <Fragment>
                 <Container>
-                    {
-                        console.log(yearList)
-                    }
+                   
                     {
                          (yearList!==null&&yearList.length>0) ? (
                             <YearSelect yearList={yearList}

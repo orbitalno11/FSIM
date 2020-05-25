@@ -44,7 +44,7 @@ const AddGpax = ({ submit, selectFile }) => (
     </Fragment>
 )
 
-const AddStudent = ({ submit, selectFile, year }) => (
+const AddStudent = ({ submit, selectFile }) => (
     <Fragment>
         <Form id="addStudent" onSubmit={submit}>
             <Form.Group>
@@ -66,7 +66,8 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedFile: null
+            selectedFile: null,
+            saveFile: false
         }
     }
 
@@ -90,15 +91,24 @@ class StudentAdd extends Component {
     handleSelectFile = event => {
         let file = event.target.files[0]
         this.setState({
-            selectedFile: file
+            selectedFile: file,
+            saveFile: true
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
+        let { saveFile } = this.state
         let status = this.props.student.actionResult
         if ((prevProps.actionResult !== status) && (status === true)) {
-            document.getElementById("addStudent").reset();
-            document.getElementById("addGpax").reset();
+            // if (saveFile === true) {
+                // this.setState({
+                //     saveFile: false
+                // })
+            // } else {
+                document.getElementById("addStudent").reset();
+                document.getElementById("addGpax").reset();
+            // }
+
         }
     }
 
@@ -125,7 +135,7 @@ class StudentAdd extends Component {
             },
             {
                 tabId: '2',
-                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} year={yearList} />
+                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} />
             }
         ]
 

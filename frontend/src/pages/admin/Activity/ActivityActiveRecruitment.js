@@ -80,11 +80,13 @@ class ActivityActiveRecruitment extends Component {
                         }
                         {
                             key ? (
-                                tabName !== null && arData !== null && (
+                                tabName !== null && arData !== null ? (
                                     <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                                ): (
+                                    <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3></Container>
                                 )
                             ) : (
-                                    <h1 className="text-center">ไม่พบข้อมูล</h1>
+                                <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3></Container>
                                 )
                         }
                     </Container>
