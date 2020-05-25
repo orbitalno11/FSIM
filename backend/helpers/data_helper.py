@@ -15,6 +15,19 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class DataHelper:
 
+    def __calculate_education_status(self, student_id, gpax):
+        status = 1  # normal
+        if gpax >= 2.00:
+            status = 1
+        elif 1.5 <= gpax < 2.00:
+            status = 2
+        else:
+            status = 0
+
+        out = [status, student_id]
+        out = list(map(str, out))
+        return tuple(out)
+
     # read admission data from excel file
     def read_admission(self, channel, year, file_location):
         df = pd.read_excel(file_location, converters={'เลขที่ใบสมัคร': str, 'รหัสสถานศึกษา': str})
@@ -86,6 +99,7 @@ class DataHelper:
         academic_record = []
         gpa_record = []
         gpax_record = []
+        status_record = []
 
         try:
             for sheet_number in range(len(sheet_name)):
@@ -105,6 +119,7 @@ class DataHelper:
                     gpax = [temp.iloc[-1, 1], std_id]
                     gpax = list(map(str, gpax))
                     gpax_record.append(tuple(gpax))
+                    status_record.append(self.__calculate_education_status(std_id, temp.iloc[-1, 1]))
                     # get data per student
                     for subject in range(1, len(subject_list) - 2):
                         data = [std_id]
@@ -123,7 +138,8 @@ class DataHelper:
         out_function_data = {
             'academic_record': academic_record,
             'gpa_record': gpa_record,
-            'gpax_record': gpax_record
+            'gpax_record': gpax_record,
+            'status_record': status_record
         }
 
         return inner_res_helper.make_inner_response(True,

@@ -40,9 +40,6 @@ class AdmissionManage extends Component {
                     </Table.Header>
                     <Table.Body>
                         {
-                            console.log(admissionList)
-                        }
-                        {
                             admissionList !== null && (
                                 admissionList.map((item, index) => (
                                     <Table.Row textAlign="center" key={index}>

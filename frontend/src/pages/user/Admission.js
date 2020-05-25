@@ -5,7 +5,6 @@ import {
     Card,
     Container,
     Header,
-    Divider
 } from "semantic-ui-react";
 
 
@@ -42,7 +41,7 @@ class Admission extends Component {
         this.props.getYearList()
         this.fetchAdmissionRound()
         this.getCountChannel()
-       
+
     }
 
     fetchAdmissionRound() {
@@ -69,14 +68,14 @@ class Admission extends Component {
             gpa_by_branch: countGrade[value]['gpa_by_branch']
         })
 
-        
+
 
 
     }
 
     getCountChannel = () => {
         let { selectedYear } = this.props.admission
-        let {admissionRound} = this.state
+        let { admissionRound } = this.state
 
         Axios.get(`/admission/analyze?year=${selectedYear}`)
             .then(res => {
@@ -94,7 +93,7 @@ class Admission extends Component {
                     compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
                     countGrade: countGrade,
-                    gpa_by_branch:countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
+                    gpa_by_branch: countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
                 })
                 // console.log(this.state.countChannel)
             })
@@ -122,20 +121,18 @@ class Admission extends Component {
 
 
     render() {
-        let { countChannel, countSchool, compareYear, countStatus, countGrade, admissionRound,gpa_by_branch } = this.state
+        let { countChannel, countSchool, compareYear, countStatus, countGrade, admissionRound, gpa_by_branch } = this.state
         let { selectedYear, yearList } = this.props.admission
 
 
         return (
             <Fragment>
                 <Container >
-                    <Header as="h5" textAlign="center">
-                        {
-                            yearList !== null && (
-                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
-                            )
-                        }
-                    </Header>
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
@@ -148,7 +145,7 @@ class Admission extends Component {
                                         {
                                             countChannel !== null ? (
                                                 <Barchart data={countChannel} />
-                                            ): (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 
                                     </Card.Content>
@@ -163,10 +160,10 @@ class Admission extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            countStatus!==null?(<Barchart data={countStatus} />) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
-                                            }
-                                        
-                                        
+                                            countStatus !== null ? (<Barchart data={countStatus} />) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                        }
+
+
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -179,19 +176,18 @@ class Admission extends Component {
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='fs-font-18'>
 
-                                        <select className="form-control" defaultValue={ admissionRound.length!==0?admissionRound[0]['round_name']:null} onChange={countGrade !== null ? this.handleSalarySelect : null}>
-                                            
+                                        <select className="form-control" defaultValue={admissionRound.length !== 0 ? admissionRound[0]['round_name'] : null} onChange={countGrade !== null ? this.handleSalarySelect : null}>
                                             {
-                                                admissionRound.length!==0 ? (
+                                                admissionRound.length !== 0 ? (
                                                     admissionRound.map((item, index) => (
                                                         <option key={index}
                                                             value={item['round_id']}>{item['round_name']}</option>
                                                     ))
-                                                ): (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                                ) : (<option value="">ไม่พบข้อมูล</option>)
                                             }
-                                             </select>
-                                        </Card.Header>
-                                        <Card.Content>
+                                        </select>
+                                    </Card.Header>
+                                    <Card.Content>
                                         {gpa_by_branch !== null ? <Bar data={setupStackBarChart(gpa_by_branch)} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
@@ -205,9 +201,9 @@ class Admission extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            countSchool !== null ?(
+                                            countSchool !== null ? (
                                                 <Bar data={countSchool} legend={{ display: true }} />
-                                            ): (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
                                     </Card.Content>
                                 </Card>
@@ -217,13 +213,13 @@ class Admission extends Component {
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
                                     <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี {selectedYear} และ {parseInt(selectedYear)+1}
+                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี {selectedYear} และ {parseInt(selectedYear) + 1}
                                     </Card.Header>
                                     <Card.Content>
                                         {
                                             compareYear !== null ? (
                                                 <Barchart data={compareYear} legend={{ display: true }} />
-                                            ): (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 
                                     </Card.Content>
