@@ -37,7 +37,6 @@ class AnalyzeAdmission:
         if data['value']:
 
             df = pd.DataFrame(data['value'])
-            
             # real data  
             # deparment = connect.get_department()
             # deparment = pd.io.json.json_normalize(deparment['value'], max_level=0)
@@ -75,42 +74,29 @@ class AnalyzeAdmission:
 
             round_list=channel_sample['round_id'].unique().tolist()
             
+            data_not_none=data_split_now.dropna()
             gpa_by_branch = []
-            
             for i in round_list: 
                 gpa_by_count = {}
                 channel_list = channel_sample[channel_sample['round_id']==i]
                 list_channel = channel_list.index.tolist()
-                count_by_branch= data_split_now['channel_id'].isin(list_channel)
-                count_by_branch= data_split_now[count_by_branch]
-                count_by_branch = count_by_branch.groupby(['channel_id', 'dept_id'])['current_gpax'].mean().unstack(
-                    fill_value=0)
-                count_by_branch = count_by_branch.round(2)
-                count_by_branch_check_branch = analyze_helper.check_list_column(deparment_data.index, count_by_branch)
-                count_by_branch_check_channel = analyze_helper.check_list(channel_list.index,
-                                                                        count_by_branch_check_branch)
-                check_by_round_channel = analyze_helper.set_fullname_column(deparment_dict, count_by_branch_check_branch)
-                check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
-                gpa_by_count['gpa_by_branch']=check_by_round_channel.to_dict('index')
-                gpa_by_branch.append(gpa_by_count)   
-                                               
+                if(not data_not_none.empty):
+                    count_by_branch= data_not_none['channel_id'].isin(list_channel)
+                    count_by_branch= data_not_none[count_by_branch]
+                    count_by_branch = count_by_branch.groupby(['channel_id', 'dept_id'])['current_gpax'].mean().unstack(
+                        fill_value=0)
+                    count_by_branch = count_by_branch.round(2)
+                    count_by_branch_check_branch = analyze_helper.check_list_column(deparment_data.index, count_by_branch)
+                    count_by_branch_check_channel = analyze_helper.check_list(channel_list.index,
+                                                                            count_by_branch_check_branch)
+                    check_by_round_channel = analyze_helper.set_fullname_column(deparment_dict, count_by_branch_check_branch)
+                    check_by_round_channel = analyze_helper.set_fullname_index(channel_dic, check_by_round_channel)
+                    gpa_by_count['gpa_by_branch']=check_by_round_channel.to_dict('index')
+                    gpa_by_branch.append(gpa_by_count)  
+                else: 
+                    gpa_by_branch.append(gpa_by_count)                           
 
-                # count_by_branch_by_round=[]
-                # gpa_by_channel = []
-                # list_channel = channel_sample[channel_sample['round_id']==i]
-                # list_channel_channel = list_channel.index.unique().tolist() 
-                # for l_channel in list_channel_channel: 
-                    # count_by_branch_by_channel={}
-                    
-                # gpa_by_branch.append(count_by_branch_by_round)
-
-            # if branch_id:
-            #     data_not_year = data_not_year.loc[data_not_year['branch_id'] == branch_id]
-            #     data_split_now = data_split_now.loc[data_split_now['branch_id'] == branch_id]
-
-            # not used branch
-            # used year
-            # used branch and year
+          
             count_channel = data_split_now.groupby('channel_id').size()
             count_channel_check_channel = analyze_helper.check_list(channel_sample.index, count_channel)
             count_channel_check_channel = analyze_helper.set_fullname_index(channel_dic, count_channel_check_channel)

@@ -64,9 +64,16 @@ class Admission extends Component {
     handleSalarySelect = event => {
         let value = event.target.value
         let { countGrade } = this.state
-        this.setState({
-            gpa_by_branch: countGrade[value]['gpa_by_branch']
-        })
+        if(countGrade[0]!==undefined){
+            this.setState({
+                gpa_by_branch: countGrade[value]['gpa_by_branch']
+            })
+        }else{
+            this.setState({
+                gpa_by_branch: null
+            })
+        }
+       
 
 
 
@@ -87,16 +94,22 @@ class Admission extends Component {
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
                 let countGrade = data['count_by_branch']
+                let gpa_by_branch = null
+                if(countGrade[0]!==undefined){
+                    gpa_by_branch = countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
+                }else{
+                    gpa_by_branch = null
+                }
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
                     countSchool: setupStackBarChart(countSchool),
                     compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
                     countGrade: countGrade,
-                    gpa_by_branch: countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
+                    gpa_by_branch: gpa_by_branch
                 })
-                // console.log(this.state.countChannel)
-            })
+                
+                        })
             .catch(error => {
                 console.error(error)
                 this.setState({
