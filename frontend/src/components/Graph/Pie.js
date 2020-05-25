@@ -21,6 +21,22 @@ const option = {
 	}
 }
 
+const option_res = {
+	plugins: {
+		// Change options for ALL labels of THIS CHART
+		datalabels: {
+			color: '#000000',
+			anchor: 'center'
+		}
+	},
+	legend: {
+		position: 'right',
+		labels: {
+			fontSize: 8
+		}
+	}
+}
+
 class Piechart extends Component {
 
 	constructor(props) {
@@ -57,7 +73,7 @@ class Piechart extends Component {
 				<MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
 					<Row>
 						<Col xs={12} lg={4} md={4} sm={12}>
-							{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
+							{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option_res} height={height !== null && height} width={width !== null && width} />}
 						</Col>
 					</Row>
 				</MediaQuery>
