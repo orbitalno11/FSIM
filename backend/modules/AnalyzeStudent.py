@@ -41,7 +41,6 @@ class AnalyzeStudent:
         data = connect.get_all_student(dept)
         if data['value']:
             df = pd.DataFrame(data['value'])
-            df_branch = df[['branch_id', 'branch']]
 
             # get_branch=connect.get_department(dept)
             # if dept:
@@ -58,7 +57,7 @@ class AnalyzeStudent:
             get_branch = pd.DataFrame(get_branch['value'])
             if dept:
                 get_branch = get_branch[get_branch['dept_id']==dept]
-            branch_data = get_branch[['branch_id','branch_name','student_amount']]
+            branch_data = get_branch[['branch_id','branch_name']]
             branch_data = branch_data.set_index('branch_id')
            
                
@@ -67,15 +66,20 @@ class AnalyzeStudent:
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             status_by_branch = self.__status_by_branch(df, list(branch_data.index.values),
                                                        list(status_data.index.values))
-
+            # print(df)
             status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
             status_by_branch_finist = analyze_helper.set_fullname_column(status_dic, status_by_branch_index)
             status_by_year = self.__count_status(df[['student_year', 'education_status']],
                                                  list(status_data.index.values))
             status_by_year_finist = analyze_helper.set_fullname_column(status_dic, status_by_year)
+           
+            count_by_branch = df.groupby(['branch_id']).size()
+            count_by_branch = analyze_helper.check_list(branch_data.index,count_by_branch)
+            count_by_branch = analyze_helper.set_fullname_index(branch_dic, count_by_branch)
+
             value['dept_name'] = get_branch.iloc[0,1]
             value['all_stu_dept'] = self.__count_student_dept(df)
-            value['branch'] = [analyze_helper.set_fullname_index(branch_dic, branch_data['student_amount']).to_dict()]
+            value['branch'] = [count_by_branch.to_dict()]
             value['status_by_year'] = [status_by_year_finist.to_dict('index')]
             value['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
 
@@ -180,7 +184,6 @@ class AnalyzeStudent:
         data = connect.get_all_student()
         if data['value']:
             df = pd.DataFrame(data['value'])
-            df_branch = df[['branch_id', 'branch']]
             # get_branch=connect.get_department(None)
 
             # dept_data = pd.io.json.json_normalize(get_branch['value'], 'branch', ['dept_id','dept_name'])
@@ -197,14 +200,15 @@ class AnalyzeStudent:
             
             status_dic = analyze_helper.set_dict(status_data.index, status_data.status_title)
             
-            list_department = department_data.index.tolist()
+            list_department = department_data.index.unique().tolist()
             analyze_by_dept = []
             for dept in list_department:
                 analyze = {}
                 df_dept = df[df['dept_id']==dept]
                 department_selector = get_branch[get_branch['dept_id']==dept]
-                branch_data = analyze_helper.set_branch(department_selector[['branch_id','branch_name','student_amount']])
+                branch_data = analyze_helper.set_branch(department_selector[['branch_id','branch_name']])
                 branch_dic = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
+                
                 status_by_branch = self.__status_by_branch(df_dept, list(branch_data.index.values),
                                                         list(status_data.index.values))
                 status_by_branch_index = analyze_helper.set_fullname_index(branch_dic, status_by_branch)
@@ -212,8 +216,14 @@ class AnalyzeStudent:
                 status_by_year = self.__count_status(df_dept[['student_year', 'education_status']],
                                                     list(status_data.index.values))
                 status_by_year_finist = analyze_helper.set_fullname_column(status_dic, status_by_year)
+
+                count_by_branch=df_dept.groupby(['branch_id']).size()
+                count_by_branch = analyze_helper.check_list(branch_data.index,count_by_branch)
+                count_by_branch = analyze_helper.set_fullname_index(branch_dic, count_by_branch)
                 analyze['dept_id'] = dept
-                analyze['branch'] = analyze_helper.set_fullname_index(branch_dic, branch_data['student_amount']).to_dict()
+                
+                # print(branch_data)
+                analyze['branch'] = count_by_branch.to_dict()
                 analyze['status_by_year'] = [status_by_year_finist.to_dict('index')]
                 analyze['df_status_by_branch'] = [status_by_branch_finist.to_dict('index')]
                 analyze_by_dept.append(analyze)

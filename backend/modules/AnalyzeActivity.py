@@ -152,7 +152,7 @@ class AnalyzeActivity:
             get_branch = connect.get_department_ds()
             get_branch = pd.DataFrame(get_branch['value'])
             
-            branch_data = get_branch[['branch_id','branch_name','student_amount']]
+            branch_data = get_branch[['branch_id','branch_name']]
             branch_data = branch_data.set_index('branch_id')
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
@@ -217,7 +217,7 @@ class AnalyzeActivity:
             get_branch = connect.get_department_ds()
             get_branch = pd.DataFrame(get_branch['value'])
             
-            branch_data = get_branch[['branch_id','branch_name','student_amount']]
+            branch_data = get_branch[['branch_id','branch_name']]
             branch_data = branch_data.set_index('branch_id')
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
 
