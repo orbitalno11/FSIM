@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { Row, Col } from 'react-bootstrap';
 
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../Constant'
 import { Pie } from 'react-chartjs-2';
 
 const option = {
@@ -44,7 +47,20 @@ class Piechart extends Component {
 
 		return (
 			<React.Fragment>
-				{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
+				<MediaQuery minDeviceWidth={minDeviceWidth}>
+					<Row>
+						<Col>
+							{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
+						</Col>
+					</Row>
+				</MediaQuery>
+				<MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+					<Row>
+						<Col xs={12} lg={4} md={4} sm={12}>
+							{data !== undefined && <Pie data={data.length === 0 ? this.state : data} options={option} height={height !== null && height} width={width !== null && width} />}
+						</Col>
+					</Row>
+				</MediaQuery>
 			</React.Fragment>
 		);
 	}

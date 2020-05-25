@@ -54,14 +54,13 @@ class Login extends Component {
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           >
-            <Image size="massive" className="background-yellow" src={bgyel} />
-            <Image size="massive" className="bottom-left" src={bannerbot} />
+            <Image size="massive" className="fs-bg-tp-yellow" src={bgyel} />
+            <Image size="massive" className="fs-bg-bt-yellow" src={bannerbot} />
             <Container>
               <Grid
                 textAlign="center"
-                // style={{ height: "100vh" }}
                 verticalAlign="middle"
-                className="card-login my-4"
+                className="fs-cd-login fs-pst-absolute fs-centered"
                 centered
               >
                 <Grid.Column style={{ maxWidth: 350 }}>

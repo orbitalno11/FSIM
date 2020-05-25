@@ -29,7 +29,7 @@ const ButtonStudent = ({ id, name, image }) => (
   <Fragment>
     <Grid.Column mobile={16} tablet={4} computer={4} className="text-center">
       <Link to={`/student/${id}`}>
-        <div className="circle-user mx-auto">
+        <div className="fs-circle-user mx-auto">
           <Image src={image} />
         </div>
         <label>{name}</label>
@@ -43,9 +43,9 @@ const PaneTemplate = ({ label, content, direction }) => (
     <Container>
       <Grid padded textAlign="center">
         <Grid.Row>
-          <Label className="font-18">{label}</Label>
+          <Label className="fs-font-18">{label}</Label>
         </Grid.Row>
-        <p className="font-16">{direction}</p>
+        <p className="fs-font-16">{direction}</p>
         {content}
       </Grid>
     </Container>
@@ -80,15 +80,15 @@ const StudentTab = () => {
 const AdmissionTab = () => {
   return (
     <PaneTemplate
-      label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
-      direction="กรุณาเลือกกิจกรรม"
+      label="แสดงผลการวิเคราะห์ข้อมูลโครงการแอดมิชชั่นในคณะวิทยาศาสตร์"
+      direction="กรุณากดปุ่มแอดมิชชั่น"
       content={
         <Grid.Row>
           <Grid.Column textAlign="center">
             <Form.Group>
               {buttonAdmission.map((item, index) => (
 
-                <Button size='massive' color={item.color} as={Link}
+                <Button size='massive' className="btn-color-default" as={Link}
                   to={item.url}
                   key={index}>{item.name}</Button>
 
@@ -105,15 +105,15 @@ const ActivirtTab = () => {
   return (
 
     <PaneTemplate
-      label="แสดงผลการวิเคราะห์โครงการต่างๆในคณะวิทยาศาสตร์"
-      direction="กรุณาเลือกกิจกรรม"
+      label="แสดงผลการวิเคราะห์ข้อมูลกิจกรรมต่างๆในคณะวิทยาศาสตร์"
+      direction="กรุณาเลือกกดปุ่มข่อมูลกิจกรรม"
       content={
         <Row  >
           {buttonNewStudent.map((item, index) => (
             <Col xs={12} md={6} align="center" key={index}>
               <Button
                 size='massive'
-                color={item.color}
+                className="btn-color-default"
                 as={Link}
                 to={item.url}
                 style={{ margin: '3%', textAlign: 'center' }}
@@ -132,12 +132,13 @@ const AlumniTab = () => {
   return (
     <PaneTemplate
       label="แสดงผลการวิเคราะห์หน้าที่การงานของนักศึกษาที่จบการศึกษา"
+      direction="กรุณากดปุ่มสรุปแบบสอบถาม"
       content={
         <Grid.Row>
           <Grid.Column align="center">
             <Button
               size='massive'
-              color='yellow'
+              className="btn-color-default"
               as={Link}
               to='/alumni'
             >สรุปแบบสอบถาม</Button>
@@ -179,12 +180,10 @@ const pageStudent = [
 const buttonNewStudent = [
   {
     name: "Active Recruitement",
-    color: "yellow",
     url: "/activity/ar",
   },
   {
     name: "กิจกรรมประชาสัมพันธ์",
-    color: "yellow",
     url: "/activity",
   },
 ];
@@ -192,7 +191,6 @@ const buttonNewStudent = [
 const buttonAdmission = [
   {
     name: "Admission",
-    color: "yellow",
     url: "/admission",
   },
 ];
@@ -246,38 +244,42 @@ class Home extends Component {
             <Row>
               <MediaQuery minDeviceWidth={minDeviceWidth}>
                 <Col xs={12} lg={6}>
-                  <p className="head-index" as="huge" >
-                    WELCOME TO
-                  <br />
-                  FSci Student Information Management System
-                </p>
-                  <Button primary href="/login">
-                    จัดการข้อมูล
-                </Button>
-                </Col>
-                <Col xs={12} lg={6}>
                   <Image
                     src={banner3}
-                    className="header-chart"
+                    className="fs-cr-lf"
                     floated="right"
                   />
+                </Col>
+                <Col xs={12} lg={6}>
+                  <p className="fs-tx-rg" as="huge" >
+                    WELCOME TO
+                  <br />
+                  FSci Student Information
+                  <br />
+                  Management System
+                </p>
+                  <Button className="fs-pst-absolute fs-centered" primary href="/login">
+                    จัดการข้อมูล
+                </Button>
                 </Col>
               </MediaQuery>
               <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
                 <Col xs={12} lg={6}>
                   <Image
                     src={banner3}
-                    className="header-chart"
+                    className="fs-cr-lf"
                     floated="right"
                   />
                 </Col>
                 <Col xs={12} lg={6} className="text-center">
-                  <p className="text-center">
+                  <p className="fs-tx-rg">
                     WELCOME TO
-                    <br />
-                    FSci Student Information Management System
+                  <br />
+                  FSci Student Information
+                  <br />
+                  Management System
                   </p>
-                  <Button primary as={Link} to="/login">
+                  <Button className="fs-pst-relative" primary as={Link} to="/login">
                     จัดการข้อมูล
                 </Button>
                 </Col>

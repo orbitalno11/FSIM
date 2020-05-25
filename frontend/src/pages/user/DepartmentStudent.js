@@ -3,15 +3,20 @@ import React, { Component, Fragment } from "react";
 import {
     Container,
     Header,
-    Card
+    Card,
+    Divider
 } from "semantic-ui-react";
-import { Row, Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 import Piechart from "../../components/Graph/Pie";
 import Barchart from "../../components/Graph/Bar";
 import Horizontal from "../../components/Graph/BarHorizontal";
 
 import { setupPieChart, setupStackBarChart } from '../../components/Graph/GraphController'
+
+
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../Constant'
 
 import axios from 'axios'
 
@@ -73,7 +78,7 @@ class DepartmentStudent extends Component {
     }
 
     async componentDidUpdate(prevProps) {
-        if (prevProps.match.params.id !== this.props.match.params.id){
+        if (prevProps.match.params.id !== this.props.match.params.id) {
             await this.fetchData(this.props.match.params.id)
             this.setupGraph()
         }
@@ -84,16 +89,16 @@ class DepartmentStudent extends Component {
 
         return (
             <Fragment>
-                <Container className="white-background">
-                    <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
-                        จำนวนนักศึกษาทุกชั้นปี {department}
-                    </Header>
-
-                    <Container className="mb-5">
+                <MediaQuery minDeviceWidth={minDeviceWidth}>
+                    <Container>
+                        <Header textAlign="center" as="h2" className="my-5">
+                            จำนวนนักศึกษาทุกชั้นปี {department}
+                        </Header>
+                        <Divider />
                         <Row >
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
@@ -103,18 +108,18 @@ class DepartmentStudent extends Component {
                             </Col>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
-                                       สถานะของนักศึกษาแต่ละชั้นปี
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                        สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
                                         <Barchart data={studentByYear} />
                                     </Card.Content>
                                 </Card>
                             </Col>
-                        
+
                             <Col sm={12} lg={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{textAlign:'center',padding:'1%'}}>
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
@@ -124,8 +129,49 @@ class DepartmentStudent extends Component {
                             </Col>
                         </Row>
                     </Container>
-                </Container>
-            </Fragment>
+                </MediaQuery>
+                <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                    <Container>
+                        <Header textAlign="center" as="h2" className="my-5">
+                            จำนวนนักศึกษาทุกชั้นปี {department}
+                        </Header>
+                        <Divider />
+                        <Row >
+                            <Col lg={6} md={4} sm={12} className="my-2">
+                                <Card fluid>
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                        จำนวนนักศึกษาต่อสาขา
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <Piechart data={studentByBranch} />
+                                    </Card.Content>
+                                </Card>
+                            </Col>
+                            <Col sm={12} md={4} lg={6} className="my-2">
+                                <Card fluid>
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                        สถานะของนักศึกษาแต่ละชั้นปี
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <Barchart data={studentByYear} />
+                                    </Card.Content>
+                                </Card>
+                            </Col>
+
+                            <Col sm={12} md={4} lg={6} className="my-2">
+                                <Card fluid>
+                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                        สถานะของนักศึกษาแต่ละสาขา
+                                    </Card.Header>
+                                    <Card.Content>
+                                        <Horizontal data={branchByStatus} />
+                                    </Card.Content>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Container>
+                </MediaQuery>
+            </Fragment >
         )
     }
 }

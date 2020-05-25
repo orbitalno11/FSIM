@@ -63,7 +63,7 @@ class AdmissionStudentSummary extends Component {
                                                 <Card.Content >
                                                     {
                                                         admissionData !== null ? (
-                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={{ display: false }} />
+                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={ false } />
                                                         ) : (
                                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                             )
