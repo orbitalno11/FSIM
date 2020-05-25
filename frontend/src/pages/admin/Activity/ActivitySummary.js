@@ -118,15 +118,14 @@ class ActivitySummary extends Component {
                                                 </tr>
                                             ))
                                         ) : (
-                                                <tr>
-                                                    <td colSpan={3}>
-                                                        <h2 className="text-center">ไม่พบข้อมูล</h2>
-                                                    </td>
-                                                </tr>
+                                               null
                                             )
                                     }
                                 </tbody>
                             </Table>
+                            {
+                                activityList !== null ? null: <div className="text-center" style={{ marginTop: '5%' }}> <h3  >ไม่พบข้อมูล</h3></div>
+                            }
                         </Grid.Row>
                     </Grid>
 
