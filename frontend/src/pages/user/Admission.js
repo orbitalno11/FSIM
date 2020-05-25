@@ -10,7 +10,7 @@ import {
 
 import Barchart from "../../components/Graph/Bar";
 import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import { Bar } from "react-chartjs-2";
+import  Bar  from "../../components/Graph/Bar";
 
 import { connect } from 'react-redux'
 import { selectYear, getYearList } from '../../redux/action/adminAdmissionAction'
@@ -158,7 +158,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             countChannel !== null ? (
-                                                <Barchart data={countChannel} />
+                                                <Barchart data={countChannel} legend={false}/>
                                             ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 

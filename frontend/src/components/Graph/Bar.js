@@ -13,10 +13,44 @@ const option = {
     // Change options for ALL labels of THIS CHART
     datalabels: {
       color: '#000000',
-      anchor: 'end'
+      anchor: 'end',
+      display: false
+    }
+  },
+  legend: {
+    labels: {
+      fontSize: 12
     }
   }
 }
+
+const option_res = {
+  plugins: {
+    // Change options for ALL labels of THIS CHART
+    datalabels: {
+      color: '#000000',
+      anchor: 'end',
+      display: false
+    }
+  },
+  legend: {
+    position: 'right',
+    labels: {
+      fontSize: 6
+    }
+  },
+  scales: {
+    yAxes: [{
+      display: false,
+    }],
+    xAxes: [{
+      ticks: {
+        display: false //this will remove only the label
+      }
+    }]
+  }
+}
+
 
 class Barchart extends Component {
 
@@ -52,11 +86,12 @@ class Barchart extends Component {
         </MediaQuery>
         <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
           <Row>
-            <Col  xs={12} lg={4} md={4} sm={12}>
-              {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option} legend={legend} />}
+            <Col xs={12} lg={4} md={4} sm={12}>
+              {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option_res} legend={legend} />}
             </Col>
           </Row>
         </MediaQuery>
+
       </React.Fragment>
     );
   }
