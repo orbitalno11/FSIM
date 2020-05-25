@@ -83,7 +83,7 @@ def insert_academic_record():
         if insert_value['response']:
             data = insert_value['value']
             db = DatabaseHelper()
-            academic_record = db.insert_academic_record(data['academic_record'], data['gpa_record'])
+            academic_record = db.insert_academic_record(data['academic_record'], data['gpa_record'], data['gpax_record'])
             if not academic_record['response']:
                 return api_helper.create_response(message=academic_record['message'], response=False, response_code=500,
                                                   data=academic_record['value'])
