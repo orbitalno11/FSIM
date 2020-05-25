@@ -58,7 +58,7 @@ class AdmissionStudentSummary extends Component {
                     <Grid>
                         <Grid.Row>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/1
                                     </Card.Header>
@@ -74,7 +74,7 @@ class AdmissionStudentSummary extends Component {
                                 </Card>
                             </Grid.Column>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/2
                                     </Card.Header>
@@ -92,7 +92,7 @@ class AdmissionStudentSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 2
                                     </Card.Header>
@@ -110,7 +110,7 @@ class AdmissionStudentSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/1
                                     </Card.Header>
@@ -126,7 +126,7 @@ class AdmissionStudentSummary extends Component {
                                 </Card>
                             </Grid.Column>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/2
                                     </Card.Header>
@@ -144,7 +144,7 @@ class AdmissionStudentSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 4
                                     </Card.Header>
@@ -160,7 +160,7 @@ class AdmissionStudentSummary extends Component {
                                 </Card>
                             </Grid.Column>
                             <Grid.Column mobile={16} computer={8}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 5
                                     </Card.Header>
@@ -177,8 +177,8 @@ class AdmissionStudentSummary extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <Grid.Row>
-                        <Button as={Link} to="/admission">
+                    <Grid.Row className="my-5 float-right">
+                        <Button  as={Link} to="/admission">
                             เพิ่มเติม
                         </Button>
                     </Grid.Row>

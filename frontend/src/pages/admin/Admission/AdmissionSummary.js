@@ -49,10 +49,9 @@ class AdmissionSummary extends Component {
                         )
                     }
                     </Header>
-                        <Divider/>
                      <Grid>     
                          <Grid.Row> 
-                            <Header  as = "h3">
+                            <Header  as = "h2">
                                 จำนวนประเภทการเข้าศึกษาแต่ละสาขาวิชา ของนักศึกษาคณะวิทยาศาสตร์ มจธ.
                                 </Header>
                             <Divider/>
@@ -116,7 +115,7 @@ class AdmissionSummary extends Component {
                     </Grid>
                     <Grid>     
                          <Grid.Row> 
-                            <Header  as = "h3">
+                            <Header  as = "h2">
                                 ค่าเฉลี่ยประเภทการเข้าศึกษาแต่ละสาขาวิชาของนักศึกษาคณะวิทยาศาสตร์ มจธ.
                                 </Header>
                             <Divider/>
@@ -162,7 +161,7 @@ class AdmissionSummary extends Component {
                     </Grid>   
                     <Grid>     
                          <Grid.Row> 
-                            <Header  as = "h3">
+                            <Header  as = "h2">
                                 ประเภทการรับเข้าศึกษาของคณะวิทยาศาสตร์ มจธ.
                                 </Header>
                             <Divider/>

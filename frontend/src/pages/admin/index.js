@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import { Container, Row, Col, Card, Image, Button } from 'react-bootstrap'
+import { Divider } from 'semantic-ui-react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGraduationCap, faUserTie, faFileAlt, faHiking } from '@fortawesome/free-solid-svg-icons'
@@ -91,11 +92,11 @@ class AdminHome extends Component {
         return (
             <Fragment>
                 <Image src={KMUTT} alt="KMUTT" fluid />
-                <Container fluid className="mt-5 mx-2">
-                    <Row>
+                <Container  className="mt-5">
+                    <Row >
                         <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/student">
-                                <div className="circle mx-auto">
+                                <div className="fs-btn-circle-admin mx-auto">
                                     <FontAwesomeIcon icon={faUserTie} size="5x" />
                                 </div>
                                 <label>ข้อมูลนักศึกษาปัจจุบัน</label>
@@ -103,7 +104,7 @@ class AdminHome extends Component {
                         </Col>
                         <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/admission">
-                                <div className="circle mx-auto">
+                                <div className="fs-btn-circle-admin mx-auto">
                                     <FontAwesomeIcon icon={faFileAlt} size="5x" />
                                 </div>
                                 <label>ข้อมูลการรับนักศึกษา</label>
@@ -111,7 +112,7 @@ class AdminHome extends Component {
                         </Col>
                         <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/activity">
-                                <div className="circle mx-auto">
+                                <div className="fs-btn-circle-admin mx-auto">
                                     <FontAwesomeIcon icon={faHiking} size="5x" />
                                 </div>
                                 <label>ข้อมูลกิจกรรม</label>
@@ -119,20 +120,18 @@ class AdminHome extends Component {
                         </Col>
                         <Col xs={6} lg={3} className="text-center">
                             <Link to="/admin/alumni">
-                                <div className="circle mx-auto">
+                                <div className="fs-btn-circle-admin mx-auto">
                                     <FontAwesomeIcon icon={faGraduationCap} size="5x" />
                                 </div>
                                 <label>ข้อมูลศิษย์เก่า</label>
                             </Link>
                         </Col>
                     </Row>
-                </Container>
-                <hr />
-                <Container className="mb-5">
+                    <Divider/>
                     <Row>
                         <Col sm={12} lg={6} className="my-2">
-                            <Card className="admin-home-card">
-                                <Card.Title className="card-header">
+                            <Card className="fs-cd-hm-admin">
+                                <Card.Title className="fs-cd-hd-admin">
                                     <strong>จำนวนนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
                                 <div style={{ textAlign: 'center', height: '100%' }}>
@@ -144,8 +143,8 @@ class AdminHome extends Component {
                             </Card>
                         </Col>
                         <Col sm={12} lg={6} className="my-2">
-                            <Card className="admin-home-card">
-                                <Card.Title className="card-header">
+                            <Card className="fs-cd-hm-admin">
+                                <Card.Title className="fs-cd-hd-admin">
                                     <strong>อัตราการมีงานทำของศิษย์เก่า</strong>
                                 </Card.Title>
                                 <div style={{ textAlign: 'center', height: '100%' }}>
@@ -159,8 +158,8 @@ class AdminHome extends Component {
                             </Card>
                         </Col>
                         <Col sm={12} lg={12} className="my-2">
-                            <Card className="admin-home-card">
-                                <Card.Title className="card-header">
+                            <Card className="fs-cd-hm-admin">
+                                <Card.Title className="fs-cd-hd-admin">
                                     <strong>สถานะทางการศึกษาของนักศึกษาในคณะวิทยาศาสตร์</strong>
                                 </Card.Title>
                                 <div style={{ textAlign: 'center', height: '100%' }}>

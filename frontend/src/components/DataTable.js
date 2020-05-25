@@ -1,20 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Modal, Grid, Header, ModalContent, Card } from "semantic-ui-react";
 
-// redux
-import { connect } from 'react-redux'
-import { closeModal } from "../redux/action/modalAction";
-
 import LineChart from '../components/Graph/Line'
 
 
 //  wait other
 import 'chartjs-plugin-datalabels'
 
-import axios from 'axios'
-
-// import color set
-import { colorSet } from '../Constant'
 
 class DataTable extends Component {
 

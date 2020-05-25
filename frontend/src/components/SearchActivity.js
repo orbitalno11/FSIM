@@ -58,19 +58,19 @@ class SearchActivity extends Component {
                             <Table.Cell>Active</Table.Cell>
                             <Table.Cell>
                                 <Button
-                                    className="btn-info interval"
+                                    className="btn-info fs-interval"
                                     onClick={this.handleSearch}
                                 >
                                     <FaDatabase />
                                 </Button>
                                 <Button
-                                    className="btn-EditData interval"
+                                    className="btn-EditData fs-interval"
                                     onClick={this.handleSearch}
                                 >
                                     <FaEdit />
                                 </Button>
                                 <Button
-                                    className="btn-DeleteData interval"
+                                    className="btn-DeleteData fs-interval"
                                     onClick={this.handleSearch}
                                 >
                                     <FaTrash />

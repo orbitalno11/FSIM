@@ -33,7 +33,7 @@ class ActiveRecruitment extends Component {
                     <Grid>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {project_name} แต่ละสาขา
                                         </Card.Header>
@@ -47,7 +47,7 @@ class ActiveRecruitment extends Component {
                         </Grid.Row>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ {project_name} แต่ละสาขา
                                         </Card.Header>
