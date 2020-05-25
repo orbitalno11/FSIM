@@ -222,17 +222,10 @@ class AlumniAddSurvey extends Component {
             this.props.loadSurveyList()
         }else{
             this.props.checkStatus(true)
-            axios.put(`/admin/alumni/survey`, data)
-            .then(() => {
-                this.props.checkStatus(true)
-                this.props.loadSurveyList()
-            })
-            .catch(err => {
-                this.props.checkStatus(false)
-            })
+            this.props.editSurvey(data)
         }
 
-        // this.props.editSurvey(data)
+        
 
        
     }
@@ -365,8 +358,8 @@ const mapDispatchToProps = dispatch => (
         stopLoading: () => dispatch(stopLoading()),
         loadSurveyList: () => dispatch(getSurveyList()),
         editSurvey: (data) => dispatch(editSurvey(data)),
-        openModal: (bool, data) => dispatch(openModal(bool, data))
-
+        openModal: (bool, data) => dispatch(openModal(bool, data)),
+        
     }
 )
 
