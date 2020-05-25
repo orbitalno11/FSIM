@@ -40,6 +40,16 @@ def get_admission_year_list():
     return api_helper.return_response(data)
 
 
+
+@user_admission.route('/round/list', methods=['GET'])
+def get_round_admission_admin_list():
+    db = DatabaseHelper()
+    data = db.get_list_round_admission_admin()
+
+    return api_helper.return_response(data)
+
+
+
 # # # # # get admission data TODO wait for decision
 # get admission data by department and year
 # @user_admission.route('/department', defaults={'department': None, 'year': None}, methods=['GET'])
