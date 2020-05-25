@@ -834,7 +834,7 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # # STUDENT # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # 1ST. insert student academic record
-    def insert_academic_record(self, academic_data, gpa_data, gpax_data):
+    def insert_academic_record(self, academic_data, gpa_data, gpax_data, status_data):
         # academic_data = json.loads(academic_data)
         # academic_data = list(academic_data.values())
         try:
@@ -850,6 +850,11 @@ class DatabaseHelper:
             self.__update_multiple(table="student",
                                    attribute="current_gpax",
                                    value=gpax_data,
+                                   condition_attribute="student_id")
+
+            self.__update_multiple(table="has_status",
+                                   attribute="status_id",
+                                   value=status_data,
                                    condition_attribute="student_id")
 
             self.__db_connection.commit()
