@@ -1,12 +1,8 @@
 import React, { Component, Fragment } from "react";
 
 import {
-    Header,
-    Divider,
-    Grid,
     Card,
     Container,
-    Table
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
@@ -19,7 +15,7 @@ import GraphBar from "../../components/Graph/Bar";
 
 import { setupStackBarChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
-import { getActivityData, getActivityList, selectYear } from '../../redux/action/adminActivityAction'
+import { getActivityData, selectYear } from '../../redux/action/adminActivityAction'
 
 import { getYearList } from '../../redux/action/adminActivityAction'
 
@@ -46,7 +42,7 @@ class ActivityInformation extends Component {
     }
 
     render() {
-        let { activityData, activityList, selectedYear, yearList } = this.props.activity
+        let { activityData, selectedYear, yearList } = this.props.activity
 
         return (
             <Fragment>

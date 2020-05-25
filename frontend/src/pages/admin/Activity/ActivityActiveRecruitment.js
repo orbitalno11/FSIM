@@ -9,7 +9,7 @@ import ARSchool from './ActiveRecruitmentSchool'
 
 import { connect } from 'react-redux'
 import { getARActivityData, getProjectList, selectYear } from '../../../redux/action/adminActivityAction'
-import { setupNoneStackBarChart, setupStackBarChart } from '../../../components/Graph/GraphController'
+import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 

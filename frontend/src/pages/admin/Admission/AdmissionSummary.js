@@ -38,19 +38,14 @@ class AdmissionSummary extends Component {
     render() {
         let { admissionTable, selectedYear, yearList } = this.props.admission
 
-        let { departmentList } = this.props.information
-        console.log(departmentList)
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" textAlign="center">
-
-                        {
-                            yearList !== null && (
-                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
-                            )
-                        }
-                    </Header>
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     {
                         (admissionTable !== null) ?
                             (

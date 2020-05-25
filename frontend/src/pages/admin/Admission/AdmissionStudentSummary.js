@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from 'react-router-dom'
 import {
-    Header,
     Grid,
     Card,
     Container,
@@ -42,14 +41,11 @@ class AdmissionStudentSummary extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" textAlign="center">
-
-                        {
-                            yearList !== null && (
-                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
-                            )
-                        }
-                    </Header>
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }
                     <Grid>
                         {
                             admissionData !== null ? (
@@ -63,7 +59,7 @@ class AdmissionStudentSummary extends Component {
                                                 <Card.Content >
                                                     {
                                                         admissionData !== null ? (
-                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={ false } />
+                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={false} />
                                                         ) : (
                                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                             )
