@@ -264,27 +264,27 @@ class AnalyzeAdmission:
 
             group = df[(df['status_id'] == 2) | (df['status_id'] == 3)]
             group = group.groupby(['channel_id', 'status_id']).size().unstack(fill_value=0)
-            group = analyze_helper.set_fullname_column(status_dic, group)
-            
+            # group = analyze_helper.set_fullname_column(status_dic, group)
+            group = group.rename(columns={2:"probation",3:"drop"})
+
             list_name = group.columns.tolist()
             group = pd.merge(channel_count, group, left_index=True, right_index=True, how='inner')
             group.rename(columns={group.columns[0]: "all"}, inplace=True)
             all_admission = group['all'].sum()
             for name in list_name:
-                group['per_Type_' + name] = group.apply(lambda row: (row[name] / row['all']) * 100, axis=1)
-                group['per_Stu_' + name] = group.apply(lambda row: (row[name] / all_student) * 100, axis=1)
+                group['per_Type_' + str(name)] = group.apply(lambda row: (row[name] / row['all']) * 100, axis=1)
+                group['per_Stu_' + str(name)] = group.apply(lambda row: (row[name] / all_student) * 100, axis=1)
 
             group['per_all_student'] = (group['all']/all_admission)* 100
             group = group.round(2).sort_index()
             
             group_check_index = analyze_helper.check_list(channel_data.index, group)
             group_fullname = analyze_helper.set_fullname_index(channel_dict, group_check_index)
-
             value = {
                 'branch' : branch_list,
                 'count_by_brance' : group_brance.to_dict('index'),
                 'all_student': str(all_student),
-                'table': group_fullname.to_dict('index'),
+                'table': group_check_index.to_dict('index'),
                 'table_count' : table_count,
             }
 
