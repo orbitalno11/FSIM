@@ -155,12 +155,12 @@ class AdmissionSummary extends Component {
                                                                     <Table.Cell>{item[0]}</Table.Cell>
                                                                     <Table.Cell>{item[1]["all"]}</Table.Cell>
                                                                     <Table.Cell>{item[1]["per_all_student"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["ตกออก"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Type_ตกออก"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Stu_ตกออก"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["วิทยาฑัณฑ์"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Type_วิทยาฑัณฑ์"]}</Table.Cell>
-                                                                    <Table.Cell>{item[1]["per_Stu_วิทยาฑัณฑ์"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["drop"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["per_Type_drop"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["per_Stu_drop"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["probation"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["per_Type_probation"]}</Table.Cell>
+                                                                    <Table.Cell>{item[1]["per_Stu_probation"]}</Table.Cell>
                                                                 </Table.Row>
                                                             ))
                                                         )
