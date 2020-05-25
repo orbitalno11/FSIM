@@ -51,7 +51,7 @@ class AdmissionManage extends Component {
                                         <Table.Cell>{item['round_name']}</Table.Cell>
                                         <Table.Cell textAlign="left">{item['channel_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteAdmission(item['admission_year'], item['round_id'], item['channel_id'])}>ลบ</Button>
+                                            <Button color='red' onClick={() => this.handleDeleteAdmission(item['admission_year'], item['round_id'], item['channel_id'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))
