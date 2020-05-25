@@ -67,7 +67,9 @@ class StudentAdd extends Component {
         super(props)
         this.state = {
             selectedFile: null,
-            saveFile: false
+            savegpax: false,
+            saveupload: false,
+
         }
     }
 
@@ -78,6 +80,9 @@ class StudentAdd extends Component {
         form.append('year', element.educationYear.value)
         form.append('semester', element.semester.value)
         form.append('upload', this.state.selectedFile)
+        this.setState({
+            savegpax: true
+        })
         this.props.addStudentGpax(form)
     }
 
@@ -85,6 +90,9 @@ class StudentAdd extends Component {
         event.preventDefault()
         let form = new FormData()
         form.append('upload', this.state.selectedFile)
+        this.setState({
+            saveupload: true
+        })
         this.props.addStudent(form)
     }
 
@@ -92,22 +100,25 @@ class StudentAdd extends Component {
         let file = event.target.files[0]
         this.setState({
             selectedFile: file,
-            saveFile: true
         })
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let { saveFile } = this.state
+        let { savegpax,saveupload } = this.state
         let status = this.props.student.actionResult
         if ((prevProps.actionResult !== status) && (status === true)) {
-            // if (saveFile === true) {
-                // this.setState({
-                //     saveFile: false
-                // })
-            // } else {
-                document.getElementById("addStudent").reset();
+            if (savegpax === true) {
+                this.setState({
+                    savegpax: false
+                })
                 document.getElementById("addGpax").reset();
-            // }
+
+            } else if (saveupload === true) {
+                this.setState({
+                    saveupload: false
+                })
+                document.getElementById("addStudent").reset();
+            }
 
         }
     }

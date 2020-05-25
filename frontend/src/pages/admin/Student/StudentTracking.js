@@ -42,7 +42,7 @@ const Traching = ({ dept_name, data, handleTracking }) => {
                   <Table.Cell>{item['firstname']}  {item['lastname']}</Table.Cell>
                   <Table.Cell>{item['branch_name']}</Table.Cell>
                   <Table.Cell>{item['current_gpax']}</Table.Cell>
-                  <Table.Cell> <Button onClick={() => handleTracking(item['student_id'], dept_name)}>ติดตามผลการเรียน</Button></Table.Cell>
+                  <Table.Cell> <Button  onClick={() => handleTracking(item['student_id'], dept_name)}>ติดตามผลการเรียน</Button></Table.Cell>
 
                 </Table.Row>
               ))

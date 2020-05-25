@@ -48,7 +48,7 @@ class ActivityManage extends Component {
                                         <Table.Cell>{item['project_type_name']}</Table.Cell>
                                         <Table.Cell>{item['activity_name']}</Table.Cell>
                                         <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
+                                            <Button  color='red' onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))

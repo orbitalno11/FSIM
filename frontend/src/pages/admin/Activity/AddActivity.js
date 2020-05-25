@@ -60,7 +60,9 @@ class AddActivity extends Component {
             project_type: null,
             tabKey: '1',
             selectedFile: null,
-            saveFlie: false
+            saveProject: false,
+            saveActivity:false,
+            saveUpload:false
         }
     }
 
@@ -70,15 +72,19 @@ class AddActivity extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let status = this.props.activity.actionResult
-        // let { saveFlie } = this.state
+        let { saveActivity,saveProject,saveUpload } = this.state
         if ((prevProps.actionResult !== status) && (status === true)) {
-        //     if (saveFlie===true) {
-        //         this.setState({ saveFlie: false })
-        //     } else {
+            if (saveProject===true) {
+                this.setState({ saveProject: false })
                 document.getElementById("addProject").reset();
+            } else if(saveActivity===true) {
+                this.setState({ saveActivity: false })
                 document.getElementById("addActivity").reset();
-        //         document.getElementById("UploadActivity").reset();
-        //     }
+            }else if(saveUpload===true){
+                this.setState({ saveUpload: false })
+                document.getElementById("UploadActivity").reset();
+
+            }
         }
     }
 
@@ -107,7 +113,9 @@ class AddActivity extends Component {
             project_name: element.project_name.value,
             project_type: parseInt(element.project_type.value)
         }
-
+        this.setState({
+            saveProject: true
+        })
         this.props.addProject(data)
     }
 
@@ -121,6 +129,9 @@ class AddActivity extends Component {
         form.append('activity_name', element.activityName.value)
         form.append('budget', parseFloat(element.activityBudget.value))
         form.append('year', parseInt(element.educationYear.value))
+        this.setState({
+            saveActivity: true
+        })
 
         this.props.addActivity(form)
     }
@@ -136,7 +147,9 @@ class AddActivity extends Component {
         form.append('project_type', data['project_type'])
         form.append('year', data['education_year'])
         form.append('upload', this.state.selectedFile)
-
+        this.setState({
+            saveUpload: true
+        })
         console.log(data)
 
         this.props.uploadParticipant(form)
