@@ -132,21 +132,26 @@ class AnalyzeStudent:
         value = {}
         if data['value']:
             df = pd.DataFrame(data['value'])
-            df = df.sort_values(by=['education_year', 'semester'])
-            df_drop_s = df[df['semester']!='S']
-            df_drop_s.reset_index(inplace=True)
+            if (not df.gpa.empty) & (not df.current_gpax.empty ):
+                df = df.sort_values(by=['education_year', 'semester'])
+                df_drop_s = df[df['semester']!='S']
+                df_drop_s.reset_index(inplace=True)
+                
+                df_tracking = df_drop_s.gpa
+                print(df_drop_s)
+                value={
+                    'student_id' : id_student,
+                    'firstname' : df_drop_s.loc[0,'firstname'],
+                    'lastname' : df_drop_s.loc[0,'lastname'],
+                    'gpax'  :   df_drop_s.current_gpax.loc[0],
+                    'trackking' : df_tracking.to_dict()
+                }
+                response = True
+                message = "Analyze Subject Successfully"
+            else:
+                response= False
+                message = "Don't have Data"
             
-            df_tracking = df_drop_s.gpa
-
-            value={
-                'student_id' : id_student,
-                'firstname' : df_drop_s.loc[0,'firstname'],
-                'lastname' : df_drop_s.loc[0,'lastname'],
-                'gpax'  :   df_drop_s.current_gpax.loc[1],
-                'trackking' : df_tracking.to_dict()
-            }
-            response = True
-            message = "Analyze Subject Successfully"
         else:
             response= False
             message = "Don't have Data"
