@@ -75,10 +75,10 @@ class Alumni extends Component {
             <Fragment>
 
                 <Container  className="white-background">
-
+                    
                     {
 
-                        yearList.length > 0 ?
+                        yearList.length !== 0 ?
                             yearList !== null && (
                                 <YearSelect yearList={yearList}
                                     selectedYear={selectedYear}
@@ -155,6 +155,11 @@ class Alumni extends Component {
                                         </select>
                                     </Card.Header>
                                     <Card.Content>
+                                       {
+                                           workData?
+                                           console.log(workData.salaryChart):null
+                                       }
+                                
                                         {workData !== null ? <Bar data={setupStackBarChart(this.reorderSalary(workData.salaryChart))} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
