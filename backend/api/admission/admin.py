@@ -20,8 +20,8 @@ admin_admission = Blueprint('admin_admission', __name__)
 
 # upload admission data api
 @admin_admission.route('', methods=['POST'])
-# @auth.token_required
-def insert_admission():
+@auth.token_required
+def insert_admission(current_user):
     # This api need "Year" as year , "Admission type" as admission_type
     # and "Admission channel" as channel to be a parameter
 

@@ -100,14 +100,6 @@ class DatabaseHelper:
                                                                ','.join(attribute),
                                                                ','.join('%s' for _ in attribute))
         self.__cursor.executemany(sql_command, value)
-        # try:
-        #     self.__cursor.executemany(sql_command, value)
-        #     self.__db_connection.commit()
-        # except pymysql.Error as e:
-        #     print("Error %d: %s" % (e.args[0], e.args[1]))
-        #     self.__db_connection.rollback()
-        #     return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
-        # return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
     # 8. delete data from database (one value)
     def __execute_delete_data(self, table, attribute, value):
@@ -148,6 +140,15 @@ class DatabaseHelper:
             obj = dict(zip(object_indicator_list, list(item[x] for x in data_indicator_list)))
             out_data.append(obj)
         return out_data
+
+    # 13. update data in database (multiple  value)
+    def __update_multiple(self, table, attribute, value, condition_attribute):
+        sql_command = "UPDATE {} SET {} = {} WHERE {} = {}".format(table,
+                                                                   attribute,
+                                                                   '%s',
+                                                                   condition_attribute,
+                                                                   '%s')
+        self.__cursor.executemany(sql_command, value)
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # CLASS METHOD  # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -803,17 +804,16 @@ class DatabaseHelper:
     # 7IF. get department from ds
     def get_department_ds(self):
         sql_command = "SELECT  branch_id, branch_name, dept_id, dept_name " \
-                        "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
-                        "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
-        
+                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
+                      "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
 
         out_data = self.__create_out_function_data(execute['value'],
-                                                    ['dept_id', 'dept_name', 'branch_id', 'branch_name'],
-                                                    [2, 3, 0, 1])
+                                                   ['dept_id', 'dept_name', 'branch_id', 'branch_name'],
+                                                   [2, 3, 0, 1])
 
         return inner_res_helper.make_inner_response(True, "Query success.", out_data)
 
@@ -821,15 +821,23 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # # # STUDENT # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # 1ST. insert student academic record
-    def insert_academic_record(self, academic_data, gpa_data):
+    def insert_academic_record(self, academic_data, gpa_data, gpax_data):
+        # academic_data = json.loads(academic_data)
+        # academic_data = list(academic_data.values())
         try:
             self.__insert_multiple_into(table="academic_record",
-                                        attribute=['student_id', 'subject_code', 'semester', 'education_year', 'grade'],
+                                        attribute=['student_id', 'subject_code', 'grade', 'semester',
+                                                   'education_year'],
                                         value=academic_data)
 
             self.__insert_multiple_into(table="gpa_record",
-                                        attribute=['student_id', 'gpa', 'semester', 'year'],
+                                        attribute=['student_id', 'gpa', 'semester', 'education_year'],
                                         value=gpa_data)
+
+            self.__update_multiple(table="student",
+                                   attribute="current_gpax",
+                                   value=gpax_data,
+                                   condition_attribute="student_id")
 
             self.__db_connection.commit()
         except pymysql.Error as e:
