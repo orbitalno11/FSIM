@@ -413,10 +413,9 @@ class DatabaseHelper:
 
     # 5AD. get admission list
     def get_admission_list(self):
-        sql_command = "SELECT admission_year, round_name, channel_name, round_id, channel_id " \
+        sql_command = "SELECT DISTINCT admission_year, round_name, channel_name, round_id, channel_id " \
                       "FROM admission NATURAL JOIN admission_from NATURAL JOIN admission_channel " \
-                      "NATURAL JOIN has_round NATURAL JOIN admission_round " \
-                      "GROUP BY channel_id, admission_year ORDER BY admission_year DESC"
+                      "NATURAL JOIN has_round NATURAL JOIN admission_round"
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
@@ -469,7 +468,7 @@ class DatabaseHelper:
         if year is None or year == 'null':
             sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id,dept_id " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel " \
-                          "NATURAL JOIN admission_studied) NATURAL JOIN has_branch " 
+                          "NATURAL JOIN admission_studied) NATURAL JOIN has_branch "
         else:
             sql_command = "SELECT channel_id, channel_name, admission_year, branch_id, school_id,dept_id " \
                           "FROM (admission NATURAL JOIN admission_from NATURAL JOIN admission_in_branch NATURAL JOIN admission_channel " \
