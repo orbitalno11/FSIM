@@ -74,7 +74,7 @@ class Alumni extends Component {
         return (
             <Fragment>
 
-                <Container>
+                <Container  className="white-background">
 
                     {
 
