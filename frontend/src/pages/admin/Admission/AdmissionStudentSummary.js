@@ -18,11 +18,6 @@ import { setupNoneStackBarChart } from '../../../components/Graph/GraphControlle
 import Bar from '../../../components/Graph/Bar'
 
 
-
-
-
-
-
 class AdmissionStudentSummary extends Component {
 
     componentDidMount() {
@@ -48,7 +43,7 @@ class AdmissionStudentSummary extends Component {
             <Fragment>
                 <Container>
                     <Header as="h5" textAlign="center">
-                       
+
                         {
                             yearList !== null && (
                                 <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
@@ -60,8 +55,7 @@ class AdmissionStudentSummary extends Component {
                             admissionData !== null ? (
                                 admissionData.map((item, index) => {
                                     return (
-
-                                        <Grid.Column mobile="16" computer="8" className="my-3">
+                                        <Grid.Column mobile="16" computer="8" className="my-3" key={index}>
                                             <Card className="card-default">
                                                 <Card.Header as="h3">
                                                     กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
@@ -77,30 +71,20 @@ class AdmissionStudentSummary extends Component {
                                                 </Card.Content>
                                             </Card>
                                         </Grid.Column>
-
                                     )
                                 })
-                            ):(
-
-                                <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3>
-                                               
-
-                                </Container>
-                                
-                               
-                            )
-
+                            ) : (
+                                    <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3> </Container>
+                                )
                         }
-
-
                     </Grid>
-                    {admissionData !== null ?(
-                    <Container textAlign="center" style={{ marginTop: '5%',marginBottom:'5%' }}>
-                        <Button as={Link} to="/admission" className="btn-info interval-1" style={{color:'#FFFFFF'}}>
-                            ดูผลการวิเคราะห์เพิ่มเติม 
+                    {admissionData !== null ? (
+                        <Container textAlign="center" style={{ marginTop: '5%', marginBottom: '5%' }}>
+                            <Button as={Link} to="/admission" className="btn-info interval-1" style={{ color: '#FFFFFF' }}>
+                                ดูผลการวิเคราะห์เพิ่มเติม
                         </Button>
-                    </Container>
-                    ):null}
+                        </Container>
+                    ) : null}
                 </Container>
             </Fragment>
         )

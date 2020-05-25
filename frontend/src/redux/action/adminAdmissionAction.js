@@ -175,11 +175,14 @@ export const deleteAdmission = (year,round_id,channel_id) => (dispatch, getState
     dispatch(deleteAdmissionStart())
     dispatch(startLoading())
     axios.delete(`/admin/admission?year=${year}&round_id=${round_id}&channel_id=${channel_id}`)
-        .then(res => {
+        .then(() => {
             dispatch(deleteAdmissionSuccess(true))
             dispatch(stopLoading())
             let year = getState().admin_admission.selectedYear
             dispatch(getAdmissionList(year))
+            dispatch(getAdmissionData(year))
+            dispatch(getAdmissionTable(year))
+            dispatch(getYearList())
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
@@ -200,13 +203,12 @@ export const addAdmission = data=> (dispatch, getState) => {
     axios.post('/admin/admission',data,config)
         .then(res => {
             dispatch(addAdmissionSuccess(true))
-            
             let year = getState().admin_admission.selectedYear
             dispatch(getAdmissionList(year))
             dispatch(getAdmissionData(year))
+            dispatch(getAdmissionTable(year))
             dispatch(getYearList())
             dispatch(stopLoading())
-            //dispatch(getActivityData(year))
             dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
         })
         .catch(err => {
