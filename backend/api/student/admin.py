@@ -19,7 +19,8 @@ admin_student = Blueprint('admin_student', __name__)
 
 
 @admin_student.route('', methods=['POST'])
-def add_student_data():
+@auth.token_required
+def add_student_data(current_user):
     try:
         file = request.files['upload']
         if file and Constant.allowed_academic_file(file.filename):
@@ -44,7 +45,8 @@ def add_student_data():
 
 
 @admin_student.route('', methods=['DELETE'])
-def delete_student_data():
+@auth.token_required
+def delete_student_data(current_user):
     year = request.args.get('year')
     database = DatabaseHelper()
     result = database.delete_student_by_year(year)
@@ -54,7 +56,8 @@ def delete_student_data():
 
 # upload current student academic record
 @admin_student.route('/academic', methods=['POST'])
-def insert_academic_record():
+@auth.token_required
+def insert_academic_record(current_user):
     # this api need education year (2561, 2562) and semester (1,2 or S)
     year = request.form.get('year')
     semester = request.form.get('semester')
@@ -94,7 +97,8 @@ def insert_academic_record():
 
 # get student in department by status
 @admin_student.route('/department/status', methods=['GET'])
-def get_probation_student():
+@auth.token_required
+def get_probation_student(current_user):
     # this api need department id and status id
     department = request.args.get('dept_id')
     status = request.args.get('status_id')
@@ -107,7 +111,8 @@ def get_probation_student():
 
 # get student list by year
 @admin_student.route('/list', methods=['GET'])
-def get_student_list():
+@auth.token_required
+def get_student_list(current_user):
     year = request.args.get('year')
 
     if year == 'null' or year is None:
@@ -123,7 +128,8 @@ def get_student_list():
 
 # get education list
 @admin_student.route('/education/list', methods=['GET'])
-def get_education_year_list():
+@auth.token_required
+def get_education_year_list(current_user):
     db = DatabaseHelper()
     result = db.get_education_year_list()
 
@@ -131,7 +137,8 @@ def get_education_year_list():
 
 
 @admin_student.route('/tracking', methods=['GET'])
-def get_student_tracking():
+@auth.token_required
+def get_student_tracking(current_user):
     id_student = request.args.get('id_student')
     db = AnalyzeStudent()
     data = db.student_tracking(id_student)
@@ -140,7 +147,8 @@ def get_student_tracking():
 
 
 @admin_student.route('/analyze/subject/branch', methods=['GET'])
-def subject_by_branch():
+@auth.token_required
+def subject_by_branch(current_user):
     db = AnalyzeStudent()
     branch = request.args.get('branch')
     semester = request.args.get('semester')
@@ -153,7 +161,8 @@ def subject_by_branch():
 
 
 @admin_student.route('/analyze', methods=['GET'])
-def analyze_student():
+@auth.token_required
+def analyze_student(current_user):
     db = AnalyzeStudent()
     data = db.student_admin()
     return api_helper.return_response(data)

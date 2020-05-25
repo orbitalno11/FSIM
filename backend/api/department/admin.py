@@ -20,7 +20,8 @@ admin_department = Blueprint('admin_department', __name__)
 
 # get all department data
 @admin_department.route('/', methods=['GET'])
-def get_all_department_data():
+@auth.token_required
+def get_all_department_data(current_user):
     dept_id = request.args.get('dept_id')
 
     db = DatabaseHelper()

@@ -20,7 +20,8 @@ admin_information = Blueprint('admin_information', __name__)
 
 # get all information data
 @admin_information.route('', methods=['GET'])
-def get_dept_information():
+@auth.token_required
+def get_dept_information(current_user):
     dept_id = request.args.get('dept_id')
 
     db = DatabaseHelper()
@@ -30,7 +31,8 @@ def get_dept_information():
 
 
 @admin_information.route('/course', methods=['GET'])
-def get_course():
+@auth.token_required
+def get_course(current_user):
     course_id = request.args.get('course_id')
     db = DatabaseHelper()
     result = db.get_course(course_id)
@@ -39,7 +41,8 @@ def get_course():
 
 
 @admin_information.route('/course/list', methods=['GET'])
-def get_course_list():
+@auth.token_required
+def get_course_list(current_user):
     db = DatabaseHelper()
     result = db.get_course_list()
 

@@ -27,7 +27,7 @@ class DepartmentStudent extends Component {
         this.state = {
             dept_id: null,
             isLoaded: false,
-            department: "",
+            department: null,
             loadTime: 0,
             departmentName: "",
             branch: [],
@@ -57,6 +57,16 @@ class DepartmentStudent extends Component {
                 }
             })
             .catch(error => {
+                this.setState({
+                    departmentName: null,
+                    branch: [],
+                    byYear: [],
+                    byBranch: [],
+                    dept_id: null,
+                    studentByBranch: [],
+                    studentByYear: [],
+                    branchByStatus: []
+                })
                 console.log(error)
             })
     }
@@ -102,17 +112,26 @@ class DepartmentStudent extends Component {
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            department!==null? <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                       
                                     </Card.Content>
                                 </Card>
                             </Col>
+                            {
+                                console.log(department)
+                            }
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
                                     <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            department!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                   
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -123,7 +142,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            department!==null?   <Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                      
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -143,7 +165,10 @@ class DepartmentStudent extends Component {
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            department!==null?   <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -153,7 +178,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            department!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -164,7 +192,10 @@ class DepartmentStudent extends Component {
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            department!==null?<Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
