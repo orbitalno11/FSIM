@@ -40,7 +40,7 @@ class AddActivity extends Component {
         return (
             <Fragment>
                 <Form style={{padding: "5%"}}>
-                    <Row className="style-addData interval-top">
+                    <Row className="fs-style-addData fs-interval-top">
                         <Col sm="3">
                             <Label>กิจกรรมรับเข้า</Label>
                         </Col>
@@ -53,7 +53,7 @@ class AddActivity extends Component {
                             />
                         </Col>
                     </Row>
-                    <Row className="style-addData interval-top">
+                    <Row className="fs-style-addData fs-interval-top">
                         <Col sm="3">
                             <Label>ประเภทโครงการ</Label>
                         </Col>
@@ -80,7 +80,7 @@ class AddActivity extends Component {
                             RESET
                         </Button>
 
-                        <Button className="btn-info interval-1" onClick={this.handleSubmit}>
+                        <Button className="btn-info fs-interval-1" onClick={this.handleSubmit}>
                             SUBMIT
                         </Button>
                     </div>

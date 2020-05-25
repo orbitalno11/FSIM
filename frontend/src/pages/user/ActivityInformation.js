@@ -50,7 +50,7 @@ class ActivityInformation extends Component {
 
         return (
             <Fragment>
-                <Container className="white-background">
+                <Container >
                     {
                         yearList != null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
@@ -59,7 +59,7 @@ class ActivityInformation extends Component {
                     <Container className="mb-5">
                         <Row>
                             <Col sm={12} lg={6} className="my-2">
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
@@ -75,7 +75,7 @@ class ActivityInformation extends Component {
                                 </Card>
                             </Col>
                             <Col sm={12} lg={6} className="my-2">
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>

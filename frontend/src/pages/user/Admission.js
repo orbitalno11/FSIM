@@ -128,8 +128,7 @@ class Admission extends Component {
 
         return (
             <Fragment>
-                <Container className="white-background">
-                    <Divider />
+                <Container >
                     <Header as="h5" textAlign="center">
                         {
                             yearList !== null && (
@@ -140,7 +139,7 @@ class Admission extends Component {
                     <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
                                         {selectedYear}
@@ -158,7 +157,7 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี {selectedYear}
                                     </Card.Header>
@@ -174,11 +173,11 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา {selectedYear}
                                     </Card.Header>
-                                    <Card.Header as="h5" align='right' className='branch'>
+                                    <Card.Header as="h5" align='right' className='fs-font-18'>
 
                                         <select className="form-control" defaultValue={ admissionRound.length!==0?admissionRound[0]['round_name']:null} onChange={countGrade !== null ? this.handleSalarySelect : null}>
                                             
@@ -200,7 +199,7 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดง 5 อันดับโรงเรียน {selectedYear}
                                     </Card.Header>
@@ -216,7 +215,7 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี {selectedYear} และ {parseInt(selectedYear)+1}
                                     </Card.Header>

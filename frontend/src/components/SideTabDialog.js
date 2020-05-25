@@ -62,7 +62,7 @@ class SideTabDialog extends Component {
             <Fragment>
                 <Tab.Container defaultActiveKey={tabKey} onSelect={this.handleTabSelector}>
                     <Row>
-                        <Col xs={12} md={3}>
+                        <Col xs={12} md={3} sm={8}>
                             <MediaQuery minDeviceWidth={minDeviceWidth}>
                                 <Nav variant="pills"
                                     activeKey={tabKey}
@@ -80,7 +80,7 @@ class SideTabDialog extends Component {
                                 </Nav>
                             </MediaQuery>
                             <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
-                                <DropdownButton title={dropdownTitle} variant="outline-warning" className="my-3">
+                                <DropdownButton  title={dropdownTitle} variant="outline-warning" className="my-3">
                                     {
                                         tabName !== null && tabName.map((item, index) => (
                                             <Dropdown.Item key={index} eventKey={item['tabId']}><div onClick={() => this.handleChangeText(item['tabTitle'])}>{item['tabTitle']}</div></Dropdown.Item>

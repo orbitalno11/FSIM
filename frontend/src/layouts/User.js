@@ -22,8 +22,8 @@ class UserLayout extends Component {
     render() {
         return (
             <Fragment>
-                <Image size="massive" className="background-yellow" src={bgyel} />
-                <Image size="massive" className="bottom-left" src={bannerbot} />
+                <Image size="massive" className="fs-bg-tp-yellow" src={bgyel} />
+                <Image size="massive" className="fs-bg-bt-yellow" src={bannerbot} />
                 <Switch>
                     <Route exact path="/" component={UserHome} />
                     <Route exact path="/admission" component={Admission} />

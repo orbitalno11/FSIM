@@ -56,14 +56,14 @@ class AdmissionStudentSummary extends Component {
                                 admissionData.map((item, index) => {
                                     return (
                                         <Grid.Column mobile="16" computer="8" className="my-3" key={index}>
-                                            <Card className="card-default">
+                                            <Card className="fs-cd-default">
                                                 <Card.Header as="h3">
                                                     กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
                                                 </Card.Header>
                                                 <Card.Content >
                                                     {
                                                         admissionData !== null ? (
-                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={{ display: false }} />
+                                                            <Bar data={setupNoneStackBarChart(item.analyze[0])} legend={ false } />
                                                         ) : (
                                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                                             )
@@ -80,7 +80,7 @@ class AdmissionStudentSummary extends Component {
                     </Grid>
                     {admissionData !== null ? (
                         <Container textAlign="center" style={{ marginTop: '5%', marginBottom: '5%' }}>
-                            <Button as={Link} to="/admission" className="btn-info interval-1" style={{ color: '#FFFFFF' }}>
+                            <Button as={Link} to="/admission" className="btn-info fs-interval-1" style={{ color: '#FFFFFF' }}>
                                 ดูผลการวิเคราะห์เพิ่มเติม
                         </Button>
                         </Container>

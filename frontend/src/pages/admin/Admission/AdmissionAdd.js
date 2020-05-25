@@ -113,7 +113,7 @@ class Addadmission extends Component {
                             </FormControl>
                         </InputGroup>
                     </Form.Group>
-                    <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+                    <Button type="submit" className="btn-info fs-interval-1" >SUBMIT</Button>
                 </Form>
             </Fragment>
         )
