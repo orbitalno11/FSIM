@@ -179,14 +179,14 @@ class AlumniAddSurvey extends Component {
             personal_header: list_p
         }
 
-        if(tableHeader.length===0){
-            this.props.openModal(true, [{ text: 'กรุณาเลือกข้อมูลสำหรับวิเคราะห์  ' , color: '#C0392B', type: false }])
+        if (tableHeader.length === 0) {
+            this.props.openModal(true, [{ text: 'กรุณาเลือกข้อมูลสำหรับวิเคราะห์  ', color: '#C0392B', type: false }])
 
-        }else{
+        } else {
             await this.props.addSurvey(data)
         }
 
-        
+
     }
 
     handleEdit = event => {
@@ -217,131 +217,141 @@ class AlumniAddSurvey extends Component {
             sheet_url: sheetUrl,
             personal_header: list_p
         }
-        if(tableHeader.length===0){
+        if (tableHeader.length === 0) {
             this.props.checkStatus(false)
             this.props.loadSurveyList()
-        }else{
-            this.props.checkStatus(true)
-            this.props.editSurvey(data)
-        }
-
+        } else {
+            // this.props.checkStatus(true)
+            // this.props.editSurvey()
+            axios.put(`/admin/alumni/survey`, data)
+                .then(() => {
+                    this.props.checkStatus(true)
+                    this.props.loadSurveyList()
+                })
+                .catch(err => {
+                    this.props.checkStatus(false)
+                    this.props.loadSurveyList()
+                })
         
-
-       
     }
 
-    handleFormChange = (e) => {
-        const { name, value } = e.target;
-        const { list_person } = this.state
 
-        let list_p = Object.assign({}, list_person);
-        list_p[name] = value;
-        this.setState({ list_person: list_p });
-    }
 
-    render() {
-        let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader, editVerify, list_person } = this.state
-        let { editData } = this.props
-        // console.log(personalHeader)
-        return (
-            <Fragment>
-                <ReactModal />
-                <Form id="addData" onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>ปีการศึกษา</Form.Label>
-                        <InputGroup>
-                            <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" defaultValue={educationYear} />
-                        </InputGroup>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>ลิงก์ Google Sheet</Form.Label>
-                        <InputGroup>
-                            <Form.Control
-                                id="sheetUrl"
-                                type="text"
-                                placeholder="วางลิงก์ Google Sheet"
-                                ref={this.urlRef}
-                                defaultValue={sheetUrl}
-                                readOnly={!editData ? false : true}
-                                required
-                            />
-                            <InputGroup.Append   >
-                                <Button onClick={this.handleVerifyUrl} >ตรวจสอบ</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Form.Group>
-                    {editData ?
-                        <div style={{ marginTop: '2%', marginBottom: '2%' }}><p style={{ color: 'red' }}>*หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
-                            <p style={{ color: 'red' }}>**หากต้องการแก้ไขหัวข้อสำหรับการคำนวนความพึงพอใจ กรุณากดตรวจสอบก่อน</p></div>
-                        : null}
-                    <Form.Row >
-                        <Col xs={12} md={6}>
-                            <Form.Group>
+
+}
+
+handleFormChange = (e) => {
+    const { name, value } = e.target;
+    const { list_person } = this.state
+
+    let list_p = Object.assign({}, list_person);
+    list_p[name] = value;
+    this.setState({ list_person: list_p });
+}
+
+render() {
+    let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader, editVerify, list_person } = this.state
+    let { editData } = this.props
+    // console.log(personalHeader)
+    return (
+        <Fragment>
+            <ReactModal />
+            <Form id="addData" onSubmit={educationYear !== null || sheetUrl !== null ? this.handleEdit : this.handleSubmit}>
+                <Form.Group>
+                    <Form.Label>ปีการศึกษา</Form.Label>
+                    <InputGroup>
+                        <Form.Control id="educationYear" type="number" placeholder="ระบุปีการศึกษา" defaultValue={educationYear} />
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>ลิงก์ Google Sheet</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            id="sheetUrl"
+                            type="text"
+                            placeholder="วางลิงก์ Google Sheet"
+                            ref={this.urlRef}
+                            defaultValue={sheetUrl}
+                            readOnly={!editData ? false : true}
+                            required
+                        />
+                        <InputGroup.Append   >
+                            <Button onClick={this.handleVerifyUrl} >ตรวจสอบ</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Form.Group>
+                {editData ?
+                    <div style={{ marginTop: '2%', marginBottom: '2%' }}><p style={{ color: 'red' }}>*หากต้องการแก้ไข ลิงก์ Google Sheet กรุณาลบข้อมูลและกรอกข้อมูลใหม่</p>
+                        <p style={{ color: 'red' }}>**หากต้องการแก้ไขหัวข้อสำหรับการคำนวนความพึงพอใจ กรุณากดตรวจสอบก่อน</p></div>
+                    : null}
+                <Form.Row >
+                    <Col xs={12} md={6}>
+                        <Form.Group>
+                            {
+                                tableHeader !== null ? <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label> : null
+                            }
+
+                            {/* <div onChange={this.handlePersonalSelect}> */}
+                            <div onChange={this.handleFormChange}>
                                 {
-                                     tableHeader !== null? <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>:null
-                                }
-                               
-                                {/* <div onChange={this.handlePersonalSelect}> */}
-                                <div onChange={this.handleFormChange}>
-                                    {
-                                        tableHeader !== null && list_personal.map((item, index) => (
-                                            <Form.Group
-                                                style={{ width: '70%' }}
-                                                key={index}
-                                            >
-                                                <Form.Label>{item.name_th}</Form.Label>
-                                                <Form.Control id={index} name={item.name_en} defaultValue={editData ? personalHeader[index] : list_person[item.name_en]} as="select">
-                                                    {
-                                                        editVerify ?
-                                                            <option value={personalHeader[index]}>{personalHeader[index]}</option>
-                                                            :
-                                                            (
-                                                                <option value='0'>กรุณาเลือก{item.name_th}</option>
-                                                            )
-                                                    }
+                                    tableHeader !== null && list_personal.map((item, index) => (
+                                        <Form.Group
+                                            style={{ width: '70%' }}
+                                            key={index}
+                                        >
+                                            <Form.Label>{item.name_th}</Form.Label>
+                                            <Form.Control id={index} name={item.name_en} defaultValue={editData ? personalHeader[index] : list_person[item.name_en]} as="select">
+                                                {
+                                                    editVerify ?
+                                                        <option value={personalHeader[index]}>{personalHeader[index]}</option>
+                                                        :
+                                                        (
+                                                            <option value='0'>กรุณาเลือก{item.name_th}</option>
+                                                        )
+                                                }
 
-                                                    {
-                                                        !editVerify ? (
-                                                            tableHeader !== null && tableHeader.map((item, index) => (
-                                                                <option value={item} id={index} key={index}>{item}</option>
-                                                            ))
-                                                        ) : null
-                                                    }
-                                                </Form.Control>
-                                            </Form.Group>))
-                                    }
-                                </div>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <Form.Group>
-                                {
-                                    tableHeader !== null? <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label>:null
+                                                {
+                                                    !editVerify ? (
+                                                        tableHeader !== null && tableHeader.map((item, index) => (
+                                                            <option value={item} id={index} key={index}>{item}</option>
+                                                        ))
+                                                    ) : null
+                                                }
+                                            </Form.Control>
+                                        </Form.Group>))
                                 }
-                               
-                                <div onChange={this.handleHeaderSelect}>
-                                    {
-                                        tableHeader !== null && tableHeader.map((item, index) => (
-                                            <Form.Check
-                                                type='checkbox'
-                                                value={item}
-                                                id={"h-" + index}
-                                                label={item}
-                                                key={index}
-                                                defaultChecked={headerSelect.includes(item)}
-                                                disabled={!editVerify ? false : true}
-                                            />
-                                        ))
-                                    }
-                                </div>
-                            </Form.Group>
-                        </Col>
-                    </Form.Row>
-                    <Button variant="success" type="submit">ยืนยันข้อมูล</Button>
-                </Form>
-            </Fragment>
-        )
-    }
+                            </div>
+                        </Form.Group>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group>
+                            {
+                                tableHeader !== null ? <Form.Label>เลือกหัวข้อสำหรับการคำนวณความพึงพอใจ</Form.Label> : null
+                            }
+
+                            <div onChange={this.handleHeaderSelect}>
+                                {
+                                    tableHeader !== null && tableHeader.map((item, index) => (
+                                        <Form.Check
+                                            type='checkbox'
+                                            value={item}
+                                            id={"h-" + index}
+                                            label={item}
+                                            key={index}
+                                            defaultChecked={headerSelect.includes(item)}
+                                            disabled={!editVerify ? false : true}
+                                        />
+                                    ))
+                                }
+                            </div>
+                        </Form.Group>
+                    </Col>
+                </Form.Row>
+                <Button variant="success" type="submit">ยืนยันข้อมูล</Button>
+            </Form>
+        </Fragment>
+    )
+}
 }
 
 const mapStateToProps = state => (
@@ -359,7 +369,7 @@ const mapDispatchToProps = dispatch => (
         loadSurveyList: () => dispatch(getSurveyList()),
         editSurvey: (data) => dispatch(editSurvey(data)),
         openModal: (bool, data) => dispatch(openModal(bool, data)),
-        
+
     }
 )
 
