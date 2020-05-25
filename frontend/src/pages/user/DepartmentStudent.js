@@ -3,8 +3,7 @@ import React, { Component, Fragment } from "react";
 import {
     Container,
     Header,
-    Card,
-    Divider
+    Card
 } from "semantic-ui-react";
 import { Row, Col} from 'react-bootstrap'
 
@@ -85,11 +84,11 @@ class DepartmentStudent extends Component {
 
         return (
             <Fragment>
-                <Container >
-                    <Header className="my-5" textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
+                <Container className="white-background">
+                    <Header textAlign="center" as="h2" style={{ marginBottom: "5%" }}>
                         จำนวนนักศึกษาทุกชั้นปี {department}
                     </Header>
-                    <Divider/>
+
                     <Container className="mb-5">
                         <Row >
                             <Col sm={12} lg={6} className="my-2">

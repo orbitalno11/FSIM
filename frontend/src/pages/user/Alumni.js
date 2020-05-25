@@ -74,7 +74,7 @@ class Alumni extends Component {
         return (
             <Fragment>
 
-                <Container>
+                <Container  className="white-background">
 
                     {
 
@@ -90,8 +90,8 @@ class Alumni extends Component {
                     }
                     <Grid textAlign="center">
                         <Grid.Row >
-                            <Grid.Column mobile="16" computer="8">
-                                <Card className="fs-cd-default">
+                            <Grid.Column mobile="16" computer="8" className="my-3">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
@@ -100,8 +100,8 @@ class Alumni extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column mobile="16" computer="8" >
-                                <Card className="fs-cd-default">
+                            <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
@@ -113,7 +113,7 @@ class Alumni extends Component {
                         </Grid.Row>
                         <Grid.Row  >
                             <Grid.Column >
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
@@ -125,7 +125,7 @@ class Alumni extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column >
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h5">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
@@ -137,17 +137,17 @@ class Alumni extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h5">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='branch'>
-                                        <select className="form-control fs-font-18" onChange={workData !== null ? this.handleSalarySelect : null}>
+                                        <select className="form-control" onChange={workData !== null ? this.handleSalarySelect : null}>
                                             <option value="all">ทุกสาขาวิชา</option>
                                             {
                                                 branchList !== null && (
                                                     branchList.map((item, index) => (
-                                                        <option key={index} 
+                                                        <option key={index}
                                                             value={item['branch_id']}>{item['branch_name']}</option>
                                                     ))
                                                 )

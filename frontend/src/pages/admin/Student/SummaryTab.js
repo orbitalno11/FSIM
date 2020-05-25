@@ -24,9 +24,9 @@ const StudentData = ({ data }) => {
 
     return (
         <Fragment>
-            <Container >
+            <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
 
-                <Header align="center" as="h2" >
+                <Header align="center" as="h2" style={{ marginBottom: "5%" }}>
                     จำนวนนักศึกษาทุกชั้นปี
                 </Header>
                 <Container align="center">

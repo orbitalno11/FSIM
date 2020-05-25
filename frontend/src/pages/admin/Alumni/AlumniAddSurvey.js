@@ -288,6 +288,7 @@ class AlumniAddSurvey extends Component {
                                      tableHeader !== null? <Form.Label>เลือกหัวข้อสำหรับข้อมูลส่วนตัว</Form.Label>:null
                                 }
                                
+                                {/* <div onChange={this.handlePersonalSelect}> */}
                                 <div onChange={this.handleFormChange}>
                                     {
                                         tableHeader !== null && list_personal.map((item, index) => (

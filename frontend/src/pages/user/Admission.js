@@ -11,7 +11,7 @@ import {
 
 import Barchart from "../../components/Graph/Bar";
 import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-// import { Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 import { connect } from 'react-redux'
 import { selectYear, getYearList } from '../../redux/action/adminAdmissionAction'
@@ -109,8 +109,9 @@ class Admission extends Component {
 
         return (
             <Fragment>
-                <Container >
-                    <Header className="my-5" as="h5" textAlign="center">
+                <Container className="white-background">
+                <Divider />
+                    <Header as="h5" textAlign="center">
                         {
                             yearList !== null && (
                                 <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
@@ -120,7 +121,7 @@ class Admission extends Component {
                     <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
                                         2560
@@ -138,7 +139,7 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
                                     </Card.Header>
@@ -148,7 +149,7 @@ class Admission extends Component {
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-                        {/* <Grid.Row>
+                        <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="card-default">
                                     <Card.Header as="h5">
@@ -163,17 +164,17 @@ class Admission extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                        </Grid.Row> */}
+                        </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟแสดง 5 อันดับโรงเรียน 2560
                                     </Card.Header>
                                     <Card.Content>
                                         {
                                             countSchool !== null && (
-                                                <Barchart data={countSchool} legend={{ display: true }} />
+                                                <Bar data={countSchool} legend={{ display: true }} />
                                             )
                                         }
                                     </Card.Content>
@@ -182,7 +183,7 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h5">
                                         กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี
                                         2560 และ 2561

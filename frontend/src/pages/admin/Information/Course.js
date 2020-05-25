@@ -12,16 +12,16 @@ const CourseDetail = ({ data }) => (
     <Fragment>
         <Row>
             <Col lg={4}>
-                <h2 className="fs-tx-sub-hd">ชื่อหลักสูตร</h2>
+                <h2 className="text-sub-header">ชื่อหลักสูตร</h2>
             </Col>
             <Col lg={8}>
-                <label className="fs-tx-sub-hd">{data['course_name']}</label>
+                <label className="text-sub-header">{data['course_name']}</label>
             </Col>
         </Row>
         <hr />
         <Row>
             <Col lg={4}>
-                <h2 className="fs-tx-sub-hd">รหัสหลักสูตร</h2>
+                <h2 className="text-sub-header">รหัสหลักสูตร</h2>
             </Col>
             <Col lg={8}>
                 {data['course_id']}
@@ -30,7 +30,7 @@ const CourseDetail = ({ data }) => (
         <hr />
         <Row>
             <Col lg={4}>
-                <h2 className="fs-tx-sub-hd">ปีหลักสูตร</h2>
+                <h2 className="text-sub-header">ปีหลักสูตร</h2>
             </Col>
             <Col lg={8}>
                 {data['course_year']}
@@ -39,7 +39,7 @@ const CourseDetail = ({ data }) => (
         <hr />
         <Row className="my-2">
             <Col lg={12}>
-                <h2 className="fs-tx-sub-hd">รายชื่อรายวิชา</h2>
+                <h2 className="text-sub-header">รายชื่อรายวิชา</h2>
             </Col>
         </Row>
         <Row>
@@ -100,8 +100,8 @@ class Course extends Component {
         return (
             <Fragment>
                 <div className="my-3 w-75 mx-auto">
-                    <h1 className="fs-tx-hd-admin">ข้อมูลหลักสูตร</h1>
-                    <hr className="fs-line-yellow" />
+                    <h1 className="admin-page-header">ข้อมูลหลักสูตร</h1>
+                    <hr className="yellow-hr" />
                     <Container fluid>
                         {
                             key ? (

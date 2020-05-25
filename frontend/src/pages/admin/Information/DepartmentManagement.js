@@ -54,7 +54,7 @@ class DepartmentManagement extends Component {
                     <Row>
                         <Col xs={12}>
                             <Form>
-                                <h2 className="fs-tx-sub-hd">ชื่อภาควิชา</h2>
+                                <h2 className="text-sub-header">ชื่อภาควิชา</h2>
                                 <InputGroup className="w-100">
                                     <Form.Control type="text" placeholder="ชื่อภาควิชา" required defaultValue={selectedDept !== null ? selectedDept['dept_name'] : null} />
                                     <InputGroup.Append>

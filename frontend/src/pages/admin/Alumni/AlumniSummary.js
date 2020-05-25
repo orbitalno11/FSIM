@@ -81,7 +81,7 @@ class AlumniSummary extends Component {
                     <Grid textAlign="center">
                         <Grid.Row >
                             <Grid.Column mobile="16" computer="8" className="my-3">
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
@@ -91,7 +91,7 @@ class AlumniSummary extends Component {
                                 </Card>
                             </Grid.Column>
                             <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
-                                <Card className="fs-cd-default">
+                                <Card className="card-default">
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
@@ -103,7 +103,7 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row  >
                             <Grid.Column >
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h3">
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
@@ -115,7 +115,7 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column >
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h3">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
@@ -127,7 +127,7 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="fs-cd-default" >
+                                <Card className="card-default" >
                                     <Card.Header as="h3">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
