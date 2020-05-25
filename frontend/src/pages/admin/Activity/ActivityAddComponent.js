@@ -54,7 +54,7 @@ export const AddActivityData = ({ submit }) => {
                         <Form.Control id="activityBudget" type="number" step="0.01" placeholder="กรุณาใส่งบประมาณ" required />
                     </InputGroup>
                 </Form.Group>
-                <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+                <Button type="submit" className="btn-info fs-interval-1" >SUBMIT</Button>
             </Form>
         </div>
     )
@@ -89,7 +89,7 @@ export const UploadPaticipant = ({ selectFile, submit }) => {
                         </FormControl>
                     </InputGroup>
                 </Form.Group>
-                <Button type="submit" className="btn-info interval-1" >SUBMIT</Button>
+                <Button type="submit" className="btn-info fs-interval-1" >SUBMIT</Button>
             </Form>
         </div>
     )

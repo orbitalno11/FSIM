@@ -39,7 +39,7 @@ const AddGpax = ({ submit, selectFile }) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group >
-            <Button type="submit" className="btn-info interval-1" style={{ marginTop: '3%' }}>SUBMIT</Button>
+            <Button type="submit" className="btn-info fs-interval-1" style={{ marginTop: '3%' }}>SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -56,7 +56,7 @@ const AddStudent = ({ submit, selectFile }) => (
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button type="submit" className="btn-info interval-1" style={{ marginTop: '3%' }} >SUBMIT</Button>
+            <Button type="submit" className="btn-info fs-interval-1" style={{ marginTop: '3%' }} >SUBMIT</Button>
         </Form>
     </Fragment>
 )

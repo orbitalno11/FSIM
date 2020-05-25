@@ -12,16 +12,16 @@ const DepartmentDetail = ({ data }) => (
     <Fragment>
         <Row>
             <Col lg={4}>
-                <h2 className="text-sub-header">ชื่อภาควิชา</h2>
+                <h2 className="fs-tx-sub-hd">ชื่อภาควิชา</h2>
             </Col>
             <Col lg={8}>
-                <h2 className="text-sub-header">{data['dept_name']}</h2>
+                <h2 className="fs-tx-sub-hd">{data['dept_name']}</h2>
             </Col>
         </Row>
         <hr />
         <Row>
             <Col lg={4}>
-                <h2 className="text-sub-header">หลักสูตรที่เปิดสอน</h2>
+                <h2 className="fs-tx-sub-hd">หลักสูตรที่เปิดสอน</h2>
             </Col>
             <Col lg={8}>
                 <ul>
@@ -36,7 +36,7 @@ const DepartmentDetail = ({ data }) => (
         <hr />
         <Row className="my-2">
             <Col lg={4}>
-                <h2 className="text-sub-header">สาขาวิชา</h2>
+                <h2 className="fs-tx-sub-hd">สาขาวิชา</h2>
             </Col>
             <Col lg={8}>
                 <ul>

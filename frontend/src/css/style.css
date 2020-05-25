@@ -156,6 +156,15 @@
     background-color: #FF4612 !important;
 }
 
+.fs-style-addData {
+    text-Align: left;
+    align-Self: stretch;
+}
+
+.fs-interval-top {
+    margin-top: 2%;
+}
+
 .fs-cd-login {
     align-items: center !important;
     width: 400px !important;
@@ -184,14 +193,35 @@
     height: 100%;
 }
 
-.fs-pst-relative{
+.fs-pst-relative {
     position: relative;
 }
 
-.fs-pst-absolute{
+.fs-pst-absolute {
     position: absolute;
 }
 
+.fs-modal-center {
+    height: auto !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  
+.fs-admission-style {
+    margin: 0 !important;
+    padding: 5vh !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 800px !important;
+    background-color: rgb(224, 230, 229) !important;
+  }
+  
 .sub-nav {
     color: black;
     font-size: 1.25rem;

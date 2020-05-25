@@ -24,7 +24,7 @@ class ReactModal extends Component {
 
                 {modal.modalProps != null ?
                     modal.modalProps.map(value =>
-                        <Modal className="modal-center" size="mini" open={modal.modalOpen} onClose={this.closeModal} key={value.type}>
+                        <Modal className="fs-modal-center" size="mini" open={modal.modalOpen} onClose={this.closeModal} key={value.type}>
 
                             <ModalContent >
                                 <div style={{ color: value.color, textAlign: 'center', marginTop: '2%' }}>

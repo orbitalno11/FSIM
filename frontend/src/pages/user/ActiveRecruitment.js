@@ -73,7 +73,7 @@ class ActiveRecruitment extends Component {
 
         return (
             <Fragment>
-                <Container className="white-background">
+                <Container>
                     {
                         yearList != null && (
                             <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
@@ -86,7 +86,7 @@ class ActiveRecruitment extends Component {
                                     <Container key={item['project_name']} style={{ marginTop: '2%' }}>
                                         <Row>
                                             <Col sm={12} lg={6} className="my-2">
-                                                <Card className="card-default">
+                                                <Card className="fs-cd-default">
                                                     <Card.Header as="h5">
                                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
                                             </Card.Header>
@@ -98,7 +98,7 @@ class ActiveRecruitment extends Component {
                                             </Col>
 
                                             <Col sm={12} lg={6} className="my-2">
-                                                <Card className="card-default">
+                                                <Card className="fs-cd-default">
                                                     <Card.Header as="h5">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
                                             </Card.Header>
