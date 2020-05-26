@@ -37,7 +37,7 @@ import AdminMenu from './components/AdminMenu'
 const store = createStore(rootReducer, applyMiddleware(thunk));
 // logger
 
-axios.defaults.baseURL="https://orbital-python-flask.herokuapp.com/api/v1/"
+axios.defaults.baseURL="http://127.0.0.1:5000/api/v1/"
 
 const token = localStorage.FSIMIdToken
 if (token){

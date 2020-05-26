@@ -53,7 +53,7 @@ def add_alumni_survey(current_user):
 
 
 # add survey data to firebase by year
-@admin_alumni.route('/survey', methods=['DELETE'])
+@admin_alumni.route('/survey', methods=['GET'])
 @auth.token_required
 def delete_alumni_survey(current_user):
     # this api need education year (2561, 2562), table header as a list and google sheet url

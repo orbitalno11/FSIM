@@ -363,7 +363,7 @@ export const deleteItem = data => (dispatch, getState) => {
     dispatch(startLoading())
     dispatch(deleteSurveyStart())
 
-    axios.delete(`/admin/alumni/survey?key=${data.id}&year=${data.educationYear}`)
+    axios.get(`/admin/alumni/survey?key=${data.id}&year=${data.educationYear}`)
         .then(res => {
             let data = res.data
             if (data['response']) {

@@ -36,7 +36,7 @@ app.config['SECRET_KEY'] = constant.SECRET_KEY
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/*"}})
-# CORS(app)
+CORS(app)
 
 # setup blueprint
 # user
