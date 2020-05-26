@@ -10,7 +10,7 @@ import {
 
 import Barchart from "../../components/Graph/Bar";
 import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import  Bar  from "../../components/Graph/Bar";
+
 
 import { connect } from 'react-redux'
 import { selectYear, getYearList } from '../../redux/action/adminAdmissionAction'
@@ -162,7 +162,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             countChannel !== null ? (
-                                                <Barchart data={countChannel} legend={false}/>
+                                                <Barchart data={countChannel} />
                                             ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 
@@ -207,7 +207,7 @@ class Admission extends Component {
                                     </Card.Header>
                                     <Card.Content>
                                            
-                                        {(gpa_by_branch !== undefined )&(gpa_by_branch!==null)? <Bar data={setupStackBarChart(gpa_by_branch)} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
+                                        {(gpa_by_branch !== undefined )&(gpa_by_branch!==null)? <Barchart data={setupStackBarChart(gpa_by_branch)}  /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -221,7 +221,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             countSchool !== null ? (
-                                                <Bar data={countSchool} legend={{ display: true }} />
+                                                <Barchart data={countSchool}  />
                                             ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
                                     </Card.Content>
@@ -237,7 +237,7 @@ class Admission extends Component {
                                     <Card.Content>
                                         {
                                             compareYear !== null ? (
-                                                <Barchart data={compareYear} legend={{ display: true }} />
+                                                <Barchart data={compareYear}  />
                                             ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 

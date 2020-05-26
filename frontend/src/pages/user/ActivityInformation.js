@@ -43,7 +43,7 @@ class ActivityInformation extends Component {
     }
 
     render() {
-        let { activityData, selectedYear, yearList } = this.props.activity
+        let { activityData, yearList } = this.props.activity
 
         return (
             <Fragment>

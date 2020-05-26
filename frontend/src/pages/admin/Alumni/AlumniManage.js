@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { Table, Container, Button, Modal, ButtonGroup } from 'react-bootstrap'
+import { Table, Button, Modal, ButtonGroup } from 'react-bootstrap'
 
 import AlumniAddSurvey from './AlumniAddSurvey'
 import ReactModal from '../../../components/ReactModal'

@@ -69,7 +69,7 @@ class ActiveRecruitment extends Component {
     }
 
     render() {
-        let { yearList, selectedYear } = this.props.activity
+        let { yearList } = this.props.activity
         let { project_set } = this.state
 
         return (
