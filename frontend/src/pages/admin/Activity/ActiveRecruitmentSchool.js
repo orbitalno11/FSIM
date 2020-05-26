@@ -46,7 +46,7 @@ class ARSchool extends Component {
                         <Grid.Row >
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักเรียนที่เข้าศึกษาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>
@@ -60,7 +60,7 @@ class ARSchool extends Component {
                         <Grid.Row >
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>

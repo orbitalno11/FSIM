@@ -138,7 +138,6 @@ class AnalyzeStudent:
                 df_drop_s.reset_index(inplace=True)
                 
                 df_tracking = df_drop_s.gpa
-                print(df_drop_s)
                 value={
                     'student_id' : id_student,
                     'firstname' : df_drop_s.loc[0,'firstname'],

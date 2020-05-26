@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import axios from "axios";
 
 
-import { Container, Modal, Tab, Col, Row, Button } from 'react-bootstrap'
-import { Table, Header, Divider } from 'semantic-ui-react'
+import { Container, Modal, Tab, Col, Row, Button ,Table} from 'react-bootstrap'
+import {  Header, Divider } from 'semantic-ui-react'
 import SideTab, { convertTabName, convertDetail } from '../../../components/SideTabDialog'
 import ReactModal from '../../../components/ReactModal'
 
@@ -21,40 +21,40 @@ const Traching = ({ dept_name, data, handleTracking }) => {
   return (
     <Fragment>
 
-      <Table>
-        <Table.Header>
-          <Table.Row textAlign="center">
-            <Table.HeaderCell> ลำดับ </Table.HeaderCell>
-            <Table.HeaderCell> รหัสนักศึกษา </Table.HeaderCell>
-            <Table.HeaderCell>ชื่อ-นามสกุล</Table.HeaderCell>
-            <Table.HeaderCell> สาขา </Table.HeaderCell>
-            <Table.HeaderCell>GPA</Table.HeaderCell>
-            <Table.HeaderCell>กราฟผลการเรียน</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <Table responsive   hover>
+        <thead>
+          <tr align="center">
+            <th> ลำดับ </th>
+            <th> รหัสนักศึกษา </th>
+            <th>ชื่อ-นามสกุล</th>
+            <th> สาขา </th>
+            <th>GPA</th>
+            <th>กราฟผลการเรียน</th>
+          </tr>
+        </thead>
+        <tbody>
           {
             data !== null ? (
               data.map((item, index) => (
-                <Table.Row textAlign="center" key={index}>
-                  <Table.Cell>{index + 1}</Table.Cell>
-                  <Table.Cell>{item['student_id']}</Table.Cell>
-                  <Table.Cell>{item['firstname']}  {item['lastname']}</Table.Cell>
-                  <Table.Cell>{item['branch_name']}</Table.Cell>
-                  <Table.Cell>{item['current_gpax']}</Table.Cell>
-                  <Table.Cell> <Button  onClick={() => handleTracking(item['student_id'], dept_name)}>ติดตามผลการเรียน</Button></Table.Cell>
+                <tr textAlign="center" key={index} align="center">
+                  <td>{index + 1}</td>
+                  <td>{item['student_id']}</td>
+                  <td>{item['firstname']}  {item['lastname']}</td>
+                  <td>{item['branch_name']}</td>
+                  <td>{item['current_gpax']}</td>
+                  <td> <Button  onClick={() => handleTracking(item['student_id'], dept_name)}>ติดตามผลการเรียน</Button></td>
 
-                </Table.Row>
+                </tr>
               ))
             ) : (
-                <Table.Row>
-                  <Table.Cell colSpan={3}>
+                <tr>
+                  <td colSpan={3}>
                     <h2 className="text-center">ไม่พบข้อมูล</h2>
-                  </Table.Cell>
-                </Table.Row>
+                  </td>
+                </tr>
               )
           }
-        </Table.Body>
+        </tbody>
       </Table>
     </Fragment>
 
@@ -193,7 +193,7 @@ class StudentTracking extends Component {
                       <SideTab startKey={key} tabName={tabName} tabDetail={tabDetail} dropdownTitle={"รายชื่อภาควิชา"} />
                     )
                       : (
-                        <h1 align="center" className="text-center">ไม่พบข้อมูล</h1>
+                        <div className="text-center"> <h3 style={{ marginTop: '5%' }} >ไม่พบข้อมูล</h3></div>
                       )
                   }
 

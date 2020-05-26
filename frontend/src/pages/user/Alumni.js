@@ -4,7 +4,8 @@ import {
     Grid,
     Container,
     Card,
-    Divider
+    Divider,
+    Header
 } from "semantic-ui-react";
 
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
@@ -76,7 +77,10 @@ class Alumni extends Component {
             <Fragment>
 
                 <Container  >
-                    
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์ศิษย์เก่า
+                        </Header>
+                <div className="my-5">
                     {
 
                         yearList.length !== 0 ?
@@ -88,12 +92,13 @@ class Alumni extends Component {
                             ) : null
 
                     }
+                    </div>
                     <Divider/>
                     <Grid textAlign="center">
                         <Grid.Row >
                             <Grid.Column mobile="16" computer="8" className="my-3">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
                                     <Card.Content >
@@ -103,7 +108,7 @@ class Alumni extends Component {
                             </Grid.Column>
                             <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                     <Card.Content>
@@ -115,7 +120,7 @@ class Alumni extends Component {
                         <Grid.Row  >
                             <Grid.Column >
                                 <Card className="fs-cd-default" >
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                     <Card.Content  >
@@ -127,7 +132,7 @@ class Alumni extends Component {
                         <Grid.Row>
                             <Grid.Column >
                                 <Card className="fs-cd-default" >
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
@@ -139,7 +144,7 @@ class Alumni extends Component {
                         <Grid.Row>
                             <Grid.Column width={16}>
                                 <Card className="fs-cd-default" >
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
                                     <Card.Header as="h5" align='right' className='branch'>

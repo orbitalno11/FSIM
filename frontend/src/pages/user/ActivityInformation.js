@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 import {
     Card,
     Container,
+    Header
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
@@ -42,21 +43,27 @@ class ActivityInformation extends Component {
     }
 
     render() {
-        let { activityData, selectedYear, yearList } = this.props.activity
+        let { activityData, yearList } = this.props.activity
 
         return (
             <Fragment>
                 <Container >
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้าร่วมกิจกรรมประชาสัมพันธ์
+
+                        </Header>
+                <div className="my-5">
                     {
                         yearList != null && (
-                            <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
+                            <YearSelect yearList={yearList} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
                         )
                     }
+                    </div>
                     <Container className="mb-5">
                         <Row>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>
@@ -72,7 +79,7 @@ class ActivityInformation extends Component {
                             </Col>
                             <Col sm={12} lg={6} className="my-2">
                                 <Card className="fs-cd-default">
-                                    <Card.Header as="h5">
+                                    <Card.Header as="h4">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>
                                     <Card.Content>

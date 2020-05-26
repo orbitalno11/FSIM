@@ -27,7 +27,7 @@ class DepartmentStudent extends Component {
         this.state = {
             dept_id: null,
             isLoaded: false,
-            department: "",
+            department: null,
             loadTime: 0,
             departmentName: "",
             branch: [],
@@ -57,6 +57,16 @@ class DepartmentStudent extends Component {
                 }
             })
             .catch(error => {
+                this.setState({
+                    departmentName: null,
+                    branch: [],
+                    byYear: [],
+                    byBranch: [],
+                    dept_id: null,
+                    studentByBranch: [],
+                    studentByYear: [],
+                    branchByStatus: []
+                })
                 console.log(error)
             })
     }
@@ -92,38 +102,50 @@ class DepartmentStudent extends Component {
                 <MediaQuery minDeviceWidth={minDeviceWidth}>
                     <Container>
                         <Header textAlign="center" as="h2" className="my-5">
-                            จำนวนนักศึกษาทุกชั้นปี {department}
+                            กราฟแสดงการวิเคราะห์นักศึกษาปัจจุบัน {department}
                         </Header>
                         <Divider />
                         <Row >
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            department!==null? <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                       
                                     </Card.Content>
                                 </Card>
                             </Col>
+                            {
+                                console.log(department)
+                            }
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            department!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                   
                                     </Card.Content>
                                 </Card>
                             </Col>
 
                             <Col sm={12} lg={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            department!==null?   <Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                      
                                     </Card.Content>
                                 </Card>
                             </Col>
@@ -132,39 +154,48 @@ class DepartmentStudent extends Component {
                 </MediaQuery>
                 <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
                     <Container>
-                        <Header textAlign="center" as="h2" className="my-5">
+                        <Header textAlign="center" as="h4" className="my-5">
                             จำนวนนักศึกษาทุกชั้นปี {department}
                         </Header>
                         <Divider />
                         <Row >
                             <Col lg={6} md={4} sm={12} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         จำนวนนักศึกษาต่อสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Piechart data={studentByBranch} />
+                                        {
+                                            department!==null?   <Piechart data={studentByBranch} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
                             <Col sm={12} md={4} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละชั้นปี
                                     </Card.Header>
                                     <Card.Content>
-                                        <Barchart data={studentByYear} />
+                                        {
+                                            department!==null? <Barchart data={studentByYear} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>
 
                             <Col sm={12} md={4} lg={6} className="my-2">
                                 <Card fluid>
-                                    <Card.Header as="h5" style={{ textAlign: 'center', padding: '1%' }}>
+                                    <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>
                                         สถานะของนักศึกษาแต่ละสาขา
                                     </Card.Header>
                                     <Card.Content>
-                                        <Horizontal data={branchByStatus} />
+                                        {
+                                            department!==null?<Horizontal data={branchByStatus} />: <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                        }
+                                        
                                     </Card.Content>
                                 </Card>
                             </Col>

@@ -4,7 +4,8 @@ import axios from 'axios'
 
 import {
     Card,
-    Container
+    Container,
+    Header
 } from "semantic-ui-react";
 
 import { connect } from 'react-redux'
@@ -68,17 +69,22 @@ class ActiveRecruitment extends Component {
     }
 
     render() {
-        let { yearList, selectedYear } = this.props.activity
+        let { yearList } = this.props.activity
         let { project_set } = this.state
 
         return (
             <Fragment>
                 <Container>
-                    {
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้าร่วมโครงการรับเข้า
+
+                        </Header>
+                    <div className="my-5"> {
                         yearList != null && (
-                            <YearSelect yearList={yearList} selectedYear={selectedYear} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
+                            <YearSelect yearList={yearList} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
                         )
-                    }
+                    }</div>
+                   
                     {
                         project_set.length !== 0 ?
                             (project_set.map((item, index) => {
@@ -87,7 +93,7 @@ class ActiveRecruitment extends Component {
                                         <Row>
                                             <Col sm={12} lg={6} className="my-2">
                                                 <Card className="fs-cd-default">
-                                                    <Card.Header as="h5">
+                                                    <Card.Header as="h4">
                                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
@@ -99,7 +105,7 @@ class ActiveRecruitment extends Component {
 
                                             <Col sm={12} lg={6} className="my-2">
                                                 <Card className="fs-cd-default">
-                                                    <Card.Header as="h5">
+                                                    <Card.Header as="h4">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>

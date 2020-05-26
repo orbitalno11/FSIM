@@ -20,16 +20,18 @@ import { getStudentData } from '../../../redux/action/adminStudentAction'
 import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
 
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../../Constant'
+
 const StudentData = ({ data }) => {
 
     return (
         <Fragment>
-            <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
-
-                <Header align="center" as="h2" style={{ marginBottom: "5%" }}>
-                    จำนวนนักศึกษาทุกชั้นปี
-                </Header>
-                <Container align="center">
+            <MediaQuery minDeviceWidth={minDeviceWidth}>
+                <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
+                    <Header align="center" as="h2" style={{ marginBottom: "5%" }}>
+                        จำนวนนักศึกษาทุกชั้นปี
+                    </Header>
                     <Row >
                         <Col sm={12} lg={6} className="my-2">
                             <Card fluid>
@@ -39,7 +41,7 @@ const StudentData = ({ data }) => {
                                 <Card.Content>
                                     {
                                         data !== null ? (
-                                            <Piechart data={setupPieChart(data.branch)} />
+                                            <Piechart data={setupPieChart(data.branch)}  />
                                         ) : (
                                                 <h2 className="text-center">ไม่พบข้อมูล</h2>
                                             )
@@ -83,7 +85,67 @@ const StudentData = ({ data }) => {
                         </Col>
                     </Row>
                 </Container>
-            </Container>
+            </MediaQuery>
+            <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                <Container style={{ backgroundColor: "#FFFFFF", padding: "2%" }}>
+                    <Header align="center" as="h2" style={{ marginBottom: "5%" }}>
+                        จำนวนนักศึกษาทุกชั้นปี
+                    </Header>
+                    <Row >
+                        <Col sm={12} lg={6} className="my-2">
+                            <Card fluid>
+                                <Card.Header align="center">
+                                    <h5>จำนวนนักศึกษาต่อสาขา</h5>
+                                </Card.Header>
+                                <Card.Content>
+                                    {
+                                        data !== null ? (
+                                            <Piechart data={setupPieChart(data.branch)} />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Col>
+                        <Col sm={12} lg={6} className="my-2">
+                            <Card fluid>
+                                <Card.Header align="center">
+                                    <h5>สถานะของนักศึกษาแต่ละชั้นปี</h5>
+                                </Card.Header>
+                                <Card.Content>
+                                    {
+                                        data !== null ? (
+                                            <Barchart data={setupStackBarChart(data.status_by_year[0])} />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12} lg={6} className="my-2">
+                            <Card fluid>
+                                <Card.Header align="center">
+                                    <h5>สถานะของนักศึกษาแต่ละสาขา</h5>
+                                </Card.Header>
+                                <Card.Content>
+                                    {
+                                        data !== null ? (
+                                            <Horizontal data={setupStackBarChart(data.df_status_by_branch[0])}  />
+                                        ) : (
+                                                <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                            )
+                                    }
+                                </Card.Content>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </MediaQuery>
+
         </Fragment>
     )
 }

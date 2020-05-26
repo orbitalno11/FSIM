@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 
 
-import { Table, Button,Container } from 'semantic-ui-react'
+import {  Button,Container } from 'semantic-ui-react'
+import { Table} from 'react-bootstrap'
 
 import { connect } from 'react-redux'
 import { getAdmissionList, deleteAdmission } from '../../../redux/action/adminAdmissionAction'
@@ -28,35 +29,35 @@ class AdmissionManage extends Component {
         let { admissionList } = this.props.admission
         return (
             <Fragment>
-                <Table>
-                    <Table.Header>
-                        <Table.Row textAlign="center">
-                            <Table.HeaderCell > ลำดับ </Table.HeaderCell>
-                            <Table.HeaderCell > ปีการศึกษา </Table.HeaderCell>
-                            <Table.HeaderCell>รอบรับเข้า</Table.HeaderCell>
-                            <Table.HeaderCell style={{ width: '50%' }} > โครงการที่รับเข้า </Table.HeaderCell>
-                            <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
+                <Table  responsive   hover>
+                    <thead>
+                        <tr align="center">
+                            <th > ลำดับ </th>
+                            <th > ปีการศึกษา </th>
+                            <th>รอบรับเข้า</th>
+                            <th style={{ width: '50%' }} > โครงการที่รับเข้า </th>
+                            <th>ดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
                             admissionList !== null && (
                                 admissionList.map((item, index) => (
-                                    <Table.Row textAlign="center" key={index}>
-                                        <Table.Cell>{index + 1}</Table.Cell>
-                                        <Table.Cell>{item['admission_year']}</Table.Cell>
-                                        <Table.Cell>{item['round_name']}</Table.Cell>
-                                        <Table.Cell textAlign="left">{item['channel_name']}</Table.Cell>
-                                        <Table.Cell>
+                                    <tr align="center" key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{item['admission_year']}</td>
+                                        <td>{item['round_name']}</td>
+                                        <td  >{item['channel_name']}</td>
+                                        <td>
                                             <Button color='red' onClick={() => this.handleDeleteAdmission(item['admission_year'], item['round_id'], item['channel_id'])}>ลบ</Button>
-                                        </Table.Cell>
-                                    </Table.Row>
+                                        </td>
+                                    </tr>
                                 ))
                             )
                         }
 
 
-                    </Table.Body>
+                    </tbody>
                 </Table>
                 {
                     admissionList == null ? (

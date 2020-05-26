@@ -11,7 +11,46 @@ const option = {
     // Change options for ALL labels of THIS CHART
     datalabels: {
       color: '#000000',
-      anchor: 'end'
+      anchor: 'end',
+      display: false
+    }
+  },
+  legend: {
+    labels: {
+      fontSize: 12
+    }
+  }
+}
+
+const option_res = {
+  plugins: {
+    // Change options for ALL labels of THIS CHART
+    datalabels: {
+      color: '#000000',
+      anchor: 'end',
+      display: false
+    }
+  }, scales: {
+
+    yAxes: [{
+      ticks: {
+        fontSize: 8
+      }
+    }],
+    xAxes: [{
+      ticks: {
+        display: false //this will remove only the label
+      }
+    }]
+    // yAxes: [{
+    //   ticks: {
+    //     fontSize: 8
+    //   }
+    // }]
+  },
+  legend: {
+    labels: {
+      fontSize: 8
     }
   }
 }
@@ -52,7 +91,7 @@ class Horizontal extends Component {
         <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
           <Row>
             <Col xs={12} lg={4} md={4} sm={12}>
-              {data !== undefined && <HorizontalBar data={data.length === 0 ? this.state : data} options={option} />}
+              {data !== undefined && <HorizontalBar data={data.length === 0 ? this.state : data} options={option_res} />}
             </Col>
           </Row>
         </MediaQuery >
