@@ -817,8 +817,8 @@ class DatabaseHelper:
     # 7IF. get department from ds
     def get_department_ds(self):
         sql_command = "SELECT  branch_id, branch_name, dept_id, dept_name " \
-                      "FROM student NATURAL JOIN study_in NATURAL JOIN has_branch NATURAL JOIN department " \
-                      "NATURAL JOIN branch GROUP BY branch_id ORDER BY dept_id ASC"
+                      "FROM department NATURAL JOIN has_branch NATURAL JOIN branch "
+                     
 
         execute = self.__execute_query(sql_command)
         if not execute['response']:
