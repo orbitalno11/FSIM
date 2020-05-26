@@ -1,7 +1,6 @@
 from flask import Blueprint, request
+from flask_cors import CORS
 
-# import constant
-import backend.Constant as Constant
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -11,6 +10,7 @@ from backend.helpers.database_helper import DatabaseHelper
 from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 
 user_admission = Blueprint('user_admission', __name__)
+CORS(user_admission)
 
 
 # get analyze admission student
@@ -38,7 +38,6 @@ def get_admission_year_list():
     data = db.get_admission_year_list()
 
     return api_helper.return_response(data)
-
 
 
 @user_admission.route('/round/list', methods=['GET'])

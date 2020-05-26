@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import constant
 import backend.Constant as Constant
@@ -16,6 +17,7 @@ from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 import backend.modules.AuthenticationModule as auth
 
 admin_admission = Blueprint('admin_admission', __name__)
+CORS(admin_admission)
 
 
 # upload admission data api
