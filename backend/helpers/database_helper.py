@@ -819,7 +819,6 @@ class DatabaseHelper:
         sql_command = "SELECT  branch_id, branch_name, dept_id, dept_name " \
                       "FROM department NATURAL JOIN has_branch NATURAL JOIN branch "
                      
-
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
