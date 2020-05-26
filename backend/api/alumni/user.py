@@ -1,7 +1,5 @@
-from flask import Blueprint, request, current_app as app
-
-# import constant
-import backend.Constant as Constant
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -11,6 +9,7 @@ from backend.modules.FirebaseModule import FirebaseModule
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 
 user_alumni = Blueprint('user_alumni', __name__)
+CORS(user_alumni)
 
 
 # get analyze analyze survey

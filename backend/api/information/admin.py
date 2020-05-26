@@ -1,21 +1,15 @@
-from flask import Blueprint, request, current_app as app
-
-# import constant
-import backend.Constant as Constant
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
-from backend.helpers.data_helper import DataHelper
-import backend.helpers.upload_helper as upload_helper
-
-# import module
-from backend.modules.AnalyzeStudent import AnalyzeStudent
 
 # import authen
 import backend.modules.AuthenticationModule as auth
 
 admin_information = Blueprint('admin_information', __name__)
+CORS(admin_information)
 
 
 # get all information data

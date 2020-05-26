@@ -1,7 +1,5 @@
-from flask import Blueprint, request, current_app as app
-
-# import constant
-import backend.Constant as Constant
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -16,6 +14,7 @@ from backend.modules.FirebaseModule import FirebaseModule
 import backend.modules.AuthenticationModule as auth
 
 admin_alumni = Blueprint('admin_alumni', __name__)
+CORS(admin_alumni)
 
 
 # add survey data to firebase by year

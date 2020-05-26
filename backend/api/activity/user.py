@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -8,6 +9,7 @@ from backend.helpers.database_helper import DatabaseHelper
 from backend.modules.AnalyzeActivity import AnalyzeActivity
 
 user_activity = Blueprint('user_activity', __name__)
+CORS(user_activity)
 
 
 # activity route

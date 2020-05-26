@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import constant
 import backend.Constant as Constant
@@ -16,6 +17,7 @@ from backend.modules.AnalyzeStudent import AnalyzeStudent
 import backend.modules.AuthenticationModule as auth
 
 admin_student = Blueprint('admin_student', __name__)
+CORS(admin_student)
 
 
 @admin_student.route('', methods=['POST'])

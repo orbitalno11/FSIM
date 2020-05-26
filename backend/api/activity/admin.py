@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 import backend.Constant as Constant
 
@@ -15,6 +16,7 @@ from backend.modules.AnalyzeActivity import AnalyzeActivity
 import backend.modules.AuthenticationModule as auth
 
 admin_activity = Blueprint('admin_activity', __name__)
+CORS(admin_activity)
 
 
 # add activity project
