@@ -129,7 +129,6 @@ class AnalyzeActivity:
 
         if data['value']:
             data = pd.DataFrame(data['value'])
-            
             activity = analyze_helper.set_fullname(connect.get_activity_list())
             dupli_activity = activity.activity_name.duplicated(keep=False)
             activity.loc[dupli_activity, 'activity_name'] = activity.loc[dupli_activity, 'activity_name'] + ' (' + \
@@ -166,17 +165,15 @@ class AnalyzeActivity:
             sort_gpax_school = gpax_school.sort_values(ascending=False).head()
             analyze_by_activity = data.groupby(['project_id', 'branch_name']).size().unstack(fill_value=0)
             # analyze_by_activity = analyze_helper.check_list(activityAr.index, analyze_by_activity)
-            analyze_by_activity = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity)
             # analyze_by_activity = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity)
 
             analyze_by_activity_gpax = data.groupby(['project_id', 'branch_name'])['gpax'].mean().unstack(fill_value=0)
             # analyze_by_activity_gpax = analyze_helper.check_list(activityAr.index, analyze_by_activity_gpax)
-            analyze_by_activity_gpax = analyze_helper.check_list_column(branch_data.branch_name, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_index(activity_dict, analyze_by_activity_gpax)
             # analyze_by_activity_gpax = analyze_helper.set_fullname_column(branch_dict, analyze_by_activity_gpax)
-
             analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
+           
 
             value = {
                 'count_school': sort_count_school.to_dict(),
@@ -184,6 +181,7 @@ class AnalyzeActivity:
                 'activity_by_branch_count': [analyze_by_activity.to_dict('index')],
                 'activity_by_branch_gpax': [analyze_by_activity_gpax.to_dict('index')]
             }
+
 
             response = True
             message = "Analyze Successfully"
@@ -199,12 +197,13 @@ class AnalyzeActivity:
         data = connect.get_activity_ar(year)
         if data['value']:
             data = pd.DataFrame(data['value'])
+            
             project = analyze_helper.set_fullname(connect.get_project_list())
             project = project[project['project_type']==1]
             project.drop(columns=['project_type'],inplace=True)
             project_dict = analyze_helper.set_dict(project.index, project.project_name)
 
-
+            
             # get_branch=connect.get_department(None)
             # branch=[]
             # for i in get_branch['value']: 
@@ -220,7 +219,7 @@ class AnalyzeActivity:
             branch_data = get_branch[['branch_id','branch_name']]
             branch_data = branch_data.set_index('branch_id')
             branch_dict = analyze_helper.set_dict(branch_data.index, branch_data.branch_name)
-
+            
             list_project = project.index.tolist()
             project_set=[]
             i=0
@@ -230,11 +229,9 @@ class AnalyzeActivity:
 
                 if not df.empty:
                     analyze_by_activity = df.groupby(['branch_name']).size()
-                    analyze_by_activity = analyze_helper.check_list(branch_data.branch_name, analyze_by_activity)
                     # analyze_by_activity = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity)
                     
                     analyze_by_activity_gpax = df.groupby(['branch_name'])['gpax'].mean()
-                    analyze_by_activity_gpax = analyze_helper.check_list(branch_data.branch_name, analyze_by_activity_gpax)
                     # analyze_by_activity_gpax = analyze_helper.set_fullname_index(branch_dict, analyze_by_activity_gpax)
                     analyze_by_activity_gpax = analyze_by_activity_gpax.round(2)
 
