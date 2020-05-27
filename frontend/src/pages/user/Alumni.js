@@ -1,13 +1,11 @@
 import React, { Component, Fragment } from "react";
 
-import axios from 'axios'
-
 import {
-    Divider,
     Grid,
-    Header,
     Container,
-    Card
+    Card,
+    Divider,
+    Header
 } from "semantic-ui-react";
 
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../components/Graph/GraphController'
@@ -18,148 +16,47 @@ import GraphBar from "../../components/Graph/Bar";
 
 import { connect } from 'react-redux'
 
-import { getAllAlumniYear } from '../../redux/action/adminAlumniAction'
-import { startLoading, stopLoading } from '../../redux/action/generalAction'
-import { setSelectedYear } from '../../redux/action/adminAlumniAction'
+import { getBranchList } from '../../redux/action/generalAction'
+import { getAllAlumniYear, setSelectedYear, loadWorkData, setSalaryChart } from '../../redux/action/adminAlumniAction'
+import YearSelect from '../../components/YearSelect'
 
 class Alumni extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            branch: null,
-            salaryBranch: null,
-            salaryData: null,
-            salarySelect: null,
-            branchStudentChart: null,
-            workChart: null,
-            trainingChart: null,
-            gpaChart: null,
-            salaryChart: null,
             year: null,
             loadTime: 0
-
         }
     }
-
-    componentDidUpdate() {
-        if (this.state.loadTime === 0) {
-            this.fetchWorkData()
-        }
-    }
-
 
     componentDidMount() {
         this.props.loadAllYear()
-        this.setState({
-            year: this.props.alumni.selectedYear
-        })
-        this.fetchBranch()
+        this.props.getBranchList()
+        this.fetchWorkData()
+
     }
 
-    fetchBranch = () => {
-        axios.get('/department/branch')
-            .then(res => {
-                let data = res.data.data
-                this.setState({
-                    branch: data
-                })
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }
-
-
-    fetchWorkData = () => {
-        let { year } = this.state
-
-        axios.get(`/alumni/analyze/work?year=${year}`)
-            .then(res => {
-                let recieved_data = res.data.data
-                if (recieved_data['count_by_branch'] == null) {
-                    this.setState({
-                        branchStudentChart: null,
-                        workChart: null,
-                        trainingChart: null,
-                        gpaChart: null,
-                        salaryData: null,
-                        salaryChart: null
-                    })
-                }
-                let branchData = recieved_data['count_by_branch']
-                let workStatus = recieved_data['count_by_status']
-                let trainingData = recieved_data['count_by_training']
-                let gpaChart = recieved_data['gpax_by_branch']
-                let salaryData = recieved_data['salary_all_branch_training']
-                let salaryChart = salaryData['all']['salary_all_branch_training']
-
-                this.setState({
-                    branchStudentChart: setupPieChart(branchData),
-                    workChart: setupPieChart(workStatus),
-                    trainingChart: setupPieChart(trainingData),
-                    gpaChart: setupNoneStackBarChart(gpaChart),
-                    salaryData: salaryData,
-                    salaryChart: setupStackBarChart(this.reorderSalary(salaryChart)),
-                    loadTime: 1
-                })
-
-            })
-            .catch(err => {
-                console.error(err)
-                this.setState({
-                    branchStudentChart: null,
-                    workChart: null,
-                    trainingChart: null,
-                    gpaChart: null,
-                    salaryData: null,
-                    salaryChart: null
-                })
-            })
-    }
-
-    setupBranchSelect = () => {
-        let { branch } = this.state
-        let options = []
-        let first = {
-            key: "0all",
-            value: "all",
-            text: "ทุกสาขาวิชา"
-        }
-        options.push(first)
-        for (const item in branch) {
-            let b = {
-                key: branch[item].branch_id,
-                value: branch[item].branch_id,
-                text: branch[item].branch_name
-            }
-            options.push(b)
-        }
-        return options.sort()
+    fetchWorkData = async () => {
+        let { selectedYear } = this.props.alumni
+        this.props.loadWorkData(selectedYear)
     }
 
     handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
-        // await this.props.startLoading()
         if (n_year === 0)
             n_year = null
 
-        this.setState({
-            year: n_year
-        })
         await this.props.setSelectedYear(n_year)
 
         this.fetchWorkData()
-
     }
 
     handleSalarySelect = event => {
         let value = event.target.value
-        let { salaryData } = this.state
-        this.setState({
-            salaryChart: setupStackBarChart(this.reorderSalary(salaryData[value]['salary_all_branch_training']))
-        })
+        let { salaryData } = this.props.alumni.workData
+        this.props.setSalaryChart(salaryData[value]['salary_all_branch_training'])
     }
 
     reorderSalary = (salaryChart) => {
@@ -171,92 +68,91 @@ class Alumni extends Component {
         }
     }
 
-
-
     render() {
-        let { branch, branchStudentChart, workChart, trainingChart, gpaChart, salaryChart, year } = this.state
+        let { branchList } = this.props.website
 
-        let { alumni } = this.props
+        let { selectedYear, yearList, workData } = this.props.alumni
 
         return (
             <Fragment>
-                <Container className="white-background">
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา{" "}
-                        <select id="selectYear" defaultValue={year}>
-                            <option value="0">แสดงทุกปี</option>
-                            {
-                                alumni.yearList !== null && alumni.yearList.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
-                                ))
-                            }
-                        </select>
-                    </Header>
-                    <Divider />
-                    <Grid>
 
-                        <Grid.Row columns={2} >
-                            <Grid.Column >
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
+                <Container  >
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์ศิษย์เก่า
+                        </Header>
+                <div className="my-5">
+                    {
+
+                        yearList.length !== 0 ?
+                            yearList !== null && (
+                                <YearSelect yearList={yearList}
+                                    selectedYear={selectedYear}
+                                    onSelectYear={this.handleYearSelect}
+                                    title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
+                            ) : null
+
+                    }
+                    </div>
+                    <Divider/>
+                    <Grid textAlign="center">
+                        <Grid.Row >
+                            <Grid.Column mobile="16" computer="8" className="my-3">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
                                     <Card.Content >
-                                        {branchStudentChart !== null && <GraphPie data={branchStudentChart} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.branchStudentChart)} /> : (<h5 className="text-center">ไม่พบข้อมูล</h5>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-
-                            <Grid.Column>
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
+                            <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                     <Card.Content>
-                                        {workChart !== null && <GraphPie data={workChart} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.workChart)} /> : (<h5 className="text-center">ไม่พบข้อมูล</h5>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-
                         </Grid.Row>
                         <Grid.Row  >
                             <Grid.Column >
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                     <Card.Content  >
-                                        {trainingChart !== null && <GraphPie data={trainingChart} />}
+                                        {workData !== null ? <GraphPie data={setupPieChart(workData.trainingChart)} /> : (<h5 className="text-center">ไม่พบข้อมูล</h5>)}
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column >
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
-                                        {gpaChart !== null && <GraphBar data={gpaChart} legend={{ display: false }} />}
+                                        {workData !== null ? <GraphBar data={setupNoneStackBarChart(workData.gpaChart)} legend={{ display: false }} /> : (<h5 className="text-center">ไม่พบข้อมูล</h5>)}
                                     </Card.Content>
-
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
-
                                     </Card.Header>
-                                    <Card.Header as="h6" align='right' className='branch'>
-                                        <select className="form-control" onChange={this.handleSalarySelect}>
+                                    <Card.Header as="h5" align='right' className='branch'>
+                                        <select className="form-control" onChange={workData !== null ? this.handleSalarySelect : null}>
                                             <option value="all">ทุกสาขาวิชา</option>
                                             {
-                                                branch !== null && (
-                                                    branch.map((item, index) => (
+                                                branchList !== null && (
+                                                    branchList.map((item, index) => (
                                                         <option key={index}
                                                             value={item['branch_id']}>{item['branch_name']}</option>
                                                     ))
@@ -264,23 +160,18 @@ class Alumni extends Component {
                                             }
                                         </select>
                                     </Card.Header>
-
                                     <Card.Content>
-                                        {salaryChart !== null && <Bar data={salaryChart} legend={{ display: true }} />}
+                                        {workData !== null ? <Bar data={setupStackBarChart(this.reorderSalary(workData.salaryChart))} legend={{ display: true }} /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
                                     </Card.Content>
-
                                 </Card>
                             </Grid.Column>
                         </Grid.Row>
-
                     </Grid>
                 </Container>
             </Fragment>
         )
     }
 }
-
-
 
 const mapStateToProps = state => (
     {
@@ -293,10 +184,10 @@ const mapDispatchToProps = dispatch => (
     {
         loadAllYear: () => dispatch(getAllAlumniYear()),
         setSelectedYear: (year) => dispatch(setSelectedYear(year)),
-        startLoading: () => dispatch(startLoading()),
-        stopLoading: () => dispatch(stopLoading())
+        getBranchList: () => dispatch(getBranchList()),
+        loadWorkData: (year) => dispatch(loadWorkData(year)),
+        setSalaryChart: (data) => dispatch(setSalaryChart(data)),
     }
 )
 
 export default connect(mapStateToProps, mapDispatchToProps)(Alumni)
-

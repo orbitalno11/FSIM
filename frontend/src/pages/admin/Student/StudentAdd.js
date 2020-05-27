@@ -1,31 +1,33 @@
 import React, { Component, Fragment } from 'react'
 
-import { FormControl,Container, Nav, Tab, Col, Row, Button, Form, InputGroup } from 'react-bootstrap'
+import { FormControl, Container, Button, Form, InputGroup } from 'react-bootstrap'
+import ReactModal from '../../../components/ReactModal'
+import SideTab from '../../../components/SideTabDialog'
 
-//
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faMicroscope, faAtom, faSquareRootAlt, faFlask } from '@fortawesome/free-solid-svg-icons'
 
-// 
-// import TabDialog from '../../../components/TabDialog'
-// import ARDetail from "../Activity/ARDetail";
-// import AMSci from "../Activity/AMSci";
+import { connect } from 'react-redux'
+import { addStudentGpax, addStudent } from '../../../redux/action/adminStudentAction'
+import { getDepartmentList } from '../../../redux/action/adminInformationAction'
 
-// 
-// import LineChart from '../../../components/Graph/Line'
 
-const AddTab = () => (
+
+const AddGpax = ({ submit, selectFile }) => (
     <Fragment>
-        <Form>
+        <Form id="addGpax" onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ปีการศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
-                    </FormControl>
+                    <FormControl id="educationYear" type="number" placeholder="ระบุปีการศึกษา" required ></FormControl>
+                </InputGroup>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    เทอมการศึกษา
+                </Form.Label>
+                <InputGroup>
+                    <FormControl id="semester" type="number" placeholder="ระบุเทอมการศึกษา" required ></FormControl>
                 </InputGroup>
             </Form.Group>
             <Form.Group>
@@ -33,62 +35,28 @@ const AddTab = () => (
                     ข้อมูลเกรด
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv">
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
-            </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
-           
+            </Form.Group >
+            <Button type="submit" className="btn-info fs-interval-1" style={{ marginTop: '3%' }}>SUBMIT</Button>
         </Form>
     </Fragment>
 )
 
-const AddNew = () => (
-        <Fragment>
-        <Form>
-            <Form.Group>
-                <Form.Label>
-                    ปีการศึกษา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกปีการศึกษา</option>
-                        {/* {list.map(item => (<option value={item.id} key={item.id}>{item.name}</option>))} */}
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                    ภาควิชา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกภาควิชา</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>
-                สาขา
-                </Form.Label>
-                <InputGroup>
-                    <FormControl as="select">
-                        <option>กรุณาเลือกสาขา</option>
-                    </FormControl>
-                </InputGroup>
-            </Form.Group>
+const AddStudent = ({ submit, selectFile }) => (
+    <Fragment>
+        <Form id="addStudent" onSubmit={submit}>
             <Form.Group>
                 <Form.Label>
                     ข้อมูลนักศึกษา
                 </Form.Label>
                 <InputGroup>
-                    <FormControl type="file" accept=".excel,.xlsx,.csv">
+                    <FormControl type="file" accept=".excel,.xlsx,.csv" onChange={event => selectFile(event)}>
                     </FormControl>
                 </InputGroup>
             </Form.Group>
-            <Button className="btn-EditData interval-1" >RESET</Button>
-            <Button className="btn-info interval-1" >SUBMIT</Button>
+            <Button type="submit" className="btn-info fs-interval-1" style={{ marginTop: '3%' }} >SUBMIT</Button>
         </Form>
     </Fragment>
 )
@@ -98,46 +66,102 @@ class StudentAdd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabKey: '1'
+            selectedFile: null,
+            savegpax: false,
+            saveupload: false,
+
         }
     }
 
-  
+    handleGpaxSubmit = event => {
+        event.preventDefault()
+        let element = event.target.elements
+        let form = new FormData()
+        form.append('year', element.educationYear.value)
+        form.append('semester', element.semester.value)
+        form.append('upload', this.state.selectedFile)
+        this.setState({
+            savegpax: true
+        })
+        this.props.addStudentGpax(form)
+    }
+
+    handleStudentSubmit = event => {
+        event.preventDefault()
+        let form = new FormData()
+        form.append('upload', this.state.selectedFile)
+        this.setState({
+            saveupload: true
+        })
+        this.props.addStudent(form)
+    }
+
+    handleSelectFile = event => {
+        let file = event.target.files[0]
+        this.setState({
+            selectedFile: file,
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        let { savegpax,saveupload } = this.state
+        let status = this.props.student.actionResult
+        if ((prevProps.actionResult !== status) && (status === true)) {
+            if (savegpax === true) {
+                this.setState({
+                    savegpax: false
+                })
+                document.getElementById("addGpax").reset();
+
+            } else if (saveupload === true) {
+                this.setState({
+                    saveupload: false
+                })
+                document.getElementById("addStudent").reset();
+            }
+
+        }
+    }
+
+
 
     render() {
-        let { location, match } = this.props
-        let { tabKey } = this.state
+
+        let { yearList } = this.props.student
+        let tabName = [
+            {
+                tabId: '1',
+                tabTitle: 'เพิ่มข้อมูลเกรด'
+            },
+            {
+                tabId: '2',
+                tabTitle: 'เพิ่มข้อมูลนักศึกษาปัจจุบัน'
+            }
+        ]
+
+        let tabDetail = [
+            {
+                tabId: '1',
+                tabDetail: <AddGpax submit={this.handleGpaxSubmit} selectFile={this.handleSelectFile} />
+            },
+            {
+                tabId: '2',
+                tabDetail: <AddStudent submit={this.handleStudentSubmit} selectFile={this.handleSelectFile} />
+            }
+        ]
+
+
+
         return (
             <Fragment>
+                <ReactModal />
                 <div className="my-2 w-100 mx-auto">
-                    {/* <h1 className="admin-page-header">ข้อมูลภาควิชา</h1>
-                    <hr className="yellow-hr" /> */}
                     <Container fluid>
-                        <Tab.Container defaultActiveKey={tabKey}>
-                            <Row>
-                                <Col lg={3}>
-                                    <Nav variant="pills" activeKey={tabKey} onSelect={this.handleTabSelect} className="flex-column sub-nav">
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="1" className="sub-nav" >เพิ่มข้อมูลเกรด</Nav.Link>
-                                        </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="2" className="sub-nav" >เพิ่มข้อมูลนักศึกษาปัจจุบัน</Nav.Link>
-                                        </Nav.Item>
-                                    </Nav>
-                                </Col>
-                                <Col lg={9}>
-                                    <Tab.Content>
-                                        
-                                        <Tab.Pane eventKey="1">
-                                            <AddTab />
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="2">
-                                           <AddNew/>
-                                        </Tab.Pane>
-                                    </Tab.Content>
-                                </Col>
-                            </Row>
-                        </Tab.Container>
+                        {
+                            tabDetail !== null && yearList !== null && (
+                                <SideTab startKey={"1"} tabName={tabName} tabDetail={tabDetail} dropdownTitle={tabName[0]['tabTitle']} />
+                            )
+                        }
                     </Container>
                 </div>
             </Fragment>
@@ -145,4 +169,20 @@ class StudentAdd extends Component {
     }
 }
 
-export default  StudentAdd
+
+const mapStateToProps = state => (
+    {
+        student: state.admin_student,
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        addStudent: (data) => dispatch(addStudent(data)),
+        addStudentGpax: (data) => dispatch(addStudentGpax(data)),
+        getDepartmentList: () => dispatch(getDepartmentList()),
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentAdd)
+

@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request, make_response, current_app as app
+from flask import Blueprint, request, current_app as app
+from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
@@ -8,6 +9,7 @@ import backend.helpers.api_response_helper as api_helper
 from backend.helpers.database_helper import DatabaseHelper
 
 api_bp = Blueprint('api_bp', __name__)
+CORS(api_bp)
 
 
 # authentication route

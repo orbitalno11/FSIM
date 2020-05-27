@@ -2,11 +2,9 @@ import React, {Component, Fragment} from "react";
 
 import {
     Header,
-    Dropdown,
     Divider,
     Container,
     Table,
-    Image
 } from "semantic-ui-react";
 
 
@@ -40,7 +38,7 @@ class StatcourseGPA extends Component {
                                         </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             Mean
-                                        </Table .HeaderCell>
+                                        </Table.HeaderCell>
                                         <Table.HeaderCell width={2} textAlign="center">
                                             SD
                                         </Table.HeaderCell>

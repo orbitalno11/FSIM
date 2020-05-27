@@ -21,13 +21,12 @@ class UserNavbar extends Component {
 
   render() {
     const { children } = this.props;
-    const { fixed } = this.state;
 
     return (
       <Fragment>
         <Responsive
           getWidth={getWidth}
-          minWidth={Responsive.onlyTablet.minWidth}
+          // minWidth={Responsive.onlyTablet.minWidth}
         >
           <Visibility
             once={false}
@@ -37,7 +36,7 @@ class UserNavbar extends Component {
             <Container>
               <Navbar expand="lg">
                 <Navbar.Brand href="/">
-                  <Image className="logo" src={logo} />
+                  <Image className="fs-logo-navbar" src={logo} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse

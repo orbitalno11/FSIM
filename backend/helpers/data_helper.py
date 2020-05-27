@@ -15,7 +15,21 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class DataHelper:
 
-    # read admission data from excel file
+    # DTH1
+    def __calculate_education_status(self, student_id, gpax):
+        status = 1  # normal
+        if gpax >= 2.00:
+            status = 1
+        elif 1.5 <= gpax < 2.00:
+            status = 2
+        else:
+            status = 0
+
+        out = [status, student_id]
+        out = list(map(str, out))
+        return tuple(out)
+
+    # DTH2 read admission data from excel file
     def read_admission(self, channel, year, file_location):
         df = pd.read_excel(file_location, converters={'เลขที่ใบสมัคร': str, 'รหัสสถานศึกษา': str})
 
@@ -75,6 +89,7 @@ class DataHelper:
                                                     "Data for insert in to database",
                                                     out_function_data)
 
+    # DTH3
     def read_academic_file(self, file_location, year, semester):
         df = pd.read_excel(file_location, converters={'รหัส': str}, sheet_name=None)
 
@@ -85,6 +100,8 @@ class DataHelper:
 
         academic_record = []
         gpa_record = []
+        gpax_record = []
+        status_record = []
 
         try:
             for sheet_number in range(len(sheet_name)):
@@ -101,6 +118,10 @@ class DataHelper:
                     gpa = [std_id, temp.iloc[-2, 1], semester, year]
                     gpa = list(map(str, gpa))
                     gpa_record.append(tuple(gpa))
+                    gpax = [temp.iloc[-1, 1], std_id]
+                    gpax = list(map(str, gpax))
+                    gpax_record.append(tuple(gpax))
+                    status_record.append(self.__calculate_education_status(std_id, temp.iloc[-1, 1]))
                     # get data per student
                     for subject in range(1, len(subject_list) - 2):
                         data = [std_id]
@@ -118,13 +139,16 @@ class DataHelper:
 
         out_function_data = {
             'academic_record': academic_record,
-            'gpa_record': gpa_record
+            'gpa_record': gpa_record,
+            'gpax_record': gpax_record,
+            'status_record': status_record
         }
 
         return inner_res_helper.make_inner_response(True,
                                                     "Data for insert in to database",
                                                     out_function_data)
 
+    # DTH4
     def read_new_student_file(self, file_location):
 
         df = pd.read_excel(file_location,
@@ -175,6 +199,7 @@ class DataHelper:
         # data frame for graduated
         graduated = df.loc[:, ['student_id', 'school_id', 'old_gpa']]
         graduated.rename(columns={'old_gpa': 'gpax'}, inplace=True)
+        graduated.fillna("0000000000", inplace=True)
 
         # data frame for has status table
         has_status = df.loc[:, ['student_id']]
@@ -196,7 +221,7 @@ class DataHelper:
                                                     "Data for insert in to database",
                                                     out_function_data)
 
-    # read alumni survey data
+    # DTH5 read alumni survey data
     def read_alumni_personal_data(self, data: pd.DataFrame, personal_header, graduated_year):
 
         try:
@@ -297,6 +322,7 @@ class DataHelper:
             print(e)
             return inner_res_helper.make_inner_response(False, "Error", "Having problem when prepare data.")
 
+    # DTH6
     def read_activity_participant(self, file_location, activity_id):
         try:
             participant_data = pd.read_excel(file_location)

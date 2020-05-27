@@ -1,25 +1,23 @@
 import React, { Component, Fragment } from "react";
 
 import {
-    Header,
-    Dropdown,
-    Divider,
     Grid,
     Card,
     Container,
-    Image
+    Header,
 } from "semantic-ui-react";
 
-// redux
-import { connect } from 'react-redux'
 
 import Barchart from "../../components/Graph/Bar";
-import Linechart from "../../components/Graph/Line"; 
-import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { setupNoneStackBarChart, setupStackBarChart } from '../../components/Graph/GraphController';
 
-import GraphLine from "../../components/Graph/Line";
-import AdmissionTypePanel from "../../components/AddmissionTypePanel";
+
+import { connect } from 'react-redux'
+import { selectYear, getYearList } from '../../redux/action/adminAdmissionAction'
+
+
+import YearSelect from '../../components/YearSelect'
+
 import Axios from "axios";
 
 class Admission extends Component {
@@ -27,130 +25,145 @@ class Admission extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            year: 2560,
-            yearList: [2560, 2561, 2562, 2563],
-            branch: props.branch_list,
+            selectYear: null,
             countChannel: null,
             countSchool: null,
             compareYear: null,
-            countStatus: [],
-            countGrade: []
+            countStatus: null,
+            countGrade: null,
+            admissionRound: [],
+            gpa_by_branch: null
+
         }
     }
 
     componentDidMount() {
+        this.props.getYearList()
+        this.fetchAdmissionRound()
         this.getCountChannel()
-        // this.setupGraph()
+
     }
 
-    fetchBranch = () => {
+    fetchAdmissionRound() {
+        Axios.get(`/admission/round/list`)
+            .then(res => {
+
+                let data = res.data.data
+
+
+                this.setState({
+                    admissionRound: data
+                })
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
+
+    handleSalarySelect = event => {
+        let value = event.target.value
+        let { countGrade,response_round } = this.state
+        if(response_round){
+            this.setState({
+                gpa_by_branch: countGrade[value]['gpa_by_branch']
+            })
+        }else{
+            this.setState({
+                gpa_by_branch: null
+            })
+        }
+       
+
+
+
 
     }
 
     getCountChannel = () => {
-        let { year } = this.state
-        Axios.get(`/admission/analyze`)
+        let { selectedYear } = this.props.admission
+        let { admissionRound } = this.state
+
+        Axios.get(`/admission/analyze?year=${selectedYear}`)
             .then(res => {
-                // let received = res.data
 
-                // if (received.response === true) {
-                //     let data = received.data
-                //     console.log(data)
-
-                //     this.setState({
-                //         countStatus: data.count_by_status[0],
-                //         loadTime: 1
-                //     })
-                // }
                 let data = res.data.data
 
                 let countChannel = data['count_channel']
                 let countSchool = data['count_by_school']
                 let compareYear = data['compare_year'][0]
                 let countStatus = data['count_by_status'][0]
-                let countGrade = data['count_by_branch'][0]
+                let countGrade = data['count_by_branch']
+                let response_round = data['response_round']
 
-               
-                // console.log(countChannel)
-
+                let gpa_by_branch = null
+                if(response_round){
+                    gpa_by_branch = countGrade[admissionRound[0]['round_id']]['gpa_by_branch']
+                }else{
+                    gpa_by_branch = null
+                }
                 this.setState({
                     countChannel: setupNoneStackBarChart(countChannel),
                     countSchool: setupStackBarChart(countSchool),
                     compareYear: setupStackBarChart(compareYear),
                     countStatus: setupStackBarChart(countStatus),
-                    countGrade: setupStackBarChart(countGrade)
-
+                    countGrade: countGrade,
+                    gpa_by_branch: gpa_by_branch
                 })
-                console.log(this.state.countChannel)
             })
             .catch(error => {
                 console.error(error)
                 this.setState({
-                    loadTime: 1
+                    countChannel: null,
+                    countSchool: null,
+                    compareYear: null,
+                    countStatus: null,
+                    countGrade: null,
+                    gpa_by_branch: null
                 })
             })
     }
 
-    // setupGraph = () => {
-    //     let { countStatus } = this.state
-
-    //     this.setState({
-           
-    //         studentStatus: setupStackBarChart(countStatus)
-           
-    //     })
-    // }
-
-
-    setUpDropDown = branch => {
-        let options = []
-        for (const item in branch) {
-            let b = {
-                key: branch[item].branch_id,
-                value: branch[item].branch_id,
-                text: branch[item].branch_name
-            }
-            options.push(b)
-        }
-        return options.sort()
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        if (value === 0)
+            value = null
+        await this.props.setYear(value)
+        this.getCountChannel()
     }
 
+
+
     render() {
-        let { year, yearList, branch_list, countChannel, countSchool, compareYear, studentStatus, countStatus, countGrade } = this.state
+        let { countChannel, countSchool, compareYear, countStatus, countGrade, admissionRound, gpa_by_branch } = this.state
+        let { selectedYear, yearList } = this.props.admission
+
+
         return (
             <Fragment>
-                <Container className="white-background">
-                    <Header as="h5" textAlign="center">
-                        ค้นหาการรับเข้าโดยสาขาวิชาและปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={year}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-                    </Header>
-                    <Divider />
-                    <Grid>
-                        {/* <Grid.Row>
-                            <Card fluid={true}>
-                                <AdmissionTypePanel />
-                            </Card>
-                        </Grid.Row> */}
+                <Container >
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้ารับการศึกษารายปี
+                        </Header>
+                    <div className="my-5"> {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                        )
+                    }</div>
+                   
+                    <Grid textAlign="center">
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงเปรียบเทียบจำนวนนักเรียนที่รับเข้าในโครงการต่างๆประจำปี
-                                        2560
+                                        {selectedYear}
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            countChannel !== null && (
-                                                <Bar data={countChannel} legend={{ display: false }} />
-                                            )
+                                            countChannel !== null ? (
+                                                <Barchart data={countChannel} />
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
 
                                     </Card.Content>
@@ -159,58 +172,75 @@ class Admission extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี 2560
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <Barchart data={countStatus} />
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา 2560
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <Barchart data={countGrade} />
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดง 5 อันดับโรงเรียน 2560
-                                    </Card.Header>
-                                    <Card.Content>
-                                    {
-                                            countSchool !== null && (
-                                                <Bar data={countSchool} legend={{ display: false }} />
-                                            )
-                                        }
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={16}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี
-                                        2560 และ 2561
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
+                                        กราฟแสดงผลการศึกษาโครงการต่างๆ ประจำปี {selectedYear}
                                     </Card.Header>
                                     <Card.Content>
                                         {
-                                            compareYear !== null && (
-                                                <Bar data={compareYear} legend={{ display: false }} />
-                                            )
+                                            countStatus !== null ? (<Barchart data={countStatus} />) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
                                         }
-                                        
+
+
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
+                                        กราฟแสดงค่าเฉลี่ยเกรดของแต่ละโครงการประจำปีการศึกษา {selectedYear}
+                                    </Card.Header>
+                                    <Card.Header as="h5" align='right' className='fs-font-18'>
+
+                                        <select className="form-control" defaultValue={admissionRound.length !== 0 ? admissionRound[0]['round_name'] : null} onChange={countGrade !== null ? this.handleSalarySelect : null}>
+                                            {
+                                                admissionRound.length !== 0 ? (
+                                                    admissionRound.map((item, index) => (
+                                                        <option key={index}
+                                                            value={item['round_id']}>{item['round_name']}</option>
+                                                    ))
+                                                ) : (<option value="">ไม่พบข้อมูล</option>)
+                                            }
+                                        </select>
+                                    </Card.Header>
+                                    <Card.Content>
+                                           
+                                        {(gpa_by_branch !== undefined )&(gpa_by_branch!==null)? <Barchart data={setupStackBarChart(gpa_by_branch)}  /> : (<h3 className="text-center">ไม่พบข้อมูล</h3>)}
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
+                                        กราฟแสดง 5 อันดับโรงเรียน {selectedYear}
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            countSchool !== null ? (
+                                                <Barchart data={countSchool}  />
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                        }
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={16}>
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
+                                        กราฟเปรียบเทียบจำนวนนักเรียนที่เข้าศึกษาแบ่งตามโครงการประจำปี {selectedYear} และ {parseInt(selectedYear) + 1}
+                                    </Card.Header>
+                                    <Card.Content>
+                                        {
+                                            compareYear !== null ? (
+                                                <Barchart data={compareYear}  />
+                                            ) : (<h3 className="text-center">ไม่พบข้อมูล</h3>)
+                                        }
+
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
@@ -222,5 +252,18 @@ class Admission extends Component {
     }
 }
 
+const mapStateToProps = state => (
+    {
+        admission: state.admin_admission
+    }
+)
 
-export default Admission
+const mapDispatchToProps = dispatch => (
+    {
+        setYear: (year) => dispatch(selectYear(year)),
+        getYearList: () => dispatch(getYearList()),
+    }
+)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admission)

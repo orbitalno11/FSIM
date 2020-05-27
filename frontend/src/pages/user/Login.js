@@ -47,21 +47,20 @@ class Login extends Component {
          <ReactModal/>
         <Responsive
           getWidth={getWidth}
-          minWidth={Responsive.onlyTablet.minWidth}
+          // minWidth={Responsive.onlyTablet.minWidth}
         >
           <Visibility
             once={false}
             onBottomPassed={this.showFixedMenu}
             onBottomPassedReverse={this.hideFixedMenu}
           >
-            <Image size="massive" className="background-yellow" src={bgyel} />
-            <Image size="massive" className="bottom-left" src={bannerbot} />
+            <Image size="massive" className="fs-bg-tp-yellow" src={bgyel} />
+            <Image size="massive" className="fs-bg-bt-yellow" src={bannerbot} />
             <Container>
               <Grid
                 textAlign="center"
-                style={{ height: "100vh" }}
                 verticalAlign="middle"
-                className="card-login my-4"
+                className="fs-cd-login fs-pst-absolute fs-centered"
                 centered
               >
                 <Grid.Column style={{ maxWidth: 350 }}>
@@ -69,25 +68,23 @@ class Login extends Component {
                     เข้าสู่ระบบ
                   </Header>
                   <Form size="large" onSubmit={this.handleLogin}>
+                  <label>username</label>
                     <Form.Input
                       fluid
-                      icon="user"
-                      iconPosition="left"
                       id="username"
                       name="username"
                       type="text"
                       required
-                      placeholder="อีเมล"
+                      placeholder="username"
                     />
+                    <label>password</label>
                     <Form.Input
                       fluid
-                      icon="lock"
-                      iconPosition="left"
                       id="password"
                       name="password"
                       type="password"
                       required
-                      placeholder="รหัสผ่าน"
+                      placeholder="password"
                     />
                     <Button color="grey" fluid size="large">
                       Login
@@ -95,34 +92,7 @@ class Login extends Component {
                   </Form>
                 </Grid.Column>
               </Grid>
-              {/* <div>
-                <div className="card-login">
-                  <form onSubmit={this.handleLogin}>
-                    <h2>เข้าสู่ระบบ</h2>
-                    <div>
-                      <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        required
-                        placeholder="อีเมล"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                        placeholder="รหัสผ่าน"
-                      />
-                    </div>
-                    <button type="submit">
-                      <i className="fas fa-sign-in-alt mr-1"></i>เข้าสู่ระบบ
-                    </button>
-                  </form>
-                </div>
-              </div> */}
+            
             </Container>
           </Visibility>
           {children}

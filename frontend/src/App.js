@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import './App.css'
 
 // router
@@ -24,7 +24,7 @@ import AdminRoute from './components/AdminRoute'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from "redux";
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 import thunk from "redux-thunk";
 import rootReducer from './redux/reducers';
 
@@ -36,6 +36,8 @@ import AdminMenu from './components/AdminMenu'
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 // logger
+
+axios.defaults.baseURL="http://127.0.0.1:5000/api/v1/"
 
 const token = localStorage.FSIMIdToken
 if (token){

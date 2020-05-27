@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react'
 
-import { Spinner } from 'react-bootstrap'
-
 import TabDialog from '../../../components/TabDialog'
 
 import AlumniManage from './AlumniManage'

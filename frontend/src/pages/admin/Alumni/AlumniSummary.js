@@ -4,9 +4,7 @@ import React, { Component, Fragment } from "react";
 import { setupStackBarChart, setupPieChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 
 import {
-    Divider,
     Grid,
-    Header,
     Container,
     Card
 } from "semantic-ui-react";
@@ -15,6 +13,8 @@ import GraphPie from "../../../components/Graph/Pie";
 import GraphBar from "../../../components/Graph/Bar";
 
 import { Bar } from 'react-chartjs-2';
+
+import YearSelect from '../../../components/YearSelect'
 
 // redux
 import { connect } from 'react-redux'
@@ -37,7 +37,7 @@ class AlumniSummary extends Component {
     handleYearSelect = async event => {
         let value = event.target.value
         let n_year = parseInt(value)
-        if (n_year == 0)
+        if (n_year === 0)
             n_year = null
 
         await this.props.setSelectedYear(n_year)
@@ -68,27 +68,21 @@ class AlumniSummary extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา
-                        {
+                   
+                    {
+                        yearList.length>0 ?
                             yearList !== null && (
-                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                                    <option value="0">แสดงทุกปี</option>
-                                    {
-                                        yearList !== null && yearList.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            )
-                        }
-                    </Header>
-                    <Divider />
-                    <Grid>
-                        <Grid.Row columns={2} >
-                            <Grid.Column >
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
+                                <YearSelect yearList={yearList}
+                                    selectedYear={selectedYear}
+                                    onSelectYear={this.handleYearSelect}
+                                    title={"ค้นหาข้อมูลศิษย์เก่าของปีการศึกษา"} />
+                            ) : null
+                    }
+                    <Grid textAlign="center">
+                        <Grid.Row >
+                            <Grid.Column mobile="16" computer="8" className="my-3">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนศิษย์เก่าแยกตามสาขา
                                     </Card.Header>
                                     <Card.Content >
@@ -96,9 +90,9 @@ class AlumniSummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column>
-                                <Card className="card-default">
-                                    <Card.Header as="h3">
+                            <Grid.Column mobile="16" computer="8" className="mt-3 mb-2">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนภาวะการทำงานของศิษย์เก่า
                                         </Card.Header>
                                     <Card.Content>
@@ -109,8 +103,8 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row  >
                             <Grid.Column >
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักศึกษที่เข้าร่วมฝึกงาน
                                         </Card.Header>
                                     <Card.Content  >
@@ -121,8 +115,8 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column >
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงเกรดเฉลี่ยตลอดหลักสูตร
                                     </Card.Header>
                                     <Card.Content>
@@ -133,12 +127,12 @@ class AlumniSummary extends Component {
                         </Grid.Row>
                         <Grid.Row>
                             <Grid.Column width={16}>
-                                <Card className="card-default" >
-                                    <Card.Header as="h3">
+                                <Card className="fs-cd-default" >
+                                    <Card.Header as="h4">
                                         กราฟแสดงช่วงเงินเดือนของศิษย์เก่า
                                     </Card.Header>
-                                    <Card.Header as="h6" align='right' className='branch'>
-                                        <select className="form-control" onChange={this.handleSalarySelect}>
+                                    <Card.Header as="h4" align='right' className='branch'>
+                                        <select className="form-control" onChange={workData !== null ? this.handleSalarySelect : null}>
                                             <option value="all">ทุกสาขาวิชา</option>
                                             {
                                                 branchList !== null && (

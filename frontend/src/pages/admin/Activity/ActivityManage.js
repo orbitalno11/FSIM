@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
 
-import { Table, Button } from 'semantic-ui-react'
+import { Button, Container } from 'semantic-ui-react'
 
 import { connect } from 'react-redux'
 import { getActivityList, delelteActivity } from '../../../redux/action/adminActivityAction'
+import { Table } from 'react-bootstrap'
 
 class ActivityManage extends Component {
 
@@ -25,36 +26,44 @@ class ActivityManage extends Component {
 
     render() {
         let { activityList } = this.props.activity
+
         return (
             <Fragment>
-                <Table>
-                    <Table.Header>
-                        <Table.Row textAlign="center">
-                            <Table.HeaderCell> ลำดับ </Table.HeaderCell>
-                            <Table.HeaderCell> ปีการศึกษา </Table.HeaderCell>
-                            <Table.HeaderCell>ประเภทโครงการ</Table.HeaderCell>
-                            <Table.HeaderCell> ชื่อกิจกรรม </Table.HeaderCell>
-                            <Table.HeaderCell>ดำเนินการ</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
+                <Table responsive hover>
+                    <thead>
+                        <tr align="center">
+                            <th>ลำดับ</th>
+                            <th>ปีการศึกษา</th>
+                            <th>ประเภทโครงการ</th>
+                            <th>ชื่อกิจกรรม</th>
+                            <th>ดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
-                            activityList !== null && (
+                            activityList !== null ? (
                                 activityList.map((item, index) => (
-                                    <Table.Row textAlign="center" key={index}>
-                                        <Table.Cell>{index + 1}</Table.Cell>
-                                        <Table.Cell>{item['education_year']}</Table.Cell>
-                                        <Table.Cell>{item['project_type_name']}</Table.Cell>
-                                        <Table.Cell>{item['activity_name']}</Table.Cell>
-                                        <Table.Cell>
-                                            <Button onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
-                                        </Table.Cell>
-                                    </Table.Row>
+                                    <tr align="center" key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{item['education_year']}</td>
+                                        <td>{item['project_type_name']}</td>
+                                        <td>{item['activity_name']}</td>
+                                        <td>
+                                            <Button color='red' onClick={() => this.handleDeleteActivity(item['activity_id'])}>ลบ</Button>
+                                        </td>
+                                    </tr>
                                 ))
-                            )
+                            ) : (
+                                    null
+                                )
                         }
-                    </Table.Body>
+                    </tbody>
                 </Table>
+                {
+                    activityList !== null ? null : (<Container align="center">
+                        <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3>
+                    </Container>)
+                }
             </Fragment>
         )
     }

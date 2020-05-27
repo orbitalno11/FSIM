@@ -8,6 +8,7 @@ import jwt
 from functools import wraps
 
 
+# ATM1
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):

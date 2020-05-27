@@ -13,6 +13,7 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name(Constant.google_c
 gc = gspread.authorize(credentials)
 
 
+# RGS1
 def read_table_header(sheet_url: str):
     # this function read only first sheet in wokbook
     sheet = gc.open_by_url(sheet_url)
@@ -23,7 +24,7 @@ def read_table_header(sheet_url: str):
         return inner_res_helper.make_inner_response(response=False, message="Cannot find table head", value=header)
     return inner_res_helper.make_inner_response(response=True, message="Table header", value=header)
 
-
+# RGS2
 def read_sheet_data(sheet_url: str):
 
     sheet = gc.open_by_url(sheet_url)
@@ -34,7 +35,7 @@ def read_sheet_data(sheet_url: str):
         return inner_res_helper.make_inner_response(response=False, message="Cannot find table", value=read)
     return inner_res_helper.make_inner_response(response=True, message="Table data", value=read)
 
-
+# RGS3
 def read_sheet_data_by_column(sheet_url: str, header: list):
 
     sheet = gc.open_by_url(sheet_url)

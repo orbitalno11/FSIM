@@ -20,11 +20,13 @@ import {
     LOAD_ALUMNI_SURVEY_DATA_SUCCESS,
     LOAD_ALUMNI_SURVEY_ANALYZE_DATA_START,
     LOAD_ALUMNI_SURVEY_ANALYZE_DATA_SUCCESS,
-    LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED
+    LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED,
+    LOAD_ALUMNI_SURVEY_DATA_FAILED,
+    EDIT_SURVEY_START,
+    EDIT_SURVEY_FAILED,
+    EDIT_SURVEY_SUCCESS
 } from '../types'
 
-let year = new Date()
-year = year.getFullYear() + 543
 
 const initialState = {
     selectedYear: null,
@@ -59,7 +61,7 @@ export default (state = initialState, action) => {
         case LOAD_SURVEY_YEAR_FAILED:
             return {
                 ...state,
-                yearList: action.yearList,
+                yearList: [],
                 error: action.error
             }
 
@@ -154,7 +156,7 @@ export default (state = initialState, action) => {
                 surveyData: action.surveyData
             }
 
-        case LOAD_SURVEY_YEAR_FAILED:
+        case LOAD_ALUMNI_SURVEY_DATA_FAILED:
             return {
                 ...state,
                 error: action.error
@@ -174,6 +176,25 @@ export default (state = initialState, action) => {
         case LOAD_ALUMNI_SURVEY_ANALYZE_DATA_FAILED:
             return {
                 ...state,
+                error: action.error
+            }
+
+
+        case EDIT_SURVEY_START:
+            return {
+                ...state,
+            }
+
+        case EDIT_SURVEY_SUCCESS:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus
+            }
+
+        case EDIT_SURVEY_FAILED:
+            return {
+                ...state,
+                surveyActionStatus: action.surveyActionStatus,
                 error: action.error
             }
 

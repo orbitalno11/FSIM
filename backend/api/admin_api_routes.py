@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -8,6 +9,7 @@ import backend.helpers.read_google_sheet as read_sheet
 import backend.modules.AuthenticationModule as auth
 
 admin_bp = Blueprint('admin_bp', __name__)
+CORS(admin_bp)
 
 
 # # # # # alumni part # # # # #

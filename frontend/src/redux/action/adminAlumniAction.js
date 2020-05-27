@@ -22,7 +22,10 @@ import {
     LOAD_ALUMNI_SURVEY_ANALYZE_DATA_SUCCESS,
     LOAD_ALUMNI_SURVEY_DATA_START,
     LOAD_ALUMNI_SURVEY_DATA_SUCCESS,
-    LOAD_ALUMNI_SURVEY_DATA_FAILED
+    LOAD_ALUMNI_SURVEY_DATA_FAILED,
+    EDIT_SURVEY_SUCCESS,
+    EDIT_SURVEY_FAILED,
+    EDIT_SURVEY_START
 } from '../types'
 
 import axios from 'axios'
@@ -211,6 +214,28 @@ const loadSurveyAnalyzeDataFailed = (error) => (
     }
 )
 
+// edit Survey
+const editSurveyStart = () => (
+    {
+        type: EDIT_SURVEY_START
+    }
+)
+
+const editSurveySuccess = () => (
+    {
+        type: EDIT_SURVEY_SUCCESS,
+        surveyActionStatus: true
+    }
+)
+
+const editSurveyFailed = (error) => (
+    {
+        type: EDIT_SURVEY_FAILED,
+        surveyActionStatus: false,
+        error: error
+    }
+)
+
 export const setSelectedYear = year => dispatch => dispatch(selectedYear(year))
 
 export const resetSurveyActionStatus = () => dispatch => dispatch(resetSurveyAction())
@@ -281,7 +306,7 @@ export const getSurveyList = () => dispatch => {
         })
 }
 
-export const addSurvey = data => dispatch => {
+export const addSurvey = data => (dispatch, getState) => {
     dispatch(startLoading())
     dispatch(addSurveyStart())
 
@@ -290,19 +315,18 @@ export const addSurvey = data => dispatch => {
             let data = res.data
 
             if (data['response']) {
+                let { selectedYear } = getState().admin_alumni
                 dispatch(addSurveySuccess())
                 dispatch(getSurveyList())
                 dispatch(getAllAlumniYear())
+                dispatch(loadWorkData(selectedYear))
+                dispatch(loadSurveyData(selectedYear))
                 dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
-
             } else {
                 dispatch(addSurveyFailed("Response Error"))
                 dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
-
             }
-
             dispatch(stopLoading())
-
         })
         .catch(err => {
             dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
@@ -312,18 +336,43 @@ export const addSurvey = data => dispatch => {
         })
 }
 
-export const deleteItem = data => dispatch => {
+export const editSurvey = data => (dispatch, getState) => {
+    dispatch(startLoading())
+    dispatch(editSurveyStart())
+
+    axios.put(`/admin/alumni/survey`, data)
+            .then(() => {
+                let { selectedYear } = getState().admin_alumni
+                dispatch(editSurveySuccess())
+                dispatch(getAllAlumniYear())
+                dispatch(getSurveyList())
+                dispatch(loadWorkData(selectedYear))
+                dispatch(loadSurveyData(selectedYear))
+                dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
+                dispatch(stopLoading())
+            })
+            .catch(err => {
+                dispatch(openModal(true, [{ text: 'บันทึกล้มเหลว กรุณาตรวจสอบการบันทึกอีกครั้ง', color: '#C0392B', type: false }]))
+                console.error(err)
+                dispatch(editSurveyFailed(err))
+                dispatch(stopLoading())
+            })
+}
+
+export const deleteItem = data => (dispatch, getState) => {
     dispatch(startLoading())
     dispatch(deleteSurveyStart())
 
-    axios.delete(`/admin/alumni/survey?key=${data.id}&year=${data.educationYear}`)
+    axios.get(`/admin/alumni/survey?key=${data.id}&year=${data.educationYear}`)
         .then(res => {
             let data = res.data
             if (data['response']) {
+                let { selectedYear } = getState().admin_alumni
                 dispatch(deleteSurveySuccess())
                 dispatch(getAllAlumniYear())
                 dispatch(getSurveyList())
-                dispatch(loadWorkData())
+                dispatch(loadWorkData(selectedYear))
+                dispatch(loadSurveyData(selectedYear))
                 dispatch(openModal(true, [{ text: 'บันทึกสำเร็จ', color: '#33cc33', type: true }]))
 
             } else {
@@ -402,26 +451,6 @@ export const loadSurveyData = (year) => dispatch => {
             dispatch(loadSurveyDataSuccess(out))
             dispatch(stopLoading())
             dispatch(loadSurveyAnalyzeData(out))
-            // if (key.length > 1 || key.length < 1) {
-            //     // alert("Check alumni survey list for year" + setSelectedYear)
-            //     this.setState({
-            //         surveyDetail: null,
-            //         analyzeData: null,
-            //         loadTime: 1,
-            //         year: selectedYear
-            //     })
-            //     this.props.stopLoading()
-            //     return
-            // } else {
-            //     let detail = data[key[0]]
-            //     console.log(detail)
-            //     this.setState({
-            //         surveyDetail: detail,
-            //         loadTime: 1,
-            //         year: detail.educationYear
-            //     })
-            //     this.fetchAnalyzeSurvey()
-            // }
         })
         .catch(err => {
             console.error(err)

@@ -1,7 +1,5 @@
-from flask import Blueprint, request, current_app as app
-
-# import constant
-import backend.Constant as Constant
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -11,6 +9,7 @@ from backend.helpers.database_helper import DatabaseHelper
 from backend.modules.AnalyzeStudent import AnalyzeStudent
 
 user_department = Blueprint('user_department', __name__)
+CORS(user_department)
 
 
 # get general department data such as name , id

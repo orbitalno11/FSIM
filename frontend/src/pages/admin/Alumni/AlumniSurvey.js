@@ -5,8 +5,10 @@ import {
     Grid,
     Header,
     Container,
-    Table
 } from "semantic-ui-react";
+import { Table } from 'react-bootstrap'
+
+import YearSelect from '../../../components/YearSelect'
 
 // redux
 import { connect } from 'react-redux'
@@ -23,7 +25,7 @@ class AlumniSurvey extends Component {
         let value = event.target.value
         let n_year = parseInt(value)
 
-        if (n_year == 0)
+        if (n_year === 0)
             n_year = null
 
         if (n_year != null) {
@@ -43,62 +45,60 @@ class AlumniSurvey extends Component {
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" align='center'>
-                        ค้นหาข้อมูลแบบสอบถามของปีการศึกษา
-                        {
-                            yearList !== null && (
-                                <select id="selectYear" defaultValue={selectedYear} onChange={this.handleYearSelect}>
-                                    <option value="0">เลือกปีการศึกษา</option>
-                                    {
-                                        yearList !== null && yearList.map((item, index) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
-                                </select>
-                            )
-                        }
-                    </Header>
-                    <Divider />
+
+                    {
+                        (yearList !== null && yearList.length > 0) ? (
+                            <YearSelect yearList={yearList}
+                                selectedYear={selectedYear}
+                                onSelectYear={this.handleYearSelect}
+                                title={"ค้นหาข้อมูลแบบสอบถามของปีการศึกษา"} />
+                        ) : null
+                    }
                     <Grid>
                         <Grid.Row>
                             <Header as="h3">
                                 ตารางสรุปความพึงพอใจของผู้เรียนต่อคุณภาพหลักสูตรและการจัดการเรียนการสอน {selectedYear}
                             </Header>
                             <Divider />
-                            <Table celled structured>
-                                <Table.Header>
-                                    <Table.Row active>
-                                        <Table.HeaderCell width={12} textAlign="center">
+                            <Table responsive hover style={{ marginTop: '2%' }}>
+                                <thead>
+                                    <tr align="center">
+                                        <th width={12} >
                                             ประเด็นการประเมิน
-                                        </Table.HeaderCell>
-                                        <Table.HeaderCell width={2} textAlign="center">
+                                        </th>
+                                        <th width={2} >
                                             ระดับความพึงพอใจเฉลี่ย
-                                        </Table.HeaderCell>
-                                        <Table.HeaderCell width={2} textAlign="center">
+                                        </th>
+                                        <th width={2} >
                                             ส่วนเบี่ยงเบนมาตรฐาน
-                                        </Table.HeaderCell>
-                                    </Table.Row>
-                                </Table.Header>
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                                <Table.Body>
+                                <tbody>
                                     {
                                         surveyAnalyze !== null && surveyAnalyze.length !== 0
                                             ? surveyAnalyze.map((item, index) => (
-                                                <Table.Row key={index}>
-                                                    <Table.Cell style={{ paddingLeft: "4%" }}>{item['topic']}</Table.Cell>
-                                                    <Table.Cell textAlign="center">{item['mean']}</Table.Cell>
-                                                    <Table.Cell textAlign="center">{item['std']}</Table.Cell>
-                                                </Table.Row>
+                                                <tr key={index}>
+                                                    <td style={{ paddingLeft: "4%" }}>{item['topic']}</td>
+                                                    <td className="text-center">{item['mean']}</td>
+                                                    <td className="text-center">{item['std']}</td>
+                                                </tr>
                                             )) : (
-                                                <Table.Row>
-                                                    <Table.Cell colSpan={3}><h2 className="text-center">ไม่พบข้อมูล</h2></Table.Cell>
-                                                </Table.Row>
+                                                null
                                             )
                                     }
-                                </Table.Body>
+                                </tbody>
                             </Table>
+
                         </Grid.Row>
                     </Grid>
+
+                    {
+                                surveyAnalyze !== null ? null : (<Fragment>
+                                   <div className="text-center"> <h3 style={{ marginTop: '5%' }} >ไม่พบข้อมูล</h3></div>
+                                </Fragment>)
+                            }
 
                 </Container>
 

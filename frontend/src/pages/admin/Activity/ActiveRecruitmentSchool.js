@@ -8,6 +8,23 @@ import {
 
 import { Bar } from 'react-chartjs-2';
 
+import { labelTopOfChart } from '../../../Constant'
+
+const options = {
+    scales: {
+        yAxes: [{
+            display: true,
+            ticks: {
+                min: 0,
+                max: 4,
+                stepSize: 0.2
+            }
+        }]
+    },
+    ...labelTopOfChart
+};
+
+
 
 class ARSchool extends Component {
 
@@ -28,13 +45,13 @@ class ARSchool extends Component {
                     <Grid>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-circle-modal">
-                                    <Card.Header as="h5">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟแสดงจำนวนนักเรียนที่เข้าศึกษาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            numberBySchool !== null ? <Bar data={numberBySchool} /> : <h1>ไม่พบข้อมูล</h1>
+                                            numberBySchool !== null ? <Bar data={numberBySchool} legend={{ display: false }} options={labelTopOfChart} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>
@@ -42,13 +59,13 @@ class ARSchool extends Component {
                         </Grid.Row>
                         <Grid.Row >
                             <Grid.Column width={16}>
-                                <Card className="card-circle-modal">
-                                    <Card.Header as="h5">
+                                <Card className="fs-cd-default">
+                                    <Card.Header as="h4">
                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากแต่ละโรงเรียน
                                         </Card.Header>
                                     <Card.Content>
                                         {
-                                            gpaBySchool !== null ? <Bar data={gpaBySchool} /> : <h1>ไม่พบข้อมูล</h1>
+                                            gpaBySchool !== null ? <Bar data={gpaBySchool} legend={{ display: false }} options={options} /> : <h1>ไม่พบข้อมูล</h1>
                                         }
                                     </Card.Content>
                                 </Card>

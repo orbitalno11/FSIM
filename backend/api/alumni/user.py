@@ -1,7 +1,5 @@
-from flask import Blueprint, request, current_app as app
-
-# import constant
-import backend.Constant as Constant
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import api helper
 import backend.helpers.api_response_helper as api_helper
@@ -11,6 +9,7 @@ from backend.modules.FirebaseModule import FirebaseModule
 from backend.modules.AnalyzeAlumni import AnalyzeAlumni
 
 user_alumni = Blueprint('user_alumni', __name__)
+CORS(user_alumni)
 
 
 # get analyze analyze survey
@@ -42,13 +41,12 @@ def get_analyze_alumni_work():
 @user_alumni.route('/survey', methods=['GET'])
 def get_alumni_survey():
     year = request.args.get('year')
-    
-    if year is  None or  year=='null':
+
+    if year is None or year == 'null':
         db = FirebaseModule()
         data = db.alumni_get_survey()
     else:
         db = FirebaseModule()
         data = db.alumni_get_survey_by_year(int(year))
-        
 
     return api_helper.return_response(data)

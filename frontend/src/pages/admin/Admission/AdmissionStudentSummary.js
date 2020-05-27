@@ -1,225 +1,155 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from 'react-router-dom'
 import {
-    Header,
-    Dropdown,
-    Divider,
     Grid,
     Card,
     Container,
     Button,
-    Image
 } from "semantic-ui-react";
+import {  Col, Row } from 'react-bootstrap'
+import YearSelect from '../../../components/YearSelect'
 
 // redux
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { getAdmissionData, selectYear } from '../../../redux/action/adminAdmissionAction'
 
-
-import GraphBar from "../../../components/Graph/Bar";
-import { setupLineChart, setupNoneStackBarChart, setupStackBarChart } from '../../../components/Graph/GraphController';
-
-
-import Axios from "axios";
+import { setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import Barchart from "../../../components/Graph/Bar";
 
 
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../../Constant'
+
 class AdmissionStudentSummary extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            year: 2560,
-            yearList: [2560, 2561, 2562, 2563],
-            branch: props.branch_list,
-            admissionRound: []
-        }
-    }
-
     componentDidMount() {
-        this.getCountChannel()
+        this.getData()
     }
 
-    fetchBranch = () => {
-
+    handleSeclectYear = async event => {
+        let value = event.target.value
+        await this.props.setYear(value)
+        this.getData()
     }
 
-    getCountChannel = () => {
-        let { year } = this.state
-        Axios.get(`/admin/admission/analyze/channel`)
-            .then(res => {
-               
-                let data = res.data.data
+    getData = () => {
+        let { selectedYear } = this.props.admission
+        this.props.getAdmissionData(selectedYear)
 
-                let admissionRound = data['analyze_by_round'][0]
-                // let countChannel = data['count_channel']
-                // let countSchool = data['count_by_school']
-                // let compareYear = data['compare_year'][0]
-                // let countStatus = data['count_by_status'][0]
-                // let countGrade = data['count_by_branch'][0]
 
-               
-                // console.log(countChannel)
-
-                this.setState({
-                    admissionRound: setupStackBarChart(admissionRound)
-                    // countChannel: setupNoneStackBarChart(countChannel),
-                    // countSchool: setupStackBarChart(countSchool),
-                    // compareYear: setupStackBarChart(compareYear),
-                    // countStatus: setupStackBarChart(countStatus),
-                    // countGrade: setupStackBarChart(countGrade)
-
-                })
-                // console.log(this.state.countChannel)
-            })
-            .catch(error => {
-                console.error(error)
-                this.setState({
-                    loadTime: 1
-                })
-            })
     }
 
     render() {
-        let {branch_list, admissionRound} = this.props
+        let { admissionData, selectedYear, yearList } = this.props.admission
         return (
             <Fragment>
-                <Container>
-                    <Header as="h5" textAlign="center">
-                        ค้นหาการรับเข้าโดยปีการศึกษา{" "}
-                       
-                        <Dropdown
-                            options={[
-                                {key: "2560", value: "2560", text: "2560"},
-                                {key: "2561", value: "2561", text: "2561"}
-                            ]}
-                            placeholder="Select"
-                            selection
-                        />
-                    </Header>
-                    <Divider/>
-                    <Grid>
-                        
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนที่รับเข้านักศึกษาของโครงการแต่ละประเภท
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <Barchart data={admissionRound}/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงผลการศึกษาโครงการต่างๆ 
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/1
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 1/2 
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 2
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/1 
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 3/2
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 4
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ รอบที่ 5
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
-                                    <Card.Header as="h5">
-                                        เกรดเฉลี่ยของนักศึกษาแต่ละรอบที่รับเข้า
-                                    </Card.Header>
-                                    <Card.Content>
-                                        <GraphBar/>
-                                    </Card.Content>
-                                </Card>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <Grid.Row>
-                        <Button as={Link} to="/admission">
-                            เพิ่มเติม
+                <MediaQuery minDeviceWidth={minDeviceWidth}>
+                    <Container>
+                        {
+                            yearList !== null && (
+                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                            )
+                        }
+                        <Grid>
+                            {
+                                admissionData !== null ? (
+                                    admissionData.map((item, index) => {
+                                        return (
+                                            <Grid.Column mobile="16" computer="auto" className="my-3" key={index}>
+                                                <Card className="fs-cd-default">
+                                                    <Card.Header as="h4">
+                                                        กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
+                                                    </Card.Header>
+                                                    <Card.Content >
+                                                        {
+                                                            admissionData !== null ? (
+                                                                <Barchart data={setupNoneStackBarChart(item.analyze[0])} legend={{ display: false }}  />
+                                                            ) : (
+                                                                    <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                                )
+                                                        }
+                                                    </Card.Content>
+                                                </Card>
+                                            </Grid.Column>
+                                        )
+                                    })
+                                ) : (
+                                        <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3> </Container>
+                                    )
+                            }
+                        </Grid>
+                        {admissionData !== null ? (
+                            <Container textAlign="center" style={{ marginTop: '5%', marginBottom: '5%' }}>
+                                <Button as={Link} to="/admission" className="btn-info fs-interval-1" style={{ color: '#FFFFFF' }}>
+                                    ดูผลการวิเคราะห์เพิ่มเติม
                         </Button>
-                    </Grid.Row>
-                </Container>
+                            </Container>
+                        ) : null}
+                    </Container>
+                </MediaQuery>
+                <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+                    <Container >
+                        {
+                            yearList !== null && (
+                                <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหาข้อมูลการรับเข้าโดยเลือกปีการศึกษา"} />
+                            )
+                        }
+                        <Grid>
+                            {
+                                admissionData !== null ? (
+                                    admissionData.map((item, index) => {
+                                        return (
+                                            <Row>
+                                                <Col xs={12} lg={12} sm={12}>
+                                                    <Card className="fs-cd-default">
+                                                        <Card.Header as="h6">
+                                                            กราฟแสดงจำนวนนักศึกษาที่รับจากแต่ละโครงการ {item.name}
+                                                        </Card.Header>
+                                                        <Card.Content >
+                                                            {
+                                                                admissionData !== null ? (
+                                                                    <Barchart data={setupNoneStackBarChart(item.analyze[0])} legend={false} />
+                                                                ) : (
+                                                                        <h2 className="text-center">ไม่พบข้อมูล</h2>
+                                                                    )
+                                                            }
+                                                        </Card.Content>
+                                                    </Card>
+                                                </Col>
+                                            </Row>
+                                        )
+                                    })
+                                ) : (
+                                        <Container> <h3 style={{ marginTop: '5%' }} className="text-center">ไม่พบข้อมูล</h3> </Container>
+                                    )
+                            }
+                        </Grid>
+                        {admissionData !== null ? (
+                            <Container textAlign="center" style={{ marginTop: '5%', marginBottom: '5%' }}>
+                                <Button as={Link} to="/admission" className="btn-info fs-interval-1" style={{ color: '#FFFFFF' }}>
+                                    ดูผลการวิเคราะห์เพิ่มเติม
+                        </Button>
+                            </Container>
+                        ) : null}
+                    </Container>
+                </MediaQuery>
+
             </Fragment>
         )
     }
 }
+const mapStateToProps = state => (
+    {
+        admission: state.admin_admission
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getAdmissionData: (year) => dispatch(getAdmissionData(year)),
+        setYear: (year) => dispatch(selectYear(year))
+    }
+)
 
 
-export default AdmissionStudentSummary
+export default connect(mapStateToProps, mapDispatchToProps)(AdmissionStudentSummary)

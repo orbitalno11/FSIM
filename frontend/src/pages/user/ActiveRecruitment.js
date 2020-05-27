@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from "react";
+
 import axios from 'axios'
 
 import {
-    Header,
-    Grid,
     Card,
     Container,
-    Image
+    Header
 } from "semantic-ui-react";
+
 import { connect } from 'react-redux'
+
+import { Row, Col } from 'react-bootstrap'
 
 import { Bar } from 'react-chartjs-2';
 
@@ -17,6 +19,8 @@ import { startLoading, stopLoading } from '../../redux/action/generalAction'
 import { setupNoneStackBarChart } from '../../components/Graph/GraphController'
 
 import { getYearList, selectYear } from '../../redux/action/adminActivityAction'
+
+import YearSelect from '../../components/YearSelect'
 
 class ActiveRecruitment extends Component {
 
@@ -58,42 +62,38 @@ class ActiveRecruitment extends Component {
 
     handleSeclectYear = async event => {
         let value = event.target.value
-        if(value ==0) 
-            value=null 
+        if (value === 0)
+            value = null
         await this.props.setYear(value)
         this.fetchData()
     }
 
     render() {
-        let { yearList, selectedYear } = this.props.activity
+        let { yearList } = this.props.activity
         let { project_set } = this.state
-
-        console.log(selectedYear)
 
         return (
             <Fragment>
-                <Container className="white-background">
-                    <Header as="h5" align='center'>
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-                    </Header>
+                <Container>
+                <Header textAlign="center" as="h2" className="my-5">
+                           กราฟแสดงการวิเคราะห์นักศึกษาที่เข้าร่วมโครงการรับเข้า
+
+                        </Header>
+                    <div className="my-5"> {
+                        yearList != null && (
+                            <YearSelect yearList={yearList} title="ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา" onSelectYear={this.handleSeclectYear} />
+                        )
+                    }</div>
+                   
                     {
                         project_set.length !== 0 ?
                             (project_set.map((item, index) => {
                                 return (
-                                    <Grid key={item['project_name']} style={{ marginTop: '2%' }}>
-                                        <Grid.Row>
-                                            <Grid.Column width={8}>
-                                                <Card className="card-default">
-                                                    <Card.Header as="h5">
+                                    <Container key={item['project_name']} style={{ marginTop: '2%' }}>
+                                        <Row>
+                                            <Col sm={12} lg={6} className="my-2">
+                                                <Card className="fs-cd-default">
+                                                    <Card.Header as="h4">
                                                         กราฟแสดงจำนวนนักเรียนแต่ละสาขาที่รับเข้ามาจากโครงการ {item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
@@ -101,20 +101,20 @@ class ActiveRecruitment extends Component {
                                                         <Bar data={setupNoneStackBarChart(item['analyze_by_activity'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
-                                            </Grid.Column>
+                                            </Col>
 
-                                            <Grid.Column width={8}>
-                                                <Card className="card-default">
-                                                    <Card.Header as="h5">
+                                            <Col sm={12} lg={6} className="my-2">
+                                                <Card className="fs-cd-default">
+                                                    <Card.Header as="h4">
                                                         กราฟเปรียบเทียบแสดงเกรดเฉลี่ยของนักศึกษาที่รับเข้ามาจากโครงกการ{item['project_name']} แต่ละสาขา
                                             </Card.Header>
                                                     <Card.Content>
                                                         <Bar data={setupNoneStackBarChart(item['analyze_by_activity_gpax'])} legend={{ display: false }} />
                                                     </Card.Content>
                                                 </Card>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
+                                            </Col>
+                                        </Row>
+                                    </Container>
                                 )
 
 

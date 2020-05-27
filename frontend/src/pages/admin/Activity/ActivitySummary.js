@@ -5,12 +5,15 @@ import {
     Divider,
     Grid,
     Card,
-    Container,
-    Table
+    Container
 } from "semantic-ui-react";
+
+import { Table} from 'react-bootstrap'
 
 
 import GraphBar from "../../../components/Graph/Bar";
+
+import YearSelect from '../../../components/YearSelect'
 
 import { setupStackBarChart, setupNoneStackBarChart } from '../../../components/Graph/GraphController'
 import { Bar } from "react-chartjs-2";
@@ -39,28 +42,19 @@ class ActivitySummary extends Component {
 
     render() {
         let { activityData, activityList, selectedYear, yearList } = this.props.activity
+
         return (
             <Fragment>
                 <Container>
-                    <Header as="h5" textAlign="center">
-                        ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา
-                        {
-                            <select id="selectYear" defaultValue={selectedYear} onChange={this.handleSeclectYear}>
-                                {
-                                    yearList !== null && yearList.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        }
-
-                    </Header>
-                    <Divider />
-                    <Grid>
-
+                    {
+                        yearList !== null && (
+                            <YearSelect yearList={yearList} selectedYear={selectedYear} onSelectYear={this.handleSeclectYear} title={"ค้นหากิจกรรมประชาสัมพันธ์โดยเลือกปีการศึกษา"} />
+                        )
+                    }
+                    <Grid textAlign='center'>
                         <Grid.Row>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
+                            <Grid.Column mobile={16} computer={8}>
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงจำนวนที่เข้าร่วมกิจกรรมในโครงการต่างๆ
                                     </Card.Header>
@@ -75,8 +69,8 @@ class ActivitySummary extends Component {
                                     </Card.Content>
                                 </Card>
                             </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Card className="card-default">
+                            <Grid.Column mobile={16} computer={8}>
+                                <Card className="fs-cd-default">
                                     <Card.Header as="h5">
                                         กราฟแสดงเปรียบเทียบจำนวนคนที่เข้าร่วมในโครงการต่างๆ
                                     </Card.Header>
@@ -97,42 +91,41 @@ class ActivitySummary extends Component {
                         <Grid.Row>
                             <Header as="h3" align='center'> งบประมาณที่ใช่ในการจัดกิจกรรมแต่ละโครงการ</Header>
                         </Grid.Row>
-                        <Grid.Row>
-                            <Table celled structured>
-                                <Table.Header>
-                                    <Table.Row active>
-                                        <Table.HeaderCell width={4} textAlign="center">
+                        <Grid.Row style={{margin:'2%'}}>
+                            <Table  responsive   hover>
+                                <thead>
+                                    <tr align="center">
+                                        <th width={4} textAlign="center">
                                             ปีการศึกษา
-                                        </Table.HeaderCell>
-                                        <Table.HeaderCell width={4} textAlign="center">
+                                        </th>
+                                        <th width={4} textAlign="center">
                                             ชื่อโครงการ
-                                        </Table.HeaderCell>
-                                        <Table.HeaderCell width={4} textAlign="center">
+                                        </th>
+                                        <th width={4} textAlign="center">
                                             งบประมาณที่ใช้
-                                        </Table.HeaderCell>
-                                    </Table.Row>
-                                </Table.Header>
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                                <Table.Body>
+                                <tbody>
                                     {
                                         activityList !== null ? (
                                             activityList.filter(data => data['education_year'] === parseInt(selectedYear)).map((item, index) => (
-                                                <Table.Row key={index}>
-                                                    <Table.Cell textAlign="center">{item['education_year']}</Table.Cell>
-                                                    <Table.Cell textAlign="center">{item['activity_name']}</Table.Cell>
-                                                    <Table.Cell textAlign="center">{item['activity_budget']}</Table.Cell>
-                                                </Table.Row>
+                                                <tr align="center" key={index}>
+                                                    <td textAlign="center">{item['education_year']}</td>
+                                                    <td textAlign="center">{item['activity_name']}</td>
+                                                    <td textAlign="center">{item['activity_budget']}</td>
+                                                </tr>
                                             ))
                                         ) : (
-                                                <Table.Row>
-                                                    <Table.Cell colSpan={3}>
-                                                        <h2 className="text-center">ไม่พบข้อมูล</h2>
-                                                    </Table.Cell>
-                                                </Table.Row>
+                                               null
                                             )
                                     }
-                                </Table.Body>
+                                </tbody>
                             </Table>
+                            {
+                                activityList !== null ? null: <div className="text-center" style={{ marginTop: '5%' }}> <h3  >ไม่พบข้อมูล</h3></div>
+                            }
                         </Grid.Row>
                     </Grid>
 

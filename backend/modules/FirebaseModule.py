@@ -12,7 +12,7 @@ firebase_admin.initialize_app(__cred, {'databaseURL': Constant.firebase_database
 
 class FirebaseModule:
 
-    # read all data for alumni survey
+    # FBM1 read all data for alumni survey
     def alumni_get_survey(self):
         db_ref = db.reference('alumni_survey')
 
@@ -27,7 +27,7 @@ class FirebaseModule:
         else:
             return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
-    # read data for alumni survey by year
+    # FBM2 read data for alumni survey by year
     def alumni_get_survey_by_year(self, year: int):
         year = int(year) 
         db_ref = db.reference('alumni_survey')
@@ -43,7 +43,7 @@ class FirebaseModule:
         else:
             return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
-    # read data for alumni survey by key
+    # FBM3 read data for alumni survey by key
     def alumni_get_survey_by_key(self, key: str):
 
         db_ref = db.reference('alumni_survey')
@@ -59,7 +59,7 @@ class FirebaseModule:
         else:
             return inner_res_helper.make_inner_response(False, "Can not found data", "Can not found data")
 
-    # add data for alumni survey
+    # FBM4 add data for alumni survey
     def alumni_add_survey(self, year: int = None, url: str = None, table_header: list = None, personal_header: list = None):
         year = int(year)
 
@@ -80,7 +80,7 @@ class FirebaseModule:
 
         return inner_res_helper.make_inner_response(True, "Add data successful", "Success")
 
-    # update data for alumni survey
+    # FBM5 update data for alumni survey
     def alumni_update_survey(self, key: str = None, data=None):
 
         db_ref = db.reference('alumni_survey')
@@ -94,7 +94,7 @@ class FirebaseModule:
 
         return inner_res_helper.make_inner_response(True, "Update data successful", "Success")
 
-    # delete data for alumni survey
+    # FBM6 delete data for alumni survey
     def alumni_delete_survey(self, key: str = None):
 
         db_ref = db.reference('alumni_survey/%s' % key)

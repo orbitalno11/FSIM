@@ -1,27 +1,56 @@
 import React, { Component } from "react";
+import { Row, Col } from 'react-bootstrap';
 
 import { Bar } from 'react-chartjs-2';
 
-const option = {
-  //////// Don't delete this
-  // scales: {
-  //   xAxes: [{
-  //     stacked: true
-  //   }],
-  //   yAxes: [{
-  //     stacked: true
-  //   }]
-  // },
 
+import MediaQuery from 'react-responsive'
+import { minDeviceWidth } from '../../Constant'
+
+const option = {
 
   plugins: {
     // Change options for ALL labels of THIS CHART
     datalabels: {
       color: '#000000',
-      anchor: 'end'
+      anchor: 'end',
+      display: false
+    }
+  },
+  legend: {
+    labels: {
+      fontSize: 12
     }
   }
 }
+
+const option_res = {
+  plugins: {
+    // Change options for ALL labels of THIS CHART
+    datalabels: {
+      color: '#000000',
+      anchor: 'end',
+      display: false
+    }
+  },
+  legend: {
+    position: 'right',
+    labels: {
+      fontSize: 6
+    }
+  },
+  scales: {
+    yAxes: [{
+      display: false,
+    }],
+    xAxes: [{
+      ticks: {
+        display: false //this will remove only the label
+      }
+    }]
+  }
+}
+
 
 class Barchart extends Component {
 
@@ -48,7 +77,21 @@ class Barchart extends Component {
     let { data, legend } = this.props
     return (
       <React.Fragment>
-        {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option} legend={ legend  } />}
+        <MediaQuery minDeviceWidth={minDeviceWidth}>
+          <Row>
+            <Col>
+              {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option} legend={legend} />}
+            </Col>
+          </Row>
+        </MediaQuery>
+        <MediaQuery maxDeviceWidth={minDeviceWidth - 1}>
+          <Row>
+            <Col xs={12} lg={4} md={4} sm={12}>
+              {data !== undefined && <Bar data={data.length === 0 ? this.state : data} options={option_res} legend={legend} />}
+            </Col>
+          </Row>
+        </MediaQuery>
+
       </React.Fragment>
     );
   }

@@ -3,6 +3,7 @@ import * as types from '../types'
 const initialState = {
     courseList: null,
     courseData: null,
+    departmentList: null,
     erro: null
 }
 
@@ -39,6 +40,23 @@ export default (state = initialState, action) => {
             }
 
         case types.GET_COURSE_DATA_FAILED:
+            return {
+                ...state,
+                error: action.error
+            }
+
+        case types.GET_DEPT_STARTED:
+            return {
+                ...state
+            }
+
+        case types.GET_DEPT_LIST_SUCCESS:
+            return {
+                ...state,
+                departmentList: action.deptList
+            }
+
+        case types.GET_DEPT_LIST_FAILED:
             return {
                 ...state,
                 error: action.error

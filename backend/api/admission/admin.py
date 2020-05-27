@@ -1,4 +1,5 @@
-from flask import Blueprint, request, current_app as app
+from flask import Blueprint, request
+from flask_cors import CORS
 
 # import constant
 import backend.Constant as Constant
@@ -16,10 +17,11 @@ from backend.modules.AnalyzeAdmission import AnalyzeAdmission
 import backend.modules.AuthenticationModule as auth
 
 admin_admission = Blueprint('admin_admission', __name__)
+CORS(admin_admission)
 
 
 # upload admission data api
-@admin_admission.route('/', methods=['POST'])
+@admin_admission.route('', methods=['POST'])
 @auth.token_required
 def insert_admission(current_user):
     # This api need "Year" as year , "Admission type" as admission_type
@@ -60,7 +62,7 @@ def insert_admission(current_user):
 
 
 # delete admission data
-@admin_admission.route('/', methods=['DELETE'])
+@admin_admission.route('', methods=['DELETE'])
 def delete_admission_list():
     year = request.args.get('year')
     round_id = request.args.get('round_id')
