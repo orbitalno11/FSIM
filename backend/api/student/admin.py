@@ -25,7 +25,7 @@ CORS(admin_student)
 def add_student_data(current_user):
     try:
         file = request.files['upload']
-        if file and Constant.allowed_academic_file(file.filename):
+        if file and Constant.allowed_file(file.filename):
             destination = upload_helper.upload_file(store_folder=Constant.STUDENT_FOLDER, file=file)
         else:
             return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
@@ -74,7 +74,7 @@ def insert_academic_record(current_user):
 
     try:
         file = request.files['upload']
-        if file and Constant.allowed_academic_file(file.filename):
+        if file and Constant.allowed_file(file.filename):
             destination = upload_helper.upload_file(store_folder=Constant.ACADEMIC_FOLDER, file=file, year=year)
         else:
             return api_helper.create_error_exception("Type of file is not match", "file not match", 418)
