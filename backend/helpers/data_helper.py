@@ -15,6 +15,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class DataHelper:
 
+    # DTH1
     def __calculate_education_status(self, student_id, gpax):
         status = 1  # normal
         if gpax >= 2.00:
@@ -28,7 +29,7 @@ class DataHelper:
         out = list(map(str, out))
         return tuple(out)
 
-    # read admission data from excel file
+    # DTH2 read admission data from excel file
     def read_admission(self, channel, year, file_location):
         df = pd.read_excel(file_location, converters={'เลขที่ใบสมัคร': str, 'รหัสสถานศึกษา': str})
 
@@ -88,6 +89,7 @@ class DataHelper:
                                                     "Data for insert in to database",
                                                     out_function_data)
 
+    # DTH3
     def read_academic_file(self, file_location, year, semester):
         df = pd.read_excel(file_location, converters={'รหัส': str}, sheet_name=None)
 
@@ -146,6 +148,7 @@ class DataHelper:
                                                     "Data for insert in to database",
                                                     out_function_data)
 
+    # DTH4
     def read_new_student_file(self, file_location):
 
         df = pd.read_excel(file_location,
@@ -218,7 +221,7 @@ class DataHelper:
                                                     "Data for insert in to database",
                                                     out_function_data)
 
-    # read alumni survey data
+    # DTH5 read alumni survey data
     def read_alumni_personal_data(self, data: pd.DataFrame, personal_header, graduated_year):
 
         try:
@@ -319,6 +322,7 @@ class DataHelper:
             print(e)
             return inner_res_helper.make_inner_response(False, "Error", "Having problem when prepare data.")
 
+    # DTH6
     def read_activity_participant(self, file_location, activity_id):
         try:
             participant_data = pd.read_excel(file_location)
