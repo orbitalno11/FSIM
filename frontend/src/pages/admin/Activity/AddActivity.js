@@ -150,7 +150,6 @@ class AddActivity extends Component {
         this.setState({
             saveUpload: true
         })
-        console.log(data)
 
         this.props.uploadParticipant(form)
     }

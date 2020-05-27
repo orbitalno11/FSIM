@@ -119,9 +119,6 @@ class DepartmentStudent extends Component {
                                     </Card.Content>
                                 </Card>
                             </Col>
-                            {
-                                console.log(department)
-                            }
                             <Col sm={12} lg={6} className="my-2">
                                 <Card fluid>
                                     <Card.Header as="h4" style={{ textAlign: 'center', padding: '1%' }}>

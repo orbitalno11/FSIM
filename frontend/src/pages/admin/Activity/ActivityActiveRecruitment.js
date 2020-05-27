@@ -37,7 +37,6 @@ class ActivityActiveRecruitment extends Component {
 
         let { arData, projectList, selectedYear, yearList } = this.props.activity
 
-        console.log(projectList)
 
         let key = false, tabName = null, tabDetail = []
 

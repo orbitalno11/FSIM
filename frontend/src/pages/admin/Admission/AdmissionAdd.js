@@ -65,7 +65,6 @@ class Addadmission extends Component {
         form.append('year', element.year.value)
         form.append('channel', element.channel.value)
         form.append('upload', this.state.selectedFile)
-        console.log(form)
         this.props.addAdmission(form)
     }
 

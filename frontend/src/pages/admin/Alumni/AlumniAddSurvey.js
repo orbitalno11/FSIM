@@ -252,7 +252,6 @@ handleFormChange = (e) => {
 render() {
     let { tableHeader, sheetUrl, headerSelect, educationYear, personalHeader, editVerify, list_person } = this.state
     let { editData } = this.props
-    // console.log(personalHeader)
     return (
         <Fragment>
             <ReactModal />

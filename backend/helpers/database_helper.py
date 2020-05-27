@@ -379,7 +379,6 @@ class DatabaseHelper:
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
-        print(sql_command)
         out_data = self.__create_out_function_data(execute['value'],
                                                    ['channel_id', 'admission_year', 'branch_id', 'school_id',
                                                     'status_id', 'current_gpax', 'channel_name', 'dept_id'],
@@ -927,7 +926,7 @@ class DatabaseHelper:
         year = year[2:]
         year = "{}%".format(year)
 
-        print("DELETE HELLO {}".format(year))
+        # print("DELETE HELLO {}".format(year))
 
         # try:
         #     self.__execute_delete_data(table="study_in", column="student_id", value=year)
@@ -982,7 +981,6 @@ class DatabaseHelper:
         sql_command = "SELECT gpa, semester, current_gpax, education_year,firstname,lastname " \
                       "FROM `gpa_record` NATURAL JOIN student where student_id='{}'".format(id_student)
         execute = self.__execute_query(sql_command)
-        print(sql_command)
         if not execute['response']:
             return execute
 

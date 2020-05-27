@@ -52,7 +52,6 @@ def insert_admission(current_user):
         data_helper = DataHelper()
         insert_value = data_helper.read_admission(channel, year, destination['value'])
         if insert_value['response']:
-            print(insert_value['value'])
             db = DatabaseHelper()
             insert = db.insert_admission(insert_value['value'])
         else:
