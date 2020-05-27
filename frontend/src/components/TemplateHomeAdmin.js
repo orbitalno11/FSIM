@@ -73,7 +73,7 @@ class AdminHome extends Component {
         return (
             <Fragment>
                 <Container>
-                    <div className="admission">
+                    <div className="fs-admission-style">
                         <Header as="h2" style={{ color: "#3BB3A9", marginBottom: "5%" }}>
                             {header}
                         </Header>
