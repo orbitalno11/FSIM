@@ -32,6 +32,7 @@ import json
 
 class AnalyzeStudent:
 
+    # ASM1
     # uses in user and admin
     # this function returns student data and status student that analyze in 'dept'.
     # this function required department id
@@ -126,6 +127,7 @@ class AnalyzeStudent:
     #         message = "Don't have Data"
     #     return inner_res_helper.make_inner_response(response, message, value)
 
+    # ASM2
     def student_tracking(self,id_student):
         connect = DatabaseHelper()
         data = connect.get_student_tracking(id_student)
@@ -182,6 +184,7 @@ class AnalyzeStudent:
         
         return inner_res_helper.make_inner_response(response, message, value)
 
+    # ASM3
     def student_admin(self):
         value = {}
         connect = DatabaseHelper()
@@ -243,14 +246,12 @@ class AnalyzeStudent:
 
         return inner_res_helper.make_inner_response(response, message, value)
 
-
-
-
-    
+    # ASM4
     def __count_student_dept(self, df):
         num_student_dept = len(df.index)
         return num_student_dept
 
+    # ASM5
     def __count_status(self, df, list_sample):
         count_status_all_branch = df.groupby(['student_year', 'education_status']).size().unstack(fill_value=0)
         list_status = self.__check_list(list_sample, list(count_status_all_branch.columns.values))
@@ -258,6 +259,7 @@ class AnalyzeStudent:
             count_status_all_branch[col] = 0
         return count_status_all_branch
 
+    # ASM6
     def __status_by_branch(self, df, list_sample, status):
         grouped = df.groupby(['branch_id', 'education_status']).size().unstack(fill_value=0)
         
@@ -269,7 +271,8 @@ class AnalyzeStudent:
             grouped[col] = 0
         return grouped
 
-    
+
+    # ASM7    
     def __check_list(self, sample, main):
         list_miss = set(sample) - set(main)
         return list_miss

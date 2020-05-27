@@ -29,6 +29,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class AnalyzeActivity:
 
+    # AA1
     def analyze_publicize(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_activity_publicize(year)
@@ -123,6 +124,7 @@ class AnalyzeActivity:
 
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
+    # AA2
     def analyze_ar(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_activity_ar(year)
@@ -192,6 +194,7 @@ class AnalyzeActivity:
 
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
+    # AA3
     def analyze_project_ar(self,year=None):
         connect = DatabaseHelper()
         data = connect.get_activity_ar(year)

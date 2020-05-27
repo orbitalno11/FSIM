@@ -34,6 +34,7 @@ class AnalyzeAlumni:
     # uses in user pages and admin pages
     # this function will return analyze survey  in 'sheet_url' and 'column'
 
+    # ALM1
     def analyze_survey(self, sheet_url, column):
         # read and analyze survey data
         read = read_sheet.read_sheet_data(sheet_url)
@@ -54,6 +55,7 @@ class AnalyzeAlumni:
         return inner_res_helper.make_inner_response(response=True, message="Developing",
                                                     value=[df.round(2).to_dict('index')])
 
+    # ALM2
     # uses in user pages and admin pages
     # this function will return analyze alumni working in 'year'
     def analyze_alumni_work(self, year=None):
@@ -155,6 +157,7 @@ class AnalyzeAlumni:
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
+    # ALM3
     def __salary_branch_training(self, df):
         grouped_df = df.copy()
         grouped_df.loc[df['salary'] < 10000, 'salary1'] = 1

@@ -29,6 +29,7 @@ import backend.helpers.inner_response_helper as inner_res_helper
 
 class AnalyzeAdmission:
 
+    # ADM1
     def analyze_admission(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
@@ -151,7 +152,7 @@ class AnalyzeAdmission:
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
-    # admin
+    # ADM2 admin
     def analyze_admission_admin(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_all_admission_admin(year)
@@ -212,7 +213,7 @@ class AnalyzeAdmission:
             message = "Don't have Data"
         return inner_res_helper.make_inner_response(response=response, message=message, value=value)
 
-    # admin
+    # ADM3 admin
     def analyze_student_status(self, year=None):
         connect = DatabaseHelper()
         data = connect.get_all_admission(year)
