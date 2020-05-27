@@ -28,12 +28,12 @@ class DatabaseHelper:
     # # # # # # # # # # # # # # # # # # # # # class helping tool function # # # # # # # # # # # # # # # # # # # # # # #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    # 1. change epoch time to string format 2020-01-01
+    # 1DH. change epoch time to string format 2020-01-01
     def __change_epoch_to_string(self, time):
         convert = datetime.fromtimestamp(int(time)).strftime("%Y-%m-%d")
         return str(convert)
 
-    # 2. change list to insert format (no date column)
+    # 2DH. change list to insert format (no date column)
     def __change_to_list_no_time(self, load):
         output_list = []
         for data in load:
@@ -43,7 +43,7 @@ class DatabaseHelper:
             output_list.append(tuple(temp))
         return output_list
 
-    # 3. change list to insert format (with date column)
+    # 3DH. change list to insert format (with date column)
     def __change_to_list_with_time_columns(self, load, time_cols_index):
         output_list = []
         for data in load:
@@ -58,7 +58,7 @@ class DatabaseHelper:
             output_list.append(tuple(temp))
         return output_list
 
-    # 4. query data from database
+    # 4DH. query data from database
     def __execute_query(self, sql_command):
         try:
             self.__cursor.execute(sql_command)
@@ -68,7 +68,7 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", result)
 
-    # 5. insert data into database (one value)
+    # 5DH. insert data into database (one value)
     def __insert_into(self, table, attribute, value):
         sql_command = "INSERT INTO {} ({}) VALUES ({})".format(table,
                                                                ','.join(attribute),
@@ -82,7 +82,7 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Insert data success.")
 
-    # 6. insert data into database (multiple value) from dataframe convert to json by index
+    # 6DH. insert data into database (multiple value) from dataframe convert to json by index
     def __insert_multiple_from_dataframe_into(self, table, attribute, value, has_time=False, time_attr_indicator=None):
         sql_command = "INSERT INTO {} ({}) VALUES ({})".format(table,
                                                                ','.join(attribute),
@@ -94,24 +94,24 @@ class DatabaseHelper:
 
         self.__cursor.executemany(sql_command, insert_data)
 
-    # 7. insert data into database (multiple value)
+    # 7DH. insert data into database (multiple value)
     def __insert_multiple_into(self, table, attribute, value):
         sql_command = "INSERT INTO {} ({}) VALUES ({})".format(table,
                                                                ','.join(attribute),
                                                                ','.join('%s' for _ in attribute))
         self.__cursor.executemany(sql_command, value)
 
-    # 8. delete data from database (one value)
+    # 8DH. delete data from database (one value)
     def __execute_delete_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE '{}'".format(table, attribute, value)
         self.__cursor.execute(sql_command)
 
-    # 9. delete data from database (multiple data)
+    # 9DH. delete data from database (multiple data)
     def __execute_delete_multiple_data(self, table, attribute, value):
         sql_command = "DELETE FROM {} WHERE {} LIKE {}".format(table, attribute, '%s')
         self.__cursor.executemany(sql_command, value)
 
-    # 10. custom sql command with database connection commit (one execute)
+    # 10DH. custom sql command with database connection commit (one execute)
     def __execute_custom_command(self, sql_command):
         try:
             self.__cursor.execute(sql_command)
@@ -122,7 +122,7 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
-    # 11. custom sql command with database connection commit (many execute)
+    # 11DH. custom sql command with database connection commit (many execute)
     def __execute_many_custom_command(self, sql_command):
         try:
             self.__cursor.executemany(sql_command)
@@ -133,7 +133,7 @@ class DatabaseHelper:
             return inner_res_helper.make_inner_response(False, str(e.args[0]), str(e.args[1]))
         return inner_res_helper.make_inner_response(True, "Success", "Execute success.")
 
-    # 12. create out function data (list type)
+    # 12DH. create out function data (list type)
     def __create_out_function_data(self, data, object_indicator_list, data_indicator_list):
         out_data = []
         for item in data:
@@ -141,7 +141,7 @@ class DatabaseHelper:
             out_data.append(obj)
         return out_data
 
-    # 13. update data in database (multiple  value)
+    # 13DH. update data in database (multiple  value)
     def __update_multiple(self, table, attribute, value, condition_attribute):
         sql_command = "UPDATE {} SET {} = {} WHERE {} = {}".format(table,
                                                                    attribute,
