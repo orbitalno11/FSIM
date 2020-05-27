@@ -379,7 +379,7 @@ class DatabaseHelper:
         execute = self.__execute_query(sql_command)
         if not execute['response']:
             return execute
-
+        print(sql_command)
         out_data = self.__create_out_function_data(execute['value'],
                                                    ['channel_id', 'admission_year', 'branch_id', 'school_id',
                                                     'status_id', 'current_gpax', 'channel_name', 'dept_id'],
